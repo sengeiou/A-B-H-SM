@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  SMA
+
+  Created by 有限公司 深圳市 on 16/8/17.
+  Copyright © 2016年 SMA. All rights reserved.
+*/
+
+//登录注册页
+"login_smaTit" = "开启智能生活";
+"login_login" = "Bejelentkezés";
+"login_regis" = "Regisztráció";
+"login_resetpass" = "Jelszó keresése?";
+"login_accplace" = "Telefon or E-mail";
+"login_passplace" = "Jelszó";
+"login_choose_cou" = "Ország kiválasztása";
+"login_hirdParty" = "第三方登录";
+"login_ing" = "Bejelentkezés...";
+"login_suc" = "A bejelentkezés sikeres";
+"login_timeout" = "Kérelem időtúllépés";
+"login_lostNet" = "A hálózat nem csatlakozik";

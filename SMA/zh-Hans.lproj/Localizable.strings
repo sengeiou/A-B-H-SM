@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  SMA
+
+  Created by 有限公司 深圳市 on 16/8/17.
+  Copyright © 2016年 SMA. All rights reserved.
+*/
+
+//登录注册页
+"login_smaTit" = "开启智能生活";
+"login_login" = "登录";
+"login_regis" = "注册";
+"login_resetpass" = "忘记密码？";
+"login_accplace" = "手机或邮箱号";
+"login_passplace" = "密码";
+"login_choose_cou" = "国家选择";
+"login_hirdParty" = "第三方登录";
+"login_ing" = "正在登录...";
+"login_suc" = "登录成功";
+"login_timeout" = "请求超时";
+"login_lostNet" = "网络已断开";
