@@ -8,7 +8,9 @@
 
 #import "AppDelegate.h"
 #import "ACloudLib.h"
-#import <TencentOpenAPI/TencentOAuth.h>
+//#import <TencentOpenAPI/TencentOAuth.h>
+//#import "WXApi.h"
+#import "SMAthirdPartyLoginTool.h"
 @interface AppDelegate ()
 
 @end
@@ -20,6 +22,7 @@
     // Override point for customization after application launch.
     [ACloudLib setMode:ACloudLibModeRouter Region:ACLoudLibRegionChina];
     [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:282];
+    [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
     return YES;
 }
 
@@ -46,11 +49,25 @@
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return [TencentOAuth HandleOpenURL:url];
+    NSString *urlString=[[url absoluteString] substringToIndex:2];
+    if ([urlString isEqual:@"te"]) {
+     return [TencentOAuth HandleOpenURL:url];
+    }
+    else if ([urlString isEqual:@"wx"]){
+        return  [WXApi handleOpenURL:url delegate:[SMAthirdPartyManager sharedManager]];
+    }
+    return 0;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return [TencentOAuth HandleOpenURL:url];
+    NSString *urlString=[[url absoluteString] substringToIndex:2];
+    if ([urlString isEqual:@"te"]) {
+        return [TencentOAuth HandleOpenURL:url];
+    }
+    else if ([urlString isEqual:@"wx"]){
+        return  [WXApi handleOpenURL:url delegate:[SMAthirdPartyManager sharedManager]];
+    }
+    return 0;
 }
 @end

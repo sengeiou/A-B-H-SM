@@ -21,6 +21,7 @@
 #import "MBProgressHUD+MJ.h"
 #import "SMAUserInfo.h"
 #import "SMAAccountTool.h"
+#import "SMAthirdPartyLoginTool.h"
 /**** Define
  */
 #define SmaNotificationCenter [NSNotificationCenter defaultCenter]

@@ -106,7 +106,9 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 - (void)acloudLoginWithOpenId:(NSString *)openId provider:(NSString *)provider accessToken:(NSString *)accessToken success:(void (^)(id result))success failure:(void (^)(NSError *error))failure{
     [ACAccountManager registerWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
         if (!error) {
-            
+            if (success) {
+                success(user);
+            }
         }
         else{
             if (failure) {
@@ -114,6 +116,18 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             }
         }
     }];
+//    [ACAccountManager loginWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
+//        if (!error) {
+//            if (success) {
+//                success(user);
+//            }
+//        }
+//        else{
+//            if (failure) {
+//                failure(error);
+//            }
+//        }
+//    }];
 }
 
 //退出登录
@@ -121,9 +135,9 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     [ACAccountManager logout];
 }
 
-//检测是否存在该用户
+//检测是否存在该用户  ［QQ］48F26B4B9AECBCEDE457E9AB3F334AA1
 - (void)acloudCheckExist:(NSString *)account success:(void (^)(bool))success failure:(void (^)(NSError *))failure{
-    [ACAccountManager checkExist:account callback:^(BOOL exist, NSError *error) {
+    [ACAccountManager checkExist:@"［QQ］48F26B4B9AECBCEDE457E9AB3F334AA1" callback:^(BOOL exist, NSError *error) {
         if (!error) {
             if (success) {
                 success(exist);

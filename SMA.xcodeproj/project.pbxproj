@@ -119,6 +119,11 @@
 		EE8652E11D6557F000A051C2 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8652DD1D6557F000A051C2 /* MBProgressHUD+MJ.m */; };
 		EE8652E21D6557F000A051C2 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE8652DE1D6557F000A051C2 /* MBProgressHUD.bundle */; };
 		EE8652E31D6557F000A051C2 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8652E01D6557F000A051C2 /* MBProgressHUD.m */; };
+		EE9AB5C01D6EF5EA0028F8DA /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9AB5BA1D6EF5EA0028F8DA /* libWeChatSDK.a */; };
+		EE9AB5C11D6EF5EA0028F8DA /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = EE9AB5BB1D6EF5EA0028F8DA /* read_me.txt */; };
+		EE9AB5C21D6EF5EA0028F8DA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = EE9AB5BC1D6EF5EA0028F8DA /* README.txt */; };
+		EE9AB5C41D6EF6170028F8DA /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9AB5C31D6EF6170028F8DA /* libsqlite3.0.tbd */; };
+		EE9AB5C71D6EFB540028F8DA /* SMAthirdPartyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9AB5C61D6EFB540028F8DA /* SMAthirdPartyManager.m */; };
 		EEB9F68E1D64318B0011AA07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F68D1D64318B0011AA07 /* main.m */; };
 		EEB9F6911D64318B0011AA07 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F6901D64318B0011AA07 /* AppDelegate.mm */; };
 		EEB9F6941D64318B0011AA07 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F6931D64318B0011AA07 /* ViewController.m */; };
@@ -418,6 +423,17 @@
 		EE8652DE1D6557F000A051C2 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		EE8652DF1D6557F000A051C2 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		EE8652E01D6557F000A051C2 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		EE9AB5B31D6EE1C00028F8DA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE9AB5B41D6EE1CC0028F8DA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE9AB5BA1D6EF5EA0028F8DA /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		EE9AB5BB1D6EF5EA0028F8DA /* read_me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = read_me.txt; sourceTree = "<group>"; };
+		EE9AB5BC1D6EF5EA0028F8DA /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		EE9AB5BD1D6EF5EA0028F8DA /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		EE9AB5BE1D6EF5EA0028F8DA /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		EE9AB5BF1D6EF5EA0028F8DA /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		EE9AB5C31D6EF6170028F8DA /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		EE9AB5C51D6EFB540028F8DA /* SMAthirdPartyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAthirdPartyManager.h; sourceTree = "<group>"; };
+		EE9AB5C61D6EFB540028F8DA /* SMAthirdPartyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAthirdPartyManager.m; sourceTree = "<group>"; };
 		EEB9F6891D64318B0011AA07 /* SMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEB9F68D1D64318B0011AA07 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EEB9F68F1D64318B0011AA07 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -452,6 +468,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE9AB5C41D6EF6170028F8DA /* libsqlite3.0.tbd in Frameworks */,
 				EE4B1DD01D64898700825E2B /* libz.tbd in Frameworks */,
 				EE0E14181D6708590054BE87 /* libstdc++.tbd in Frameworks */,
 				EE0E14161D6708520054BE87 /* CoreTelephony.framework in Frameworks */,
@@ -468,6 +485,7 @@
 				EE4B1DB71D647DCC00825E2B /* libiotconnection.a in Frameworks */,
 				EE4B1DA11D647DCC00825E2B /* EasyConfig.a in Frameworks */,
 				EE4B1DBA1D647DCC00825E2B /* libAbleCloudLib.a in Frameworks */,
+				EE9AB5C01D6EF5EA0028F8DA /* libWeChatSDK.a in Frameworks */,
 				EE4B1DB61D647DCC00825E2B /* libiot.a in Frameworks */,
 				EE4B1DB91D647DCC00825E2B /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				EE4B1DB31D647DCC00825E2B /* libXlwDevice.a in Frameworks */,
@@ -515,6 +533,8 @@
 			children = (
 				EEBAB5A41D6D2F8700AAC710 /* SMAthirdPartyLoginTool.h */,
 				EEBAB5A51D6D2F8700AAC710 /* SMAthirdPartyLoginTool.m */,
+				EE9AB5C51D6EFB540028F8DA /* SMAthirdPartyManager.h */,
+				EE9AB5C61D6EFB540028F8DA /* SMAthirdPartyManager.m */,
 				EE4B1DDD1D648BC600825E2B /* SmaCommonStudio.h */,
 				EE4B1DDE1D648BC600825E2B /* SmaCommonStudio.m */,
 				EE4B1DD11D648A6E00825E2B /* SMAAccountTool.h */,
@@ -1419,9 +1439,23 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		EE9AB5B91D6EF5EA0028F8DA /* SDKExport */ = {
+			isa = PBXGroup;
+			children = (
+				EE9AB5BA1D6EF5EA0028F8DA /* libWeChatSDK.a */,
+				EE9AB5BB1D6EF5EA0028F8DA /* read_me.txt */,
+				EE9AB5BC1D6EF5EA0028F8DA /* README.txt */,
+				EE9AB5BD1D6EF5EA0028F8DA /* WechatAuthSDK.h */,
+				EE9AB5BE1D6EF5EA0028F8DA /* WXApi.h */,
+				EE9AB5BF1D6EF5EA0028F8DA /* WXApiObject.h */,
+			);
+			path = SDKExport;
+			sourceTree = "<group>";
+		};
 		EEB9F6801D64318B0011AA07 = {
 			isa = PBXGroup;
 			children = (
+				EE9AB5C31D6EF6170028F8DA /* libsqlite3.0.tbd */,
 				EE0E14171D6708590054BE87 /* libstdc++.tbd */,
 				EE0E14151D6708520054BE87 /* CoreTelephony.framework */,
 				EE0E14131D6708420054BE87 /* libsqlite3.tbd */,
@@ -1505,6 +1539,7 @@
 		EEB9F6BA1D6443200011AA07 /* other */ = {
 			isa = PBXGroup;
 			children = (
+				EE9AB5B91D6EF5EA0028F8DA /* SDKExport */,
 				EE0E14061D6707CF0054BE87 /* QQAPI */,
 				EE8652DB1D6557F000A051C2 /* MBProgressHUD */,
 				EE4B1C271D647DCB00825E2B /* ACloudLib */,
@@ -1572,6 +1607,8 @@
 				pt,
 				ro,
 				uk,
+				ru,
+				pl,
 			);
 			mainGroup = EEB9F6801D64318B0011AA07;
 			productRefGroup = EEB9F68A1D64318B0011AA07 /* Products */;
@@ -1591,6 +1628,7 @@
 				EEB9F6BD1D6443340011AA07 /* Gotham-Light_0.otf in Resources */,
 				EEB9F69C1D64318B0011AA07 /* LaunchScreen.storyboard in Resources */,
 				EE4B1D981D647DCC00825E2B /* Info.plist in Resources */,
+				EE9AB5C21D6EF5EA0028F8DA /* README.txt in Resources */,
 				EEB9F6A61D6431F30011AA07 /* Localizable.strings in Resources */,
 				EE4B1C171D646A0500825E2B /* country.plist in Resources */,
 				EEB9F6C11D6443430011AA07 /* Gotham-Medium.otf in Resources */,
@@ -1598,6 +1636,7 @@
 				EE0E14091D6707E40054BE87 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				EE8652E21D6557F000A051C2 /* MBProgressHUD.bundle in Resources */,
 				EEB9F6971D64318B0011AA07 /* Main.storyboard in Resources */,
+				EE9AB5C11D6EF5EA0028F8DA /* read_me.txt in Resources */,
 				EEB9F6BF1D64433B0011AA07 /* Gotham-Bold_0.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1626,6 +1665,7 @@
 				EE4B1D991D647DCC00825E2B /* QNReachability.m in Sources */,
 				EE4B1D721D647DCC00825E2B /* AFNetworkActivityIndicatorManager.m in Sources */,
 				EE4B1D9C1D647DCC00825E2B /* QNFormUpload.m in Sources */,
+				EE9AB5C71D6EFB540028F8DA /* SMAthirdPartyManager.m in Sources */,
 				EE4B1D7C1D647DCC00825E2B /* CKMemoryCache.m in Sources */,
 				EE4B1DAA1D647DCC00825E2B /* ESPTouchTask.m in Sources */,
 				EEB9F6941D64318B0011AA07 /* ViewController.m in Sources */,
@@ -1744,6 +1784,8 @@
 				EEB9F6B31D64370A0011AA07 /* pt */,
 				EEB9F6B41D6437170011AA07 /* ro */,
 				EEB9F6B51D6437230011AA07 /* uk */,
+				EE9AB5B31D6EE1C00028F8DA /* ru */,
+				EE9AB5B41D6EE1CC0028F8DA /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1859,6 +1901,7 @@
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/SmartConfig/SmartConnection",
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/UMessage_Sdk_1.2.6",
 					"$(PROJECT_DIR)/SMA/ACloudLib",
+					"$(PROJECT_DIR)/SMA/SDKExport",
 				);
 				OTHER_LDFLAGS = "-fobjc-arc";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.coach;
@@ -1890,6 +1933,7 @@
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/SmartConfig/SmartConnection",
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/UMessage_Sdk_1.2.6",
 					"$(PROJECT_DIR)/SMA/ACloudLib",
+					"$(PROJECT_DIR)/SMA/SDKExport",
 				);
 				OTHER_LDFLAGS = "-fobjc-arc";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.coach;

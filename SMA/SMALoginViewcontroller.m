@@ -8,7 +8,10 @@
 
 #import "SMALoginViewcontroller.h"
 #import "ACAccountManager.h"
-@interface SMALoginViewcontroller ()
+#import "SMAthirdPartyManager.h"
+@interface SMALoginViewcontroller (){
+  NSString *LoginProvider;
+}
 @property (retain, nonatomic) TencentOAuth *tencentOAuth;
 @end
 
@@ -24,9 +27,9 @@
     [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     //监听登录通知
-    [SmaNotificationCenter addObserver:self selector:@selector(loginSuccessed) name:kLoginSuccessed object:[SMAthirdPartyLoginTool getinstance]];
-    [SmaNotificationCenter addObserver:self selector:@selector(loginFailed) name:kLoginFailed object:[SMAthirdPartyLoginTool getinstance]];
-    [SmaNotificationCenter addObserver:self selector:@selector(loginCancelled) name:kLoginCancelled object:[SMAthirdPartyLoginTool getinstance]];
+    [SmaNotificationCenter addObserver:self selector:@selector(loginSuccessed:) name:kLoginSuccessed object:[SMAthirdPartyManager sharedManager]];
+    [SmaNotificationCenter addObserver:self selector:@selector(loginFailed:) name:kLoginFailed object:[SMAthirdPartyManager sharedManager]];
+    [SmaNotificationCenter addObserver:self selector:@selector(loginCancelled:) name:kLoginCancelled object:[SMAthirdPartyManager sharedManager]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,25 +136,15 @@
 }
 
 - (IBAction)thirdPartySelector:(UIButton *)sender{
-    if (sender.tag == 102) {
-        NSArray* permissions = [NSArray arrayWithObjects:
-                                kOPEN_PERMISSION_GET_USER_INFO,
-                                kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
-                                kOPEN_PERMISSION_ADD_ALBUM,
-                                kOPEN_PERMISSION_ADD_ONE_BLOG,
-                                kOPEN_PERMISSION_ADD_SHARE,
-                                kOPEN_PERMISSION_ADD_TOPIC,
-                                kOPEN_PERMISSION_CHECK_PAGE_FANS,
-                                kOPEN_PERMISSION_GET_INFO,
-                                kOPEN_PERMISSION_GET_OTHER_INFO,
-                                kOPEN_PERMISSION_LIST_ALBUM,
-                                kOPEN_PERMISSION_UPLOAD_PIC,
-                                kOPEN_PERMISSION_GET_VIP_INFO,
-                                kOPEN_PERMISSION_GET_VIP_RICH_INFO,
-                                nil];
-        self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1105552981" andDelegate:self];
-        [_tencentOAuth authorize:permissions inSafari:NO];
+    if (sender.tag == 101){
+        LoginProvider = ACAccountManagerLoginProviderWechat;
+        [[SMAthirdPartyLoginTool getinstance] WeChatLoginController:self];
     }
+   else if (sender.tag == 102) {
+       LoginProvider = ACAccountManagerLoginProviderQQ;
+        [[SMAthirdPartyLoginTool getinstance] QQlogin];
+    }
+    
 }
 
 - (void)eyseSelect:(UIButton *)sender{
@@ -159,21 +152,6 @@
      [_passwordField resignFirstResponder];
     _passwordField.secureTextEntry = !_passwordField.secureTextEntry;
 
-}
-
-- (void)tencentDidLogin{
-    NSLog(@"success");
-    SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
-    [webServict acloudLoginWithOpenId:[_tencentOAuth openId] provider:ACAccountManagerLoginProviderQQ accessToken:[_tencentOAuth accessToken] success:^(id result) {
-        
-    } failure:^(NSError *error) {
-        
-    }];
-}
-- (NSArray *)getAuthorizedPermissions:(NSArray *)permissions withExtraParams:(NSDictionary *)extraParams
-{
-    NSLog(@"wfwfew==%@",permissions);
-    return permissions;
 }
 
 /**
@@ -210,17 +188,47 @@
 }
 
 #pragma mark message
-- (void)loginSuccessed
+- (void)loginSuccessed:(NSNotification *)systemVersion
 {
-    NSLog(@"登录成功");
+    NSLog(@"登录成功   %@",systemVersion.userInfo);
+    SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
+    [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
+//    [webServict acloudCheckExist:[NSString stringWithFormat:@"%@ %@",[systemVersion.userInfo objectForKey:@"LOGINTYPE"],[[[SMAthirdPartyLoginTool getinstance] oauth] openId]] success:^(bool exit) {
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
+    [webServict acloudLoginWithOpenId:systemVersion.userInfo[@"OPENID"] provider:LoginProvider accessToken:systemVersion.userInfo[@"TOKEN"] success:^(id result) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUD];
+        });
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUD];
+        if ([error.userInfo objectForKey:@"errorInfo"]) {
+            [MBProgressHUD showError:[NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]]];
+        }
+        else if (error.code == -1001) {
+            [MBProgressHUD showError:SMALocalizedString(@"login_timeout")];
+            NSLog(@"超时");
+        }
+        else if (error.code == -1009) {
+            [MBProgressHUD showError:SMALocalizedString(@"login_lostNet")];
+        }
+            });
+    }];
+
 }
 
-- (void)loginFailed
+- (void)loginFailed:(NSNotification *)systemVersion
 {
     NSLog(@"登录失败");
 }
 
-- (void) loginCancelled
+- (void) loginCancelled:(NSNotification *)systemVersion
 {
      NSLog(@"登录取消");
 }
