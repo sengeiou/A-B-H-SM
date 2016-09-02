@@ -37,14 +37,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    [self.navigationController setNavigationBarHidden:YES];
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
 }
 
 - (IBAction)backSelector:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)countryCodeSelector:(id)sender{
@@ -58,22 +60,26 @@
 
 #pragma mark *******创建UI
 - (void)createUI{
+//    self.navigationItem
     [_accountField setValue:FontGothamLight(14) forKeyPath:@"_placeholderLabel.font"];
     _accountField.placeholder = SMALocalizedString(@"login_accplace");
     [_passwordField setValue:FontGothamLight(14) forKeyPath:@"_placeholderLabel.font"];
     _passwordField.placeholder = SMALocalizedString(@"login_passplace");
     _passwordField.secureTextEntry = YES;
+    _accountField.delegate = self;
     UIButton *eyesBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [eyesBut setImage:[UIImage imageNamed:@"icon_View"] forState:UIControlStateNormal];
-    [eyesBut setImage:[UIImage imageNamed:@"icon_v"] forState:UIControlStateSelected];
+    [eyesBut setImage:[UIImage imageNamed:@"icon_view_pre"] forState:UIControlStateSelected];
     [eyesBut addTarget:self action:@selector(eyseSelect:) forControlEvents:UIControlEventTouchUpInside];
     eyesBut.frame = CGRectMake(0, 0, 32, 30);
     _passwordField.rightViewMode = UITextFieldViewModeAlways;
     _passwordField.rightView = eyesBut;
+    _passwordField.delegate = self;
     [_resetPassBut setTitle:SMALocalizedString(@"login_resetpass") forState:UIControlStateNormal];
-    _backBut.transform = CGAffineTransformMakeRotation(270*M_PI/180);
     [_loginBut setTitle:SMALocalizedString(@"login_login") forState:UIControlStateNormal];
+    _loginBut.enabled = NO;
     _thiPartyLab.text = SMALocalizedString(@"login_hirdParty");
+    
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.bounds = self.view.bounds;
     _gradientLayer.borderWidth = 0;
@@ -151,7 +157,6 @@
     sender.selected = !sender.selected;
      [_passwordField resignFirstResponder];
     _passwordField.secureTextEntry = !_passwordField.secureTextEntry;
-
 }
 
 /**
@@ -165,10 +170,12 @@
     // 2.取出键盘弹出的时间
     CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     // 3.执行动画
+  
     [UIView animateWithDuration:duration animations:^{
         self.view.transform = CGAffineTransformMakeTranslation(0, -150);
-        // self.btnImgView.transform = CGAffineTransformMakeTranslation(0, -keyboardF.size.height);
+        _backBut.hidden = YES;// 上移或者导航栏效果不理想，直接隐藏返回键
     }];
+
 }
 
 /**
@@ -182,7 +189,7 @@
     // 2.执行动画
     [UIView animateWithDuration:duration animations:^{
         self.view.transform = CGAffineTransformIdentity;
-        //self.btnImgView.transform = CGAffineTransformIdentity;
+        _backBut.hidden = NO;
     }];
     
 }
@@ -314,7 +321,39 @@
     _codeLab.text = code;
 }
 
+#pragma mark *****
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+}
 
+static bool accInt;
+static bool passInt;
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSString *aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if (textField == _accountField) {
+        if (aString.length > 0) {
+            accInt = YES;
+        }
+        else{
+            accInt = NO;
+        }
+    } else if (textField == _passwordField) {
+        if (aString.length > 0) {
+            passInt = YES;
+        }
+        else{
+            passInt = NO;
+        }
+    }
+    if (passInt && accInt) {
+        _loginBut.enabled = YES;
+    }
+    else{
+        _loginBut.enabled = NO;
+    }
+    return YES;
+}
 /*
 #pragma mark - Navigation
 

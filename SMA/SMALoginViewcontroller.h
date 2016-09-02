@@ -10,7 +10,7 @@
 #import "SectionsViewController.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "SMAthirdPartyLoginTool.h"
-@interface SMALoginViewcontroller : UIViewController<SecondViewControllerDelegate,TencentSessionDelegate>
+@interface SMALoginViewcontroller : UIViewController<SecondViewControllerDelegate,TencentSessionDelegate,UITextFieldDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *codeLab, *thiPartyLab;
 @property (nonatomic, weak) IBOutlet UITextField *accountField, *passwordField;
 @property (nonatomic, weak) IBOutlet UIButton *resetPassBut, *backBut, *loginBut, *weChatBut, *QQBut, *weiboBut;

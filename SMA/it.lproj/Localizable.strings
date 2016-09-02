@@ -11,7 +11,7 @@
 "login_login" = "Accesso";
 "login_regis" = "Registra";
 "login_resetpass" = "Trova la password?";
-"login_accplace" = "Telefono or E-mail";
+"login_accplace" = "Telefono / E-mail";
 "login_passplace" = "Password";
 "login_choose_cou" = "Scegli il paese";
 "login_hirdParty" = "第三方登录";
@@ -19,3 +19,34 @@
 "login_suc" = "Accesso avvenuto con successo";
 "login_timeout" = "Richiesta timeout";
 "login_lostNet" = "La rete è stata disconnessa";
+
+"register_accplace" = "Telefono";
+"register_emalplace" = "E-mail";
+"register_code" = "验证码";
+"register_getcode" = "codice di verifica";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="Il numero di cellulare non può essere vuoto";
+"register_enteremail"="邮箱号码不能为空";
+"register_regpwd"="La password non può essere vuota";
+"register_regcode"="Il codice di verifica non può essere vuoto";
+"register_sending" = "Invio...";
+"register_accexist"="Questo account è stato trovato, effettua l'accesso";
+"register_sendsucc" = "Invio avvenuto con successo";
+"register_sendfail" = "Invio non riuscito";
+"register_beingreg"="Registrazione...";
+"register_failurereg"="Registrazione non riuscita...";
+"register_regsucceed"="Registrazione avvenuta con successo...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "Altezza";
+"user_weight" = "Peso";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";

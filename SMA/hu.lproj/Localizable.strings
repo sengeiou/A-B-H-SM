@@ -11,7 +11,7 @@
 "login_login" = "Bejelentkezés";
 "login_regis" = "Regisztráció";
 "login_resetpass" = "Jelszó keresése?";
-"login_accplace" = "Telefon or E-mail";
+"login_accplace" = "Telefon / E-mail";
 "login_passplace" = "Jelszó";
 "login_choose_cou" = "Ország kiválasztása";
 "login_hirdParty" = "第三方登录";
@@ -19,3 +19,34 @@
 "login_suc" = "A bejelentkezés sikeres";
 "login_timeout" = "Kérelem időtúllépés";
 "login_lostNet" = "A hálózat nem csatlakozik";
+
+"register_accplace" = "Telefon";
+"register_emalplace" = "E-mail";
+"register_code" = "验证码";
+"register_getcode" = "Ellenőrző kód";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="A mobilszám nem lehet üres";
+"register_enteremail"="邮箱号码不能为空";
+"register_regpwd"="A jelszó nem lehet üres";
+"register_regcode"="Az ellenőrző kód nem lehet üres";
+"register_sending" = "Küldés folyamatban...";
+"register_accexist"="A fiókot megtaláltuk, kérjük jelentkezzen be!";
+"register_sendsucc" = "A küldés sikeres";
+"register_sendfail" = "A küldés sikertelen";
+"register_beingreg"="Regisztráció folyamatban...";
+"register_failurereg"="A regisztráció sikertelen...";
+"register_regsucceed"="A regisztráció sikeres...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "Magasság";
+"user_weight" = "Súly";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";

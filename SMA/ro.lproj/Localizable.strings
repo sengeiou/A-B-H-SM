@@ -11,7 +11,7 @@
 "login_login" = "Conectare";
 "login_regis" = "Înregistrare";
 "login_resetpass" = "Căutare parolă?";
-"login_accplace" = "Telefon or E-mail";
+"login_accplace" = "Telefon / E-mail";
 "login_passplace" = "Parolă";
 "login_choose_cou" = "Alege ţara";
 "login_hirdParty" = "第三方登录";
@@ -19,3 +19,34 @@
 "login_suc" = "Conectare reuşită";
 "login_timeout" = "Solicitare întrerupere";
 "login_lostNet" = "Reţeaua a fost deconectată";
+
+"register_accplace" = "Telefon";
+"register_emalplace" = "e-mail";
+"register_code" = "验证码";
+"register_getcode" = "cod de verificare";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="Numărul de telefon mobil nu poate fi vid";
+"register_enteremail"="邮箱号码不能为空";
+"register_regpwd"="Parola aceasta nu poate fi vidă";
+"register_regcode"="Verificare acesta nu poate fi vid";
+"register_sending" = "Se expediază...";
+"register_accexist"="Acest cont a fost identificat, vă rugăm să vă conectaţi!";
+"register_sendsucc" = "Expediat cu succes";
+"register_sendfail" = "Expediere eşuată";
+"register_beingreg"="Înregistrare...";
+"register_failurereg"="Înregistrare eşuată...";
+"register_regsucceed"="Înregistrare reuşită...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "Înălţime";
+"user_weight" = "Greutate";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";

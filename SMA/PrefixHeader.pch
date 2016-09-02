@@ -18,12 +18,16 @@
 #import "SmaLocalizeableInfo.h"
 #import "SmaAnalysisWebServiceTool.h"
 #import "SMADefaultinfos.h"
+#import "UIImage+CKQ.h"
+#import "SmaColor.h"
 #import "MBProgressHUD+MJ.h"
 #import "SMAUserInfo.h"
 #import "SMAAccountTool.h"
 #import "SMAthirdPartyLoginTool.h"
 /**** Define
  */
+#define MainStoryBoard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
+#define MainScreen [UIScreen mainScreen].bounds
 #define SmaNotificationCenter [NSNotificationCenter defaultCenter]
 #define SMALocalizedString(...) [SmaLocalizeableInfo localizedString:__VA_ARGS__]
 #define FontGothamMedium(f) [UIFont fontWithName:@"Gotham-Medium" size:(f)]

@@ -13,24 +13,11 @@
 #import "ACFileManager.h"
 //#import "ACNotificationManager.h"
 #import "AFNetworking.h"
-//#import "SmaDataDAL.h"
-//192.168.0.137
-//58.96.179.251
-//#define NetWorkAddress @"http://58.96.179.251:8080/Smalife/services/userservice?wsdl"
-//#define NameSpace @"http://webservice.smalife.com/"
-//#define NetWorkShservice @"http://58.96.179.251:8080/Smalife/services/pushservice?wsdl"
-//#define NetWorkfriendService @"http://58.96.179.251:8080/Smalife/services/friendService?wsdl"
-//#define NetWorkSersion @"http://58.96.179.251:8080/Smalife/services/getIOSVersion?wsdl"
 #define servicename @"mywatch"
 #define service @"watch"
 #define sportDict @"sportDict"
 #define sleepDict @"sleepDict"
 #define clockDict @"clockDict"
-
-//#define NetWorkAddress @"http://192.168.0.137:8080/Smalife/services/userservice?wsdl"
-//#define NameSpace @"http://webservice.smalife.com/"
-//#define NetWorkShservice @"http://192.168.0.137:8080/Smalife/services/pushservice?wsdl"
-//#define NetWorkfriendService @"http://192.168.0.137:8080/Smalife/services/friendService?wsdl"
 
 @implementation SmaAnalysisWebServiceTool
 {
@@ -104,19 +91,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //第三方登录
 - (void)acloudLoginWithOpenId:(NSString *)openId provider:(NSString *)provider accessToken:(NSString *)accessToken success:(void (^)(id result))success failure:(void (^)(NSError *error))failure{
-    [ACAccountManager registerWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
-        if (!error) {
-            if (success) {
-                success(user);
-            }
-        }
-        else{
-            if (failure) {
-                failure(error);
-            }
-        }
-    }];
-//    [ACAccountManager loginWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
+//    [ACAccountManager registerWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
 //        if (!error) {
 //            if (success) {
 //                success(user);
@@ -128,6 +103,19 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 //            }
 //        }
 //    }];
+    
+    [ACAccountManager loginWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
+        if (!error) {
+            if (success) {
+                success(user);
+            }
+        }
+        else{
+            if (failure) {
+                failure(error);
+            }
+        }
+    }];
 }
 
 //退出登录
@@ -137,7 +125,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //检测是否存在该用户  ［QQ］48F26B4B9AECBCEDE457E9AB3F334AA1
 - (void)acloudCheckExist:(NSString *)account success:(void (^)(bool))success failure:(void (^)(NSError *))failure{
-    [ACAccountManager checkExist:@"［QQ］48F26B4B9AECBCEDE457E9AB3F334AA1" callback:^(BOOL exist, NSError *error) {
+    [ACAccountManager checkExist:account callback:^(BOOL exist, NSError *error) {
         if (!error) {
             if (success) {
                 success(exist);
@@ -169,11 +157,18 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //注册用户
 - (void)acloudRegisterWithPhone:(NSString *)phone email:(NSString *)email password:(NSString *)password verifyCode:(NSString *)verifiy success:(void (^)(id))success failure:(void (^)(NSError *))failure{
+    
     [ACAccountManager registerWithPhone:phone email:email password:password verifyCode:verifiy callback:^(NSString *uid, NSError *error) {
         if (!error) {
-            if (success) {
-                success(uid);
-            }
+            [self acloudLoginWithAccount:phone?phone:email Password:password success:^(id result) {
+                if (success) {
+                    success(result);
+                }
+            } failure:^(NSError *error) {
+                if (failure) {
+                    failure(error);
+                }
+            }];
         }
         else{
             if (failure) {

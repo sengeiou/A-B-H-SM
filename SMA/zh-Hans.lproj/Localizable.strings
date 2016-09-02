@@ -11,11 +11,42 @@
 "login_login" = "登录";
 "login_regis" = "注册";
 "login_resetpass" = "忘记密码？";
-"login_accplace" = "手机或邮箱号";
-"login_passplace" = "密码";
+"login_accplace" = "请输入手机或邮箱";
+"login_passplace" = "请输入密码";
 "login_choose_cou" = "国家选择";
 "login_hirdParty" = "第三方登录";
 "login_ing" = "正在登录...";
 "login_suc" = "登录成功";
 "login_timeout" = "请求超时";
 "login_lostNet" = "网络已断开";
+
+"register_accplace" = "请输入手机号";
+"register_emalplace" = "请输入邮箱帐号";
+"register_code" = "请输入验证码";
+"register_getcode" = "获取验证码";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="请输入手机号，手机号码不能为空";
+"register_enteremail"="请输入邮箱号，邮箱号码不能为空";
+"register_regpwd"="请输入您的密码，密码不能为空";
+"register_regcode"="请输入验证码，验证码不能为空";
+"register_sending" = "正在发送...";
+"register_accexist"="该账号已存在，请登录！";
+"register_sendsucc" = "发送成功!";
+"register_sendfail" = "发送失败";
+"register_beingreg"="正在注册...";
+"register_failurereg"="注册失败...";
+"register_regsucceed"="注册成功...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "身高";
+"user_weight" = "体重";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";

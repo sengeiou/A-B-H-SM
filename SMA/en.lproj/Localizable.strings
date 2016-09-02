@@ -8,8 +8,8 @@
 
 //登录注册页
 "login_smaTit" = "开启智能生活";
-"login_login" = "Login";
-"login_regis" = "Register";
+"login_login" = "sign in";
+"login_regis" = "sign up";
 "login_resetpass" = "Find password?";
 "login_accplace" = "Phone or Email";
 "login_passplace" = "Password";
@@ -19,3 +19,34 @@
 "login_suc" = "Login successful";
 "login_timeout" = "Request timeout";
 "login_lostNet" = "Network has been disconnected";
+
+"register_accplace" = "Phone";
+"register_emalplace" = "Email";
+"register_code" = "verification code";
+"register_getcode" = "verification code";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="The phone number can not be empty";
+"register_enteremail"="邮箱号码不能为空";
+"register_regpwd"="The password can't be empty";
+"register_regcode"="The verification code can't be empty";
+"register_sending" = "Sending...";
+"register_accexist"="This account has been found, please login!";
+"register_sendsucc" = "Send successful!";
+"register_sendfail" = "Send failure";
+"register_beingreg"="Registering...";
+"register_failurereg"="Register failed...";
+"register_regsucceed"="Register successful...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "Height";
+"user_weight" = "Weight";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";

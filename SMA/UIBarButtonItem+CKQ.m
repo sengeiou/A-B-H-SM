@@ -33,9 +33,9 @@
     backButton.frame =CGRectMake(0, 0, 25, 22);
     backButton.hidden = hidden;
     if ([[[UIDevice currentDevice]systemVersion] doubleValue]>=7.0) {
-        [backButton setImage:[[UIImage imageNamed:@"love_nav_back_button"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+        [backButton setImage:[[UIImage imageNamed:@"icon_return"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     }else{
-        [backButton setImage:[UIImage imageNamed:@"love_nav_back_button"]  forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"icon_return"]  forState:UIControlStateNormal];
     }
     [backButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc] initWithCustomView:backButton];

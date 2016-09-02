@@ -19,3 +19,34 @@
 "login_suc" = "Успішний вхід в систему";
 "login_timeout" = "Час очікування запиту";
 "login_lostNet" = "Мережа відключена";
+
+"register_accplace" = "телефон";
+"register_emalplace" = "Email";
+"register_code" = "验证码";
+"register_getcode" = "верифікаційний код";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="Поле номера мобільного телефону не може бути порожнім";
+"register_enteremail"="邮箱号码不能为空";
+"register_regpwd"="пароль не може бути порожнім";
+"register_regcode"="верифікаційний код не може бути порожнім";
+"register_sending" = "Йде надсилання...";
+"register_accexist"="Цей обліковий запис знайдений, будь ласка, увійдіть!";
+"register_sendsucc" = "Успішно надіслано";
+"register_sendfail" = "Не вдалося надіслати";
+"register_beingreg"="Реєстрація...";
+"register_failurereg"="Не вдалося зареєструвати...";
+"register_regsucceed"="Успішна реєстрація...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "Зріст";
+"user_weight" = "Вага";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";

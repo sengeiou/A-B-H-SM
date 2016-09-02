@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef enum  {
+    topToBottom = 0,//从上到下
+    leftToRight = 1,//从左到右
+    upleftTolowRight = 2,//左上到右下
+    uprightTolowLeft = 3,//右上到左下
+}GradientType;
 
 @interface UIImage (CKQ)
 /**
@@ -24,4 +30,5 @@
 + (UIImage *)resizedImageWithName:(NSString *)name left:(CGFloat)left top:(CGFloat)top;
 +(UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize imageName:(NSString *)imageName;
 +(UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
++ (UIImage*) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType size:(CGSize )size;
 @end

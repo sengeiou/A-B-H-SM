@@ -19,3 +19,34 @@
 "login_suc" = "Вход выполнен успешно";
 "login_timeout" = "Время ожидания запроса";
 "login_lostNet" = "Сеть отключена";
+
+"register_accplace" = "Телефон";
+"register_emalplace" = "эл. почты";
+"register_code" = "验证码";
+"register_getcode" = "Получение проверочного кода";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="Поле с номером мобильного телефона не может быть пустым";
+"register_enteremail"="邮箱号码不能为空";
+"register_regpwd"="Поле с паролем не может быть пустым";
+"register_regcode"="Поле с проверочным кодом не может быть пустым";
+"register_sending" = "Отправка...";
+"register_accexist"="Эта учетная запись найдена. Выполните вход.";
+"register_sendsucc" = "Отправка выполнена успешно";
+"register_sendfail" = "Сбой отправки";
+"register_beingreg"="Регистрация...";
+"register_failurereg"="Сбой регистрации...";
+"register_regsucceed"="Регистрация выполнена успешно...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "Рост";
+"user_weight" = "Вес";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";

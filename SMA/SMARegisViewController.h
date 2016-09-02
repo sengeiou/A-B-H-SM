@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface SMARegisViewController : UIViewController
+#import "SectionsViewController.h"
+#import "SMANavViewController.h"
+@interface SMARegisViewController : UIViewController<SecondViewControllerDelegate,UITextFieldDelegate>
+@property (nonatomic, weak) IBOutlet UILabel *codeLab;
+@property (nonatomic, weak) IBOutlet UITextField *accountField, *passwordField, *verCodeField;
+@property (nonatomic, weak) IBOutlet UIButton *emailBut, *protocolBut, *registerBut;
 
 @end

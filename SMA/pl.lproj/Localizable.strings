@@ -19,3 +19,34 @@
 "login_suc" = "Logowanie udane";
 "login_timeout" = "Czas wykonywania polecenia został przekroczony";
 "login_lostNet" = "Rozłączenie z siecią";
+
+"register_accplace" = "Telefon";
+"register_emalplace" = "E-mail";
+"register_code" = "验证码";
+"register_getcode" = "Uzyskaj kod weryfikacji";
+"register_email" = "邮箱注册";
+"register_protocol1" = "我已阅读并同意";
+"register_protocol2" = "《SMA 用户使用协议》";
+"register_enterphone"="Pole numeru telefonu komórkowego nie może być puste";
+"register_enteremail"="邮箱号码不能为空";
+"register_regpwd"="Pole hasła nie może być puste";
+"register_regcode"="Pole kodu weryfikacji nie może być puste";
+"register_sending" = "Wysyłanie...";
+"register_accexist"="Konto zostało znalezione, zaloguj się!";
+"register_sendsucc" = "Wysłano prawidłowo";
+"register_sendfail" = "Wyślij informację dotyczącą błędu";
+"register_beingreg"="Trwa rejestracja...";
+"register_failurereg"="Rejestracja nieudana...";
+"register_regsucceed"="Rejestracja udana...";
+
+//个人资料页
+"user_title" = "我的资料";
+"user_next" = "跳过";
+"user_girl" = "女";
+"user_boy" = "男";
+"user_age" = "年龄";
+"user_lastStep" = "上一步";
+"user_nextStep" = "下一步";
+"user_hight" = "Wzrost";
+"user_weight" = "Waga";
+"user_weightNot" = "滑动你的体重，开始体验我们的APP吧";
