@@ -151,11 +151,20 @@
 }
 
 - (IBAction)registerSelector:(id)sender{
-//    [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"] animated:YES];
-    SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
-    controller.leftItemHidden = YES;
-    [self presentViewController:controller animated:YES completion:nil];
-    return;
+////    [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"] animated:YES];
+//    SMAUserInfo *user = [[SMAUserInfo alloc] init];
+////    user.userID = mobile;
+//    user.userPass = _passwordField.text;
+//    user.userWeigh = @"70";
+//    user.userHeight = @"170";
+//    user.userSex = @"1";
+//    user.userAge = @"26";
+//    user.userName = @"Welcome";
+//    [SMAAccountTool saveUser:user];
+//    SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
+//    controller.leftItemHidden = YES;
+//    [self presentViewController:controller animated:YES completion:nil];
+//    return;
     if([_accountField.text isEqualToString:@""])
     {
         [MBProgressHUD showError:SMALocalizedString(@"register_enterphone")];

@@ -18,10 +18,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[UINavigationBar appearance] setBackgroundImage:[UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#5790F9" alpha:1],[SmaColor colorWithHexString:@"#80C1F9" alpha:1]] ByGradientType:topToBottom size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+     self.navigationBar.translucent = NO; //不透明处理
+//    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
    //改变title文字格式
     [self.navigationBar setTitleTextAttributes:@{NSFontAttributeName:FontGothamLight(20),NSForegroundColorAttributeName:[UIColor whiteColor]}];
 
+   //修改BarItem 字体颜色样式
+    [[UITabBarItem  appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: FontGothamLight(11), NSFontAttributeName, nil] forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {

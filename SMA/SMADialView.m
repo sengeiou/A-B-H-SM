@@ -45,8 +45,8 @@
     for (int i = 1; i <= _dialArr.count; i ++) {
          CGSize fontsize = [[_dialArr objectAtIndex:i - 1] sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(15)}];
         //计算点坐标
-         CGFloat X = center.x + (self.frame.size.width/2 -fontsize.height) *sin((M_PI/180)*i*(360.0 /(_dialArr.count))) - fontsize.width/2;
-         CGFloat Y = center.y - (self.frame.size.width/2 -fontsize.height) *cos((M_PI/180)*i*(360.0 /(_dialArr.count))) - fontsize.height/2;
+         CGFloat X = center.x + (self.frame.size.width/2 -fontsize.height) *sin((M_PI/180)*i*(360.0 /(_dialArr.count))) - fontsize.width/2; //R*sinB(夹角)
+         CGFloat Y = center.y - (self.frame.size.width/2 -fontsize.height) *cos((M_PI/180)*i*(360.0 /(_dialArr.count))) - fontsize.height/2;//R*cosB(夹角)
         CATextLayer * text = [CATextLayer layer];
         text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
         text.contentsScale   = [[UIScreen mainScreen] scale];

@@ -31,4 +31,5 @@ typedef enum  {
 +(UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize imageName:(NSString *)imageName;
 +(UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage*) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType size:(CGSize )size;
++ (UIImage*) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType radius:(CGFloat)radius size:(CGSize )size;
 @end

@@ -198,4 +198,92 @@
     UIGraphicsEndImageContext();
     return image;
 }
+
++ (UIImage*) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType radius:(CGFloat)radius size:(CGSize )size{
+    NSMutableArray *ar = [NSMutableArray array];
+    for(UIColor *c in colors) {
+        [ar addObject:(id)c.CGColor];
+    }
+//    UIGraphicsBeginImageContextWithOptions(size, YES, 1);
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors lastObject] CGColor]);
+    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (CFArrayRef)ar, NULL);
+    CGPoint start;
+    CGPoint end;
+    switch (gradientType) {
+        case 0:
+            start = CGPointMake(0.0, 0.0);
+            end = CGPointMake(0.0, size.height);
+            break;
+        case 1:
+            start = CGPointMake(0.0, 0.0);
+            end = CGPointMake(size.width, 0.0);
+            break;
+        case 2:
+            start = CGPointMake(0.0, 0.0);
+            end = CGPointMake(size.width, size.height);
+            break;
+        case 3:
+            start = CGPointMake(size.width, 0.0);
+            end = CGPointMake(0.0,size.height);
+            break;
+        default:
+            break;
+    }
+    CGContextDrawLinearGradient(context, gradient, start, end, kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    CGGradientRelease(gradient);
+    CGContextRestoreGState(context);
+    CGColorSpaceRelease(colorSpace);
+    UIGraphicsEndImageContext();
+    
+    // borderWidth 表示边框的宽度
+//    CGFloat borderWidth = 0;
+//    CGFloat imageW = image.size.width + 2 * borderWidth;
+//    CGFloat imageH = imageW;
+//    CGSize imageSize = CGSizeMake(imageW, imageH);
+//    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0);
+//    CGContextRef context1 = UIGraphicsGetCurrentContext();
+//    // borderColor表示边框的颜色
+//    [[UIColor blueColor] set];
+//    CGFloat bigRadius = imageW * 0.5;
+//    CGFloat centerX = bigRadius;
+//    CGFloat centerY = bigRadius;
+//    CGContextAddArc(context1, centerX, centerY, bigRadius, 0, M_PI * 2, 0);
+//    CGContextFillPath(context1);
+//    CGFloat smallRadius = bigRadius - borderWidth;
+//    CGContextAddArc(context1, centerX, centerY, smallRadius, 0, M_PI * 2, 0);
+//    CGContextClip(context1);
+//    [image drawInRect:CGRectMake(borderWidth, borderWidth, image.size.width, image.size.width)];
+//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+    CGContextRef CTX = UIGraphicsGetCurrentContext();
+    CGRect rect = CGRectMake(0, 0, size.width, size.width);
+    CGContextAddEllipseInRect(CTX, rect);
+    CGContextClip(CTX);
+    [image drawInRect:rect];
+    
+    
+//    CGFloat border = 1;
+//    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+//    UIGraphicsBeginImageContext(imageRect.size);
+//    [image drawInRect:CGRectMake(border,border,image.size.width-border*2,image.size.height-border*2)];
+//    UIImage* newImg = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+    
+//    UIGraphicsBeginImageContext(CGSizeMake(size.width, size.width));
+//    CGContextRef ctx = UIGraphicsGetCurrentContext();
+//    CGContextMoveToPoint(ctx, 20, 20);
+//    CGContextSetFillColorWithColor(ctx, [UIColor greenColor].CGColor);
+//    //画圆
+//    CGContextAddArc(ctx, size.width/2+0.5, size.width/2+0.5, size.width/2-1, 0, M_PI  * 2, 0);
+//    CGContextFillPath(ctx);
+    UIImage *image1 = UIGraphicsGetImageFromCurrentImageContext();
+    return image1;
+
+}
 @end

@@ -12,6 +12,14 @@
 #define QUIETHEART @"QUIETHEART" //静息心率
 #define SENDHEALTHSTEP @"SENDHEALTHSTEP"//上传苹果健康步数
 #define HEALTHDAY @"HEALTHDAY"//上传苹果健康日期
+#define ANTILOSTSET @"ANTILOSTSET" //防丢设置
+#define NODISTRUBSET @"NODISTRUBSET" //勿扰设置
+#define CALLSET @"CALLSET" //来电提醒
+#define SMSSET  @"SMSSET"  //短信提醒
+#define SCREENSET @"SCREENSET" //屏幕设置
+#define SLEEPMONSET @"SLEEPMONSET" //心率测睡
+#define VIBRATIONSET @"VIBRATIONSET" //震动设置
+#define BACKLIGHTSET @"BACKLIGHTSET" //背光设置
 
 @interface SMADefaultinfos : NSObject
 +(void)putKey:(NSString *)key andValue:(NSObject *)value;

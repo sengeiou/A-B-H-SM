@@ -23,6 +23,21 @@
     [ACloudLib setMode:ACloudLibModeRouter Region:ACLoudLibRegionChina];
     [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:282];
     [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
+    if ([SMAAccountTool userInfo].userID && ![[SMAAccountTool userInfo].userID isEqualToString:@""]) {
+        UITabBarController* controller = [MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+        self.window.rootViewController = controller;
+    }
+    
+    //首次打开APP，默认部分设置
+    if (![SMADefaultinfos getValueforKey:FIRSTLUN]) {
+        [SMADefaultinfos putKey:FIRSTLUN andValue:FIRSTLUN];
+        [SMADefaultinfos putInt:SLEEPMONSET andValue:1];
+        [SMADefaultinfos putInt:CALLSET andValue:1];
+        [SMADefaultinfos putInt:SMSSET andValue:1];
+        [SMADefaultinfos putInt:SCREENSET andValue:1];
+        [SMADefaultinfos putInt:VIBRATIONSET andValue:2];
+        [SMADefaultinfos putInt:BACKLIGHTSET andValue:2];
+    }
     return YES;
 }
 

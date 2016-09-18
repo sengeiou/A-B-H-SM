@@ -50,3 +50,43 @@
 "user_hight" = "Рост";
 "user_weight" = "Вес";
 "user_weightNot" = "滑动你的体重，开始体验我们的APP吧";
+
+//数据页面
+"device_title" = "数据";
+"device_todate" = "Сегодня";
+"device_SP_goal" = "sport_plaremark";
+"device_SP_steps" = "steps";
+"device_SP_step" = "step";
+"device_SP_sit" = "静坐";
+"device_SP_walking" = "步行";
+"device_SP_running" = "跑步";
+"device_HR_monitor" = "Частота сердечных сокращений";
+"device_HR_typeF" = "Стандарт";
+"device_HR_typeS" = "Легк.";
+"device_HR_typeT" = "Тяжел.";
+"device_HR_rest" = "Покой";
+"device_HR_mean" = "Сред.";
+"device_HR_max" = "Макс.";
+"device_SL_qualith" = "Качество сна";
+"device_SL_typeF" = "Очень плохо";
+"device_SL_typeS" = "Комфортно";
+"device_SL_typeT" = "Медлительно";
+"device_SL_deep" = "Глубокий";
+"device_SL_light" = "Неглубокий";
+"device_SL_awake" = "бодрствования";
+
+//设备设置页
+"setting_title" = "设备";
+"setting_conDevice" = "连接新设备";
+"setting_antiLost" = "防丢提醒";
+"setting_noDistrub" = "勿扰模式";
+"setting_callNot" = "来电提醒";
+"setting_smsNot" = "短信提醒";
+"setting_screen" = "横竖模式";
+"setting_sleepMon" = "心率测睡";
+"setting_sedentary" = "久坐";
+"setting_alarm" = "闹钟";
+"setting_heart" = "心率";
+"setting_vibration" = "震动";
+"setting_backlight" = "背光";
+"setting_other" = "其他";

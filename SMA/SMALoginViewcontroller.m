@@ -125,6 +125,11 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
         });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            UITabBarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+            [self presentViewController:controller animated:YES completion:nil];
+        });
+
         
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

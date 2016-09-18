@@ -77,13 +77,14 @@
         SMAUserInfo *user = [SMAAccountTool userInfo];
         user.userWeigh = [_weightLab.text stringByReplacingOccurrencesOfString:@"kg" withString:@""];
         [SMAAccountTool saveUser:user];
-        SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
+        UITabBarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
         [self presentViewController:controller animated:YES completion:nil];
     }
 }
 
 - (IBAction)skipSelector:(id)sender{
-    
+    UITabBarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 #pragma mark *******smaDialViewDelegate

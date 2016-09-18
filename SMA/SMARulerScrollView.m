@@ -47,7 +47,7 @@
     [self addSubview:indicateIma];
 }
 
-static float oldPoint;
+static float oldPoint;static float EndDragPoin;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (firstCreate) {
     //根据移动偏移量改变指示线位置
@@ -58,28 +58,43 @@ static float oldPoint;
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-   __block NSString *rulerPoin;
+    NSLog(@"scrollViewDidEndDragging");
+    EndDragPoin = scrollView.contentOffset.x;
+    [self performSelector:@selector(timeoutToStopDrag:) withObject:nil afterDelay:0.1];
+}
+
+-(void)timeoutToStopDrag:(UIScrollView *)scrollView
+{
+       __block NSString *rulerPoin;
     [UIView animateWithDuration:0.2 animations:^{
-        if (scrollView.contentOffset.x + self.frame.size.height/2 > [[_rulerView.cmArray lastObject] floatValue]) {
+        if (EndDragPoin + self.frame.size.height/2 > [[_rulerView.cmArray lastObject] floatValue]) {
             self.contentOffset = [self scrollviewContentOffset:(int)_rulerView.cmArray.count - 1];
             rulerPoin = [NSString stringWithFormat:@"%lu",_rulerView.cmArray.count -1 +_startTick];
         }
-       else if (scrollView.contentOffset.x + self.frame.size.height/2 < [[_rulerView.cmArray firstObject] floatValue]) {
+        else if (EndDragPoin + self.frame.size.height/2 < [[_rulerView.cmArray firstObject] floatValue]) {
             self.contentOffset = [self scrollviewContentOffset:0];
             rulerPoin = [NSString stringWithFormat:@"%d",_startTick];
         }
-       else{
-         self.contentOffset = [self scrollviewContentOffset:[NSString stringWithFormat:@"%0.f",(scrollView.contentOffset.x + self.frame.size.height/2 - [[_rulerView.cmArray firstObject] floatValue])/((_rulerView.frame.size.width-40)/(_stopTick - _startTick + 40))].intValue];
-           rulerPoin = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%0.f",(scrollView.contentOffset.x + self.frame.size.height/2 - [[_rulerView.cmArray firstObject] floatValue])/((_rulerView.frame.size.width-40)/(_stopTick - _startTick + 40))].intValue + _startTick];
-       }
+        else{
+            self.contentOffset = [self scrollviewContentOffset:[NSString stringWithFormat:@"%0.f",(EndDragPoin + self.frame.size.height/2 - [[_rulerView.cmArray firstObject] floatValue])/((_rulerView.frame.size.width-40)/(_stopTick - _startTick + 40))].intValue];
+            rulerPoin = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%0.f",(EndDragPoin + self.frame.size.height/2 - [[_rulerView.cmArray firstObject] floatValue])/((_rulerView.frame.size.width-40)/(_stopTick - _startTick + 40))].intValue + _startTick];
+        }
     } completion:^(BOOL finished) {
         if (self.scrRulerdelegate && [self.scrRulerdelegate respondsToSelector:@selector(scrollDidEndDecelerating:)]) {
             [self.scrRulerdelegate scrollDidEndDecelerating:rulerPoin];
         }
     }];
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeoutToStopDrag:) object:nil];
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeoutToStopDrag:) object:nil];
+    NSLog(@"scrollViewWillBeginDecelerating");
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+     NSLog(@"scrollViewDidEndDecelerating");
     __block NSString *rulerPoin;
     [UIView animateWithDuration:0.2 animations:^{
         if (scrollView.contentOffset.x + self.frame.size.height/2 > [[_rulerView.cmArray lastObject] floatValue]) {
