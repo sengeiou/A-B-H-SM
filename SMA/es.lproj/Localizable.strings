@@ -17,8 +17,12 @@
 "login_hirdParty" = "第三方登录";
 "login_ing" = "Inicio de sesión...";
 "login_suc" = "Inicio de sesión correcto";
+"login_fail" = "登录失败";
 "login_timeout" = "Tiempo límite solicitud";
 "login_lostNet" = "Se ha desconectado la red";
+"login_findPass" = "Modificar contraseña";
+"login_findSucc" = "Modificación correcta";
+"login_findFail" = "Error de modificación";
 
 "register_accplace" = "Teléfono";
 "register_emalplace" = "E-mail";
@@ -36,7 +40,7 @@
 "register_sendsucc" = "Envío correcto";
 "register_sendfail" = "Error de envío";
 "register_beingreg"="Registrando...";
-"register_failurereg"="Error de registro...";
+"register_failurereg"="Error de registro";
 "register_regsucceed"="Registro correcto...";
 
 //个人资料页
@@ -77,16 +81,34 @@
 
 //设备设置页
 "setting_title" = "设备";
-"setting_conDevice" = "连接新设备";
-"setting_antiLost" = "防丢提醒";
-"setting_noDistrub" = "勿扰模式";
-"setting_callNot" = "来电提醒";
-"setting_smsNot" = "短信提醒";
+"setting_conDevice" = "添加新设备";
+"setting_antiLost" = "Anti-perdida";
+"setting_noDistrub" = "No molestar";
+"setting_callNot" = "notificaciones\nllamadas";
+"setting_smsNot" = "notificaciones\nSMS";
 "setting_screen" = "横竖模式";
 "setting_sleepMon" = "心率测睡";
-"setting_sedentary" = "久坐";
-"setting_alarm" = "闹钟";
-"setting_heart" = "心率";
-"setting_vibration" = "震动";
-"setting_backlight" = "背光";
+"setting_sedentary" = "Sedentario";
+"setting_alarm" = "Alarma";
+"setting_heart" = "Pulso";
+"setting_vibration" = "vibración";
+"setting_backlight" = "retroiluminación";
 "setting_other" = "其他";
+"setting_times" = "veces";
+"setting_seconds" = "segundos";
+"setting_turnOff" = "OFF";
+"setting_cancel" = "Cancelar";
+"setting_band_title" = "绑定设备";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_buywatch" = "Comprar reloj SMA-WATCH";
+"setting_band_attention" = "(Asegúrese de que la batería del reloj esté lo suficientemente cargada y de que el reloj esté cerca del teléfono)";
+"setting_band_remind07" = "Si no puede encontrar la señal de Bluetooth del reloj SMA, vaya a Configuración de iPhone-Bluetooth-Omitir dispositivo (SM07)";
+"setting_band_search" = "开始搜索";
+"setting_band_searching" = "正在搜索\n(点击暂停)";
+"setting_band_connecting" = "Conectándose...";
+"setting_band_connectTimeOut" = "连接超时";
+"setting_band_connectfail" = "连接失败";
+"setting_band_binding" = "正在绑定...";
+"setting_band_bindsuccess" = "Conexión correcta";
+"setting_band_bindfail" = "绑定失败";
+"setting_band_remind" = "请长按手环中间按键";

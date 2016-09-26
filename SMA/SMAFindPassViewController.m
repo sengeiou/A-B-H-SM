@@ -1,28 +1,30 @@
 //
-//  SMARegisViewController.m
+//  SMAFindPassViewController.m
 //  SMA
 //
-//  Created by 有限公司 深圳市 on 16/8/18.
+//  Created by 有限公司 深圳市 on 16/9/24.
 //  Copyright © 2016年 SMA. All rights reserved.
 //
 
-#import "SMARegisViewController.h"
+#import "SMAFindPassViewController.h"
 
-@interface SMARegisViewController ()
+@interface SMAFindPassViewController ()
 {
-    UIButton *geCodeBut;
     NSTimer *codeTimer;
 }
 @end
 
-@implementation SMARegisViewController
+@implementation SMAFindPassViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createUI];
+    // Do any additional setup after loading the view.
     //设置本地区号
     [self setTheLocalAreaCode];
-    // Do any additional setup after loading the view.
+    [self createUI];
+    // 3.监听键盘的通知
+    [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,7 +36,6 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark *******创建UI
 - (void)createUI{
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.bounds = self.view.bounds;
@@ -48,7 +49,7 @@
     _gradientLayer.endPoint = CGPointMake(0, 1);
     [self.view.layer insertSublayer:_gradientLayer atIndex:0];
     
-    _accountField.placeholder = SMALocalizedString(@"register_accplace");
+    _accountField.placeholder = SMALocalizedString(@"login_accplace");
     _accountField.delegate = self;
     
     UIButton *eyesBut = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -64,29 +65,13 @@
     
     _verCodeField.placeholder = SMALocalizedString(@"register_code");
     _verCodeField.delegate = self;
-    geCodeBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    geCodeBut.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight ;//设置文字位置，现设为居右
-    [geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
-    geCodeBut.titleLabel.font = FontGothamLight(10);
-    CGSize fontsize1 = [geCodeBut.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(11)}];
-    [geCodeBut addTarget:self action:@selector(getVerificationCodeSelector:) forControlEvents:UIControlEventTouchUpInside];
-    geCodeBut.frame = CGRectMake(0, 0, fontsize1.width>30?fontsize1.width:30, 30);
-    _verCodeField.rightView = geCodeBut;
-    _verCodeField.rightViewMode = UITextFieldViewModeAlways;
     
-    [_emailBut setTitle:SMALocalizedString(@"register_email") forState:UIControlStateNormal];
-    
-    NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol1") attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(11)}];
-     NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol2") attributes:@{NSForegroundColorAttributeName:[SmaColor colorWithHexString:@"#1E6EFF" alpha:1],NSFontAttributeName:FontGothamLight(11)}];
-    NSMutableAttributedString *attributed = [[NSMutableAttributedString alloc] init];
-    [attributed appendAttributedString:str1];
-    [attributed appendAttributedString:str2];
-    [_protocolBut setAttributedTitle:attributed forState:UIControlStateNormal];
-    
-    [_registerBut setTitle:SMALocalizedString(@"login_regis") forState:UIControlStateNormal];
+    [_verCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+ [_findPassBut setTitle:SMALocalizedString(@"login_findPass") forState:UIControlStateNormal];
 }
 
 - (IBAction)backSelector:(id)sender{
+    [self.view endEditing:YES];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -98,73 +83,44 @@
     }];
 }
 
-
-- (void)getVerificationCodeSelector:(id)sender{
+- (IBAction)getVerificationCodeSelector:(id)sender{
     if([_accountField.text isEqualToString:@""])
     {
         [MBProgressHUD showError: SMALocalizedString(@"register_enterphone")];
         
     }else
     {
+        NSString *userAccount;
         [MBProgressHUD showMessage:SMALocalizedString(@"register_sending")];
-    NSString *mobile=[NSString stringWithFormat:@"%@%@",[[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"] isEqualToString:@"0086"]?@"":[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"],_accountField.text];
-    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
-    NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
-    SmaAnalysisWebServiceTool *web = [[SmaAnalysisWebServiceTool alloc] init];
-        [web acloudCheckExist:mobile success:^(bool exist) {
-            if (exist == 1) {
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showError:SMALocalizedString(@"register_accexist")];
-                
-            }
-            else{
-                [web acloudSendVerifiyCodeWithAccount:mobile template:[preferredLang isEqualToString:@"zh"]?1:0 success:^(id result) {
+        if ([_accountField.text rangeOfString:@"@"].location) {
+            userAccount = _accountField.text;
+        }
+        else{
+            userAccount = [NSString stringWithFormat:@"%@%@",[[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"] isEqualToString:@"0086"]?@"":[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"],_accountField.text];
+        }
+        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+        NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
+        NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
+        SmaAnalysisWebServiceTool *web = [[SmaAnalysisWebServiceTool alloc] init];
+  
+                [web acloudSendVerifiyCodeWithAccount:userAccount template:[_accountField.text rangeOfString:@"@"].location?([preferredLang isEqualToString:@"zh"]?4:3):([preferredLang isEqualToString:@"zh"]?1:0) success:^(id result) {
                     [MBProgressHUD hideHUD];
                     [MBProgressHUD showSuccess:SMALocalizedString(@"register_sendsucc")];
                     if (codeTimer) {
                         [codeTimer invalidate];
                         codeTimer = nil;
                     }
-                    geCodeBut.enabled = NO;
-                    [geCodeBut setTitle:@"60 S" forState:UIControlStateNormal];
+                    _verCodeBut.enabled = NO;
+                    [_verCodeBut setTitle:@"60 S" forState:UIControlStateNormal];
                     codeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(geCodeTimer) userInfo:nil repeats:YES];
                 } failure:^(NSError *error) {
                     [MBProgressHUD hideHUD];
                     [MBProgressHUD showError:SMALocalizedString(@"register_sendfail")];
                 }];
-            }
-        } failure:^(NSError *error) {
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showError:SMALocalizedString(@"register_sendfail")];
-        }];
     }
 }
 
-- (IBAction)protocolAgreeSelector:(UIButton *)sender{
-    sender.selected = !sender.selected;
-    _registerBut.enabled = !sender.selected;
-}
-
-- (IBAction)protocolSelector:(UIButton *)sender{
-     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/page1000044?plg_nld=1&plg_uin=1&plg_auth=1&plg_nld=1&plg_usr=1&plg_vkey=1&plg_dev=1"]];
-}
-
-- (IBAction)registerSelector:(id)sender{
-////    [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"] animated:YES];
-//    SMAUserInfo *user = [[SMAUserInfo alloc] init];
-////    user.userID = mobile;
-//    user.userPass = _passwordField.text;
-//    user.userWeigh = @"70";
-//    user.userHeight = @"170";
-//    user.userSex = @"1";
-//    user.userAge = @"26";
-//    user.userName = @"Welcome";
-//    [SMAAccountTool saveUser:user];
-//    SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
-//    controller.leftItemHidden = YES;
-//    [self presentViewController:controller animated:YES completion:nil];
-//    return;
+- (IBAction)findPassSelector:(id)sender{
     if([_accountField.text isEqualToString:@""])
     {
         [MBProgressHUD showError:SMALocalizedString(@"register_enterphone")];
@@ -176,69 +132,31 @@
         [MBProgressHUD showError: SMALocalizedString(@"register_regpwd")];
         return;
     }
-
+    
     if([_verCodeField.text isEqualToString:@""])
     {
         [MBProgressHUD showError: SMALocalizedString(@"register_regcode")];
         return;
     }
-    [MBProgressHUD showMessage:SMALocalizedString(@"register_beingreg")];
-     NSString *mobile=[NSString stringWithFormat:@"%@%@",[[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"] isEqualToString:@"0086"]?@"":[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"],_accountField.text];
-    
-    SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
-    [webservice acloudRegisterWithPhone:mobile email:nil password:_passwordField.text verifyCode:_verCodeField.text success:^(id success) {
-        SMAUserInfo *user = [[SMAUserInfo alloc] init];
-        user.userID = mobile;
-        user.userPass = _passwordField.text;
-        user.userWeigh = @"70";
-        user.userHeight = @"170";
-        user.userSex = @"1";
-        user.userAge = @"26";
-        user.userName = @"Welcome";
-        [SMAAccountTool saveUser:user];
-        [MBProgressHUD hideHUD];
-        [MBProgressHUD showSuccess:SMALocalizedString(@"register_regsucceed")];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
-            controller.leftItemHidden = YES;
-//            [self presentViewController:controller animated:YES completion:nil];
-             [UIApplication sharedApplication].keyWindow.rootViewController=controller;
-        });
-    } failure:^(NSError *erro) {
-        NSLog(@"====error==%@",[erro.userInfo objectForKey:@"errorInfo"]);
-        [MBProgressHUD hideHUD];
-        if ([erro.userInfo objectForKey:@"errorInfo"]) {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"%ld %@",(long)erro.code,SMALocalizedString(@"register_failurereg")]];
-        }
-        else if (erro.code == -1001) {
-            [MBProgressHUD showError:SMALocalizedString(@"login_timeout")];
-            NSLog(@"超时");
-        }
-        else if (erro.code == -1009) {
-            [MBProgressHUD showError:SMALocalizedString(@"login_lostNet")];
-        }
-        
-    }];
-
-}
-
-- (void)eyseSelect:(UIButton *)sender{
-    sender.selected = !sender.selected;
-    [_passwordField resignFirstResponder];
-    _passwordField.secureTextEntry = !_passwordField.secureTextEntry;
-}
-
-static int second = 60;
-- (void)geCodeTimer{
-    second--;
-    [geCodeBut setTitle:[NSString stringWithFormat:@"%d S",second] forState:UIControlStateNormal];
-    if (second == 0) {
-        second = 60;
-        [geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
-        geCodeBut.enabled = YES;
-        [codeTimer invalidate];
-        codeTimer = nil;
+    NSString *userAccount;
+    [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
+    SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
+    if ([_accountField.text rangeOfString:@"@"].location) {
+        userAccount = _accountField.text;
     }
+    else{
+        userAccount = [NSString stringWithFormat:@"%@%@",[[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"] isEqualToString:@"0086"]?@"":[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"],_accountField.text];
+    }
+    [webServict acloudResetPasswordWithAccount:userAccount verifyCode:_verCodeField.text password:_passwordField.text success:^(id result) {
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showSuccess:SMALocalizedString(@"login_findSucc")];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+           [self backSelector:nil];
+        });
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:SMALocalizedString(@"login_findFail")];
+    }];
 }
 
 -(void)setTheLocalAreaCode
@@ -310,31 +228,61 @@ static int second = 60;
     NSString* tt=[locale objectForKey:NSLocaleCountryCode];
     NSString* defaultCode=[dictCodes objectForKey:tt];
     _codeLab.text=[NSString stringWithFormat:@"+%@",defaultCode];
-        
+
 }
 
-
-
-#pragma mark *****UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    if (textField == _accountField) {
-        [_passwordField becomeFirstResponder];
-    }
-    else if (textField == _passwordField){
-        [_verCodeField becomeFirstResponder];
-    }
-    else{
-        [_verCodeField resignFirstResponder];
-    }
-    return YES;
-}
-
-
-#pragma mark - SecondViewControllerDelegate的方法
-- (void)setSecondData:(NSString *)code
+/**
+ *  键盘即将显示的时候调用
+ */
+- (void)keyboardWillShow:(NSNotification *)note
 {
-    NSLog(@"the area data：%@,", code);
-    _codeLab.text = code;
+    
+    // 1.取出键盘的frame
+    //zzzzCGRect keyboardF = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    // 2.取出键盘弹出的时间
+    CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    // 3.执行动画
+    
+    [UIView animateWithDuration:duration animations:^{
+        self.view.transform = CGAffineTransformMakeTranslation(0, -120);
+        _backBut.hidden = YES;// 上移或者导航栏效果不理想，直接隐藏返回键
+    }];
+    
+}
+
+/**
+ *  键盘即将退出的时候调用
+ */
+- (void)keyboardWillHide:(NSNotification *)note
+{
+    // 1.取出键盘弹出的时间
+    CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    // 2.执行动画
+    [UIView animateWithDuration:duration animations:^{
+        self.view.transform = CGAffineTransformIdentity;
+        _backBut.hidden = NO;
+    }];
+    
+}
+
+- (void)eyseSelect:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    [_passwordField resignFirstResponder];
+    _passwordField.secureTextEntry = !_passwordField.secureTextEntry;
+}
+
+static int second = 60;
+- (void)geCodeTimer{
+    second--;
+    [_verCodeBut setTitle:[NSString stringWithFormat:@"%d S",second] forState:UIControlStateNormal];
+    if (second == 0) {
+        second = 60;
+        [_verCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+        _verCodeBut.enabled = YES;
+        [codeTimer invalidate];
+        codeTimer = nil;
+    }
 }
 /*
 #pragma mark - Navigation

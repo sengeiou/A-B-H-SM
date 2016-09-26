@@ -24,8 +24,12 @@
 #import "SMAUserInfo.h"
 #import "SMAAccountTool.h"
 #import "SMAthirdPartyLoginTool.h"
+#import "BLConnect.h"
+#import "SmaBLE.h"
 /**** Define
  */
+#define SmaBleMgr [BLConnect sharedCoreBlueTool]
+#define SmaBleSend [SmaBLE sharedCoreBlue]
 #define MainStoryBoard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define MainScreen [UIScreen mainScreen].bounds
 #define SmaNotificationCenter [NSNotificationCenter defaultCenter]

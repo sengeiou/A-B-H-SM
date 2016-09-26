@@ -16,6 +16,7 @@
         _userResHr = [decoder decodeObjectForKey:@"_userResHr"];
         _scnaName = [decoder decodeObjectForKey:@"_scnaName"];
         _watchUUID = [decoder decodeObjectForKey:@"_watchUUID"];
+        _watchVersion = [decoder decodeObjectForKey:@"_watchVersion"];
         _unit = [decoder decodeObjectForKey:@"_unit"];
     }
     return self;
@@ -34,6 +35,7 @@
     [encoder encodeObject:_userResHr forKey:@"_userResHr"];
     [encoder encodeObject:_scnaName forKey:@"_scnaName"];
     [encoder encodeObject:_watchUUID forKey:@"_watchUUID"];
+    [encoder encodeObject:_watchVersion forKey:@"_watchVersion"];
     [encoder encodeObject:_unit forKey:@"_unit"];
 }
 @end

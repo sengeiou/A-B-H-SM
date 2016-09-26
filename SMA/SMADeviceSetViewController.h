@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SMADeviceSetViewController : UITableViewController
+@interface SMADeviceSetViewController : UITableViewController<BLConnectDelegate>
 @property (nonatomic, weak) IBOutlet UIImageView *deviceIma, *bleIma, *batteryIma, *antiLostIma, *noDistrubIma, *callIma, *smsIma, *screenIma, *sleepMonIma;
 @property (nonatomic, weak) IBOutlet UIButton *antiLostBut, *noDistrubBut, *callBut, *smsBut, *screenBut, *sleepMonBut;
 @property (nonatomic, weak) IBOutlet UILabel *deviceLab, *antiLostLab, *noDistrubLab, *callLab, *smsLab, *screenLab, *sleepMonLab, *sedentaryLab, *alarmLab, *HRSetLab, *vibrationLab, *backlightLab;
 @property (nonatomic, weak) IBOutlet UITableViewCell *deviceCell, *sedentaryCell, *alarmCell, *HRSetCell,*vibrationCell, *backlightCell;
+@property (nonatomic, strong) SMAUserInfo *userInfo;
 @end

@@ -17,8 +17,12 @@
 "login_hirdParty" = "第三方登录";
 "login_ing" = "Вхід у систему...";
 "login_suc" = "Успішний вхід в систему";
+"login_fail" = "登录失败";
 "login_timeout" = "Час очікування запиту";
 "login_lostNet" = "Мережа відключена";
+"login_findPass" = "Змінити пароль";
+"login_findSucc" = "Успішна модифікація";
+"login_findFail" = "Не вдалося модифікувати";
 
 "register_accplace" = "телефон";
 "register_emalplace" = "Email";
@@ -36,7 +40,7 @@
 "register_sendsucc" = "Успішно надіслано";
 "register_sendfail" = "Не вдалося надіслати";
 "register_beingreg"="Реєстрація...";
-"register_failurereg"="Не вдалося зареєструвати...";
+"register_failurereg"="Не вдалося зареєструвати";
 "register_regsucceed"="Успішна реєстрація...";
 
 //个人资料页
@@ -77,16 +81,34 @@
 
 //设备设置页
 "setting_title" = "设备";
-"setting_conDevice" = "连接新设备";
-"setting_antiLost" = "防丢提醒";
-"setting_noDistrub" = "勿扰模式";
-"setting_callNot" = "来电提醒";
-"setting_smsNot" = "短信提醒";
+"setting_conDevice" = "添加新设备";
+"setting_antiLost" = "Анти-втрачений";
+"setting_noDistrub" = "Не турбувати";
+"setting_callNot" = "виклик\nповідомлення";
+"setting_smsNot" = "SMS\nоповіщення";
 "setting_screen" = "横竖模式";
 "setting_sleepMon" = "心率测睡";
-"setting_sedentary" = "久坐";
-"setting_alarm" = "闹钟";
-"setting_heart" = "心率";
-"setting_vibration" = "震动";
-"setting_backlight" = "背光";
+"setting_sedentary" = "малорухомий";
+"setting_alarm" = "Будильник";
+"setting_heart" = "Частота пульсу";
+"setting_vibration" = "вібрації";
+"setting_backlight" = "підсвітки";
 "setting_other" = "其他";
+"setting_times" = "разів";
+"setting_seconds" = "секунд";
+"setting_turnOff" = "OFF";
+"setting_cancel" = "Відмінити";
+"setting_band_title" = "绑定设备";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_buywatch" = "Купити SMA-WATCH";
+"setting_band_attention" = "(Будь ласка, переконайтеся, що батарея годинника має достатній заряд та що годинник знаходиться поруч з телефоном)";
+"setting_band_remind07" = "Якщо Ви не можете знайти сигнал Bluetooth СМАРТ годинника, будь ласка, перейдіть в Налаштування-Bluetooth-забути мобільний пристрій (SM07).";
+"setting_band_search" = "开始搜索";
+"setting_band_searching" = "正在搜索\n(点击暂停)";
+"setting_band_connecting" = "З'єднання...";
+"setting_band_connectTimeOut" = "连接超时";
+"setting_band_connectfail" = "连接失败";
+"setting_band_binding" = "正在绑定...";
+"setting_band_bindsuccess" = "Успішне з'єднання";
+"setting_band_bindfail" = "绑定失败";
+"setting_band_remind" = "请长按手环中间按键";

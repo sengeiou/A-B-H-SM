@@ -20,6 +20,7 @@
 #define SLEEPMONSET @"SLEEPMONSET" //心率测睡
 #define VIBRATIONSET @"VIBRATIONSET" //震动设置
 #define BACKLIGHTSET @"BACKLIGHTSET" //背光设置
+#define BANDDEVELIVE @"BANDDEVELIVE" //所绑定的设备名
 
 @interface SMADefaultinfos : NSObject
 +(void)putKey:(NSString *)key andValue:(NSObject *)value;

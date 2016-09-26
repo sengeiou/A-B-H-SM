@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *scnaName;
 /*当前绑定的手表UID*/
 @property (nonatomic, strong) NSUUID *watchUUID;
+@property (nonatomic, strong) NSUUID *watchVersion;
 /*单位*/
 @property (nonatomic, strong) NSString *unit;
 @end

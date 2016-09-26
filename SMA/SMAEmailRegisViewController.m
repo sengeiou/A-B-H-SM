@@ -188,7 +188,8 @@ static int second = 60;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
             controller.leftItemHidden = YES;
-            [self presentViewController:controller animated:YES completion:nil];
+//            [self presentViewController:controller animated:YES completion:nil];
+             [UIApplication sharedApplication].keyWindow.rootViewController=controller;
         });
 
     } failure:^(NSError *erro) {

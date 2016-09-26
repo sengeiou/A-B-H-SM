@@ -17,8 +17,12 @@
 "login_hirdParty" = "第三方登录";
 "login_ing" = "正在登录...";
 "login_suc" = "登录成功";
+"login_fail" = "登录失败";
 "login_timeout" = "请求超时";
 "login_lostNet" = "网络已断开";
+"login_findPass" = "修改密码";
+"login_findSucc" = "修改密码成功";
+"login_findFail" = "修改密码失败";
 
 "register_accplace" = "请输入手机号";
 "register_emalplace" = "请输入邮箱帐号";
@@ -36,7 +40,7 @@
 "register_sendsucc" = "发送成功!";
 "register_sendfail" = "发送失败";
 "register_beingreg"="正在注册...";
-"register_failurereg"="注册失败...";
+"register_failurereg"="注册失败";
 "register_regsucceed"="注册成功...";
 
 //个人资料页
@@ -77,7 +81,7 @@
 
 //设备设置页
 "setting_title" = "设备";
-"setting_conDevice" = "连接新设备";
+"setting_conDevice" = "添加新设备";
 "setting_antiLost" = "防丢提醒";
 "setting_noDistrub" = "勿扰模式";
 "setting_callNot" = "来电提醒";
@@ -90,3 +94,21 @@
 "setting_vibration" = "震动";
 "setting_backlight" = "背光";
 "setting_other" = "其他";
+"setting_times" = "次";
+"setting_seconds" = "秒";
+"setting_turnOff" = "关闭";
+"setting_cancel" = "取消";
+"setting_band_title" = "绑定设备";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_buywatch" = "购买SMA-WATCH";
+"setting_band_attention" = "(请保证手表电量充足，并靠近手机)";
+"setting_band_remind07" = "如果搜索不到手表蓝牙，请先在设置-蓝牙-SM07-忽略此设备。";
+"setting_band_search" = "开始搜索";
+"setting_band_searching" = "正在搜索\n(点击暂停)";
+"setting_band_connecting" = "正在连接...";
+"setting_band_connectTimeOut" = "连接超时";
+"setting_band_connectfail" = "连接失败";
+"setting_band_binding" = "正在绑定...";
+"setting_band_bindsuccess" = "绑定成功";
+"setting_band_bindfail" = "绑定失败";
+"setting_band_remind" = "请长按手环中间按键";

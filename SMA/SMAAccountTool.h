@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 @class SMAUserInfo;
+@class SmaHRHisInfo;
 @interface SMAAccountTool : NSObject
 //保存用户
 + (void)saveUser:(SMAUserInfo *)userInfo;
 //获取用户
 + (SMAUserInfo *)userInfo;
-
+//保存心率设置
++ (void)saveHRHis:(SmaHRHisInfo *)HRHisInfo;
+//获取心率设置
++ (SmaHRHisInfo *)HRHisInfo;
 @end

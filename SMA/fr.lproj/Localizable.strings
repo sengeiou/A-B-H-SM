@@ -17,8 +17,12 @@
 "login_hirdParty" = "第三方登录";
 "login_ing" = "Connexion...";
 "login_suc" = "Connexion établie";
+"login_fail" = "登录失败";
 "login_timeout" = "Délai d’attente de la demande dépassé";
 "login_lostNet" = "Le réseau a été déconnecté";
+"login_findPass" = "Modifier le mot de passe";
+"login_findSucc" = "Modification terminée";
+"login_findFail" = "Échec de la modification";
 
 "register_accplace" = "Téléphone";
 "register_emalplace" = "E-mail";
@@ -36,7 +40,7 @@
 "register_sendsucc" = "Réussite de l’envoi";
 "register_sendfail" = "Échec de l’envoi";
 "register_beingreg"="Inscription...";
-"register_failurereg"="Échec de l’inscription...";
+"register_failurereg"="Échec de l’inscription";
 "register_regsucceed"="Inscription terminée...";
 
 //个人资料页
@@ -77,16 +81,34 @@
 
 //设备设置页
 "setting_title" = "设备";
-"setting_conDevice" = "连接新设备";
-"setting_antiLost" = "防丢提醒";
-"setting_noDistrub" = "勿扰模式";
-"setting_callNot" = "来电提醒";
-"setting_smsNot" = "短信提醒";
+"setting_conDevice" = "添加新设备";
+"setting_antiLost" = "Anti-lost";
+"setting_noDistrub" = "Ne pas déranger";
+"setting_callNot" = "notifications\nd'appels";
+"setting_smsNot" = "notifications\nSMS";
 "setting_screen" = "横竖模式";
 "setting_sleepMon" = "心率测睡";
-"setting_sedentary" = "久坐";
-"setting_alarm" = "闹钟";
-"setting_heart" = "心率";
-"setting_vibration" = "震动";
-"setting_backlight" = "背光";
+"setting_sedentary" = "Sédentaire";
+"setting_alarm" = "Alarme";
+"setting_heart" = "Rythme cardiaque";
+"setting_vibration" = "vibrations";
+"setting_backlight" = "rétro-éclairage";
 "setting_other" = "其他";
+"setting_times" = "heures";
+"setting_seconds" = "Secondes";
+"setting_turnOff" = "OFF";
+"setting_cancel" = "Annuler";
+"setting_band_title" = "绑定设备";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_buywatch" = "Acheter une SMA-WATCH";
+"setting_band_attention" = "(Assurez-vous que la batterie de la montre est suffisamment chargée, et que la montre est près du téléphone)";
+"setting_band_remind07" = "Si vous ne trouvez pas le signal bluetooth de la SMA WATCH, rendez-vous sur iphone Setting-bluetooth-forget the device (SM07).";
+"setting_band_search" = "开始搜索";
+"setting_band_searching" = "正在搜索\n(点击暂停)";
+"setting_band_connecting" = "Connexion en cours...";
+"setting_band_connectTimeOut" = "连接超时";
+"setting_band_connectfail" = "连接失败";
+"setting_band_binding" = "正在绑定...";
+"setting_band_bindsuccess" = "Connexion établie";
+"setting_band_bindfail" = "绑定失败";
+"setting_band_remind" = "请长按手环中间按键";

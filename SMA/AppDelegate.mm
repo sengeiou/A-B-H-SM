@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ACloudLib.h"
+#import "SMANavViewController.h"
 //#import <TencentOpenAPI/TencentOAuth.h>
 //#import "WXApi.h"
 #import "SMAthirdPartyLoginTool.h"
@@ -23,11 +24,20 @@
     [ACloudLib setMode:ACloudLibModeRouter Region:ACLoudLibRegionChina];
     [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:282];
     [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
+    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"我的")];
     if ([SMAAccountTool userInfo].userID && ![[SMAAccountTool userInfo].userID isEqualToString:@""]) {
         UITabBarController* controller = [MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+        NSArray *arrControllers = controller.viewControllers;
+        for (int i = 0; i < arrControllers.count; i ++) {
+            SMANavViewController *nav = [arrControllers objectAtIndex:i];
+            nav.tabBarItem.title = itemArr[i];
+        }
         self.window.rootViewController = controller;
     }
-    
+    SMAUserInfo *ser = [SMAAccountTool userInfo];
+    ser.watchUUID = nil;
+    [SMAAccountTool saveUser:ser];
+    [SmaBleMgr reunitonPeripheral:YES];//开启重连机制
     //首次打开APP，默认部分设置
     if (![SMADefaultinfos getValueforKey:FIRSTLUN]) {
         [SMADefaultinfos putKey:FIRSTLUN andValue:FIRSTLUN];

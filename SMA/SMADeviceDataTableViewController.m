@@ -25,6 +25,7 @@
 }
 
 - (void)createUI{
+    self.title = SMALocalizedString(@"device_title");
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;

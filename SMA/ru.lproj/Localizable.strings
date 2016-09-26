@@ -17,8 +17,12 @@
 "login_hirdParty" = "第三方登录";
 "login_ing" = "Вход...";
 "login_suc" = "Вход выполнен успешно";
+"login_fail" = "登录失败";
 "login_timeout" = "Время ожидания запроса";
 "login_lostNet" = "Сеть отключена";
+"login_findPass" = "Изменение пароля";
+"login_findSucc" = "Изменение выполнено успешно";
+"login_findFail" = "Сбой изменения";
 
 "register_accplace" = "Телефон";
 "register_emalplace" = "эл. почты";
@@ -36,7 +40,7 @@
 "register_sendsucc" = "Отправка выполнена успешно";
 "register_sendfail" = "Сбой отправки";
 "register_beingreg"="Регистрация...";
-"register_failurereg"="Сбой регистрации...";
+"register_failurereg"="Сбой регистрации";
 "register_regsucceed"="Регистрация выполнена успешно...";
 
 //个人资料页
@@ -77,16 +81,34 @@
 
 //设备设置页
 "setting_title" = "设备";
-"setting_conDevice" = "连接新设备";
-"setting_antiLost" = "防丢提醒";
-"setting_noDistrub" = "勿扰模式";
-"setting_callNot" = "来电提醒";
-"setting_smsNot" = "短信提醒";
+"setting_conDevice" = "添加新设备";
+"setting_antiLost" = "Анти-потерял";
+"setting_noDistrub" = "Не беспокоить";
+"setting_callNot" = "зов\nyведомления";
+"setting_smsNot" = "Уведомления\nSMS";
 "setting_screen" = "横竖模式";
 "setting_sleepMon" = "心率测睡";
-"setting_sedentary" = "久坐";
-"setting_alarm" = "闹钟";
-"setting_heart" = "心率";
-"setting_vibration" = "震动";
-"setting_backlight" = "背光";
+"setting_sedentary" = "сидячий";
+"setting_alarm" = "Сигнал";
+"setting_heart" = "Частота сердечных сокращений";
+"setting_vibration" = "вибрации";
+"setting_backlight" = "подсветки";
 "setting_other" = "其他";
+"setting_times" = "раз";
+"setting_seconds" = "секунд";
+"setting_turnOff" = "OFF";
+"setting_cancel" = "Отмена";
+"setting_band_title" = "绑定设备";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_buywatch" = "Купить SMA-WATCH";
+"setting_band_attention" = "(Убедитесь в том, что аккумулятор часов имеет достаточный уровень заряда и что часы расположены рядом с телефоном.)";
+"setting_band_remind07" = "Если не удается найти Bluetooth-сигнал браслета SMA WATCH, выберите iPhone Setting (Настройка iPhone), Bluetooth (Функция Bluetooth), Forget the device (SM07) (Забыть устройство [SM07]).";
+"setting_band_search" = "开始搜索";
+"setting_band_searching" = "正在搜索\n(点击暂停)";
+"setting_band_connecting" = "Выполняется подключение...";
+"setting_band_connectTimeOut" = "连接超时";
+"setting_band_connectfail" = "连接失败";
+"setting_band_binding" = "正在绑定...";
+"setting_band_bindsuccess" = "Подключение выполнено успешно";
+"setting_band_bindfail" = "绑定失败";
+"setting_band_remind" = "请长按手环中间按键";

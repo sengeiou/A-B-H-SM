@@ -17,8 +17,12 @@
 "login_hirdParty" = "第三方登录";
 "login_ing" = "logining...";
 "login_suc" = "Login successful";
+"login_fail" = "登录失败";
 "login_timeout" = "Request timeout";
 "login_lostNet" = "Network has been disconnected";
+"login_findPass" = "Modify password";
+"login_findSucc" = "Modify success";
+"login_findFail" = "Modify fail";
 
 "register_accplace" = "Phone";
 "register_emalplace" = "Email";
@@ -36,7 +40,7 @@
 "register_sendsucc" = "Send successful!";
 "register_sendfail" = "Send failure";
 "register_beingreg"="Registering...";
-"register_failurereg"="Register failed...";
+"register_failurereg"="Register failed";
 "register_regsucceed"="Register successful...";
 
 //个人资料页
@@ -77,16 +81,34 @@
 
 //设备设置页
 "setting_title" = "设备";
-"setting_conDevice" = "连接新设备";
-"setting_antiLost" = "防丢提醒";
-"setting_noDistrub" = "勿扰模式";
-"setting_callNot" = "来电提醒";
-"setting_smsNot" = "短信提醒";
+"setting_conDevice" = "添加新设备";
+"setting_antiLost" = "Anti-lost";
+"setting_noDistrub" = "Do not disturb";
+"setting_callNot" = "CALL\nNOTIFICATIONS";
+"setting_smsNot" = "SMS\nNOTIFICATIONS";
 "setting_screen" = "横竖模式";
 "setting_sleepMon" = "心率测睡";
-"setting_sedentary" = "久坐";
-"setting_alarm" = "闹钟";
-"setting_heart" = "心率";
-"setting_vibration" = "震动";
-"setting_backlight" = "背光";
+"setting_sedentary" = "SEDENTARY";
+"setting_alarm" = "ALARM";
+"setting_heart" = "Heart Rate";
+"setting_vibration" = "Vibrate";
+"setting_backlight" = "Backlit";
 "setting_other" = "其他";
+"setting_times" = "times";
+"setting_seconds" = "seconds";
+"setting_turnOff" = "OFF";
+"setting_cancel" = "Cancel";
+"setting_band_title" = "绑定设备";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_buywatch" = "Buy SMA-WATCH";
+"setting_band_attention" = "(Please make sure that the watch battery has sufficient charge, and the watch is close to the phone)";
+"setting_band_remind07" = "If you can't find SMA WATCH bluetooth signal, please go to iphone Setting-bluetooth-forget the device (SM07).";
+"setting_band_search" = "开始搜索";
+"setting_band_searching" = "正在搜索\n(点击暂停)";
+"setting_band_connecting" = "Connecting...";
+"setting_band_connectTimeOut" = "连接超时";
+"setting_band_connectfail" = "连接失败";
+"setting_band_binding" = "正在绑定...";
+"setting_band_bindsuccess" = "Connect successful";
+"setting_band_bindfail" = "绑定失败";
+"setting_band_remind" = "请长按手环中间按键";

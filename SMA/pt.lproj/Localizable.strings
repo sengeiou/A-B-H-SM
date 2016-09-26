@@ -17,8 +17,12 @@
 "login_hirdParty" = "第三方登录";
 "login_ing" = "logining...";
 "login_suc" = "Início de sessão com sucesso";
+"login_fail" = "登录失败";
 "login_timeout" = "Tempo esgotado do pedido";
 "login_lostNet" = "A rede foi desligada";
+"login_findPass" = "Alterar palavra-passe";
+"login_findSucc" = "Modificado com sucesso";
+"login_findFail" = "Falha ao modificar";
 
 "register_accplace" = "Telefone";
 "register_emalplace" = "e-mail";
@@ -36,7 +40,7 @@
 "register_sendsucc" = "Enviado com sucesso";
 "register_sendfail" = "Enviar falha";
 "register_beingreg"="A registar...";
-"register_failurereg"="Registo falhado...";
+"register_failurereg"="Registo falhado";
 "register_regsucceed"="Registo com sucesso...";
 
 //个人资料页
@@ -77,16 +81,34 @@
 
 //设备设置页
 "setting_title" = "设备";
-"setting_conDevice" = "连接新设备";
-"setting_antiLost" = "防丢提醒";
-"setting_noDistrub" = "勿扰模式";
-"setting_callNot" = "来电提醒";
-"setting_smsNot" = "短信提醒";
+"setting_conDevice" = "添加新设备";
+"setting_antiLost" = "Anti-lost";
+"setting_noDistrub" = "Não perturbar";
+"setting_callNot" = "notificações\nchamadas";
+"setting_smsNot" = "notificação\nSMS";
 "setting_screen" = "横竖模式";
 "setting_sleepMon" = "心率测睡";
-"setting_sedentary" = "久坐";
-"setting_alarm" = "闹钟";
-"setting_heart" = "心率";
-"setting_vibration" = "震动";
-"setting_backlight" = "背光";
+"setting_sedentary" = "Sedentário";
+"setting_alarm" = "Alarme";
+"setting_heart" = "Frequência cardíaca";
+"setting_vibration" = "vibração";
+"setting_backlight" = "retroiluminação";
 "setting_other" = "其他";
+"setting_times" = "vezes";
+"setting_seconds" = "segundos";
+"setting_turnOff" = "OFF";
+"setting_cancel" = "Cancelar";
+"setting_band_title" = "绑定设备";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_buywatch" = "Comprar o SMA-WATCH";
+"setting_band_attention" = "(Certifique-se que a bateria do relógio tem carga suficiente e que o relógio está perto do telefone)";
+"setting_band_remind07" = "Caso não consida encontrar o sinal Bluetooth de SMA WATCH, aceda a Definições-bluetooth-esquecer o dispositivo (SM07).";
+"setting_band_search" = "开始搜索";
+"setting_band_searching" = "正在搜索\n(点击暂停)";
+"setting_band_connecting" = "A conectar...";
+"setting_band_connectTimeOut" = "连接超时";
+"setting_band_connectfail" = "连接失败";
+"setting_band_binding" = "正在绑定...";
+"setting_band_bindsuccess" = "Conectado com sucesso";
+"setting_band_bindfail" = "绑定失败";
+"setting_band_remind" = "请长按手环中间按键";

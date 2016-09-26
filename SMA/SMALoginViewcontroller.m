@@ -9,6 +9,7 @@
 #import "SMALoginViewcontroller.h"
 #import "ACAccountManager.h"
 #import "SMAthirdPartyManager.h"
+#import "SMANavViewController.h"
 @interface SMALoginViewcontroller (){
   NSString *LoginProvider;
 }
@@ -127,14 +128,21 @@
         });
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             UITabBarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
-            [self presentViewController:controller animated:YES completion:nil];
+             NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"我的")];
+            NSArray *arrControllers = controller.viewControllers;
+            for (int i = 0; i < arrControllers.count; i ++) {
+                SMANavViewController *nav = [arrControllers objectAtIndex:i];
+                nav.tabBarItem.title = itemArr[i];
+            }
+            [UIApplication sharedApplication].keyWindow.rootViewController=controller;
+//            [self presentViewController:controller animated:YES completion:nil];
         });
 
         
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         if ([error.userInfo objectForKey:@"errorInfo"]) {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]]];
+            [MBProgressHUD showError:[NSString stringWithFormat:@"%ld %@",(long)error.code,SMALocalizedString(@"login_fail")]];
         }
         else if (error.code == -1001) {
             [MBProgressHUD showError:SMALocalizedString(@"alert_request_timeout")];
@@ -177,7 +185,7 @@
     // 3.执行动画
   
     [UIView animateWithDuration:duration animations:^{
-        self.view.transform = CGAffineTransformMakeTranslation(0, -150);
+        self.view.transform = CGAffineTransformMakeTranslation(0, -120);
         _backBut.hidden = YES;// 上移或者导航栏效果不理想，直接隐藏返回键
     }];
 
