@@ -54,14 +54,13 @@
     SectionsViewController* country2=[[SectionsViewController alloc] init];
     country2.delegate=self;
     [self presentViewController:country2 animated:YES completion:^{
-        ;
+        
     }];
 
 }
 
 #pragma mark *******创建UI
 - (void)createUI{
-//    self.navigationItem
     [_accountField setValue:FontGothamLight(14) forKeyPath:@"_placeholderLabel.font"];
     _accountField.placeholder = SMALocalizedString(@"login_accplace");
     [_passwordField setValue:FontGothamLight(14) forKeyPath:@"_placeholderLabel.font"];

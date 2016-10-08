@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @class SMAUserInfo;
 @class SmaHRHisInfo;
+@class SmaSeatInfo;
 @interface SMAAccountTool : NSObject
 //保存用户
 + (void)saveUser:(SMAUserInfo *)userInfo;
@@ -18,4 +19,7 @@
 + (void)saveHRHis:(SmaHRHisInfo *)HRHisInfo;
 //获取心率设置
 + (SmaHRHisInfo *)HRHisInfo;
+//久坐设置
++ (void)saveSeat:(SmaSeatInfo *)seatInfo;
++ (SmaSeatInfo *)seatInfo;
 @end

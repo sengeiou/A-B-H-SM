@@ -142,8 +142,10 @@
 		EE9AB5C21D6EF5EA0028F8DA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = EE9AB5BC1D6EF5EA0028F8DA /* README.txt */; };
 		EE9AB5C41D6EF6170028F8DA /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9AB5C31D6EF6170028F8DA /* libsqlite3.0.tbd */; };
 		EE9AB5C71D6EFB540028F8DA /* SMAthirdPartyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9AB5C61D6EFB540028F8DA /* SMAthirdPartyManager.m */; };
-		EEA833FD1D9662D900AF4CA9 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA833FC1D9662D900AF4CA9 /* libSmaBLE.a */; };
+		EEA5D7081D9CC16C006F2803 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA5D7071D9CC16C006F2803 /* libSmaBLE.a */; };
 		EEA834001D96765800AF4CA9 /* SMAFindPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA833FF1D96765800AF4CA9 /* SMAFindPassViewController.m */; };
+		EEAD8E9A1D9A1997009128BB /* SMASedentEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAD8E981D9A1997009128BB /* SMASedentEditCell.m */; };
+		EEAD8E9B1D9A1997009128BB /* SMASedentEditCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEAD8E991D9A1997009128BB /* SMASedentEditCell.xib */; };
 		EEAE8F1A1D952ED4008F82CE /* SMABindRemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE8F191D952ED4008F82CE /* SMABindRemindView.m */; };
 		EEB09AAF1D79214500E34B9D /* SMADeviceDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB09AAE1D79214500E34B9D /* SMADeviceDataTableViewController.m */; };
 		EEB9F68E1D64318B0011AA07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F68D1D64318B0011AA07 /* main.m */; };
@@ -167,6 +169,10 @@
 		EED2F7C61D71ADCC00527FA7 /* UINavigationController+MTKNaVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EED2F7C51D71ADCC00527FA7 /* UINavigationController+MTKNaVC.m */; };
 		EED44BAD1D73D40500BF7D07 /* SMAAgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAC1D73D40500BF7D07 /* SMAAgeViewController.m */; };
 		EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */; };
+		EEE79A8A1D9CF252005683BA /* SMATimePickView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE79A891D9CF252005683BA /* SMATimePickView.m */; };
+		EEEDD2971D98C93B009D6CA3 /* SMASedentaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2961D98C93B009D6CA3 /* SMASedentaryController.m */; };
+		EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */; };
+		EEEDD29C1D98FFEF009D6CA3 /* SMASedentaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -507,9 +513,12 @@
 		EE9AB5C31D6EF6170028F8DA /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		EE9AB5C51D6EFB540028F8DA /* SMAthirdPartyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAthirdPartyManager.h; sourceTree = "<group>"; };
 		EE9AB5C61D6EFB540028F8DA /* SMAthirdPartyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAthirdPartyManager.m; sourceTree = "<group>"; };
-		EEA833FC1D9662D900AF4CA9 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
+		EEA5D7071D9CC16C006F2803 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EEA833FE1D96765800AF4CA9 /* SMAFindPassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAFindPassViewController.h; sourceTree = "<group>"; };
 		EEA833FF1D96765800AF4CA9 /* SMAFindPassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAFindPassViewController.m; sourceTree = "<group>"; };
+		EEAD8E971D9A1997009128BB /* SMASedentEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASedentEditCell.h; sourceTree = "<group>"; };
+		EEAD8E981D9A1997009128BB /* SMASedentEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASedentEditCell.m; sourceTree = "<group>"; };
+		EEAD8E991D9A1997009128BB /* SMASedentEditCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMASedentEditCell.xib; sourceTree = "<group>"; };
 		EEAE8F181D952ED4008F82CE /* SMABindRemindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMABindRemindView.h; sourceTree = "<group>"; };
 		EEAE8F191D952ED4008F82CE /* SMABindRemindView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMABindRemindView.m; sourceTree = "<group>"; };
 		EEB09AAD1D79214500E34B9D /* SMADeviceDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADeviceDataTableViewController.h; sourceTree = "<group>"; };
@@ -559,6 +568,13 @@
 		EED44BAC1D73D40500BF7D07 /* SMAAgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAgeViewController.m; sourceTree = "<group>"; };
 		EED44BAE1D73D8B900BF7D07 /* SMAPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPickerView.h; sourceTree = "<group>"; };
 		EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPickerView.m; sourceTree = "<group>"; };
+		EEE79A881D9CF252005683BA /* SMATimePickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATimePickView.h; sourceTree = "<group>"; };
+		EEE79A891D9CF252005683BA /* SMATimePickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATimePickView.m; sourceTree = "<group>"; };
+		EEEDD2951D98C93B009D6CA3 /* SMASedentaryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASedentaryController.h; sourceTree = "<group>"; };
+		EEEDD2961D98C93B009D6CA3 /* SMASedentaryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASedentaryController.m; sourceTree = "<group>"; };
+		EEEDD2981D98FFEF009D6CA3 /* SMASedentaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASedentaryCell.h; sourceTree = "<group>"; };
+		EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASedentaryCell.m; sourceTree = "<group>"; };
+		EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMASedentaryCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -571,7 +587,7 @@
 				EE0E14181D6708590054BE87 /* libstdc++.tbd in Frameworks */,
 				EE0E14161D6708520054BE87 /* CoreTelephony.framework in Frameworks */,
 				EE0E14141D6708420054BE87 /* libsqlite3.tbd in Frameworks */,
-				EEA833FD1D9662D900AF4CA9 /* libSmaBLE.a in Frameworks */,
+				EEA5D7081D9CC16C006F2803 /* libSmaBLE.a in Frameworks */,
 				EE0E14121D6708350054BE87 /* CoreGraphics.framework in Frameworks */,
 				EE0E14101D67082C0054BE87 /* SystemConfiguration.framework in Frameworks */,
 				EE0E140E1D6708240054BE87 /* Security.framework in Frameworks */,
@@ -619,7 +635,7 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EEA833FC1D9662D900AF4CA9 /* libSmaBLE.a */,
+				EEA5D7071D9CC16C006F2803 /* libSmaBLE.a */,
 				EE30F2E51D8E284300869CF9 /* SmaAlarmInfo.h */,
 				EE30F2E61D8E284300869CF9 /* SmaBLE.h */,
 				EE30F2E71D8E284300869CF9 /* SmaBusinessTool.h */,
@@ -1610,6 +1626,15 @@
 			path = SDKExport;
 			sourceTree = "<group>";
 		};
+		EEAD8E9C1D9A1F6D009128BB /* MainVC */ = {
+			isa = PBXGroup;
+			children = (
+				EEB09AA91D79208E00E34B9D /* DeviceData */,
+				EECC9DC11D88F2B80019CAD8 /* DeviceSetting */,
+			);
+			name = MainVC;
+			sourceTree = "<group>";
+		};
 		EEB09AA91D79208E00E34B9D /* DeviceData */ = {
 			isa = PBXGroup;
 			children = (
@@ -1653,8 +1678,7 @@
 				EEB9F6BA1D6443200011AA07 /* other */,
 				EEB9F6B61D6438190011AA07 /* LoginRegis */,
 				EED2F7B81D7195E400527FA7 /* UserInfo */,
-				EEB09AA91D79208E00E34B9D /* DeviceData */,
-				EECC9DC11D88F2B80019CAD8 /* DeviceSetting */,
+				EEAD8E9C1D9A1F6D009128BB /* MainVC */,
 				EED2F7BF1D719BCC00527FA7 /* Navigation */,
 				EEB9F6AA1D64324C0011AA07 /* Global全局 */,
 				EEB9F68F1D64318B0011AA07 /* AppDelegate.h */,
@@ -1738,6 +1762,8 @@
 				EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */,
 				EE8169971D8E801B003BEDDF /* SMAPairViewController.h */,
 				EE8169981D8E801B003BEDDF /* SMAPairViewController.m */,
+				EEEDD2951D98C93B009D6CA3 /* SMASedentaryController.h */,
+				EEEDD2961D98C93B009D6CA3 /* SMASedentaryController.m */,
 				EECC9DC51D88F3190019CAD8 /* VIEW */,
 			);
 			name = DeviceSetting;
@@ -1753,6 +1779,14 @@
 				EE8420EE1D93AAC5007DA9C6 /* SMADeviceCell.xib */,
 				EEAE8F181D952ED4008F82CE /* SMABindRemindView.h */,
 				EEAE8F191D952ED4008F82CE /* SMABindRemindView.m */,
+				EEEDD2981D98FFEF009D6CA3 /* SMASedentaryCell.h */,
+				EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */,
+				EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */,
+				EEAD8E971D9A1997009128BB /* SMASedentEditCell.h */,
+				EEAD8E981D9A1997009128BB /* SMASedentEditCell.m */,
+				EEAD8E991D9A1997009128BB /* SMASedentEditCell.xib */,
+				EEE79A881D9CF252005683BA /* SMATimePickView.h */,
+				EEE79A891D9CF252005683BA /* SMATimePickView.m */,
 			);
 			name = VIEW;
 			sourceTree = "<group>";
@@ -1898,8 +1932,10 @@
 				EEB9F6BD1D6443340011AA07 /* Gotham-Light_0.otf in Resources */,
 				EE12EF2C1D7D6BCB0096F811 /* SMADieviceDataCell.xib in Resources */,
 				EEB9F69C1D64318B0011AA07 /* LaunchScreen.storyboard in Resources */,
+				EEAD8E9B1D9A1997009128BB /* SMASedentEditCell.xib in Resources */,
 				EE4B1D981D647DCC00825E2B /* Info.plist in Resources */,
 				EE9AB5C21D6EF5EA0028F8DA /* README.txt in Resources */,
+				EEEDD29C1D98FFEF009D6CA3 /* SMASedentaryCell.xib in Resources */,
 				EEB9F6A61D6431F30011AA07 /* Localizable.strings in Resources */,
 				EE4B1C171D646A0500825E2B /* country.plist in Resources */,
 				EEB9F6C11D6443430011AA07 /* Gotham-Medium.otf in Resources */,
@@ -1940,6 +1976,7 @@
 				EE4B1D811D647DCC00825E2B /* QNAsyncRun.m in Sources */,
 				EE4B1C111D6469C900825E2B /* NSDictionary-DeepMutableCopy.m in Sources */,
 				EE4B1D991D647DCC00825E2B /* QNReachability.m in Sources */,
+				EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */,
 				EE4B1D721D647DCC00825E2B /* AFNetworkActivityIndicatorManager.m in Sources */,
 				EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */,
 				EE91FABC1D83DCBF0064A5A5 /* SDRotationLoopProgressView.m in Sources */,
@@ -1981,6 +2018,7 @@
 				EE4B1D8C1D647DCC00825E2B /* QNDnspodEnterprise.m in Sources */,
 				EE91FAB51D83DC200064A5A5 /* SDLoopProgressView.m in Sources */,
 				EEA834001D96765800AF4CA9 /* SMAFindPassViewController.m in Sources */,
+				EEEDD2971D98C93B009D6CA3 /* SMASedentaryController.m in Sources */,
 				EE4B1DA81D647DCC00825E2B /* ESPTouchGenerator.m in Sources */,
 				EE4B1DAF1D647DCC00825E2B /* ESP_CRC8.m in Sources */,
 				EE4B1C201D64767C00825E2B /* UIImage+CKQ.m in Sources */,
@@ -1994,6 +2032,7 @@
 				EE4B1D6F1D647DCC00825E2B /* AFURLSessionManager.m in Sources */,
 				EE4B1D771D647DCC00825E2B /* UIRefreshControl+AFNetworking.m in Sources */,
 				EE4B1DAC1D647DCC00825E2B /* ESPUDPSocketClient.m in Sources */,
+				EEE79A8A1D9CF252005683BA /* SMATimePickView.m in Sources */,
 				EE4B1D711D647DCC00825E2B /* AFImageDownloader.m in Sources */,
 				EE4B1D8D1D647DCC00825E2B /* QNDnspodFree.m in Sources */,
 				EE4B1DAD1D647DCC00825E2B /* ESPUDPSocketServer.m in Sources */,
@@ -2038,6 +2077,7 @@
 				EE4B1D781D647DCC00825E2B /* UIWebView+AFNetworking.m in Sources */,
 				EEB9F6911D64318B0011AA07 /* AppDelegate.mm in Sources */,
 				EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */,
+				EEAD8E9A1D9A1997009128BB /* SMASedentEditCell.m in Sources */,
 				EE4B1D691D647DCC00825E2B /* aes_core.c in Sources */,
 				EE4B1D8E1D647DCC00825E2B /* QNHijackingDetectWrapper.m in Sources */,
 				EEB9F68E1D64318B0011AA07 /* main.m in Sources */,

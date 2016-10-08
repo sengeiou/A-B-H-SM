@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Gotham-Light_0.otf">
+            <string>Gotham-Light</string>
+            <string>Gotham-Light</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="KGk-i7-Jjw" customClass="SMASedentaryCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0wb-VP-Hf2">
+                        <rect key="frame" x="15" y="14" width="65" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="65" id="1r9-89-kgQ"/>
+                            <constraint firstAttribute="height" constant="25" id="yZQ-bD-WVm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="25"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQP-fk-iBJ">
+                        <rect key="frame" x="88" y="16" width="15" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="hmi-fp-OoJ"/>
+                            <constraint firstAttribute="height" constant="21" id="xfc-LX-BqQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xj-U9-kt3">
+                        <rect key="frame" x="111" y="14" width="65" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="AaD-Tn-Fps"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="65" id="Qid-uf-E6B"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="25"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-Aa-Jh7">
+                        <rect key="frame" x="256" y="34" width="51" height="31"/>
+                        <color key="onTintColor" red="0.40000000000000002" green="0.74117647060000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <action selector="switchSelector:" destination="KGk-i7-Jjw" eventType="valueChanged" id="SOw-Oo-GfP"/>
+                        </connections>
+                    </switch>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="重复" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bE4-RT-7XG">
+                        <rect key="frame" x="15" y="70" width="34" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="Jxn-Hf-oqH"/>
+                            <constraint firstAttribute="height" constant="21" id="QzY-6y-NkD"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周一 周二 周三 周四 周五" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dRr-zQ-VH9">
+                        <rect key="frame" x="57" y="70" width="192" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Yt9-5B-5YY"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.66666666669999997" green="0.6705882353" blue="0.67843137249999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="0Xj-U9-kt3" firstAttribute="centerY" secondItem="0wb-VP-Hf2" secondAttribute="centerY" id="2NU-PU-0Lw"/>
+                    <constraint firstItem="0wb-VP-Hf2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="7rb-4n-IBM"/>
+                    <constraint firstItem="iQP-fk-iBJ" firstAttribute="centerY" secondItem="0wb-VP-Hf2" secondAttribute="centerY" id="Cov-V8-3kW"/>
+                    <constraint firstItem="yfe-Aa-Jh7" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="EXr-TT-cok"/>
+                    <constraint firstAttribute="bottom" secondItem="bE4-RT-7XG" secondAttribute="bottom" constant="8" id="Ljw-3b-hOJ"/>
+                    <constraint firstItem="dRr-zQ-VH9" firstAttribute="centerY" secondItem="bE4-RT-7XG" secondAttribute="centerY" id="MJL-rc-7n8"/>
+                    <constraint firstItem="0wb-VP-Hf2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="Nrl-tq-Ntv"/>
+                    <constraint firstAttribute="trailing" secondItem="dRr-zQ-VH9" secondAttribute="trailing" constant="71" id="Q1u-aL-ShD"/>
+                    <constraint firstItem="dRr-zQ-VH9" firstAttribute="leading" secondItem="bE4-RT-7XG" secondAttribute="trailing" constant="8" id="Su4-2h-kPI"/>
+                    <constraint firstAttribute="trailing" secondItem="yfe-Aa-Jh7" secondAttribute="trailing" constant="15" id="VCo-Md-osy"/>
+                    <constraint firstItem="0Xj-U9-kt3" firstAttribute="leading" secondItem="iQP-fk-iBJ" secondAttribute="trailing" constant="8" id="bMX-IB-cmA"/>
+                    <constraint firstItem="bE4-RT-7XG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="bXp-NS-1UA"/>
+                    <constraint firstItem="iQP-fk-iBJ" firstAttribute="leading" secondItem="0wb-VP-Hf2" secondAttribute="trailing" constant="8" id="jHY-Ss-zKs"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="amLab" destination="0wb-VP-Hf2" id="kBQ-9r-Rbf"/>
+                <outlet property="pmLab" destination="0Xj-U9-kt3" id="ZK2-QD-5E1"/>
+                <outlet property="repeatLab" destination="bE4-RT-7XG" id="o2R-JQ-zAU"/>
+                <outlet property="sedSwitch" destination="yfe-Aa-Jh7" id="Yb6-GC-uFN"/>
+                <outlet property="weekLab" destination="dRr-zQ-VH9" id="Lpe-py-LbH"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

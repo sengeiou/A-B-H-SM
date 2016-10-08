@@ -16,8 +16,8 @@
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
     NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
-    if (![preferredLang isEqualToString:@"zh"] && ![preferredLang isEqualToString:@"fr"]&& ![preferredLang isEqualToString:@"uk"]&& ![preferredLang isEqualToString:@"es"]&& ![preferredLang isEqualToString:@"it"]&& ![preferredLang isEqualToString:@"pt"]&& ![preferredLang isEqualToString:@"hu"]&& ![preferredLang isEqualToString:@"ro"]) {
-        
+    NSLog(@"preferredLangpreferredLangpreferredLang==%@",preferredLang);
+    if (![preferredLang isEqualToString:@"zh"] && ![preferredLang isEqualToString:@"fr"]&& ![preferredLang isEqualToString:@"uk"]&& ![preferredLang isEqualToString:@"es"]&& ![preferredLang isEqualToString:@"it"]&& ![preferredLang isEqualToString:@"pt"]&& ![preferredLang isEqualToString:@"hu"]&& ![preferredLang isEqualToString:@"ro"]&& ![preferredLang isEqualToString:@"pl"]&& ![preferredLang isEqualToString:@"ru"]) {
         NSString * path = [[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"];
         
         NSBundle * languageBundle = [NSBundle bundleWithPath:path];

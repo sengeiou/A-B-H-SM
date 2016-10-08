@@ -14,6 +14,7 @@
     UIPickerView *pickView;
     NSInteger selectComponent;
 }
+
 - (id)initWithFrame:(CGRect)frame ButtonTitles:(NSArray *)titles ickerMessage:(NSArray *)mesArr{
     self = [super initWithFrame:frame];
     if (self) {

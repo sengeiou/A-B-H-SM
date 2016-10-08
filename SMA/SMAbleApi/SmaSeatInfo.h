@@ -16,13 +16,17 @@
 //检测周期（0~255）
 @property (nonatomic,strong) NSString *seatValue;
 //开始时间
-@property (nonatomic,strong) NSString *beginTime;
+@property (nonatomic,strong) NSString *beginTime0;
 //结束时间
-@property (nonatomic,strong) NSString *endTime;
+@property (nonatomic,strong) NSString *endTime0;
+//是否开启提醒0
+@property (nonatomic,strong) NSString *isOpen0;
 //开始时间
 @property (nonatomic,strong) NSString *beginTime1;
 //结束时间
 @property (nonatomic,strong) NSString *endTime1;
+//是否开启提醒1
+@property (nonatomic,strong) NSString *isOpen1;
 //重复周
 @property (nonatomic,strong) NSString *repeatWeek;
 

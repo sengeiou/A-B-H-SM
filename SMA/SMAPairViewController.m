@@ -139,7 +139,7 @@
 }
 
 - (void)bleBindState:(int)state{
-    
+    NSLog(@"bleBindState");
     if (state == 0) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showMessage:SMALocalizedString(@"setting_band_binding")];

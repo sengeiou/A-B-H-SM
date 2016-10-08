@@ -34,9 +34,9 @@
         }
         self.window.rootViewController = controller;
     }
-    SMAUserInfo *ser = [SMAAccountTool userInfo];
-    ser.watchUUID = nil;
-    [SMAAccountTool saveUser:ser];
+//    SMAUserInfo *ser = [SMAAccountTool userInfo];
+//    ser.watchUUID = nil;
+//    [SMAAccountTool saveUser:ser];
     [SmaBleMgr reunitonPeripheral:YES];//开启重连机制
     //首次打开APP，默认部分设置
     if (![SMADefaultinfos getValueforKey:FIRSTLUN]) {
