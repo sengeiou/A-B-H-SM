@@ -135,3 +135,9 @@
 "setting_sedentary_cancel" = "Anulare";
 "setting_sedentary_achieve" = "Execută";
 "setting_setSuccess" = "Setare finalizată cu succes!";
+"setting_alarm_title" = "Alarmă";
+"setting_alarm_edit" = "编辑";
+"setting_alarm_add" = "Adăugare alarmă";
+"setting_alarm_set" = "闹钟设置";
+"setting_alarm_lable" = "Etichetă";
+"setting_alarm_limit" = "闹钟不能多于8个";

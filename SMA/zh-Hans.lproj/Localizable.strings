@@ -135,3 +135,9 @@
 "setting_sedentary_cancel" = "取消";
 "setting_sedentary_achieve" = "完成";
 "setting_setSuccess" = "设定成功!";
+"setting_alarm_title" = "闹钟";
+"setting_alarm_edit" = "编辑";
+"setting_alarm_add" = "添加闹钟";
+"setting_alarm_set" = "闹钟设置";
+"setting_alarm_lable" = "标签";
+"setting_alarm_limit" = "闹钟不能多于8个";

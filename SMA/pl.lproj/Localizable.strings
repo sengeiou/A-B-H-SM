@@ -135,3 +135,9 @@
 "setting_sedentary_cancel" = "Anuluj";
 "setting_sedentary_achieve" = "Osiągnięto";
 "setting_setSuccess" = "Ustawienia przeprowadzone prawidłowo!";
+"setting_alarm_title" = "Alarm";
+"setting_alarm_edit" = "编辑";
+"setting_alarm_add" = "Dodaj Alarm";
+"setting_alarm_set" = "闹钟设置";
+"setting_alarm_lable" = "Etykieta";
+"setting_alarm_limit" = "闹钟不能多于8个";

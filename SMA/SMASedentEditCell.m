@@ -17,7 +17,7 @@
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self createUI];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -28,12 +28,11 @@
 
 - (void)setEdit:(BOOL)edit{
     _edit = edit;
-//    [self updateUI];
+    [self updateUI];
 }
 
 - (void)createUI{
      CGSize fontsize = [_deleBut.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(20)}];
-    
     _scrollView.frame = CGRectMake(0, 0, MainScreen.size.width, 100);
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.delegate = self;
@@ -49,6 +48,18 @@
      CGSize titlesize = [_titleLab.text sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(16)}];
     _titleLab.frame = CGRectMake(20, CGRectGetMaxY(_timeLab.frame), titlesize.width , 21);
     _weakLab.frame = CGRectMake(CGRectGetMaxX(_titleLab.frame), CGRectGetMaxY(_timeLab.frame), _backView.frame.size.width-titlesize.width - 80, 21);
+    _accessoryIma.alpha = 0;
+    _accessoryIma.hidden = NO;
+//    _alarmSwitch.hidden = NO;
+}
+
+-(void)setAlarmInfo:(SmaAlarmInfo *)alarmInfo{
+    _alarmInfo = alarmInfo;
+    _timeLab.text = [NSString stringWithFormat:@"%@:%@",alarmInfo.hour.intValue>9?alarmInfo.hour:[NSString stringWithFormat:@"0%@",alarmInfo.hour],alarmInfo.minute.intValue>9?alarmInfo.minute:[NSString stringWithFormat:@"0%@",alarmInfo.minute]];
+    _titleLab.text = [NSString stringWithFormat:@"%@,",alarmInfo.tagname];
+    _weakLab.text=[self weekStrConvert:alarmInfo.dayFlags];
+    _alarmSwitch.on = alarmInfo.isOpen;
+    [self createUI];
 }
 
 - (void)updateUI{
@@ -58,8 +69,8 @@
     }
         [UIView animateWithDuration:0.5 animations:^{
             _scrollView.contentOffset = CGPointMake(_edit?0:30, 0);
-            _alarmSwitch.hidden = _edit;
-            _accessoryIma.hidden = !_edit;
+            _alarmSwitch.alpha = !_edit;
+            _accessoryIma.alpha = _edit;
         } completion:^(BOOL finished) {
             editing = _edit;
         }];
@@ -158,8 +169,8 @@
     else{
         [UIView animateWithDuration:0.5 animations:^{
             _scrollView.contentOffset = CGPointMake(_edit?0:30, 0);
-            _alarmSwitch.hidden = _edit;
-            _accessoryIma.hidden = !_edit;
+            _alarmSwitch.alpha = !_edit;
+            _accessoryIma.alpha = _edit;
         } completion:^(BOOL finished) {
             if (_edit) {
                  editing = YES;
@@ -185,7 +196,8 @@
 
 
 - (IBAction)pushSelector:(id)sender{
-    NSLog(@"点距2");
+    NSLog(@"点距2  %@",_alarmInfo);
+    _pushBlock(_alarmInfo);
 }
 
 - (IBAction)pushBeginSelector:(id)sender{
@@ -198,9 +210,86 @@
             undrag = NO;
         }];
     }
-        //    [UIView animateWithDuration:0.5 animations:^{
-    //        _scrollView.contentOffset = CGPointMake(_deleBut.frame.size.width + CGRectGetWidth(_editBut.frame), 0);
-    //    }];
+}
+
+- (IBAction)deleteSelector:(id)sender{
+    _deleteBlock(_alarmInfo,self);
+}
+
+- (void)switchSelector:(UISwitch *)sender{
+    if ([SmaBleMgr checkBLConnectState]) {
+        _alarmInfo.isOpen = [NSString stringWithFormat:@"%d",sender.on];
+        _switchBlock(sender,_alarmInfo);
+    }
+    else{
+       _alarmSwitch.on = _alarmInfo.isOpen;
+    }
+}
+
+- (void)tapSwitchBlock:(openButton) block{
+     _switchBlock = block;
+     [_alarmSwitch addTarget:self action:@selector(switchSelector:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(NSString *)weekStrConvert:(NSString *)weekStr
+{
+    NSArray *week=[[SMACalculate toBinarySystemWithDecimalSystem:weekStr] componentsSeparatedByString: @","];
+    NSString *str=@"";
+    int counts=0;
+    int workCounts=0;
+    int weekendConts = 0;
+    for (int i=0; i<week.count; i++) {
+        if([week[i] intValue]==1)
+        {
+            counts++;
+            str=[NSString stringWithFormat:@"%@  %@",str,[self stringWith:i]];
+            if (i < 5) {
+                workCounts ++;
+            }
+            if (i > 4) {
+                weekendConts ++;
+            }
+        }
+    }
+    if (workCounts == 0 && weekendConts == 2) {
+        str=SMALocalizedString(@"setting_sedentary_weekend");
+    }
+    else if(workCounts == 5 && weekendConts == 0) {
+        str=SMALocalizedString(@"setting_sedentary_workday");
+    }
+    if(counts==7){
+        str=SMALocalizedString(@"setting_sedentary_every");
+    }
+    return str;
+    
+}
+
+-(NSString *)stringWith:(int)weekInt
+{
+    NSString *weekStr=@"";
+    switch (weekInt) {
+        case 0:
+            weekStr= SMALocalizedString(@"setting_sedentary_mon");
+            break;
+        case 1:
+            weekStr= SMALocalizedString(@"setting_sedentary_tue");
+            break;
+        case 2:
+            weekStr= SMALocalizedString(@"setting_sedentary_wed");
+            break;
+        case 3:
+            weekStr= SMALocalizedString(@"setting_sedentary_thu");
+            break;
+        case 4:
+            weekStr= SMALocalizedString(@"setting_sedentary_fri");
+            break;
+        case 5:
+            weekStr= SMALocalizedString(@"setting_sedentary_sat");
+            break;
+        default:
+            weekStr= SMALocalizedString(@"setting_sedentary_sun");
+    }
+    return weekStr;
 }
 
 @end

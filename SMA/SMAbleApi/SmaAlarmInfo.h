@@ -11,5 +11,6 @@
 @property (nonatomic,strong) NSString *mounth;   //月份
 @property (nonatomic,strong) NSString *year;     //年份
 @property (nonatomic,strong) NSString *tagname;  //闹钟名字(限07)
-
+@property (nonatomic,strong) NSString *isOpen;   //是否开启
+@property (nonatomic,strong) NSString *isWeb;    //是否同步服务器
 @end

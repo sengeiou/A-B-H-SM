@@ -36,7 +36,7 @@
     if (!seat) {
         seat = [[SmaSeatInfo alloc] init];
         seat.isOpen = @"1";
-        seat.repeatWeek = @"1,1,1,1,1,0,0";
+        seat.repeatWeek = @"124";
         seat.beginTime0 = @"8";
         seat.endTime0 = @"21";
         seat.isOpen0 = @"0";
@@ -47,7 +47,6 @@
         seat.stepValue = @"30";
         [SMAAccountTool saveSeat:seat];
     }
-    seat.stepValue = @"33";
     weekString = seat.repeatWeek;
     headerArr = @[SMALocalizedString(@"setting_sedentary_time"),SMALocalizedString(@"setting_other"),SMALocalizedString(@"setting_sedentary_remind")];
 }
@@ -64,6 +63,7 @@
     _repeatLab.text = SMALocalizedString(@"setting_sedentary_repeat");
     _sedentaryTimeLab.text = SMALocalizedString(@"setting_sedentary_timeout");
     _timeLab.text = [NSString stringWithFormat:@"%@%@",seat.seatValue,SMALocalizedString(@"setting_sedentary_minute")];
+    [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
 }
 
 
@@ -117,7 +117,7 @@
                 if (i < 4) {
                     UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ %@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         seat.seatValue = timeArr[i];
-                        seat.seatValue = @"15";
+//                        seat.seatValue = @"1";
                         _timeLab.text = [NSString stringWithFormat:@"%@%@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")];
                     }];
                     [aler addAction:action];
@@ -138,7 +138,7 @@
 
 
 -(NSString *)weekStrConvert:(NSString *)weekStr{
-    NSArray *week = [weekStr componentsSeparatedByString: @","];
+    NSArray *week = [[SMACalculate toBinarySystemWithDecimalSystem:weekStr] componentsSeparatedByString: @","];
     NSArray *weekButArr = @[_monBut,_tueBut,_wedBut,_thuBut,_firBut,_satBut,_sunBut];
     NSString *str;
     int counts = 0;
@@ -182,9 +182,10 @@
 }
 
 - (void)weekStringWithIndex:(NSInteger)index object:(NSString *)obj{
-    NSMutableArray *weekAppSplit = [[weekString componentsSeparatedByString:@","] mutableCopy];
+    NSMutableArray *weekAppSplit = [[[SMACalculate toBinarySystemWithDecimalSystem:weekString] componentsSeparatedByString:@","] mutableCopy];
     [weekAppSplit replaceObjectAtIndex:index withObject:obj];
-    weekString = [weekAppSplit componentsJoinedByString:@","];
+    weekString = [SMACalculate toDecimalSystemWithBinarySystem:[weekAppSplit componentsJoinedByString:@""]];
+    NSLog(@"fwfewfwe===%@",weekString);
     seat.repeatWeek = weekString;
 }
 

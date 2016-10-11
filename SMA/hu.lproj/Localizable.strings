@@ -135,3 +135,9 @@
 "setting_sedentary_cancel" = "Kilép";
 "setting_sedentary_achieve" = "Végrehajtás";
 "setting_setSuccess" = "A beállítás sikeres!";
+"setting_alarm_title" = "Ébresztő";
+"setting_alarm_edit" = "编辑";
+"setting_alarm_add" = "Ébresztő hozzáadása";
+"setting_alarm_set" = "闹钟设置";
+"setting_alarm_lable" = "Címke";
+"setting_alarm_limit" = "闹钟不能多于8个";

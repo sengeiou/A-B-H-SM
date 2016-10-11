@@ -135,3 +135,9 @@
 "setting_sedentary_cancel" = "Отмена";
 "setting_sedentary_achieve" = "Выполнить";
 "setting_setSuccess" = "Настройка выполнена успешно!";
+"setting_alarm_title" = "Сигнал";
+"setting_alarm_edit" = "编辑";
+"setting_alarm_add" = "Добавить сигнал";
+"setting_alarm_set" = "闹钟设置";
+"setting_alarm_lable" = "Метка";
+"setting_alarm_limit" = "闹钟不能多于8个";

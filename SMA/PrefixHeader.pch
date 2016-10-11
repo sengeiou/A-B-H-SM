@@ -26,6 +26,7 @@
 #import "SMAthirdPartyLoginTool.h"
 #import "BLConnect.h"
 #import "SmaBLE.h"
+#import "SMADatabase.h"
 /**** Define
  */
 #define SmaBleMgr [BLConnect sharedCoreBlueTool]

@@ -438,7 +438,7 @@ static id _instace;
     if (!HRInfo) {
         HRInfo = [[SmaHRHisInfo alloc] init];
         HRInfo.isopen0 = [NSString stringWithFormat:@"%d",1];
-        HRInfo.dayFlags=@"1,1,1,1,1,1,1";
+        HRInfo.dayFlags=@"127";//每天
         HRInfo.isopen=[NSString stringWithFormat:@"%d",1];
         HRInfo.tagname=@"30";
         HRInfo.beginhour0 = @"0";

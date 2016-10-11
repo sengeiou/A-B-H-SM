@@ -16,6 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     [self initializeMethod];
     [self createUI];
 }
 
@@ -26,18 +27,11 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [self updateUI];
-    SmaBleMgr.BLdelegate = self;
-    if (SmaBleMgr.peripheral.state == CBPeripheralStateConnected) {
-        _bleIma.image = [UIImage imageNamed:@"buletooth_connected"];
-        [SmaBleSend getElectric];
-    }
-    else{
-        _bleIma.image = [UIImage imageNamed:@"buletooth_unconnected"];
-        _batteryIma.image = [UIImage imageNamed:@"Battery_0"];
-    }
+   }
+
+- (void)initializeMethod{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
-
-
 
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_title");
@@ -61,6 +55,8 @@
 }
 
 - (void)updateUI{
+    SmaBleMgr.BLdelegate = self;
+
     _userInfo = [SMAAccountTool userInfo];
     if (!self.userInfo.watchUUID.UUIDString || [self.userInfo.watchUUID.UUIDString isEqualToString:@""]) {
         _deviceLab.text = SMALocalizedString(@"setting_conDevice");
@@ -75,7 +71,21 @@
         _deviceIma.image = [UIImage imageNamed:@"add_watch"];
         _bleIma.hidden = NO;
         _batteryIma.hidden = NO;
-        //        _deviceCell.userInteractionEnabled = NO;
+        _deviceCell.userInteractionEnabled = NO;
+    }
+    if (![SmaBleMgr checkBLConnectState]) {
+        _alarmCell.userInteractionEnabled = NO;
+        _sedentaryCell.userInteractionEnabled = NO;
+        _HRSetCell.userInteractionEnabled = NO;
+        _bleIma.image = [UIImage imageNamed:@"buletooth_unconnected"];
+        _batteryIma.image = [UIImage imageNamed:@"Battery_0"];
+    }
+    else{
+        _bleIma.image = [UIImage imageNamed:@"buletooth_connected"];
+        [SmaBleSend getElectric];
+        _alarmCell.userInteractionEnabled = YES;
+        _sedentaryCell.userInteractionEnabled = YES;
+        _HRSetCell.userInteractionEnabled = YES;
     }
     _antiLostIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]?@"remind_lost_pre":@"remind_lost"];
     _noDistrubIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]?@"remind_disturb_pre":@"remind_disturb"];
@@ -132,12 +142,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+  if ([SmaBleMgr checkBLConnectState]) {
+//    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (cell == _vibrationCell) {
-        NSLog(@"fwef");
-        if ([SmaBleMgr checkBLConnectState]) {
+//        if ([SmaBleMgr checkBLConnectState]) {
             UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_vibration") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             for ( int i = 0; i <= 6; i ++) {
                 UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_times")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -156,10 +166,10 @@
             [self presentViewController:aler animated:YES completion:^{
                 
             }];
-        }
+//        }
     }
     else if (cell == _backlightCell){
-        if ([SmaBleMgr checkBLConnectState]) {
+//        if ([SmaBleMgr checkBLConnectState]) {
             UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_backlight") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             for ( int i = 0; i <= 6; i ++) {
                 UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_seconds")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -177,8 +187,9 @@
             [self presentViewController:aler animated:YES completion:^{
                 
             }];
-        }
+//        }
     }
+}
 }
 
 - (IBAction)antilostSelector:(UIButton *)sender{
@@ -273,10 +284,16 @@
 - (void)bleDisconnected:(NSString *)error{
     _bleIma.image = [UIImage imageNamed:@"buletooth_unconnected"];
     _batteryIma.image = [UIImage imageNamed:@"Battery_0"];
+    _alarmCell.userInteractionEnabled = NO;
+    _sedentaryCell.userInteractionEnabled = NO;
+    _HRSetCell.userInteractionEnabled = NO;
 }
 
 - (void)bleDidConnect{
     _bleIma.image = [UIImage imageNamed:@"buletooth_connected"];
+    _alarmCell.userInteractionEnabled = YES;
+    _sedentaryCell.userInteractionEnabled = YES;
+    _HRSetCell.userInteractionEnabled = YES;
 }
 /*
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -203,6 +203,12 @@ typedef enum {
  */
 -(void)setCalarmClockInfo:(NSMutableArray *)smaACs;
 
+/*设置手环闹钟V2
+ @param smaACs 闹钟数组，对象类型为SmaAlarmInfo
+ @discussion   闹钟各属性请参考SmaAlarmInfo描述,闹钟个数最多为八个
+ */
+-(void)setClockInfoV2:(NSMutableArray *)smaACs;
+
 /*数据同步
   @param bol YES:开启；NO:关闭
   @discussion   仅适用于02、04、05设备
