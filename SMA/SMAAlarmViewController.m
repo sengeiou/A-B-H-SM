@@ -55,7 +55,6 @@
 }
 
 - (void)createUI{
-    NSLog(@"fwfewfe==%@  %@",[self toBinarySystemWithDecimalSystem:@"111"],[self toDecimalSystemWithBinarySystem:@"1111100"]);
     self.title = SMALocalizedString(@"setting_alarm_title");
     _alarmTView.delegate = self;
     _alarmTView.dataSource = self;

@@ -195,10 +195,10 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 }
 
 //设置个人信息
-//- (void)acloudPutUserifnfo:(SmaUserInfo *)info success:(void (^)(NSString *))success failure:(void (^)(NSError *))failure{
-//    [ACAccountManager changeNickName:info.nickname callback:^(NSError *error) {
-//        
-//    }];
+- (void)acloudPutUserifnfo:(SMAUserInfo *)info success:(void (^)(NSString *))success failure:(void (^)(NSError *))failure{
+    [ACAccountManager changeNickName:info.userName callback:^(NSError *error) {
+        
+    }];
 //    NSArray *quiteArr = [SmaUserDefaults objectForKey:@"quietDaArr"];
 //    int quitHR;
 //    if (quiteArr.count>1) {
@@ -208,29 +208,29 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 //    else {
 //        quitHR = 0;
 //    }
-//    ACObject *msg = [[ACObject alloc] init];
-//    [msg putInteger:@"age" value:info.age.integerValue?info.age.integerValue:@"".integerValue];
+    ACObject *msg = [[ACObject alloc] init];
+    [msg putInteger:@"age" value:info.userAge.integerValue?info.userAge.integerValue:@"".integerValue];
 //    [msg putString:@"client_id" value:[SmaUserDefaults objectForKey:@"clientId"]?[SmaUserDefaults objectForKey:@"clientId"]:@""];
-//    [msg putString:@"device_type" value:@"ios"];
-//    [msg putString:@"header_url" value:@""];
-//    [msg putFloat:@"hight" value:info.height.floatValue?info.height.floatValue:@"".floatValue];
-//    [msg putInteger:@"sex" value:info.sex.integerValue?info.sex.integerValue:@"".integerValue];
-//    [msg putInteger:@"steps_Aim" value:[SmaUserDefaults objectForKey:@"stepPlan"]?[[SmaUserDefaults objectForKey:@"stepPlan"] integerValue]*1000:@"".integerValue];
-//    [msg putFloat:@"weight" value:info.weight.floatValue?info.weight.floatValue:@"".floatValue];
+    [msg putString:@"device_type" value:@"ios"];
+    [msg putString:@"header_url" value:@""];
+    [msg putFloat:@"hight" value:info.userHeight.floatValue?info.userHeight.floatValue:@"".floatValue];
+    [msg putInteger:@"sex" value:info.userSex.integerValue?info.userSex.integerValue:@"".integerValue];
+    [msg putInteger:@"steps_Aim" value:info.userSex.integerValue?info.userSex.integerValue:@"".integerValue];
+    [msg putFloat:@"weight" value:info.userGoal.floatValue?info.userGoal.floatValue:@"".floatValue];
 //    [msg putInteger:@"rate" value:quitHR];
-//    [ACAccountManager setUserProfile:msg callback:^(NSError *error) {
-//        if (!error) {
-//            if (success) {
-//                success(error.debugDescription);
-//            }
-//        }
-//        else{
-//            if (failure) {
-//                failure(error);
-//            }
-//        }
-//    }];
-//}
+    [ACAccountManager setUserProfile:msg callback:^(NSError *error) {
+        if (!error) {
+            if (success) {
+                success(error.debugDescription);
+            }
+        }
+        else{
+            if (failure) {
+                failure(error);
+            }
+        }
+    }];
+}
 
 //发送CID 
 - (void)acloudCIDSuccess:(void (^)(id result))success failure:(void (^)(NSError *error))failure{
@@ -273,15 +273,14 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //发送照片
 - (void)acloudHeadUrlSuccess:(void (^)(id result))success failure:(void (^)(NSError *error))failure{
-    ACFileInfo * fileInfo = [[ACFileInfo alloc] initWithName:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userName] bucket:@"/sma/watch/header" Checksum:0];
+    ACFileInfo * fileInfo = [[ACFileInfo alloc] initWithName:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userID] bucket:@"/sma/watch/header" Checksum:0];
     //照片路径
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,NSUserDomainMask, YES);
-    NSString *uniquePath=[[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userName]];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *uniquePath=[[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userID]];
     fileInfo.filePath = uniquePath;
     fileInfo.acl = [[ACACL alloc] init];
     ACFileManager *upManager = [[ACFileManager alloc] init];
     [upManager uploadFileWithfileInfo:fileInfo progressCallback:^(float progress) {
-        NSLog(@"progressCallback  %f",progress);
     } voidCallback:^(ACMsg *responseObject, NSError *error) {
         NSLog(@"error %@",error);
         if (!error) {

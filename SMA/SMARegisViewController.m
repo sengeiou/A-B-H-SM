@@ -190,11 +190,12 @@
         SMAUserInfo *user = [[SMAUserInfo alloc] init];
         user.userID = mobile;
         user.userPass = _passwordField.text;
-        user.userWeigh = @"70";
+        user.userWeigh = @"60";
         user.userHeight = @"170";
         user.userSex = @"1";
         user.userAge = @"26";
         user.userName = @"Welcome";
+        user.userGoal = @"5000";
         [SMAAccountTool saveUser:user];
         [MBProgressHUD hideHUD];
         [MBProgressHUD showSuccess:SMALocalizedString(@"register_regsucceed")];

@@ -17,7 +17,7 @@
          [queue inDatabase:^(FMDatabase *db) {
              BOOL result;
              
-             result = [db executeUpdate:@"create table if not exists tb_clock (clock_id integer primary key autoincrement,user_id text,dayFlags text, aid text,minute text,hour text,day text,mounth text,year text,isopen integer,tagname text,clock_web integer);"];
+             result = [db executeUpdate:@"create table if not exists tb_clock (clock_id integer primary key autoincrement,user_id text,dayFlags text, aid text,timeInterval text,isopen integer,tagname text,clock_web integer);"];
              NSLog(@"创表 %d",result);
         }];
     }
@@ -40,17 +40,23 @@
         [db beginTransaction];
         SmaAlarmInfo *info=clockInfo;
         BOOL result;
+        NSString *date;
         if (info.aid) {
-            NSString *updatesql=[NSString stringWithFormat:@"update tb_clock set dayFlags='%@',aid=%d,isopen=%d,tagname='%@',hour='%@',minute='%@',clock_web=%d where user_id='%@' and clock_id=%d",info.dayFlags,[info.aid intValue],[info.isOpen intValue],info.tagname,info.hour,info.minute,[info.isWeb intValue],[SMAAccountTool userInfo].userID,info.aid.intValue];
+            date = [NSString stringWithFormat:@"%@%@%@%@%@00",info.year,info.mounth,info.day,info.hour,info.minute];
+            NSTimeInterval timeInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:date timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+            
+            NSString *updatesql=[NSString stringWithFormat:@"update tb_clock set dayFlags='%@',aid=%d,timeInterval='%@',isopen=%d,tagname='%@',clock_web=%d where user_id='%@' and clock_id=%d",info.dayFlags,[info.aid intValue],[NSString stringWithFormat:@"%f",timeInterval],[info.isOpen intValue],info.tagname,[info.isWeb intValue],[SMAAccountTool userInfo].userID,info.aid.intValue];
             result = [db executeUpdate:updatesql];
             NSLog(@"修改闹钟 == %d",result);
         }
         else{
-        result = [db executeUpdate:@"INSERT INTO tb_clock (user_id,dayFlags,aid,minute,hour,day ,mounth ,year ,isopen,tagname,clock_web) VALUES (?,?,?,?,?,?,?,?,?,?,?);",[SMAAccountTool userInfo].userID,info.dayFlags,info.aid,info.minute,info.hour,info.day,info.mounth,info.year,info.isOpen,info.tagname,info.isWeb];
+        date = [NSString stringWithFormat:@"%@%@%@%@%@00",info.year,info.mounth,info.day,info.hour,info.minute];
+        NSTimeInterval timeInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:date timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        result = [db executeUpdate:@"INSERT INTO tb_clock (user_id,dayFlags,aid,timeInterval,isopen,tagname,clock_web) VALUES (?,?,?,?,?,?,?);",[SMAAccountTool userInfo].userID,info.dayFlags,info.aid,[NSString stringWithFormat:@"%f",timeInterval],info.isOpen,info.tagname,info.isWeb];
             NSLog(@"插入闹钟 == %d",result);
         }
          [db commit];
-          callBack (result);
+         callBack (result);
     }];
 }
 
@@ -64,14 +70,15 @@
         FMResultSet *rs = [db executeQuery:sql];
         while (rs.next) {
             SmaAlarmInfo *info=[[SmaAlarmInfo alloc]init];
-//            info.clockid=[rs stringForColumn:@"clock_id"];
+            NSTimeInterval timeInterval = [[rs stringForColumn:@"timeInterval"] doubleValue];
+            NSString *dateStr = [SMADateDaultionfos stringFormmsecIntervalSince1970:timeInterval timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
             info.aid=[rs stringForColumn:@"clock_id"];
             info.dayFlags=[rs stringForColumn:@"dayFlags"];
-            info.minute=[rs stringForColumn:@"minute"];
-            info.hour=[rs stringForColumn:@"hour"];
-            info.mounth=[rs stringForColumn:@"mounth"];
-            info.day=[rs stringForColumn:@"day"];
-            info.year=[rs stringForColumn:@"year"];
+            info.minute=[dateStr substringWithRange:NSMakeRange(10, 2)];
+            info.hour=[dateStr substringWithRange:NSMakeRange(8, 2)];
+            info.day=[dateStr substringWithRange:NSMakeRange(6, 2)];
+            info.mounth=[dateStr substringWithRange:NSMakeRange(4, 2)];
+            info.year=[dateStr substringWithRange:NSMakeRange(0, 4)];
             info.tagname=[rs stringForColumn:@"tagname"];
             info.isOpen=[rs stringForColumn:@"isopen"];
             [arr addObject:info];

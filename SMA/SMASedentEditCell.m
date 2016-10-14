@@ -55,7 +55,7 @@
 
 -(void)setAlarmInfo:(SmaAlarmInfo *)alarmInfo{
     _alarmInfo = alarmInfo;
-    _timeLab.text = [NSString stringWithFormat:@"%@:%@",alarmInfo.hour.intValue>9?alarmInfo.hour:[NSString stringWithFormat:@"0%@",alarmInfo.hour],alarmInfo.minute.intValue>9?alarmInfo.minute:[NSString stringWithFormat:@"0%@",alarmInfo.minute]];
+    _timeLab.text = [NSString stringWithFormat:@"%@:%@",alarmInfo.hour,alarmInfo.minute];
     _titleLab.text = [NSString stringWithFormat:@"%@,",alarmInfo.tagname];
     _weakLab.text=[self weekStrConvert:alarmInfo.dayFlags];
     _alarmSwitch.on = alarmInfo.isOpen;

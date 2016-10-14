@@ -5,7 +5,7 @@
 @interface SmaAlarmInfo : NSObject
 @property (nonatomic,strong) NSString *dayFlags; //循环周期 @"1,1,1,1,1,1,0";代表周一到周六开启，周末关闭
 @property (nonatomic,strong) NSString *aid;      //闹钟编号
-@property (nonatomic,strong) NSString *minute;   //分钟
+@property (nonatomic,strong) NSString *minute;   //分钟  timeInterval
 @property (nonatomic,strong) NSString *hour;     //小时
 @property (nonatomic,strong) NSString *day;      //日期
 @property (nonatomic,strong) NSString *mounth;   //月份

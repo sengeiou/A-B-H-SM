@@ -14,6 +14,7 @@
     NSMutableArray *endTarr;
     UIView *pickview;
 }
+
 - (instancetype)initWithFrame:(CGRect)frame startTime:(NSString *)sTime endTime:(NSString *)eTime{
     self = [super initWithFrame:frame];
     if (self) {

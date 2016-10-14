@@ -24,6 +24,7 @@
 		EE0E14181D6708590054BE87 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0E14171D6708590054BE87 /* libstdc++.tbd */; };
 		EE12EF2B1D7D6BCB0096F811 /* SMADieviceDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE12EF291D7D6BCB0096F811 /* SMADieviceDataCell.m */; };
 		EE12EF2C1D7D6BCB0096F811 /* SMADieviceDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE12EF2A1D7D6BCB0096F811 /* SMADieviceDataCell.xib */; };
+		EE1749001DAC7A6D004A892D /* SMADateDaultionfos.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */; };
 		EE227CCF1D7433A900B9387D /* SMAHighViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CCE1D7433A900B9387D /* SMAHighViewController.m */; };
 		EE227CF81D74381C00B9387D /* SMARulerScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CF71D74381C00B9387D /* SMARulerScrollView.m */; };
 		EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */; };
@@ -134,9 +135,14 @@
 		EE6160361D77BFC600FA1626 /* SMADialMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6160351D77BFC600FA1626 /* SMADialMainView.m */; };
 		EE62D2C61DAB95120047FC6B /* SMACalculate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62D2C51DAB95120047FC6B /* SMACalculate.m */; };
 		EE62D2C81DAB98E60047FC6B /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE62D2C71DAB98E60047FC6B /* libSmaBLE.a */; };
+		EE8086751DAF55E00075C705 /* SMAPersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8086741DAF55E00075C705 /* SMAPersonalViewController.m */; };
+		EE8086781DAF918D0075C705 /* SMAPersonalPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8086771DAF918D0075C705 /* SMAPersonalPickView.m */; };
 		EE8169991D8E801B003BEDDF /* SMAPairViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8169981D8E801B003BEDDF /* SMAPairViewController.m */; };
 		EE81699F1D8E9E8C003BEDDF /* BLConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = EE81699C1D8E9E8C003BEDDF /* BLConnect.m */; };
 		EE8169A01D8E9E8C003BEDDF /* ScannedPeripheral.m in Sources */ = {isa = PBXBuildFile; fileRef = EE81699E1D8E9E8C003BEDDF /* ScannedPeripheral.m */; };
+		EE83C1691DACCB8A00A4FD88 /* SMAHeartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83C1681DACCB8A00A4FD88 /* SMAHeartViewController.m */; };
+		EE83C16C1DACDAAB00A4FD88 /* SMAPickLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83C16B1DACDAAB00A4FD88 /* SMAPickLineView.m */; };
+		EE83C1731DACF65D00A4FD88 /* SMAMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83C1721DACF65D00A4FD88 /* SMAMeViewController.m */; };
 		EE8420EF1D93AAC5007DA9C6 /* SMADeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8420ED1D93AAC5007DA9C6 /* SMADeviceCell.m */; };
 		EE8420F01D93AAC5007DA9C6 /* SMADeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE8420EE1D93AAC5007DA9C6 /* SMADeviceCell.xib */; };
 		EE8652DA1D65468900A051C2 /* SMARegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8652D91D65468900A051C2 /* SMARegisViewController.m */; };
@@ -216,6 +222,8 @@
 		EE12EF281D7D6BCB0096F811 /* SMADieviceDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADieviceDataCell.h; sourceTree = "<group>"; };
 		EE12EF291D7D6BCB0096F811 /* SMADieviceDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADieviceDataCell.m; sourceTree = "<group>"; };
 		EE12EF2A1D7D6BCB0096F811 /* SMADieviceDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMADieviceDataCell.xib; sourceTree = "<group>"; };
+		EE1748FE1DAC7A6D004A892D /* SMADateDaultionfos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADateDaultionfos.h; sourceTree = "<group>"; };
+		EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADateDaultionfos.m; sourceTree = "<group>"; };
 		EE227CCD1D7433A900B9387D /* SMAHighViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHighViewController.h; sourceTree = "<group>"; };
 		EE227CCE1D7433A900B9387D /* SMAHighViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHighViewController.m; sourceTree = "<group>"; };
 		EE227CF61D74381C00B9387D /* SMARulerScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARulerScrollView.h; sourceTree = "<group>"; };
@@ -512,12 +520,22 @@
 		EE62D2C41DAB95120047FC6B /* SMACalculate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMACalculate.h; sourceTree = "<group>"; };
 		EE62D2C51DAB95120047FC6B /* SMACalculate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMACalculate.m; sourceTree = "<group>"; };
 		EE62D2C71DAB98E60047FC6B /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
+		EE8086731DAF55E00075C705 /* SMAPersonalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPersonalViewController.h; sourceTree = "<group>"; };
+		EE8086741DAF55E00075C705 /* SMAPersonalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPersonalViewController.m; sourceTree = "<group>"; };
+		EE8086761DAF918D0075C705 /* SMAPersonalPickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPersonalPickView.h; sourceTree = "<group>"; };
+		EE8086771DAF918D0075C705 /* SMAPersonalPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPersonalPickView.m; sourceTree = "<group>"; };
 		EE8169971D8E801B003BEDDF /* SMAPairViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPairViewController.h; sourceTree = "<group>"; };
 		EE8169981D8E801B003BEDDF /* SMAPairViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPairViewController.m; sourceTree = "<group>"; };
 		EE81699B1D8E9E8C003BEDDF /* BLConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLConnect.h; sourceTree = "<group>"; };
 		EE81699C1D8E9E8C003BEDDF /* BLConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLConnect.m; sourceTree = "<group>"; };
 		EE81699D1D8E9E8C003BEDDF /* ScannedPeripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannedPeripheral.h; sourceTree = "<group>"; };
 		EE81699E1D8E9E8C003BEDDF /* ScannedPeripheral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedPeripheral.m; sourceTree = "<group>"; };
+		EE83C1671DACCB8A00A4FD88 /* SMAHeartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHeartViewController.h; sourceTree = "<group>"; };
+		EE83C1681DACCB8A00A4FD88 /* SMAHeartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHeartViewController.m; sourceTree = "<group>"; };
+		EE83C16A1DACDAAB00A4FD88 /* SMAPickLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPickLineView.h; sourceTree = "<group>"; };
+		EE83C16B1DACDAAB00A4FD88 /* SMAPickLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPickLineView.m; sourceTree = "<group>"; };
+		EE83C1711DACF65D00A4FD88 /* SMAMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAMeViewController.h; sourceTree = "<group>"; };
+		EE83C1721DACF65D00A4FD88 /* SMAMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAMeViewController.m; sourceTree = "<group>"; };
 		EE8420EC1D93AAC5007DA9C6 /* SMADeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADeviceCell.h; sourceTree = "<group>"; };
 		EE8420ED1D93AAC5007DA9C6 /* SMADeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADeviceCell.m; sourceTree = "<group>"; };
 		EE8420EE1D93AAC5007DA9C6 /* SMADeviceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMADeviceCell.xib; sourceTree = "<group>"; };
@@ -1657,6 +1675,43 @@
 			path = SMABLE;
 			sourceTree = "<group>";
 		};
+		EE83C16D1DACF5EF00A4FD88 /* DeviceMe */ = {
+			isa = PBXGroup;
+			children = (
+				EE83C1701DACF62B00A4FD88 /* VC */,
+				EE83C16F1DACF61500A4FD88 /* VIEW */,
+				EE83C16E1DACF60300A4FD88 /* MODE */,
+			);
+			name = DeviceMe;
+			sourceTree = "<group>";
+		};
+		EE83C16E1DACF60300A4FD88 /* MODE */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MODE;
+			sourceTree = "<group>";
+		};
+		EE83C16F1DACF61500A4FD88 /* VIEW */ = {
+			isa = PBXGroup;
+			children = (
+				EE8086761DAF918D0075C705 /* SMAPersonalPickView.h */,
+				EE8086771DAF918D0075C705 /* SMAPersonalPickView.m */,
+			);
+			name = VIEW;
+			sourceTree = "<group>";
+		};
+		EE83C1701DACF62B00A4FD88 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				EE83C1711DACF65D00A4FD88 /* SMAMeViewController.h */,
+				EE83C1721DACF65D00A4FD88 /* SMAMeViewController.m */,
+				EE8086731DAF55E00075C705 /* SMAPersonalViewController.h */,
+				EE8086741DAF55E00075C705 /* SMAPersonalViewController.m */,
+			);
+			name = VC;
+			sourceTree = "<group>";
+		};
 		EE8652DB1D6557F000A051C2 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1705,6 +1760,7 @@
 			children = (
 				EEB09AA91D79208E00E34B9D /* DeviceData */,
 				EECC9DC11D88F2B80019CAD8 /* DeviceSetting */,
+				EE83C16D1DACF5EF00A4FD88 /* DeviceMe */,
 			);
 			name = MainVC;
 			sourceTree = "<group>";
@@ -1814,6 +1870,8 @@
 				EE4B1C221D6476C500825E2B /* SmaColor.m */,
 				EE62D2C41DAB95120047FC6B /* SMACalculate.h */,
 				EE62D2C51DAB95120047FC6B /* SMACalculate.m */,
+				EE1748FE1DAC7A6D004A892D /* SMADateDaultionfos.h */,
+				EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */,
 			);
 			name = "Global全局";
 			sourceTree = "<group>";
@@ -1868,6 +1926,8 @@
 				EE48F7C31DA881850086CB57 /* SMAAlarmViewController.m */,
 				EE3A32B91DA8BDB80077C813 /* SMAAlarmSubViewController.h */,
 				EE3A32BA1DA8BDB80077C813 /* SMAAlarmSubViewController.m */,
+				EE83C1671DACCB8A00A4FD88 /* SMAHeartViewController.h */,
+				EE83C1681DACCB8A00A4FD88 /* SMAHeartViewController.m */,
 				EECC9DC51D88F3190019CAD8 /* VIEW */,
 			);
 			name = DeviceSetting;
@@ -1886,6 +1946,8 @@
 				EE9C00291DA8D52100DF050D /* SMAAlarmRulerView.m */,
 				EE9C00341DA8DA0800DF050D /* SMAClockRulerView.h */,
 				EE9C00351DA8DA0800DF050D /* SMAClockRulerView.m */,
+				EE83C16A1DACDAAB00A4FD88 /* SMAPickLineView.h */,
+				EE83C16B1DACDAAB00A4FD88 /* SMAPickLineView.m */,
 			);
 			name = VIEW;
 			sourceTree = "<group>";
@@ -2061,10 +2123,12 @@
 				EE6160361D77BFC600FA1626 /* SMADialMainView.m in Sources */,
 				EE4B1C141D6469DD00825E2B /* SectionsViewController.m in Sources */,
 				EE4B1D9A1D647DCC00825E2B /* QNFileRecorder.m in Sources */,
+				EE83C1731DACF65D00A4FD88 /* SMAMeViewController.m in Sources */,
 				EE4B1DCA1D6487F700825E2B /* SmaLocalizeableInfo.m in Sources */,
 				EE4B1D841D647DCC00825E2B /* QNFile.m in Sources */,
 				EE9C002A1DA8D52100DF050D /* SMAAlarmRulerView.m in Sources */,
 				EE4B1DDF1D648BC600825E2B /* SmaCommonStudio.m in Sources */,
+				EE83C1691DACCB8A00A4FD88 /* SMAHeartViewController.m in Sources */,
 				EE4B1D681D647DCC00825E2B /* aes_cbc.c in Sources */,
 				EE4B1D881D647DCC00825E2B /* QNDnsManager.m in Sources */,
 				EE9C00361DA8DA0800DF050D /* SMAClockRulerView.m in Sources */,
@@ -2078,6 +2142,7 @@
 				EE4B1D811D647DCC00825E2B /* QNAsyncRun.m in Sources */,
 				EE4B1C111D6469C900825E2B /* NSDictionary-DeepMutableCopy.m in Sources */,
 				EE4B1D991D647DCC00825E2B /* QNReachability.m in Sources */,
+				EE83C16C1DACDAAB00A4FD88 /* SMAPickLineView.m in Sources */,
 				EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */,
 				EE4B1D721D647DCC00825E2B /* AFNetworkActivityIndicatorManager.m in Sources */,
 				EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */,
@@ -2159,6 +2224,7 @@
 				EE4B1C231D6476C500825E2B /* SmaColor.m in Sources */,
 				EE4B1D871D647DCC00825E2B /* QNUrlSafeBase64.m in Sources */,
 				EE09ACF31DAA2B2E00CA2EC5 /* FMDatabasePool.m in Sources */,
+				EE8086751DAF55E00075C705 /* SMAPersonalViewController.m in Sources */,
 				EE4B1D6D1D647DCC00825E2B /* AFURLRequestSerialization.m in Sources */,
 				EE8169A01D8E9E8C003BEDDF /* ScannedPeripheral.m in Sources */,
 				EEBAB5A61D6D2F8700AAC710 /* SMAthirdPartyLoginTool.m in Sources */,
@@ -2172,6 +2238,7 @@
 				EEAF8A661DA9F14B00E1FE83 /* SMARepeatCell.m in Sources */,
 				EE4B1DD61D648A6E00825E2B /* SMAUserInfo.m in Sources */,
 				EEB09AAF1D79214500E34B9D /* SMADeviceDataTableViewController.m in Sources */,
+				EE8086781DAF918D0075C705 /* SMAPersonalPickView.m in Sources */,
 				EEAE8F1A1D952ED4008F82CE /* SMABindRemindView.m in Sources */,
 				EE09ACF41DAA2B2E00CA2EC5 /* FMDatabaseQueue.m in Sources */,
 				EE4B1D931D647DCC00825E2B /* QNDns.m in Sources */,
@@ -2186,6 +2253,7 @@
 				EE4B1D8B1D647DCC00825E2B /* QNRecord.m in Sources */,
 				EE4B1DA71D647DCC00825E2B /* ESPGuideCode.m in Sources */,
 				EE4B1D921D647DCC00825E2B /* QNHex.m in Sources */,
+				EE1749001DAC7A6D004A892D /* SMADateDaultionfos.m in Sources */,
 				EE4B1D781D647DCC00825E2B /* UIWebView+AFNetworking.m in Sources */,
 				EEB9F6911D64318B0011AA07 /* AppDelegate.mm in Sources */,
 				EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */,
@@ -2337,6 +2405,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Shaohui Liang (AUMJG57LWL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shaohui Liang (AUMJG57LWL)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2372,6 +2441,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = VHVLE5FL92;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2399,6 +2469,8 @@
 				OTHER_LDFLAGS = "-fobjc-arc";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.coach;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "21160081-a28e-4444-8262-bb7cb4f4db72";
+				PROVISIONING_PROFILE_SPECIFIER = All_development_text;
 			};
 			name = Release;
 		};

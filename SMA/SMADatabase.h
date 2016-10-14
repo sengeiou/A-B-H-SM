@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FMDB.h"
+#import "SMADateDaultionfos.h"
 @interface SMADatabase : NSObject
 @property (nonatomic, strong) FMDatabaseQueue *queue;
 //插入闹钟

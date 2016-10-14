@@ -21,7 +21,6 @@
 #import "UIImage+CKQ.h"
 #import "SmaColor.h"
 #import "MBProgressHUD+MJ.h"
-#import "SMAUserInfo.h"
 #import "SMAAccountTool.h"
 #import "SMAthirdPartyLoginTool.h"
 #import "BLConnect.h"

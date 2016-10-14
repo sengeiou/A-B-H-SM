@@ -30,10 +30,10 @@
         _alarmInfo = [[SmaAlarmInfo alloc] init];
         _alarmInfo.dayFlags = @"124";
         _alarmInfo.minute = @"30";
-        _alarmInfo.hour = @"8";
-        //        _alarmInfo.day = @"2016";
-        //        _alarmInfo.mounth = @"10";
-        //        _alarmInfo.year
+        _alarmInfo.hour = @"08";
+        _alarmInfo.day = @"1";
+        _alarmInfo.mounth = @"10";
+         _alarmInfo.year = @"2016";
         _alarmInfo.tagname = SMALocalizedString(@"setting_alarm_title");
     }
 }
@@ -83,11 +83,11 @@
 - (void)scrollDidEndDecelerating:(NSString *)ruler scrollView:(UIScrollView *)scrollview{
     if (scrollview == _hourView) {
         _clockView.hours = ruler.integerValue ;
-        _alarmInfo.hour = ruler;
+        _alarmInfo.hour = ruler.intValue<10?[NSString stringWithFormat:@"0%@",ruler]:ruler;
     }
     else if (scrollview == _minView){
         _clockView.minutes = ruler.integerValue ;
-        _alarmInfo.minute = ruler;
+        _alarmInfo.minute = ruler.intValue<10?[NSString stringWithFormat:@"0%@",ruler]:ruler;
     }
     [_clockView updateTimeAnimated:NO];
 }
@@ -101,16 +101,16 @@
         NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
         
         _alarmInfo.year=[NSString stringWithFormat:@"%ld",(long)[dateComponent year]];
-        _alarmInfo.mounth=[NSString stringWithFormat:@"%ld",(long)[dateComponent month]];
-        _alarmInfo.day=[NSString stringWithFormat:@"%ld",(long)[dateComponent day]];
+        _alarmInfo.mounth=[NSString stringWithFormat:@"%@%ld",(long)[dateComponent month] < 10?@"0":@"",(long)[dateComponent month]];
+        _alarmInfo.day=[NSString stringWithFormat:@"%@%ld",(long)[dateComponent day] < 10?@"0":@"",(long)[dateComponent day]];
         NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
         [formatter1 setDateFormat:@"yyyyMMdd"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         NSTimeZone* GTMzone = [NSTimeZone timeZoneForSecondsFromGMT:0];//解决不同时令相差1小时问题
         [formatter setTimeZone:GTMzone];
         [formatter setDateFormat:@"yyyyMMddHHmmss"];
+        
         NSTimeInterval timeIntervalSinceNow = [[formatter dateFromString:[NSString stringWithFormat:@"%@%@%@00",[formatter1 stringFromDate:now],_alarmInfo.hour.intValue<10?[NSString stringWithFormat:@"0%@",_alarmInfo.hour]:_alarmInfo.hour,_alarmInfo.minute.intValue < 10?[NSString stringWithFormat:@"0%@",_alarmInfo.minute]:_alarmInfo.minute]] timeIntervalSince1970];
-        NSLog(@"fewfewf000  %lf  %@ %@",timeIntervalSinceNow,[formatter dateFromString:[NSString stringWithFormat:@"%@%@%@00",[formatter1 stringFromDate:now],_alarmInfo.hour.intValue<10?[NSString stringWithFormat:@"0%@",_alarmInfo.hour]:_alarmInfo.hour,_alarmInfo.minute.intValue < 10?[NSString stringWithFormat:@"0%@",_alarmInfo.minute]:_alarmInfo.minute]],[NSString stringWithFormat:@"%@%@%@00000",[formatter1 stringFromDate:now],_alarmInfo.hour.intValue<10?[NSString stringWithFormat:@"0%@",_alarmInfo.hour]:_alarmInfo.hour,_alarmInfo.minute.intValue < 10?[NSString stringWithFormat:@"0%@",_alarmInfo.minute]:_alarmInfo.minute]);
         _alarmInfo.isOpen = @"1";
         _alarmInfo.isWeb = @"0";
         [smaDal insertClockInfo:_alarmInfo callback:^(BOOL result) {

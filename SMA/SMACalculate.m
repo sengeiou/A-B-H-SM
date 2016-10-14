@@ -51,4 +51,28 @@
     NSString * result = [NSString stringWithFormat:@"%d",ll];
     return result;
 }
+
++ (float)convertToInch:(float)cm {
+    return cm*0.39370078740157;
+}
+
++ (float)convertToCm:(float)feet {
+    return feet*2.54;
+}
+
++ (float)convertToLbs:(float)kg {
+    return kg*2.2046226;
+}
+
++ (float)convertToKg:(float)lbs {
+    return lbs*0.4535924;
+}
+
++ (float)convertToMile:(float)km {
+    return  km / 1.609;
+}
+
++ (float)convertToKm:(float)mile {
+    return mile*1.609344;
+}
 @end

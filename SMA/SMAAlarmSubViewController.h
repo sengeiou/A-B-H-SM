@@ -12,7 +12,7 @@
 #import "SMAAlarmRulerView.h"
 #import "SMARepeatCell.h"
 #import "SmaAlarmInfo.h"
-
+#import "SMADateDaultionfos.h"
 @protocol alarmEditDelegate <NSObject>
 - (void)didEditAlarmInfo:(SmaAlarmInfo *)alarmInfo;
 

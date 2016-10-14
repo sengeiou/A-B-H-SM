@@ -141,3 +141,31 @@
 "setting_alarm_set" = "闹钟设置";
 "setting_alarm_lable" = "Etichetta";
 "setting_alarm_limit" = "闹钟不能多于8个";
+"setting_heart_title" = "Impost. freq. cardiaca";
+"setting_heart_monitor" = "Frequenza cardiaca";
+"setting_heart_gap" ="Intervallo di rilevamento";
+
+//我的页面
+"me_title" = "我的";
+"me_photograph" = "拍照";
+"me_no_photograph" = "无法打开相机";
+"me_photoAlbum" = "使用相册";
+"me_no_photoAlbum" = "无法打开相册";
+"me_perso_title" = "个人设置";
+"me_sport_goal" = "Obiettivo";
+"me_more_set" = "更多设置";
+"me_userHelp" = "使用帮助";
+"me_signOut" = "退出登录";
+"me_perso_name" = "Soprannome";
+"me_perso_gender" = "Genere";
+"me_perso_unit" = "Unità";
+"me_perso_metric" = "Metrico";
+"me_perso_british" = "Imperiale";
+"me_perso_cm" = "cm";
+"sme_perso_inch" = "pollice";
+"me_perso_ft" = "ft";
+"me_perso_kg" = "kg";
+"me_perso_lbs" = "libbre";
+"me_perso_language" = "语言";
+"me_perso_zh" = "中文";
+"me_perso_en" = "英文";

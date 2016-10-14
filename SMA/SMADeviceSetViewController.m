@@ -142,12 +142,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  if ([SmaBleMgr checkBLConnectState]) {
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+//  if ([SmaBleMgr checkBLConnectState]) {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (cell == _vibrationCell) {
-//        if ([SmaBleMgr checkBLConnectState]) {
+        if ([SmaBleMgr checkBLConnectState]) {
             UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_vibration") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             for ( int i = 0; i <= 6; i ++) {
                 UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_times")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -166,10 +166,10 @@
             [self presentViewController:aler animated:YES completion:^{
                 
             }];
-//        }
+        }
     }
     else if (cell == _backlightCell){
-//        if ([SmaBleMgr checkBLConnectState]) {
+        if ([SmaBleMgr checkBLConnectState]) {
             UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_backlight") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             for ( int i = 0; i <= 6; i ++) {
                 UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_seconds")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -187,9 +187,9 @@
             [self presentViewController:aler animated:YES completion:^{
                 
             }];
-//        }
+        }
     }
-}
+//}
 }
 
 - (IBAction)antilostSelector:(UIButton *)sender{

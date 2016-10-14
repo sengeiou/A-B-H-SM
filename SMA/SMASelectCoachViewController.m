@@ -89,8 +89,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView i:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"indexPath==%lD",indexPath.row);
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.row == 0) {

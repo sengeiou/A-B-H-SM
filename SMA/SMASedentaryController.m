@@ -112,7 +112,7 @@
     else if (cell == _sedentaryCell){
         if (!aler) {
             aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_sedentary_timeout") message:SMALocalizedString(@"") preferredStyle:UIAlertControllerStyleActionSheet];
-            NSArray *timeArr = @[@"15",@"30",@"60",@"120"];
+            NSArray *timeArr = @[@"30",@"60",@"120",@"240"];
             for ( int i = 0; i < 5; i ++) {
                 if (i < 4) {
                     UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ %@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -185,7 +185,6 @@
     NSMutableArray *weekAppSplit = [[[SMACalculate toBinarySystemWithDecimalSystem:weekString] componentsSeparatedByString:@","] mutableCopy];
     [weekAppSplit replaceObjectAtIndex:index withObject:obj];
     weekString = [SMACalculate toDecimalSystemWithBinarySystem:[weekAppSplit componentsJoinedByString:@""]];
-    NSLog(@"fwfewfwe===%@",weekString);
     seat.repeatWeek = weekString;
 }
 

@@ -183,7 +183,7 @@ typedef enum {
 - (void)setVibration:(SmaVibrationInfo *)info;
 
 /*设置久坐
-   @param week  传入类型如 @"0,1,1,1,1,1,1";//代表周二到周日开启，周一关闭
+   @param week  传入类型如 @"0~127";
    @param begin 开始时间
    @param end   结束时间
    @param seat  久坐时间  如设置5分钟，将在以0分钟开始，每5分钟会检查一次久坐情况并不是从设置久坐后5分钟检查久坐情况

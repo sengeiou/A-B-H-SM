@@ -141,3 +141,31 @@
 "setting_alarm_set" = "闹钟设置";
 "setting_alarm_lable" = "Метка";
 "setting_alarm_limit" = "闹钟不能多于8个";
+"setting_heart_title" = "Настройки ЧСС";
+"setting_heart_monitor" = "Частота сердечных сокращений";
+"setting_heart_gap" ="Интервал обнаружения";
+
+//我的页面
+"me_title" = "我的";
+"me_photograph" = "拍照";
+"me_no_photograph" = "无法打开相机";
+"me_photoAlbum" = "使用相册";
+"me_no_photoAlbum" = "无法打开相册";
+"me_perso_title" = "个人设置";
+"me_sport_goal" = "Целевые показатели";
+"me_more_set" = "更多设置";
+"me_userHelp" = "使用帮助";
+"me_signOut" = "退出登录";
+"me_perso_name" = "Псевдоним";
+"me_perso_gender" = "Пол";
+"me_perso_unit" = "единица";
+"me_perso_metric" = "Метрическая";
+"me_perso_british" = "Британская система";
+"me_perso_cm" = "см";
+"sme_perso_inch" = "дюймы";
+"me_perso_ft" = "ft";
+"me_perso_kg" = "кг";
+"me_perso_lbs" = "фунты";
+"me_perso_language" = "语言";
+"me_perso_zh" = "中文";
+"me_perso_en" = "英文";

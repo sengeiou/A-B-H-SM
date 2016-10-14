@@ -129,8 +129,8 @@
 "setting_sedentary_timeout" = "久坐时长";
 "setting_sedentary_minute" = "分钟";
 "setting_sedentary_remind" = "*久坐时间段通用一个重复与久坐时长";
-"setting_sedentary_star" = "开始";
-"setting_sedentary_end" = "结束";
+"setting_sedentary_star" = "开始时间";
+"setting_sedentary_end" = "结束时间";
 "setting_sedentary_confirm" = "确定";
 "setting_sedentary_cancel" = "取消";
 "setting_sedentary_achieve" = "完成";
@@ -141,3 +141,31 @@
 "setting_alarm_set" = "闹钟设置";
 "setting_alarm_lable" = "标签";
 "setting_alarm_limit" = "闹钟不能多于8个";
+"setting_heart_title" = "心率设置";
+"setting_heart_monitor" = "心率监测";
+"setting_heart_gap" ="监测间隔";
+
+//我的页面
+"me_title" = "我的";
+"me_photograph" = "拍照";
+"me_no_photograph" = "无法打开相机";
+"me_photoAlbum" = "使用相册";
+"me_no_photoAlbum" = "无法打开相册";
+"me_perso_title" = "个人设置";
+"me_sport_goal" = "运动目标";
+"me_more_set" = "更多设置";
+"me_userHelp" = "使用帮助";
+"me_signOut" = "退出登录";
+"me_perso_name" = "昵称";
+"me_perso_gender" = "性别";
+"me_perso_unit" = "单位";
+"me_perso_metric" = "公制";
+"me_perso_british" = "英制";
+"me_perso_cm" = "cm";
+"me_perso_inch" = "in";
+"me_perso_ft" = "ft";
+"sme_perso_kg" = "kg";
+"me_perso_lbs" = "lbs";
+"me_perso_language" = "语言";
+"me_perso_zh" = "中文";
+"me_perso_en" = "英文";
