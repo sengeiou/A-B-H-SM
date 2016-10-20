@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "SMADieviceDataCell.h"
-@interface SMADeviceDataTableViewController : UITableViewController<UITableViewDelegate,UITableViewDataSource>
+#import "UIScrollView+MJRefresh.h"
+#import "SMACalendarView.h"
+#import "AppDelegate.h"
+#import "SMASportDetailViewController.h"
+#import "SMADatabase.h"
+@interface SMADeviceDataTableViewController : UITableViewController<UITableViewDelegate,UITableViewDataSource,BLConnectDelegate,calenderDelegate>
 
 @end

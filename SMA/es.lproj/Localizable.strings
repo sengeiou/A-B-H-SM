@@ -59,11 +59,23 @@
 "device_title" = "数据";
 "device_todate" = "Hoy";
 "device_SP_goal" = "Objetivo";
-"device_SP_steps" = "steps";
-"device_SP_step" = "step";
+"device_SP_steps" = "Pasos";
+"device_SP_step" = "Paso";
 "device_SP_sit" = "静坐";
 "device_SP_walking" = "步行";
 "device_SP_running" = "跑步";
+"device_SP_km" = "km";
+"device_SP_mile" = "millas";
+"device_SP_cal" = "cal";
+"device_SP_syncWait" = "Aún no ha terminado la sincronización con los datos del teléfono, espere";
+"device_SP_day" = "Día";
+"device_SP_week" = "Semana";
+"device_SP_month" = "Mes";
+"device_SP_time" = "Hora";
+"device_SP_state" = "状态";
+"device_SP_avgStep" = "日均步数";
+"device_SP_sumDista" = "里程";
+"device_SP_avgCal" = "日均消耗";
 "device_HR_monitor" = "Pulso";
 "device_HR_typeF" = "Normal";
 "device_HR_typeS" = "Ligero";
@@ -78,6 +90,12 @@
 "device_SL_deep" = "Profundo";
 "device_SL_light" = "Ligero";
 "device_SL_awake" = "Despierto";
+"device_pullSync" = "Deslice hacia abajo para actualizar";
+"device_loosenSync" = "Suelte inmediatamente para actualizar";
+"device_lastTime" = "última actualización:";
+"device_syncing" = "Sincronizando...";
+"device_syncSucc" = "Terminado";
+"device_syncFail" = "Error de sincronización";
 
 //设备设置页
 "setting_title" = "设备";
@@ -156,6 +174,7 @@
 "me_more_set" = "更多设置";
 "me_userHelp" = "使用帮助";
 "me_signOut" = "退出登录";
+"me_signOut_remind" = "确定退出登录？";
 "me_perso_name" = "Alias";
 "me_perso_gender" = "Sexo";
 "me_perso_unit" = "Unidad";
@@ -169,3 +188,8 @@
 "me_perso_language" = "语言";
 "me_perso_zh" = "中文";
 "me_perso_en" = "英文";
+"me_goal_title" = "运动目标";
+"me_goal_walk" = "步行";
+"me_goal_run" = "跑步";
+"me_goal_approximate" = "约等于";
+

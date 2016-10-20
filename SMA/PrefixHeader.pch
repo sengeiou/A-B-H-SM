@@ -26,6 +26,7 @@
 #import "BLConnect.h"
 #import "SmaBLE.h"
 #import "SMADatabase.h"
+#import "SMACalculate.h"
 /**** Define
  */
 #define SmaBleMgr [BLConnect sharedCoreBlueTool]

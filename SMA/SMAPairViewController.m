@@ -32,10 +32,15 @@
 }
 
 - (void)initializeMehtod{
-    SmaBleMgr.BLdelegate = self;
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)updateUI{
+     SmaBleMgr.BLdelegate = self;
 }
 
 - (void)createUI{
+    SmaBleMgr.BLdelegate = self;
     self.title = SMALocalizedString(@"setting_band_title");
     _deviceTableView.delegate = self;
     _deviceTableView.dataSource = self;
@@ -50,7 +55,6 @@
     
      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
  
-    
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.borderWidth = 0;
     _gradientLayer.frame = CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height*0.6);

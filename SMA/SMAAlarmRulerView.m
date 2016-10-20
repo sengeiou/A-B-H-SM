@@ -38,6 +38,7 @@
     _starTick = 0;
     shouldUpdateSubviews = YES;
     _clearance = 50.0;
+    _multiple = 1;
 }
 
 - (void)layoutSubviews{
@@ -47,6 +48,8 @@
         _clockRuler.startTick = _starTick;
         _clockRuler.stopTick = _stopTick;
         _clockRuler.scaleHiden = 3;
+        _clockRuler.multiple = _multiple;
+        _clockRuler.textStyleDict = _textStyleDict;
         _clockRuler.delegate = self;
         _clockRuler.backgroundColor = [SmaColor colorWithHexString:@"#86BFFA" alpha:1];
         self.contentSize = CGSizeMake(_clockRuler.frame.size.width, self.frame.size.height);
@@ -85,7 +88,7 @@
     [UIView animateWithDuration:0.2 animations:^{
         if (EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) > [[_clockRuler.cmArray lastObject] floatValue]) {
             self.contentOffset = [self scrollviewContentOffset:(int)_clockRuler.cmArray.count - 1];
-            rulerPoin = [NSString stringWithFormat:@"%lu",_clockRuler.cmArray.count -1 +_starTick];
+            rulerPoin = [NSString stringWithFormat:@"%lu",(_clockRuler.cmArray.count -1 +_starTick)];
         }
         else if (EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) < [[_clockRuler.cmArray firstObject] floatValue]) {
             self.contentOffset = [self scrollviewContentOffset:0];
@@ -131,6 +134,18 @@
                     [self.alarmDelegate scrollDidEndDecelerating:rulerPoin scrollView:self];
                 }
     }];
+}
+
+-(NSDictionary *)textStyleDict
+{
+    if (!_textStyleDict) {
+        UIFont *font = FontGothamLight(30);
+        NSMutableParagraphStyle *style=[[NSMutableParagraphStyle alloc]init]; // 段落样式
+        style.alignment = NSTextAlignmentCenter;
+        
+        _textStyleDict = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:style, NSForegroundColorAttributeName:[UIColor blackColor]};
+    }
+    return _textStyleDict;
 }
 
 #pragma mark *****smaAlarmRulerViewDelegate

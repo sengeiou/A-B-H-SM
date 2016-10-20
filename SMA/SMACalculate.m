@@ -36,7 +36,6 @@
     return result;
 }
 
-
 //  二进制转十进制
 + (NSString *)toDecimalSystemWithBinarySystem:(NSString *)binary
 {
@@ -74,5 +73,30 @@
 
 + (float)convertToKm:(float)mile {
     return mile*1.609344;
+}
+
+//计算距离
++ (float)countKMWithHeigh:(float)hight step:(int) step{
+    return 45 * hight * step /10000000;
+}
+
+//计算卡路里
++ (float)countCalWithSex:(NSString *)sex userWeight:(float)weight step:(int)step{
+    if ([sex isEqualToString:@"1"]) {
+        return (55*weight*step)/100000;
+    }
+    else{
+        return (46*weight*step)/100000;
+    }
+}
+
+//整理07运动，保证四舍不入
++ (NSString *)notRounding:(float)price afterPoint:(int)position{
+    NSDecimalNumberHandler* roundingBehavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:position raiseOnExactness: NO  raiseOnOverflow: NO  raiseOnUnderflow: NO  raiseOnDivideByZero: NO ];
+    NSDecimalNumber *ouncesDecimal;
+    NSDecimalNumber *roundedOunces;
+    ouncesDecimal = [[NSDecimalNumber alloc] initWithFloat:price];
+    roundedOunces = [ouncesDecimal decimalNumberByRoundingAccordingToBehavior:roundingBehavior];
+    return  [NSString stringWithFormat: @"%@" ,roundedOunces];
 }
 @end

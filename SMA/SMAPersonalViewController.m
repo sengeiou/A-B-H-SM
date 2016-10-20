@@ -33,10 +33,11 @@
 - (void)initializeMethod{
     genderArr = @[SMALocalizedString(@"user_boy"),SMALocalizedString(@"user_girl")];
     unitArr = @[SMALocalizedString(@"me_perso_metric"),SMALocalizedString(@"me_perso_british")];
+     user = [SMAAccountTool userInfo];
 }
 
 - (void)createUI{
-    user = [SMAAccountTool userInfo];
+   
     _nameLab.text = SMALocalizedString(@"me_perso_name");
     _nameDetalLab.text = user.userName;
     _genderLab.text = SMALocalizedString(@"me_perso_gender");
@@ -63,6 +64,9 @@
         } failure:^(NSError *erro) {
             
         }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+        });
     }
 }
 
@@ -82,18 +86,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ((indexPath.section == 0 || indexPath.section == 1)) {
-        NSLog(@"%ld %ld",indexPath.section,indexPath.row);
-        if (!(indexPath.section == 0 && indexPath.row == 1)) {
-            NSLog(@"e2323");
-        }
         if (!(indexPath.section == 0 && indexPath.row == 1)) {
             __block UITextField *titleField;
             __block UIAlertController *aler;
             aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"me_perso_name") message:nil preferredStyle:UIAlertControllerStyleAlert];
-            if (indexPath.section == 1 && indexPath.row == 1) {
+            if (indexPath.section == 1 && indexPath.row == 0) {
                 aler.title = SMALocalizedString(@"user_hight");
+            }
+            else if (indexPath.section == 1 && indexPath.row == 1){
+                aler.title = SMALocalizedString(@"user_weight");
+            }
+            else if (indexPath.section == 1 && indexPath.row == 2){
+                aler.title = SMALocalizedString(@"user_age");
             }
             [aler addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
                 textField.font = FontGothamLight(17);
@@ -107,10 +113,13 @@
                     textField.rightViewMode = UITextFieldViewModeAlways;
                 }
                 else if(indexPath.section == 1 && indexPath.row == 1){
-                    unitLab.text = user.unit.intValue == 0?SMALocalizedString(@"sme_perso_kg"):SMALocalizedString(@"me_perso_lbs");
+                    unitLab.text = user.unit.intValue == 0?SMALocalizedString(@"me_perso_kg"):SMALocalizedString(@"me_perso_lbs");
                     textField.keyboardType= UIKeyboardTypePhonePad;
                     textField.rightView = unitLab;
                     textField.rightViewMode = UITextFieldViewModeAlways;
+                }
+                else if (indexPath.section == 1 && indexPath.row == 2){
+                    textField.keyboardType= UIKeyboardTypePhonePad;
                 }
                 titleField = textField;
             }];
@@ -120,13 +129,18 @@
                     user.userName = titleField.text;
                 }
                 else if (indexPath.section == 1 && indexPath.row == 0){
-                    _nameDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit?SMALocalizedString(@"me_perso_cm"):SMALocalizedString(@"me_perso_inch")];
+                    _hightDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit?SMALocalizedString(@"me_perso_cm"):SMALocalizedString(@"me_perso_inch")];
                     user.userHeight = user.unit.intValue == 0?titleField.text:[NSString stringWithFormat:@"%.0f",[SMACalculate convertToCm:titleField.text.floatValue]];
                 }
                 else if (indexPath.section == 1 && indexPath.row == 1){
-                    _nameDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit?SMALocalizedString(@"me_perso_kg"):SMALocalizedString(@"me_perso_lbs")];
+                    _weightDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit?SMALocalizedString(@"me_perso_kg"):SMALocalizedString(@"me_perso_lbs")];
                     user.userWeigh = user.unit.intValue == 0?titleField.text:[NSString stringWithFormat:@"%.0f",[SMACalculate convertToLbs:titleField.text.floatValue]];
                 }
+                else if (indexPath.section == 1 && indexPath.row == 2){
+                    _ageDetalLab.text = titleField.text;
+                    user.userAge = titleField.text;
+                }
+                cell.selected = NO;
             }];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 
@@ -158,10 +172,17 @@
 #pragma mark *******PersonalPickDelegate
 - (void)pickView:(SMAPersonalPickView *)pickview didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (pickview == genderPickview) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        cell.selected = NO;
         user.userSex = [NSString stringWithFormat:@"%d",!row];
+        _genderDetalLab.text = user.userSex.integerValue?SMALocalizedString(@"user_boy"):SMALocalizedString(@"user_girl");
     }
     else{
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+        cell.selected = NO;
         user.unit = [NSString stringWithFormat:@"%ld",(long)row];
+        _unitDetalLab.text = user.unit.intValue?SMALocalizedString(@"me_perso_british"):SMALocalizedString(@"me_perso_metric");
+        [self createUI];
     }
 }
 @end

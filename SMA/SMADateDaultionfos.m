@@ -48,4 +48,58 @@
     NSString *nowDate = [formatter stringFromDate:date];
   return nowDate;
 }
+
++ (NSString *)minuteFormDate:(NSString *)date{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMddHHmmss"];
+    NSInteger second = [date substringWithRange:NSMakeRange(8, 2)].integerValue * 60 + [date substringWithRange:NSMakeRange(10, 2)].integerValue;
+    NSString *moment = [NSString stringWithFormat:@"%ld",second];
+    return moment;
+}
+
++ (NSString *)firstDayOfWeekToDate:(NSDate *)date{
+    NSDate *now = date;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay
+                                         fromDate:now];
+    // 得到星期几
+    // 2(星期天) 3(星期二) 4(星期三) 5(星期四) 6(星期五) 7(星期六) 1(星期天)
+    NSInteger weekDay = [comp weekday];
+    // 得到几号
+    NSInteger day = [comp day];
+    // 计算当前日期和这周的星期一和星期天差的天数
+    long firstDiff,lastDiff;
+    if (weekDay == 1) {
+        firstDiff = 1;
+        lastDiff = 0;
+    }else{
+        firstDiff = [calendar firstWeekday] - weekDay;
+        lastDiff = 9 - weekDay;
+    }
+    // 在当前日期(去掉了时分秒)基础上加上差的天数
+    NSDateComponents *firstDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
+    [firstDayComp setDay:day + firstDiff];
+    NSDate *firstDayOfWeek= [calendar dateFromComponents:firstDayComp];
+    
+    NSDateComponents *lastDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
+    [lastDayComp setDay:day + lastDiff];
+    NSDate *lastDayOfWeek= [calendar dateFromComponents:lastDayComp];
+    
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@"yyyyMMddHHmmss"];
+    NSLog(@"星期一开始 %@",[formater stringFromDate:firstDayOfWeek]);
+    NSLog(@"当前 %@",[formater stringFromDate:now]);
+    NSLog(@"星期天结束 %@",[formater stringFromDate:lastDayOfWeek]);
+    return [formater stringFromDate:firstDayOfWeek];
+}
+
++ (NSString *)monAndDateStringFormDateStr:(NSString *)dateString format:(NSString *)format{
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:format];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay
+                                         fromDate:[formater dateFromString:dateString]];
+    NSString *monAndDate = [NSString stringWithFormat:@"%ld.%ld",(long)[comp month],(long)[comp day]];
+    return monAndDate;
+}
 @end

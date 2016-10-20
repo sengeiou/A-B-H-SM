@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SMACalculate.h"
 @class SMASedentEditCell;
 typedef void (^pushButton)(SmaAlarmInfo *alarminfo);
 typedef void (^deleteButton)(SmaAlarmInfo *alarminfo,SMASedentEditCell *cell);

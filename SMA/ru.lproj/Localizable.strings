@@ -59,11 +59,23 @@
 "device_title" = "数据";
 "device_todate" = "Сегодня";
 "device_SP_goal" = "sport_plaremark";
-"device_SP_steps" = "steps";
-"device_SP_step" = "step";
+"device_SP_steps" = "Шаги";
+"device_SP_step" = "Шаг";
 "device_SP_sit" = "静坐";
 "device_SP_walking" = "步行";
 "device_SP_running" = "跑步";
+"device_SP_km" = "км";
+"device_SP_mile" = "мили";
+"device_SP_cal" = "Кал.";
+"device_SP_syncWait" = "Синхронизация данных телефона еще не завершена. Подождите";
+"device_SP_day" = "День";
+"device_SP_week" = "Неделя";
+"device_SP_month" = "Месяц";
+"device_SP_time" = "Время";
+"device_SP_state" = "状态";
+"device_SP_avgStep" = "日均步数";
+"device_SP_sumDista" = "里程";
+"device_SP_avgCal" = "日均消耗";
 "device_HR_monitor" = "Частота сердечных сокращений";
 "device_HR_typeF" = "Стандарт";
 "device_HR_typeS" = "Легк.";
@@ -78,6 +90,12 @@
 "device_SL_deep" = "Глубокий";
 "device_SL_light" = "Неглубокий";
 "device_SL_awake" = "бодрствования";
+"device_pullSync" = "Опустите вниз, чтобы обновить";
+"device_loosenSync" = "Сразу же отпустите, чтобы обновить";
+"device_lastTime" = "Последнее обновление:";
+"device_syncing" = "Синхронизация...";
+"ddevice_syncSucc" = "Завершено!";
+"device_syncFail" = "Сбой синхронизации";
 
 //设备设置页
 "setting_title" = "设备";
@@ -156,6 +174,7 @@
 "me_more_set" = "更多设置";
 "me_userHelp" = "使用帮助";
 "me_signOut" = "退出登录";
+"me_signOut_remind" = "确定退出登录？";
 "me_perso_name" = "Псевдоним";
 "me_perso_gender" = "Пол";
 "me_perso_unit" = "единица";
@@ -169,3 +188,7 @@
 "me_perso_language" = "语言";
 "me_perso_zh" = "中文";
 "me_perso_en" = "英文";
+"me_goal_title" = "运动目标";
+"me_goal_walk" = "步行";
+"me_goal_run" = "跑步";
+"me_goal_approximate" = "约等于";

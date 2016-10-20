@@ -14,4 +14,7 @@
 + (NSTimeInterval)msecIntervalSince1970Withdate:(NSString *)date timeZone:(NSTimeZone *)zone;
 //当前时区时间
 + (NSString *)stringFormmsecIntervalSince1970:(NSTimeInterval)interval timeZone:(NSTimeZone *)zone;
++ (NSString *)minuteFormDate:(NSString *)date;
++ (NSString *)firstDayOfWeekToDate:(NSDate *)date;
++ (NSString *)monAndDateStringFormDateStr:(NSString *)dateString format:(NSString *)format;
 @end

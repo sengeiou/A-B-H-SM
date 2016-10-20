@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham-Light_0.otf">
+            <string>Gotham-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SMADetailCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24:54~23:20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Uz-ur-7B4">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="90" id="7zG-6L-VOf"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99.9km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igi-hI-e18">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="57" id="oEz-g3-3Ui"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="跑步" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSt-aP-Zvz">
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="CSt-aP-Zvz" firstAttribute="leading" secondItem="4Uz-ur-7B4" secondAttribute="trailing" constant="8" id="WBW-RP-zim"/>
+                    <constraint firstAttribute="bottom" secondItem="4Uz-ur-7B4" secondAttribute="bottom" id="XC8-VT-LBd"/>
+                    <constraint firstItem="igi-hI-e18" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="eU1-Wc-Frv"/>
+                    <constraint firstAttribute="trailing" secondItem="igi-hI-e18" secondAttribute="trailing" constant="15" id="g3n-C8-Srm"/>
+                    <constraint firstItem="4Uz-ur-7B4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="45" id="nWr-a9-KZb"/>
+                    <constraint firstAttribute="bottom" secondItem="CSt-aP-Zvz" secondAttribute="bottom" id="nWv-HU-1JR"/>
+                    <constraint firstItem="4Uz-ur-7B4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="oi6-cJ-uyW"/>
+                    <constraint firstItem="CSt-aP-Zvz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="peu-cv-yJP"/>
+                    <constraint firstItem="igi-hI-e18" firstAttribute="leading" secondItem="CSt-aP-Zvz" secondAttribute="trailing" constant="8" id="sD9-wt-6bv"/>
+                    <constraint firstAttribute="bottom" secondItem="igi-hI-e18" secondAttribute="bottom" id="sqB-0B-v0u"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="distanceLab" destination="igi-hI-e18" id="nex-0B-DLd"/>
+                <outlet property="statelab" destination="CSt-aP-Zvz" id="JAA-W5-9aA"/>
+                <outlet property="timeLab" destination="4Uz-ur-7B4" id="vbo-Aq-tFn"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

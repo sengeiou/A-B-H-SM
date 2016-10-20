@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SMACalculate.h"
 typedef void (^tapButton)(NSString *weekStr);
 @interface SMARepeatCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel *repeatLab;

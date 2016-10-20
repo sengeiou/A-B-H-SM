@@ -11,7 +11,6 @@
 #import "SMASedentEditCell.h"
 #import "SMATimePickView.h"
 #import "AppDelegate.h"
-#import "SMACalculate.h"
 @interface SMASedentaryController : UITableViewController<timePickDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *firTimeLab, *secTimeLab, *repeatLab, *sedentaryTimeLab, *timeLab;
 @property (nonatomic, weak) IBOutlet UISwitch *firSwitch, *secSwitch;

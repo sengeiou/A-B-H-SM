@@ -88,6 +88,10 @@ typedef enum {
  @discussion     将设备反馈数据进行处理，并通过反馈数据类型：mode来区分属于哪类数据（如：睡眠数据，运动数据），当应用程序调用:handleResponseValue:后回调
  */
 - (void)bleDataParsingWithMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)array Checkout:(BOOL)check;
+/*数据发送超时
+ @param mode     数据属于的类型枚举：SMA_INFO_MODE
+ */
+- (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode;
 //更新进度（表盘）
 - (void)updateProgress:(NSString *)pregress;
 - (void)updateProgressEnd:(BOOL)success;

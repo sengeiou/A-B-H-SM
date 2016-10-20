@@ -16,9 +16,11 @@
 @interface SMAAlarmRulerView : UIScrollView<UIScrollViewDelegate,smaAlarmRulerViewDelegate>
 
 @property (nonatomic, strong) SMAClockRulerView *clockRuler;
+@property (strong, nonatomic) NSDictionary   *textStyleDict;
 @property (nonatomic) int starTick;
 @property (nonatomic) int stopTick;
 @property (nonatomic) int showTick;
+@property (nonatomic) int multiple;
 @property (nonatomic, weak) id<smaAlarmRulerScrollDelegate> alarmDelegate;
 @property (nonatomic) float clearance; //两格间隙
 @end

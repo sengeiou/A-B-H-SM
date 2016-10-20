@@ -34,6 +34,7 @@
     _startTick = 0;
     _stopTick = 12;
     _scaleHiden = 20;
+    _multiple = 1;
     firstCreate = YES;
 }
 
@@ -42,7 +43,7 @@
         _cmArray = [NSMutableArray array];
         _lableArray = [NSMutableArray array];
         for (int i = 0; i < (_stopTick - _startTick); i++) {
-            [_lableArray addObject:[NSString stringWithFormat:@"%d",i]];
+            [_lableArray addObject:[NSString stringWithFormat:@"%d",i * _multiple]];
         }
         firstCreate = NO;
     }
@@ -66,7 +67,7 @@
                 CGSize size = [_lableArray[i - _scaleHiden] boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:self.textStyleDict context:nil].size;
                 UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(x - (size.width + 5) * 0.5, self.frame.size.height/2 + 5, size.width+5, size.height)];
                 lab.textColor = [UIColor whiteColor];
-                lab.font = FontGothamLight(30);
+                lab.font = [self.textStyleDict objectForKey:NSFontAttributeName];
                 lab.textAlignment = NSTextAlignmentCenter;
                 lab.text = _lableArray[i - _scaleHiden];
                 [self addSubview:lab];

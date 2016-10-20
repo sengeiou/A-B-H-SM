@@ -27,6 +27,7 @@
     // 3.监听键盘的通知
     [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [SmaNotificationCenter addObserver:self selector:@selector(update) name:UIApplicationDidEnterBackgroundNotification object:nil];
     //监听登录通知
     [SmaNotificationCenter addObserver:self selector:@selector(loginSuccessed:) name:kLoginSuccessed object:[SMAthirdPartyManager sharedManager]];
     [SmaNotificationCenter addObserver:self selector:@selector(loginFailed:) name:kLoginFailed object:[SMAthirdPartyManager sharedManager]];
@@ -57,6 +58,11 @@
         
     }];
 
+}
+
+- (void)update{
+     [_accountField resignFirstResponder];
+    [_passwordField resignFirstResponder];
 }
 
 #pragma mark *******创建UI

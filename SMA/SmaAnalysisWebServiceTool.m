@@ -199,15 +199,6 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     [ACAccountManager changeNickName:info.userName callback:^(NSError *error) {
         
     }];
-//    NSArray *quiteArr = [SmaUserDefaults objectForKey:@"quietDaArr"];
-//    int quitHR;
-//    if (quiteArr.count>1) {
-//        quitHR = [[quiteArr[1][1] stringByReplacingOccurrencesOfString:@" bpm" withString:@""] intValue];
-////        NSLog(@"fefw==%@ %@",ResDetalLab.text,quiteArr[1]);
-//    }
-//    else {
-//        quitHR = 0;
-//    }
     ACObject *msg = [[ACObject alloc] init];
     [msg putInteger:@"age" value:info.userAge.integerValue?info.userAge.integerValue:@"".integerValue];
 //    [msg putString:@"client_id" value:[SmaUserDefaults objectForKey:@"clientId"]?[SmaUserDefaults objectForKey:@"clientId"]:@""];

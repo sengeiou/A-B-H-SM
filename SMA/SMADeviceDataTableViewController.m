@@ -9,13 +9,20 @@
 #import "SMADeviceDataTableViewController.h"
 
 @interface SMADeviceDataTableViewController ()
-
+{
+    SMACalendarView *calendarView;
+    NSMutableArray *spArr;
+    UILabel *titleLab;
+}
+@property (nonatomic, strong) SMADatabase *dal;
+@property (nonatomic, strong) NSDate *date;
 @end
 
 @implementation SMADeviceDataTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initializeMethod];
     [self createUI];
 }
 
@@ -24,13 +31,137 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [self initializeMethod];
+    [self updateUI];
+   
+}
+
+- (SMADatabase *)dal{
+    if (!_dal) {
+        _dal = [[SMADatabase alloc] init];
+    }
+    return _dal;
+}
+
+- (NSDate *)date{
+    if (!_date) {
+        _date = [NSDate date];
+    }
+    return _date;
+}
+
+- (void)initializeMethod{
+    spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+}
+
 - (void)createUI{
-    self.title = SMALocalizedString(@"device_title");
+    SmaBleMgr.BLdelegate = self;
+//    self.title = self.date.yyyyMMddByLineWithDate;
+    titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
+    titleLab.text = [self dateWithYMD];
+    titleLab.font = FontGothamLight(20);
+    titleLab.textAlignment = NSTextAlignmentCenter;
+    titleLab.textColor = [UIColor whiteColor];
+    self.navigationItem.titleView = titleLab;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+        self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self setupRefresh];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
+
+- (void)updateUI{
+    SmaBleMgr.BLdelegate = self;
+    if (!SmaBleMgr.syncing) {
+        [self.tableView headerEndRefreshing];
+        self.tableView.scrollEnabled = YES;
+    }
+    [self.tableView reloadData];
+}
+
+- (IBAction)calendarSelector:(id)sender{
+    calendarView = [[SMACalendarView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height)];
+    calendarView.delegate = self;
+    calendarView.date = self.date;
+    [calendarView getDataDayModel:self.date];
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app.window addSubview:calendarView];
+}
+
+- (IBAction)shareselector:(id)sender{
+    
+}
+
+- (UIImage *)screenshot{
+     CGSize imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);//你要的截图的位置
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen]) {
+            CGContextSaveGState(context);
+            
+            CGContextTranslateCTM(context, [window center].x, [window center].y);
+            
+            CGContextConcatCTM(context, [window transform]);
+            
+            CGContextTranslateCTM(context,
+                                  -[window bounds].size.width * [[window layer] anchorPoint].x,
+                                  -[window bounds].size.height * [[window layer] anchorPoint].y);
+            [[window layer] renderInContext:context];
+            CGContextRestoreGState(context);
+        }
+    }
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+/**
+ *  集成刷新控件
+ */
+- (void)setupRefresh
+{
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    self.tableView.headerPullToRefreshText = SMALocalizedString(@"device_pullSync");
+    self.tableView.headerReleaseToRefreshText = SMALocalizedString(@"device_loosenSync");
+    self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncing");
+}
+
+#pragma mark 开始进入刷新状态
+- (void)headerRereshing{
+    self.tableView.scrollEnabled = NO;
+    if ([SmaBleMgr checkBLConnectState]) {
+        if (SmaBleSend.serialNum == SmaBleMgr.sendIdentifier) {
+//            self.scrolllView.headerRefreshingText = SMALocalizedString(@"device_syncing");
+            SmaBleMgr.syncing = YES;
+            [SmaBleSend requestCuffSportData];
+        }
+        else{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.tableView.scrollEnabled = YES;
+                [self.view endEditing:YES];
+                [self.tableView headerEndRefreshing];
+                // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+            });
+            [MBProgressHUD showError: SMALocalizedString(@"device_SP_syncWait")];
+        }
+    }
+    else{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.tableView.scrollEnabled = YES;
+            [self.view endEditing:YES];
+            [self.tableView headerEndRefreshing];
+        });
+
+    }
+    [self.tableView headerEndRefreshing];
+}
+
+
 
 #pragma mark - Table view data source
 
@@ -50,25 +181,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SMADieviceDataCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DATACELL"];
-    //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DATACELL"];
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"SMADieviceDataCell" owner:self options:nil] lastObject];
-        //        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DATACELL"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        //        cell.imageView.image = [UIImage buttonImageFromColors:@[[UIColor blueColor],[UIColor orangeColor]] ByGradientType:0 radius:20 size:CGSizeMake(40, 40)];
-        //        cell.imageView.layer.shouldRasterize = YES;
-        //        cell.imageView.backgroundColor = [UIColor yellowColor];
-        //        cell.textLabel.text = @"fwefewfewfwefwf";
-        
         if (indexPath.row == 0) {
             cell.pulldownView.hidden = NO;
             cell.roundView.progressViewClass = [SDLoopProgressView class];
             cell.roundView.progressView.progress = 0.801;
-            cell.roundView.progressView.titleLab = @"800008";
+            cell.roundView.progressView.titleLab = spArr.count > 0?[[spArr firstObject] objectForKey:@"STEP"]:@"0";
             cell.titLab.text = SMALocalizedString(@"device_SP_goal");
-            cell.dialLab.text = SMALocalizedString(@"20000");
-            cell.stypeLab.text = SMALocalizedString(@"device_SP_step");
+            cell.dialLab.text = [SMAAccountTool userInfo].userGoal;
+            cell.stypeLab.text = [SMAAccountTool userInfo].userGoal.intValue < 10? SMALocalizedString(@"device_SP_step"):SMALocalizedString(@"device_SP_steps");
 
             cell.detailsTitLab1.text = SMALocalizedString(@"device_SP_sit");
             cell.detailsTitLab2.text = SMALocalizedString(@"device_SP_walking");
@@ -146,55 +269,56 @@
                     
                 });
             }
-        
     }
     
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        SMASportDetailViewController *spDetailVC = [[SMASportDetailViewController alloc] init];
+        spDetailVC.hidesBottomBarWhenPushed=YES;
+        spDetailVC.date = self.date;
+        [self.navigationController pushViewController:spDetailVC animated:YES];
+    }
+}
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
+#pragma mark *******BLConnectDelegate
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
+- (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{
+    if (mode == CUFFSLEEPDATA) {
+        self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncSucc");
+        [self.tableView headerEndRefreshing];
+        self.tableView.scrollEnabled = YES;
+    }
+}
 
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
+- (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode{
+    if (mode == CUFFSPORTDATA || mode == CUFFSLEEPDATA || mode == CUFFHEARTRATE) {
+        self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncFail");
+        [self.tableView headerEndRefreshing];
+        self.tableView.scrollEnabled = YES;
+    }
+}
 
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
+#pragma mark *******calenderDelegate
+- (void)didSelectDate:(NSDate *)date{
+    self.date = date;
+    titleLab.text = [self dateWithYMD];
+    spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+    [self.tableView reloadData];
+//    NSLog(@"date==%@",self.date.yyyyMMddNoLineWithDate);
+}
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (NSString *)dateWithYMD{
+    NSString *selfStr;
+    if ([[NSDate date].yyyyMMddNoLineWithDate isEqualToString:self.date.yyyyMMddNoLineWithDate]) {
+        selfStr = SMALocalizedString(@"device_todate");
+    }
+    else {
+        selfStr= self.date.yyyyMMddByLineWithDate;
+    }
+    return selfStr;
+}
 
 @end

@@ -25,6 +25,7 @@
     // 3.监听键盘的通知
     [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [SmaNotificationCenter addObserver:self selector:@selector(update) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,6 +69,12 @@
     
     [_verCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
  [_findPassBut setTitle:SMALocalizedString(@"login_findPass") forState:UIControlStateNormal];
+}
+
+- (void)update{
+    [_accountField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+    [_verCodeField resignFirstResponder];
 }
 
 - (IBAction)backSelector:(id)sender{

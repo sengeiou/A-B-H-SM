@@ -17,6 +17,7 @@
 @property (nonatomic, assign) float transFloat;
 @property (nonatomic, assign) int startTick; //大于50
 @property (nonatomic, assign) int stopTick;  //小于250
+@property (nonatomic) int multiple;
 @property (nonatomic) int scaleHiden; //隐藏前后各**格
 @property (nonatomic, weak) id<smaAlarmRulerViewDelegate> delegate;
 @end

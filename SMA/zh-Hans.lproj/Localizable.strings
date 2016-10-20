@@ -64,6 +64,18 @@
 "device_SP_sit" = "静坐";
 "device_SP_walking" = "步行";
 "device_SP_running" = "跑步";
+"device_SP_km" = "km";
+"device_SP_mile" = "mile";
+"device_SP_cal" = "cal";
+"device_SP_syncWait" = "数据未完成同步，请稍候!";
+"device_SP_day" = "日";
+"device_SP_week" = "周";
+"device_SP_month" = "月";
+"device_SP_time" = "时间";
+"device_SP_state" = "状态";
+"device_SP_avgStep" = "日均步数";
+"device_SP_sumDista" = "里程";
+"device_SP_avgCal" = "日均消耗";
 "device_HR_monitor" = "心率监测";
 "device_HR_typeF" = "正常";
 "device_HR_typeS" = "偏低";
@@ -78,6 +90,12 @@
 "device_SL_deep" = "深睡";
 "device_SL_light" = "浅睡";
 "device_SL_awake" = "清醒";
+"device_pullSync" = "下拉可以刷新";
+"device_loosenSync" = "松开马上刷新";
+"device_lastTime" = "最后更新:";
+"device_syncing" = "同步中...";
+"device_syncSucc" = "同步完成";
+"device_syncFail" = "同步失败";
 
 //设备设置页
 "setting_title" = "设备";
@@ -118,13 +136,13 @@
 "setting_sedentary_every" = "每天";
 "setting_sedentary_workday" = "工作日";
 "setting_sedentary_weekend" = "周末";
-"setting_sedentary_mon" = "1";
-"setting_sedentary_tue" = "2";
-"setting_sedentary_wed" = "3";
-"setting_sedentary_thu" = "4";
-"setting_sedentary_fri" = "5";
-"setting_sedentary_sat" = "6";
-"setting_sedentary_sun" = "7";
+"setting_sedentary_mon" = "一";
+"setting_sedentary_tue" = "二";
+"setting_sedentary_wed" = "三";
+"setting_sedentary_thu" = "四";
+"setting_sedentary_fri" = "五";
+"setting_sedentary_sat" = "六";
+"setting_sedentary_sun" = "日";
 "setting_sedentary_time" = "时间";
 "setting_sedentary_timeout" = "久坐时长";
 "setting_sedentary_minute" = "分钟";
@@ -156,6 +174,7 @@
 "me_more_set" = "更多设置";
 "me_userHelp" = "使用帮助";
 "me_signOut" = "退出登录";
+"me_signOut_remind" = "确定退出登录？";
 "me_perso_name" = "昵称";
 "me_perso_gender" = "性别";
 "me_perso_unit" = "单位";
@@ -169,3 +188,8 @@
 "me_perso_language" = "语言";
 "me_perso_zh" = "中文";
 "me_perso_en" = "英文";
+"me_goal_title" = "运动目标";
+"me_goal_walk" = "步行";
+"me_goal_run" = "跑步";
+"me_goal_approximate" = "约等于";
+

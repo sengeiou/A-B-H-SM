@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SMACalculate.h"
 #import "SMAPersonalPickView.h"
 #import "AppDelegate.h"
 @interface SMAPersonalViewController : UITableViewController<PersonalPickDelegate>

@@ -19,6 +19,7 @@
 - (void)bleLoginComplete;
 - (void)bleDidUpdateValue:(CBCharacteristic *)characteristic;
 - (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data;
+- (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode;
 @end
 
 
@@ -34,7 +35,9 @@
 @property (strong, nonatomic) NSTimer *reloadTimer;
 @property (strong, nonatomic) NSTimer *scanTimer;
 @property (strong, nonatomic) SMAUserInfo *user;
+@property (assign,readonly,nonatomic) int sendIdentifier;
 @property (weak,   nonatomic) id<BLConnectDelegate> BLdelegate;
+@property (assign, nonatomic) BOOL syncing;
 + (instancetype)sharedCoreBlueTool;
 //查找蓝牙设备
 - (void)scanBL:(int)time;

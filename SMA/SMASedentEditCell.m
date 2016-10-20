@@ -77,7 +77,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"scrollViewWillBeginDecelerating == %f  %d",scrollView.contentOffset.x,restore);
+//    NSLog(@"scrollViewWillBeginDecelerating == %f  %d",scrollView.contentOffset.x,restore);
 //    if (restore) {
 //        return;
 //    }

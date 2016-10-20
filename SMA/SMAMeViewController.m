@@ -71,7 +71,7 @@
         }
     }];
     UIAlertAction *albumAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_photoAlbum") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-          sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypePhotoLibrary]) {
             if (!picker) {
                 picker = [[UIImagePickerController alloc] init];//初始化
@@ -86,7 +86,7 @@
         else{
             [MBProgressHUD showError:SMALocalizedString(@"me_no_photoAlbum")];
         }
-
+        
     }];
     UIAlertAction *cancelhAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -100,7 +100,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-
+    
     if (section == 0 || section == 1 ){
         return 10;
     }
@@ -114,24 +114,46 @@
     return 0.0001;
 }
 
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UILabel *lab;
+    if (section == 3) {
+        lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 10)];
+        lab.text = SMALocalizedString(@"©2016 SMA.All Rights Reserved");
+        lab.font = FontGothamLight(9);
+        lab.textAlignment = NSTextAlignmentCenter;
+        lab.textColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];
+    }
+    return lab;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-     SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
-//    [webservice acloudDownLHeadUrlWithAccount:[SMAAccountTool userInfo].userID Success:^(id success) {
-//        
-//    } failure:^(NSError * error) {
-//        
-//    }];
-//     [self openBLset];
     if (indexPath.section == 3) {
-        [webservice logOutSuccess:^(bool result) {
+        UIAlertController *aler = [UIAlertController alertControllerWithTitle:nil message:SMALocalizedString(@"me_signOut_remind") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confimAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
+            
+            if (indexPath.section == 3) {
+                [webservice logOutSuccess:^(bool result) {
+                    
+                }];
+                SMAUserInfo *user = [SMAAccountTool userInfo];
+                user.userID = @"";
+                user.watchUUID = nil;
+                [SMAAccountTool saveUser:user];
+                UINavigationController *loginNav = [MainStoryBoard instantiateViewControllerWithIdentifier:@"ViewController"];
+                [UIApplication sharedApplication].keyWindow.rootViewController=loginNav;
+            }
             
         }];
-        SMAUserInfo *user = [SMAAccountTool userInfo];
-        user.userID = @"";
-        user.watchUUID = nil;
-        [SMAAccountTool saveUser:user];
-        UINavigationController *loginNav = [MainStoryBoard instantiateViewControllerWithIdentifier:@"ViewController"];
-        [UIApplication sharedApplication].keyWindow.rootViewController=loginNav;
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.selected = NO;
+        }];
+        [aler addAction:cancelAction];
+        [aler addAction:confimAction];
+        [self presentViewController:aler animated:YES completion:^{
+            
+        }];
     }
 }
 
@@ -143,7 +165,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     __block UIImage* image;
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString*)kUTTypeImage]) {
-         image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userID]];
         BOOL result = [[self scaleToSize:image] writeToFile: filePath  atomically:YES];
@@ -156,7 +178,7 @@
                 
             }];
         }else{
-             NSLog(@"保存失败");
+            NSLog(@"保存失败");
         }
     }
     [self dismissViewControllerAnimated:YES completion:^{

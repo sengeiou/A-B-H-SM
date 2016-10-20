@@ -25,4 +25,10 @@
 + (float)convertToMile:(float)km;
 // 英里转千米
 + (float)convertToKm:(float)mile;
+//计算距离
++ (float)countKMWithHeigh:(float)hight step:(int) step;
+//计算卡路里
++ (float)countCalWithSex:(NSString *)sex userWeight:(float)weight step:(int)step;
+//保证保留小数四舍不入
++ (NSString *)notRounding:(float)price afterPoint:(int)position;
 @end

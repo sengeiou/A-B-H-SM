@@ -50,7 +50,7 @@
 //    attributes[NSFontAttributeName] = FontGothamLight(25 * SDProgressViewFontScale);
 //    attributes[NSForegroundColorAttributeName] = [UIColor lightGrayColor];
     
-    [self setCenterProgressText:self.titleLab uintText:SMALocalizedString(@"device_SP_steps") textFont:self.titleLab.intValue>100000?FontGothamLight(17 * SDProgressViewFontScale):FontGothamLight(20 * SDProgressViewFontScale) uintFont:FontGothamLight(15 * SDProgressViewFontScale)];
+    [self setCenterProgressText:self.titleLab uintText:self.titleLab.intValue > 9? SMALocalizedString(@"device_SP_steps"):SMALocalizedString(@"device_SP_step") textFont:self.titleLab.intValue>100000?FontGothamLight(17 * SDProgressViewFontScale):FontGothamLight(20 * SDProgressViewFontScale) uintFont:FontGothamLight(15 * SDProgressViewFontScale)];
 }
 
 @end
