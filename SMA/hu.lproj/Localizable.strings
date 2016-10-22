@@ -94,7 +94,7 @@
 "device_loosenSync" = "Azonnali frissítés felengedés után";
 "device_lastTime" = "utolsó frissítés:";
 "device_syncing" = "Szinkr...";
-"ddevice_syncSucc" = "Befejeződött!";
+"device_syncSucc" = "Befejeződött!";
 "device_syncFail" = "A szinkronizálás sikertelen!";
 
 //设备设置页

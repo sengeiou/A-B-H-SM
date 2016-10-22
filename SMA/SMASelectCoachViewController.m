@@ -93,7 +93,7 @@
     NSLog(@"indexPath==%lD",indexPath.row);
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.row == 0) {
-        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"up01"];
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
     }
 //    else if (indexPath.row == 1){
 //        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM05"];

@@ -12,6 +12,7 @@
 {
     SMACalendarView *calendarView;
     NSMutableArray *spArr;
+    NSMutableArray *HRArr;
     UILabel *titleLab;
 }
 @property (nonatomic, strong) SMADatabase *dal;
@@ -34,7 +35,6 @@
 - (void)viewWillAppear:(BOOL)animated{
     [self initializeMethod];
     [self updateUI];
-   
 }
 
 - (SMADatabase *)dal{
@@ -53,11 +53,27 @@
 
 - (void)initializeMethod{
     spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+//    HRArr = [self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate];
+//    NSMutableArray *sl_arr = [NSMutableArray array];
+//    NSMutableDictionary *slDic = [NSMutableDictionary dictionary];
+//    [slDic setObject:@"SM07" forKey:@"INDEX"];
+//    [slDic setObject:@"0" forKey:@"WEB"];
+//    [slDic setObject:@"1" forKey:@"WEAR"];
+//    [slDic setObject:@"20161021090700" forKey:@"DATE"];
+//    [slDic setObject:@"34" forKey:@"MODE"];
+//    [slDic setObject:@"0" forKey:@"SOFTLY"];
+//    [slDic setObject:@"0" forKey:@"STRONG"];
+//    [slDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
+//    [sl_arr addObject:slDic];
+//    
+//    [[[SMADatabase alloc] init] insertSleepDataArr: sl_arr finish:^(id finish) {
+//        
+//    }];
+  HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
 }
 
 - (void)createUI{
     SmaBleMgr.BLdelegate = self;
-//    self.title = self.date.yyyyMMddByLineWithDate;
     titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
     titleLab.text = [self dateWithYMD];
     titleLab.font = FontGothamLight(20);
@@ -158,7 +174,6 @@
         });
 
     }
-    [self.tableView headerEndRefreshing];
 }
 
 
@@ -217,7 +232,7 @@
             if (indexPath.row == 1){
                 cell.pulldownView.hidden = YES;
                 cell.roundView.progressViewClass = [SDRotationLoopProgressView class];
-                cell.roundView.progressView.progress = 128/200.0;
+                cell.roundView.progressView.progress = [[[HRArr firstObject] objectForKey:@"REAT"] intValue]/200.0;
                 cell.titLab.text = SMALocalizedString(@"device_HR_monitor");
                 cell.dialLab.text = SMALocalizedString(@"device_HR_typeT");
                 cell.stypeLab.text = @"";
@@ -225,8 +240,8 @@
                 cell.detailsTitLab2.text = SMALocalizedString(@"device_HR_mean");
                 cell.detailsTitLab3.text = SMALocalizedString(@"device_HR_max");
                 cell.detailsLab1.text = @"228bpm";
-                cell.detailsLab2.text = @"228bpm";
-                cell.detailsLab3.text = @"228bpm";
+                cell.detailsLab2.text = [NSString stringWithFormat:@"%dbmp",[[[HRArr lastObject] objectForKey:@"avgHR"] intValue]];
+                cell.detailsLab3.text = [NSString stringWithFormat:@"%@bmp",[[HRArr lastObject] objectForKey:@"maxHR"]];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     UIImage *cornerImage = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#F8A3BD" alpha:1],[SmaColor colorWithHexString:@"#F8A3BD" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
                     UIImage *cornerImage1 = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#D7B7EF" alpha:1],[SmaColor colorWithHexString:@"#D7B7EF" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
@@ -281,6 +296,13 @@
         spDetailVC.date = self.date;
         [self.navigationController pushViewController:spDetailVC animated:YES];
     }
+    else if (indexPath.row == 1){
+        SMAHRDetailViewController *hrDetailVC = [[SMAHRDetailViewController alloc] init];
+        hrDetailVC.hidesBottomBarWhenPushed=YES;
+        hrDetailVC.date = self.date;
+        [self.navigationController pushViewController:hrDetailVC animated:YES];
+
+    }
 }
 
 #pragma mark *******BLConnectDelegate
@@ -290,6 +312,9 @@
         self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncSucc");
         [self.tableView headerEndRefreshing];
         self.tableView.scrollEnabled = YES;
+        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+        HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
+        [self.tableView reloadData];
     }
 }
 
@@ -298,6 +323,9 @@
         self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncFail");
         [self.tableView headerEndRefreshing];
         self.tableView.scrollEnabled = YES;
+        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+        HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
+        [self.tableView reloadData];
     }
 }
 
@@ -306,6 +334,7 @@
     self.date = date;
     titleLab.text = [self dateWithYMD];
     spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+    HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
     [self.tableView reloadData];
 //    NSLog(@"date==%@",self.date.yyyyMMddNoLineWithDate);
 }

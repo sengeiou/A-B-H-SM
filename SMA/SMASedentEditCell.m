@@ -222,7 +222,7 @@
         _switchBlock(sender,_alarmInfo);
     }
     else{
-       _alarmSwitch.on = _alarmInfo.isOpen;
+       _alarmSwitch.on = _alarmInfo.isOpen.intValue;
     }
 }
 

@@ -41,7 +41,7 @@
 @end
 
 @interface ZXRollView : UIView
-
+@property (nonatomic, strong, nullable)   UIScrollView                *scrollView;
 /**
  *  ZXRollView 代理
  */

@@ -94,7 +94,7 @@
 "device_loosenSync" = "Сразу же отпустите, чтобы обновить";
 "device_lastTime" = "Последнее обновление:";
 "device_syncing" = "Синхронизация...";
-"ddevice_syncSucc" = "Завершено!";
+"device_syncSucc" = "Завершено!";
 "device_syncFail" = "Сбой синхронизации";
 
 //设备设置页

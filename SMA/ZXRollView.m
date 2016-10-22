@@ -32,7 +32,6 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 @property (nonatomic, assign)   CGFloat                     hSelf;                      //
 @property (nonatomic, assign)   CGFloat                     wScrollView;                //
 
-@property (nonatomic, strong)   UIScrollView                *scrollView;                //
 //@property (nonatomic, strong)   NSMutableArray <UIImageView *>  *imgViews;
 @property (nonatomic, strong)   NSMutableArray <UIView *>   *rollViews; //
 @property (nonatomic, assign)   ZXRollViewIndicatorStyle    rollViewIndicatorStyle;     //
@@ -43,7 +42,8 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 @property (nonatomic, assign)   NSInteger                   pushCountPage;  //
 @property (nonatomic, assign)   NSInteger                   numberOfPages;              //
 
-@property (nonatomic, strong)   NSTimer                     *timer;                     //
+@property (nonatomic, strong)   NSTimer                     *timer;
+@property (nonatomic, strong)   NSTimer                     *pageTimer;  //
 @property (nonatomic, assign)   NSUInteger                  cycleCounter;               //
 @property (nonatomic, assign)   BOOL                        counting;                   //
 @end
@@ -200,7 +200,7 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 - (void)reloadViews {
     self.counting = NO;
     self.numberOfPages = [self.delegate numberOfItemsInRollView:self];
-    for (UIView *rollView in self.rollViews) {
+    for (UIView *rollView in _rollViews) {
         [rollView removeFromSuperview];
     }
     [self.rollViews removeAllObjects];
@@ -255,6 +255,7 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+//    NSLog(@"scrollViewWillBeginDecelerating=f=%@",[NSDate  date]);
     if ([self.delegate respondsToSelector:@selector(scrollViewWillEndDecelerating:AtIndex:)]) {
         [self.delegate scrollViewWillEndDecelerating:self AtIndex:_pushCountPage];
     }
@@ -262,6 +263,10 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    if (_pageTimer) {
+        [_pageTimer invalidate];
+        _pageTimer = nil;
+    }
     if ([self.delegate respondsToSelector:@selector(scrollViewDidEndDecelerating:AtIndex:)]) {
         [self.delegate scrollViewDidEndDecelerating:self AtIndex:_pushCountPage];
     }
@@ -281,7 +286,13 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
         }
         xOffSet = scrollView.contentOffset.x;
         NSInteger currentPageNow = (xOffSet - self.wScrollView * .5) / self.wScrollView;
+//        NSLog(@"fwefwefw==%ld  %ld  %@",(long)_currentPage,(long)currentPageNow,[NSDate  date]);
         if (_currentPage != currentPageNow) {
+            if (_pageTimer) {
+                [_pageTimer invalidate];
+                _pageTimer = nil;
+            }
+            _pageTimer = [NSTimer scheduledTimerWithTimeInterval:0.7 target:self selector:@selector(pageTimerOut) userInfo:nil repeats:NO];
             if (_currentPage - currentPageNow == 1 || _currentPage - currentPageNow == -(_numberOfPages - 1)) {
                 _pushCountPage --;
             }
@@ -332,6 +343,17 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 - (void)tapAction {
     if ([self.delegate respondsToSelector:@selector(rollView:didTapItemAtIndex:)]) {
         [self.delegate rollView:self didTapItemAtIndex:self.currentPage];
+    }
+}
+
+- (void)pageTimerOut{
+//    NSLog(@"pageTimerOut");
+    if (_pageTimer) {
+        [_pageTimer invalidate];
+        _pageTimer = nil;
+    }
+    if ([self.delegate respondsToSelector:@selector(scrollViewDidEndDecelerating:AtIndex:)]) {
+        [self.delegate scrollViewDidEndDecelerating:self AtIndex:_pushCountPage];
     }
 }
 

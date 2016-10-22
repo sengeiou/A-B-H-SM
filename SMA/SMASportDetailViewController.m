@@ -17,7 +17,6 @@
     ScattView *scattView;
     int cycle;
     NSUInteger showDataIndex;
-    CPTXYGraph * barChart ;
     NSInteger selectTag;
     NSMutableArray *dataArr;
     NSArray *collectionArr;
@@ -26,7 +25,6 @@
     NSDate *dateNow;
 }
 @property (nonatomic, strong) SMADatabase *dal;
-//@property (nonatomic, strong) ZXRollView *detailScroll;
 
 @end
 
@@ -59,16 +57,16 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 }
 
 - (void)initializeMethod{
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     alldata = [self getFullDatasForOneDay:[self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES]];
     [self addSubViewWithCycle:0];
 //    [self drawSPViewMode:1 spData:spArr];
 }
 
 - (void)createUI{
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     self.view.backgroundColor = [UIColor whiteColor];
     mainScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height)];
-    //    mainScroll.backgroundColor = [UIColor greenColor];
+    mainScroll.backgroundColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];
     mainScroll.contentSize = CGSizeMake(MainScreen.size.width, 600);
     mainScroll.delegate = self;
     [self.view addSubview:mainScroll];
@@ -142,19 +140,19 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     
     if (cycle == 0) {
         UIView *stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(detailScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
-        stateView.backgroundColor = [UIColor yellowColor];
+        stateView.backgroundColor = [UIColor whiteColor];
         UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, self.tabBarController.tabBar.frame.size.height)];
         timeLab.textAlignment = NSTextAlignmentCenter;
         timeLab.font = FontGothamLight(15);
         timeLab.text = SMALocalizedString(@"device_SP_time");
-        timeLab.backgroundColor = [UIColor greenColor];
+//        timeLab.backgroundColor = [UIColor greenColor];
         [stateView addSubview:timeLab];
         
         UILabel *stateLab = [[UILabel alloc] initWithFrame:CGRectMake(MainScreen.size.width - 150, 0, 150, self.tabBarController.tabBar.frame.size.height)];
         stateLab.textAlignment = NSTextAlignmentCenter;
         stateLab.text = SMALocalizedString(@"device_SP_state");
         stateLab.font = FontGothamLight(15);
-        stateLab.backgroundColor = [UIColor greenColor];
+//        stateLab.backgroundColor = [UIColor greenColor];
         [stateView addSubview:stateLab];
         
         [mainScroll addSubview:stateView];
@@ -215,6 +213,10 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     scattView.xCoordinateDecimal = 0.0f;
     scattView.hideYAxisLabels = YES;
     scattView.plotAreaFramePaddingLeft = -10;
+     scattView.selectColor = YES;
+    if (selectTag == 101) {
+        scattView.selectColor = NO;
+    }
     scattView.yAxisTexts = @[@""];
     scattView.xMajorIntervalLength = @"1";
     
@@ -226,6 +228,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     scattView.yBaesValues = @[spArr[1]];
     scattView.barLineWidth = [spArr[2] count] >10 ?7.0f:5;
     scattView.selectIdx = [spArr[2] count] - 1;
+    scattView.selectColor = [spArr[2] count] >10 ?NO:YES;
     scattView.ylabelLocation = [[spArr[2] valueForKeyPath:@"@max.intValue"] intValue];//可以yValue最大值为基准
     [scattView initGraph];
     [detailColView reloadData];
@@ -238,7 +241,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         but.selected = NO;
     }
     sender.selected = !sender.selected;
+    
     if (selectTag != sender.tag) {
+        selectTag = sender.tag;
         switch (sender.tag) {
             case 101:
             {
@@ -262,7 +267,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                 break;
         }
     }
-    selectTag = sender.tag;
+    
 }
 
 #pragma mark ******UITableViewDelegate
@@ -282,7 +287,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     else if (indexPath.row == dataArr.count - 1){
         cell.botLine.hidden = YES;
     }
-    cell.timeLab.text = [[dataArr  objectAtIndex:indexPath.row] objectForKey:@"TIME"];
+    cell.timeLab.text = [self getHourAndMin:[[dataArr  objectAtIndex:indexPath.row] objectForKey:@"TIME"]];
     cell.distanceLab.text = [NSString stringWithFormat:@"%@%@",[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue] ] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -318,9 +323,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         cell.detailLab.attributedText = [self attributedStringWithArr:@[[SMACalculate notRounding:[SMACalculate countCalWithSex:[SMAAccountTool userInfo].userSex userWeight:[[SMAAccountTool userInfo].userWeigh floatValue] step:[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex] intValue]/[[[alldata objectAtIndex:3] objectAtIndex:showDataIndex] intValue]] afterPoint:1],SMALocalizedString(@"device_SP_cal")]];
     }
     else{
-        
+        cell.detailLab.text = @"0min";
     }
-    cell.titleLab = collectionArr[indexPath.row];
+    cell.titleLab.text = collectionArr[indexPath.row];
     return cell;
 }
 
@@ -465,7 +470,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"]]:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"]];
             [yBaesValues addObject:@"0"];
             [yValue addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"]];
-                [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
+            [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
         }
     }
     [alldata addObject:xText];
@@ -527,7 +532,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             [yValue addObject:@"0"];
         }
         else if(i == 25){
-            [yValue addObject:[NSString stringWithFormat:@"%d",[[yValue valueForKeyPath:@"@max.intValue"] intValue] + 100]];
+            [yValue addObject:[NSString stringWithFormat:@"%d",[[yValue valueForKeyPath:@"@max.intValue"] intValue] + 10]];
         }
         else{
             NSDictionary *dic = [fullDatas objectAtIndex:i-1];
@@ -545,6 +550,12 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSArray *dayArr = [str componentsSeparatedByString:@"-"];
     NSArray *monArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
     return [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+}
+
+- (NSString *)getHourAndMin:(NSString *)time{
+    NSString *hour = [NSString stringWithFormat:@"%d",time.intValue/60];
+    NSString *min = [NSString stringWithFormat:@"%@%d",time.intValue%60 < 10?@"0":@"",time.intValue%60];
+    return [NSString stringWithFormat:@"%@:%@",hour,min];
 }
 
 - (NSMutableAttributedString *)attributedStringWithArr:(NSArray *)strArr{

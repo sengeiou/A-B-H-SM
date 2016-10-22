@@ -12,6 +12,7 @@
 #import "SMACalendarView.h"
 #import "AppDelegate.h"
 #import "SMASportDetailViewController.h"
+#import "SMAHRDetailViewController.h"
 #import "SMADatabase.h"
 @interface SMADeviceDataTableViewController : UITableViewController<UITableViewDelegate,UITableViewDataSource,BLConnectDelegate,calenderDelegate>
 

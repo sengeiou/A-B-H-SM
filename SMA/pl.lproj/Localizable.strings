@@ -94,7 +94,7 @@
 "device_loosenSync" = "Zwolnij, aby odświeżyć natychmiast";
 "device_lastTime" = "ostatnia aktualizacja:";
 "device_syncing" = "Synchronizacja...";
-"ddevice_syncSucc" = "Zakończone!";
+"device_syncSucc" = "Zakończone!";
 "device_syncFail" = "Synchronizacja nieudana!";
 
 //设备设置页

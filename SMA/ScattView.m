@@ -59,7 +59,7 @@
         else if (self.DrawMode == CPTGraphBarPlot){
             
             CPTBarPlot *barPlot = [CPTBarPlot tubularBarPlotWithColor:[lineColors objectAtIndex:i] horizontalBars:NO];
-            NSDecimalNumber *intermediateNumber = [[NSDecimalNumber alloc] initWithFloat:0.97];
+            NSDecimalNumber *intermediateNumber = [[NSDecimalNumber alloc] initWithFloat:_barIntermeNumber.count>0?[_barIntermeNumber[i] floatValue]:0.97];
             NSDecimal decimal = [intermediateNumber decimalValue];
             [barPlot setBarWidth:decimal];
             barPlot.baseValue = decimal;
@@ -75,8 +75,11 @@
             barPlot.identifier = [identifiers objectAtIndex:i];
             barPlot.dataSource = self;
             barPlot.delegate = self;
-//            barPlot.interpolation = CPTScatterPlotInterpolationHistogram;  //曲线。
+            //            barPlot.interpolation = CPTScatterPlotInterpolationHistogram;  //曲线。
+            //            if (i == 0) {
             [graph addPlot:barPlot toPlotSpace:graph.defaultPlotSpace];  // 将plot添加到默认的空间
+            //            }
+            
             
         }
     }
@@ -104,7 +107,7 @@
     CPTXYPlotSpace *plotSpace=(CPTXYPlotSpace *)graph.defaultPlotSpace;
     plotSpace.delegate = self;
     
-    plotSpace.allowsUserInteraction = NO;
+    plotSpace.allowsUserInteraction = _allowsUserInteraction;
     plotSpace.xRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax <= 31 ? xMax : 31)];  //显示可见部分（globalXRange设置的是滚动可见部分，前者是后者的一部分）
     plotSpace.yRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(yMin) length:CPTDecimalFromFloat(self.yRangeLength? self.yRangeLength :yMax)];
     plotSpace.globalXRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax )];  //globalXRange、globalYRange需要配合allowsUserInteraction属性为YES时使用，用于限制可滑动的最大区域
@@ -158,11 +161,11 @@
     //设置X轴自定义label
     NSMutableArray *labelArray=[NSMutableArray arrayWithCapacity:7];
     NSMutableArray *locationLabels = [[NSMutableArray alloc] init];
-//    SmaHRHisInfo *HRInfo = [SMAAccountTool HRHisInfo];
-//    int cycle =  HRInfo.tagname.intValue;
-//    if (!HRInfo) {
-//        cycle = 30;
-//    }
+    //    SmaHRHisInfo *HRInfo = [SMAAccountTool HRHisInfo];
+    //    int cycle =  HRInfo.tagname.intValue;
+    //    if (!HRInfo) {
+    //        cycle = 30;
+    //    }
     _cyTime = !_cyTime?1:_cyTime;
     int labelLocation=1;
     for(NSString *label in xAxisTexts){
@@ -264,11 +267,13 @@
     CPTMutableLineStyle *symbolLineStyle = [CPTMutableLineStyle lineStyle];
     symbolLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:1];
     CPTPlotSymbol *plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-    plotSymbol.fill               = [CPTFill fillWithColor:[[CPTColor whiteColor] colorWithAlphaComponent:1]];
+    plotSymbol.fill               = [CPTFill fillWithColor:[[CPTColor redColor] colorWithAlphaComponent:1]];
     plotSymbol.lineStyle          = symbolLineStyle;
     plotSymbol.size               = CGSizeMake(screenSize.size.width > 320 ? 3.0 : 3.0, screenSize.size.width > 320 ? 3.0 : 3.0);
     if (self.DrawMode == CPTGraphScatterPlot) {
-        ((CPTScatterPlot *)[graph plotAtIndex:0]).plotSymbol = plotSymbol;
+        for (int i = 0; i < identifiers.count; i ++ ) {
+             ((CPTScatterPlot *)[graph plotAtIndex:i]).plotSymbol = plotSymbol;
+        }
     }
     
     [self addSubview:chartLayout];
@@ -285,7 +290,7 @@
     self.swipeLabel.backgroundColor = [UIColor clearColor];
     [self.swipeLabel createUI];
     self.swipeLabel.hidden = YES;
-    [self addSubview:self.swipeLabel];
+    //    [self addSubview:self.swipeLabel];
     ///////////////////触屏
     //    }
     //    NSLog(@"^^^initGraph done!");
@@ -329,11 +334,11 @@
         switch (fieldEnum) {
             case CPTScatterPlotFieldX:
                 if([plot.identifier isEqual:@"当前选择"] && self.DrawMode == 1) {
-                    num=[NSNumber numberWithInteger:index];
+                    num=[NSNumber numberWithInteger:index ];
                     
                 }
                 else if ([plot.identifier isEqual:@"当前选择1"]  && self.DrawMode == 1){
-                    num=[NSNumber numberWithInteger:index];
+                    num=[NSNumber numberWithInteger:index ];
                 }
                 else if ([plot.identifier isEqual:@"当前选择"] && self.DrawMode == 0){
                     num = self.selectedCoordination ? self.selectedCoordination:@0;
@@ -390,11 +395,10 @@
                 else {
                     for (int i = 0; i < identifiers.count; i ++) {
                         if ([identifier isEqualToString:[identifiers objectAtIndex:i]]) {
-                            
-                            if (self.YgiveLsat && index == [[yValues objectAtIndex:i] count]-1) {
-                                break;
-                            }
-                            if ([[[yValues objectAtIndex:0] objectAtIndex:index] floatValue] == 0) {
+//                            if (self.YgiveLsat && index == [[yValues objectAtIndex:i] count]-1) {
+//                                break;
+//                            }
+                            if ([[[yValues objectAtIndex:i] objectAtIndex:index] floatValue] == 0 && [identifier isEqualToString:[identifiers objectAtIndex:0]]) {
                                 break;
                             }
                             num = [NSDecimalNumber numberWithFloat:[[[yValues objectAtIndex:i] objectAtIndex:index] floatValue]];
@@ -413,33 +417,59 @@
                 num = [NSNumber numberWithInteger:index];;
                 break;
             case CPTBarPlotFieldBarTip:
-                //                if (index<[[yValues objectAtIndex:0] count]) {
-                if (index == 0) {
-                    break;
-                }
-                if (self.YgiveLsat && index == [[yValues objectAtIndex:0] count]-1) {
-                    break;
-                }
-                if ([[[yValues objectAtIndex:0] objectAtIndex:index] floatValue] == 0) {
-                     break;
-                }
-                num = [NSDecimalNumber numberWithFloat:[[[yValues objectAtIndex:0] objectAtIndex:index] floatValue]];
+                if ([plot.identifier isEqual:[identifiers objectAtIndex:0]]) {
+                    num = [NSDecimalNumber numberWithFloat:[[[yValues objectAtIndex:0] objectAtIndex:index] floatValue]];
+                    if (index == 0) {
+                        num = 0;
+                    }
+                    if (self.YgiveLsat && index == [[yValues objectAtIndex:0] count]-1) {
+                        num = 0;
+                    }
+                    if ([[[yValues objectAtIndex:0] objectAtIndex:index] floatValue] == 0) {
+                        num = 0;
+                    }
 
-                //                }
-                
+                }
+                else{
+                    num = [NSDecimalNumber numberWithFloat:[[[yValues objectAtIndex:1] objectAtIndex:index] floatValue]];
+                    if (index == 0) {
+                        num = 0;
+                    }
+                    if (self.YgiveLsat && index == [[yValues objectAtIndex:1] count]-1) {
+                        num = 0;
+                    }
+                    if ([[[yValues objectAtIndex:1] objectAtIndex:index] floatValue] == 0) {
+                        num = 0;
+                    }
+
+                }
                 break;
             case CPTBarPlotFieldBarBase:
-                if (index == 0) {
-                    break;
-                }
-                if (self.YgiveLsat && index == [[yBaesValues objectAtIndex:0] count]-1) {
-                    break;
-                }
-                if ([[[yValues objectAtIndex:0] objectAtIndex:index] floatValue] == 0) {
-                    break;
-                }
-                num = [NSDecimalNumber numberWithFloat:[[[yBaesValues objectAtIndex:0] objectAtIndex:index] floatValue]];
-                break;
+                 if ([plot.identifier isEqual:[identifiers objectAtIndex:0]]) {
+                     num = [NSDecimalNumber numberWithFloat:[[[yBaesValues objectAtIndex:0] objectAtIndex:index] floatValue]];
+                     if (index == 0) {
+                         num = 0;
+                     }
+                     if (self.YgiveLsat && index == [[yBaesValues objectAtIndex:0] count]-1) {
+                         num = 0;
+                     }
+                     if ([[[yValues objectAtIndex:0] objectAtIndex:index] floatValue] == 0) {
+                         num = 0;
+                     }
+
+                 }
+                 else{
+                     num = [NSDecimalNumber numberWithFloat:[[[yBaesValues objectAtIndex:1] objectAtIndex:index] floatValue]];
+                     if (index == 0) {
+                         num = 0;
+                     }
+                     if (self.YgiveLsat && index == [[yBaesValues objectAtIndex:1] count]-1) {
+                         num = 0;
+                     }
+                     if ([[[yValues objectAtIndex:1] objectAtIndex:index] floatValue] == 0) {
+                         num = 0;
+                     }
+                 }
             default:
                 break;
         }
@@ -477,7 +507,7 @@
     // 手指选择
     CPTMutableLineStyle *lineStyle = [[CPTMutableLineStyle alloc] init];
     lineStyle.lineWidth              = 2.0;
-    lineStyle.lineColor              = [CPTColor clearColor];
+    lineStyle.lineColor              = [CPTColor whiteColor];
     //滑动的折线，触摸屏幕会有橙色的线可以滑动 第一次触摸屏幕出现的线是touchPlot 第二次是secondTouchPlot
     //出现两条线的时候设置highlightTouchPlot会有填充的一块。具体的可以在真机上试试，再结合代码。
     //    if (self.DrawMode == CPTGraphScatterPlot) {
@@ -502,15 +532,15 @@
     CPTColor *redColor = [CPTColor colorWithComponentRed:1 green:0.3 blue:0.3 alpha:0.8];
     CPTGradient *areaGradient1 = [CPTGradient gradientWithBeginningColor:blueColor endingColor:redColor];
     areaGradient1.angle = -90.0f;//angle 这里表示了渐变的方向，这个角度是按照逆时针方向与x轴正方向的夹角，-90.0 表示沿着y轴向下渐变
-//    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient1];
+    //    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient1];
     //    boundLinePlot.areaFill = areaGradientFill;
     //    boundLinePlot.areaBaseValue = [[NSDecimalNumber numberWithFloat:1.0]decimalValue];// 渐变色的起点位置
     boundLinePlot.interpolation = CPTScatterPlotInterpolationLinear;
     // Add plot symbols: 表示数值的符号的形状
     CPTPlotSymbol *plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-    plotSymbol.fill = [CPTFill fillWithColor:_poinColors];
+    plotSymbol.fill = [CPTFill fillWithColor:[[CPTColor redColor] colorWithAlphaComponent:1]];
     plotSymbol.lineStyle = lineStyle;
-    plotSymbol.size = CGSizeMake(self.HRDateMode == 1?9.0f:5.0f,self.HRDateMode == 1?9.0f:5.0f);
+    plotSymbol.size = CGSizeMake(self.HRDateMode == 1?9.0f:9.0f,self.HRDateMode == 1?9.0f:9.0f);
     boundLinePlot.plotSymbol = plotSymbol;
     
     boundLinePlot.delegate = self;
@@ -584,11 +614,11 @@
 #pragma mark 实现CPTPlotSpaceDelegate  拖动事件监测 判断是几个手指触摸的
 -(BOOL)plotSpace:(CPTPlotSpace *)space shouldHandlePointingDeviceDownEvent:(CPTNativeEvent *)event atPoint:(CGPoint)point
 {
-    
-    
-    
+    if(self.delegate && [self.delegate respondsToSelector:@selector(plotTouchDownAtRecordPoit:)]){
+        [self.delegate plotTouchDownAtRecordPoit:point];
+    }
     //    int pointInPlotArea = [self getXFromPoint:point];
-//    NSLog(@"POINT --=   %d",event.allTouches.count );
+    //    NSLog(@"POINT --=   %d",event.allTouches.count );
     //    for (CPTPlot *plot in space.graph.allPlots) {
     //        if ([plot isKindOfClass:[CPTScatterPlot class]]) {
     //
@@ -622,7 +652,8 @@
 
 -(BOOL)plotSpace:(CPTPlotSpace *)space shouldHandlePointingDeviceDraggedEvent:(CPTNativeEvent *)event atPoint:(CGPoint)point
 {
-    //    for (CPTPlot *plot in space.graph.allPlots) {
+//    NSLog(@"fwfwefew==%@",NSStringFromCGPoint(point));
+    //    forw (CPTPlot *plot in space.graph.allPlots) {
     //        if ([plot isKindOfClass:[CPTScatterPlot class]]) {
     //            //            NSLog(@"%@",plot.identifier);
     //            [plot reloadData];
@@ -653,6 +684,10 @@
 
 -(BOOL)plotSpace:(CPTPlotSpace *)space shouldHandlePointingDeviceUpEvent:(CPTNativeEvent *)event atPoint:(CGPoint)point
 {
+    if(self.delegate && [self.delegate respondsToSelector:@selector(plotTouchUpAtRecordPoit:)]){
+        [self.delegate plotTouchUpAtRecordPoit:point];
+    }
+    
     //      NSLog(@"UpEvent: %d", event.allTouches.count);
     //    for (CPTPlot *plot in space.graph.allPlots) {
     //        if ([plot isKindOfClass:[CPTScatterPlot class]]) {
@@ -676,8 +711,13 @@
 #pragma mark 是否允许缩放
 - (BOOL)plotSpace:(CPTPlotSpace *)space shouldScaleBy:(CGFloat)interactionScale aboutPoint:(CGPoint)interactionPoint
 {
+    if (!_isZoom) {
+        return NO;
+    }
     [self.swipeLabel setHidden:YES];
-    
+    if(self.delegate && [self.delegate respondsToSelector:@selector(plotShouldScaleBy:aboutPoint:)]){
+        [self.delegate plotShouldScaleBy:interactionScale aboutPoint:interactionPoint];
+    }
     for (CPTPlot *plot in space.graph.allPlots) {
         if ([plot isKindOfClass:[CPTScatterPlot class]]) {
             
@@ -704,15 +744,28 @@
 
 
 -(CPTFill *)barFillForBarPlot:(CPTBarPlot *)barPlot recordIndex:(NSUInteger)idx{
-    if (idx == _selectIdx && idx != 0) {
-         return [CPTFill fillWithColor:[CPTColor whiteColor]];
+    
+
+    
+    if ([barPlot.identifier isEqual:[self.identifiers objectAtIndex:0]]) {
+        if (idx == _selectIdx && idx != 0 && _selectColor) {
+            return [CPTFill fillWithColor:[CPTColor whiteColor]];
+        }
+        return [CPTFill fillWithColor:[lineColors objectAtIndex:0]];
     }
-    return [CPTFill fillWithColor:[lineColors objectAtIndex:0]];
+    else{
+        if (idx == _selectIdx && idx != 0 && _selectColor) {
+            CPTGradient *gradient = [CPTGradient gradientWithBeginningColor:[CPTColor colorWithComponentRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5] endingColor:[CPTColor colorWithComponentRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.1] beginningPosition:0 endingPosition:1];
+            gradient.angle = 90.0f;
+            return [CPTFill fillWithGradient:gradient];
+        }
+      return [CPTFill fillWithColor:[lineColors objectAtIndex:1]];
+    }
 }
 
 - (void)barPlot:(CPTBarPlot *)plot barTouchDownAtRecordIndex:(NSUInteger)idx withEvent:(CPTNativeEvent *)event{
-//    NSDecimalNumber *range =[NSDecimalNumber decimalNumberWithDecimal: plot.baseValue];
-//    plot.fill = [CPTFill fillWithColor:[CPTColor greenColor]];
+    //    NSDecimalNumber *range =[NSDecimalNumber decimalNumberWithDecimal: plot.baseValue];
+    //    plot.fill = [CPTFill fillWithColor:[CPTColor greenColor]];
     _selectIdx = idx;
     [plot reloadBarFills];
     if(self.delegate && [self.delegate respondsToSelector:@selector(barTouchDownAtRecordIndex:)]){
@@ -721,32 +774,32 @@
     NSLog(@"=====%lu",(unsigned long)idx);
 }
 
--(void)scatterPlot:(CPTScatterPlot *)plot plotSymbolTouchDownAtRecordIndex:(NSUInteger)idx withEvent:(CPTNativeEvent *)event{
-//        NSLog(@"---plotSymbolTouchDownAtRecordIndex==%@",NSStringFromCGPoint([plot plotAreaPointOfVisiblePointAtIndex:idx]));
-}
 
 -(void)scatterPlot:(CPTScatterPlot *)plot prepareForDrawingPlotLine:(CGPathRef)dataLinePath inContext:(CGContextRef)context{
-//        NSLog(@"---prepareForDrawingPlotLine==%@",NSStringFromCGPoint([plot plotAreaPointOfVisiblePointAtIndex:0]));
+    if(self.delegate && [self.delegate respondsToSelector:@selector(prepareForDrawingPlotLine:)]){
+        [self.delegate prepareForDrawingPlotLine:[plot plotAreaPointOfVisiblePointAtIndex:0]];
+    }
+//            NSLog(@"---prepareForDrawingPlotLine==%@",NSStringFromCGPoint([plot plotAreaPointOfVisiblePointAtIndex:0]));
 }
 
 -(void)scatterPlot:(CPTScatterPlot *)plot plotSymbolWasSelectedAtRecordIndex:(NSUInteger)idx withEvent:(CPTNativeEvent *)event{
     
-        if (self.DrawMode == 0) {
-    [self.swipeLabel setHidden:NO];
-    CGPoint point = [plot plotAreaPointOfVisiblePointAtIndex:idx];
-    
-    NSLog(@"CPTScatterPlot=====%@",NSStringFromCGPoint([plot plotAreaPointOfVisiblePointAtIndex:idx]));
-    [self updateTouchPlot:point];
-        }
+    if (self.DrawMode == 0) {
+        [self.swipeLabel setHidden:NO];
+        CGPoint point = [plot plotAreaPointOfVisiblePointAtIndex:idx];
+        
+        //    NSLog(@"CPTScatterPlot=====%@",NSStringFromCGPoint([plot plotAreaPointOfVisiblePointAtIndex:idx]));
+        //    [self updateTouchPlot:point];
+    }
     
 }
 
 #pragma mark - 触摸事件处理  第一触发触摸事件
 - (void)theTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-//    UITouch *touch=[touches anyObject];
+    //    UITouch *touch=[touches anyObject];
     if (self.DrawMode == 0) {
-    [self.swipeLabel setHidden:NO];//self.swipeButton
+        [self.swipeLabel setHidden:NO];//self.swipeButton
     }
     CGPoint point;
     
