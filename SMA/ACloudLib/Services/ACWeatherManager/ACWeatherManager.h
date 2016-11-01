@@ -43,7 +43,6 @@
 + (void)getLatestAqiWithArea:(NSString *)area
                     callback:(void(^)(ACAQI *aqi, NSError *error))callback;
 
-
 ///  获取最近n天的aqi值
 ///
 ///  @param area        支持到地级市, area填写中文如: "北京"
@@ -61,7 +60,6 @@
 + (void)getLastHoursAqiWithArea:(NSString *)area
                           hours:(NSInteger)hours
                        callback:(void(^)(NSArray *aqiList, NSError *error))callback;
-
 
 #pragma mark - weather
 // 获取最新的Weather值

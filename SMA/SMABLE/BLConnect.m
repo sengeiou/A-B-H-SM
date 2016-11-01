@@ -584,12 +584,14 @@ static bool ishrMode;
                 [hrModeDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
                 [hrModeDic setObject:@"0" forKey:@"WEB"];
                 [hrModeDic setObject:@"2" forKey:@"HRMODE"];
+                [hrModeDic setObject:@"0" forKey:@"QUIET"];
                 [hrModeDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
                 [hr_arr replaceObjectAtIndex:i withObject:hrModeDic];
                 isSpMode = NO;
             }
             else{
                 [hrDic setObject:@"0" forKey:@"HRMODE"];
+                [hrDic setObject:@"0" forKey:@"QUIET"];
             }
         }
         else{
@@ -599,11 +601,13 @@ static bool ishrMode;
                 [hrModeDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
                 [hrModeDic setObject:@"0" forKey:@"WEB"];
                 [hrModeDic setObject:@"1" forKey:@"HRMODE"];
+                [hrModeDic setObject:@"0" forKey:@"QUIET"];
                 [hrModeDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
                 [hr_arr replaceObjectAtIndex:i withObject:hrModeDic];
             }
             else{
                 [hrDic setObject:@"1" forKey:@"HRMODE"];
+                [hrDic setObject:@"0" forKey:@"QUIET"];
             }
         }
         [hr_arr addObject:hrDic];

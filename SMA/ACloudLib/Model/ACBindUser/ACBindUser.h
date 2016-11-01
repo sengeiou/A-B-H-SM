@@ -13,6 +13,7 @@ typedef enum : NSUInteger {
     BindUserTypeAdmin = 1
 } BindUserType;
 
+@class ACObject;
 @interface ACBindUser : NSObject
 //用户ID
 @property(nonatomic,assign) NSInteger userId;
@@ -30,6 +31,8 @@ typedef enum : NSUInteger {
 @property(nonatomic,copy) NSString *openId;
 // Open ID类型
 @property(nonatomic,assign) NSInteger openIdType;
+// 用户拓展属性
+@property (nonatomic, strong) ACObject *profile;
 
 + (instancetype)bindUserWithDict:(NSDictionary *)dict;
 

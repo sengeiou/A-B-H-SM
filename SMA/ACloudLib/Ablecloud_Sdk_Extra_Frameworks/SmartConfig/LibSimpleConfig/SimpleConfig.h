@@ -5,7 +5,7 @@
 //  Created by patrick_cai on 12-1-2.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
-
+//  realtek板子
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>

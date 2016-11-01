@@ -43,6 +43,8 @@
 - (NSString *)yyyyMMByLineWithDate;
 - (NSString *)yyyyMMddByLineWithDate;
 - (NSString *)yyyyMMddNoLineWithDate;
+- (NSString *)yyyyMMddSlashWithDate;
+- (NSString *)yyyyMMddHHmmSSNoLineWithDate;
 - (NSString *)mmddChineseWithDate;
 - (NSString *)hhmmssWithDate;
 

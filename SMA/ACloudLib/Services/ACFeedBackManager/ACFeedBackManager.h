@@ -15,4 +15,6 @@
 ///  提交用户意见反馈
 + (void)submitFeedBack:(ACFeedBack *)feedback
               callback:(void(^)(BOOL isSuccess, NSError *error))callback;
+
+
 @end

@@ -13,6 +13,8 @@
     SMACalendarView *calendarView;
     NSMutableArray *spArr;
     NSMutableArray *HRArr;
+    NSMutableArray *quietArr;
+    NSMutableArray *sleepArr;
     UILabel *titleLab;
 }
 @property (nonatomic, strong) SMADatabase *dal;
@@ -23,8 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initializeMethod];
-    [self createUI];
+    [self initializeMethod:NO];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,8 +35,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    [self initializeMethod];
-    [self updateUI];
+    [self initializeMethod:YES];
+//    [self updateUI];
 }
 
 - (SMADatabase *)dal{
@@ -51,8 +53,8 @@
     return _date;
 }
 
-- (void)initializeMethod{
-    spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+- (void)initializeMethod:(BOOL)updateUi{
+   
 //    HRArr = [self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate];
 //    NSMutableArray *sl_arr = [NSMutableArray array];
 //    NSMutableDictionary *slDic = [NSMutableDictionary dictionary];
@@ -69,8 +71,21 @@
 //    [[[SMADatabase alloc] init] insertSleepDataArr: sl_arr finish:^(id finish) {
 //        
 //    }];
-  HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
-}
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+        HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
+        quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
+        sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!updateUi) {
+                [self createUI];
+            }
+            else{
+                 [self updateUI];
+            }
+        });
+    });
+   }
 
 - (void)createUI{
     SmaBleMgr.BLdelegate = self;
@@ -239,9 +254,9 @@
                 cell.detailsTitLab1.text = SMALocalizedString(@"device_HR_rest");
                 cell.detailsTitLab2.text = SMALocalizedString(@"device_HR_mean");
                 cell.detailsTitLab3.text = SMALocalizedString(@"device_HR_max");
-                cell.detailsLab1.text = @"228bpm";
+                cell.detailsLab1.text = [NSString stringWithFormat:@"%dbmp",[[[quietArr lastObject] objectForKey:@"HEART"] intValue]];
                 cell.detailsLab2.text = [NSString stringWithFormat:@"%dbmp",[[[HRArr lastObject] objectForKey:@"avgHR"] intValue]];
-                cell.detailsLab3.text = [NSString stringWithFormat:@"%@bmp",[[HRArr lastObject] objectForKey:@"maxHR"]];
+                cell.detailsLab3.text = [NSString stringWithFormat:@"%dbmp",[[[HRArr lastObject] objectForKey:@"maxHR"] intValue]];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     UIImage *cornerImage = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#F8A3BD" alpha:1],[SmaColor colorWithHexString:@"#F8A3BD" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
                     UIImage *cornerImage1 = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#D7B7EF" alpha:1],[SmaColor colorWithHexString:@"#D7B7EF" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
@@ -252,25 +267,25 @@
                         cell.roundView2.image = cornerImage1;
                         cell.roundView3.image = cornerImage2;
                     });
-                    
                 });
-                
             }
             else if (indexPath.row == 2){
                 cell.pulldownView.hidden = YES;
                 cell.roundView.progressViewClass = [SDPieLoopProgressView class];
                 cell.roundView.progressView.progress = 0.001;
-                cell.roundView.progressView.startTime = 12;
-                cell.roundView.progressView.endTime = 53;
+                cell.roundView.progressView.startTime = [[sleepArr objectAtIndex:5] floatValue];
+                cell.roundView.progressView.endTime = [[sleepArr objectAtIndex:6] floatValue];
                 cell.titLab.text = SMALocalizedString(@"device_SL_qualith");
-                cell.stypeLab.text = SMALocalizedString(@"device_SL_typeS");
-                cell.dialLab.text = SMALocalizedString(@"00h33m");
+                cell.stypeLab.text = [sleepArr objectAtIndex:1];
+                cell.stypeLab.font = FontGothamLight(20);
+                cell.stypeLab.textColor = [SmaColor colorWithHexString:@"#2CCB6F" alpha:1];
+                cell.dialLab.attributedText = [sleepArr objectAtIndex:0];
                 cell.detailsTitLab1.text = SMALocalizedString(@"device_SL_deep");
                 cell.detailsTitLab2.text = SMALocalizedString(@"device_SL_light");
                 cell.detailsTitLab3.text = SMALocalizedString(@"device_SL_awake");
-                cell.detailsLab1.text = @"00h33m";
-                cell.detailsLab2.text = @"00h33m";
-                cell.detailsLab3.text = @"00h88m";
+                cell.detailsLab1.attributedText = [sleepArr objectAtIndex:2];
+                cell.detailsLab2.attributedText = [sleepArr objectAtIndex:3];
+                cell.detailsLab3.attributedText = [sleepArr objectAtIndex:4];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     UIImage *cornerImage = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#8DE3BF" alpha:1],[SmaColor colorWithHexString:@"#8DE3BF" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
                     UIImage *cornerImage1 = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#00C6AE" alpha:1],[SmaColor colorWithHexString:@"#00C6AE" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
@@ -303,6 +318,12 @@
         [self.navigationController pushViewController:hrDetailVC animated:YES];
 
     }
+    else{
+        SMASleepDetailViewController *slDetailVC = [[SMASleepDetailViewController alloc] init];
+        slDetailVC.hidesBottomBarWhenPushed=YES;
+        slDetailVC.date = self.date;
+        [self.navigationController pushViewController:slDetailVC animated:YES];
+    }
 }
 
 #pragma mark *******BLConnectDelegate
@@ -312,9 +333,15 @@
         self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncSucc");
         [self.tableView headerEndRefreshing];
         self.tableView.scrollEnabled = YES;
-        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
-        HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
-        [self.tableView reloadData];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+            HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
+            quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
+            sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.tableView reloadData];
+            });
+        });
     }
 }
 
@@ -323,9 +350,15 @@
         self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncFail");
         [self.tableView headerEndRefreshing];
         self.tableView.scrollEnabled = YES;
-        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
-        HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
-        [self.tableView reloadData];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+            HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
+            quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
+            sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.tableView reloadData];
+            });
+        });
     }
 }
 
@@ -333,9 +366,15 @@
 - (void)didSelectDate:(NSDate *)date{
     self.date = date;
     titleLab.text = [self dateWithYMD];
-    spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
-    HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES];
+        HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
+        quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
+        sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 //    NSLog(@"date==%@",self.date.yyyyMMddNoLineWithDate);
 }
 
@@ -350,4 +389,110 @@
     return selfStr;
 }
 
+- (NSMutableArray *)screeningSleepData:(NSMutableArray *)sleepData{
+    NSArray * arr = [sleepData sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+        if ([obj1[@"TIME"] intValue]<[obj2[@"TIME"] intValue]) {
+            return NSOrderedAscending;
+        }
+        
+        else if ([obj1[@"TIME"] intValue]==[obj2[@"TIME"] intValue])
+            
+            return NSOrderedSame;
+        
+        else
+            
+            return NSOrderedDescending;
+        
+    }];
+    NSMutableArray *sortArr = [arr mutableCopy];
+    if (sortArr.count > 2) {//筛选同一状态数据
+        for (int i = 0; i< sortArr.count-1; i++) {
+            NSDictionary *obj1 = [sortArr objectAtIndex:i];
+            NSDictionary *obj2 = [sortArr objectAtIndex:i+1];
+            if ([obj1[@"TYPE"] intValue] == [obj2[@"TYPE"] intValue]) {
+                [sortArr removeObjectAtIndex:i+1];
+                i--;
+            }
+        }
+    }
+    
+    if (sortArr.count > 2) {//筛选同一时间数据
+        for (int i = 0; i< sortArr.count-1; i++) {
+            NSDictionary *obj1 = [sortArr objectAtIndex:i];
+            NSDictionary *obj2 = [sortArr objectAtIndex:i+1];
+            if ([obj1[@"TIME"] intValue] == [obj2[@"TIME"] intValue]) {
+                [sortArr removeObjectAtIndex:i];
+                i--;
+            }
+        }
+    }
+    
+    int soberAmount=0;//清醒时间
+    int simpleSleepAmount=0;//浅睡眠时长
+    int deepSleepAmount=0;//深睡时长
+    int prevType=2;//上一类型
+    int prevTime=0;//上一时间点
+    /* 	1-3深睡到未睡---深睡时间
+     *   2-1清醒到深睡---浅睡时间
+     *   2-3清醒到未睡---浅睡时间
+     *   3-2未睡到清醒---清醒时间
+     */
+    for (int i = 0; i < sortArr.count; i ++) {
+        NSDictionary *dic = sortArr[i];
+        int atTime=[dic[@"TIME"] intValue];
+        int amount=atTime-prevTime;
+        if (i == 0) {
+            amount = 0;
+        }
+        if (prevType == 2) {
+            simpleSleepAmount = simpleSleepAmount+amount;
+        }
+        else if (prevType == 1){
+            deepSleepAmount = deepSleepAmount+amount;
+        }
+        else{
+            soberAmount = soberAmount+amount;
+        }
+        prevType = [dic[@"TYPE"] intValue];
+        prevTime = [dic[@"TIME"] intValue];
+    }
+    NSLog(@"%d ***** %d **** %d",soberAmount,simpleSleepAmount,deepSleepAmount);
+    int sleepHour = soberAmount + simpleSleepAmount + deepSleepAmount;
+    int deepAmount = deepSleepAmount/60;
+    NSString *sleepState=@"";
+    if (sleepHour >= 9) {
+        sleepState = SMALocalizedString(@"device_SL_typeT");
+    }
+    else if (sleepHour >= 6 && sleepHour <= 8 && deepAmount >= 4){
+        sleepState = SMALocalizedString(@"device_SL_typeS");
+    }
+    else if (sleepHour >= 6 && sleepHour <= 8 && deepAmount >= 3 && deepAmount < 4){
+        sleepState = SMALocalizedString(@"device_SL_typeS");
+    }
+    else if (sleepHour < 6 || deepAmount < 3){
+        sleepState = SMALocalizedString(@"device_SL_typeF");
+    }
+    NSMutableArray *sleep = [NSMutableArray array];
+    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",sleepHour/60],@"h",[NSString stringWithFormat:@"%d",sleepHour%60],@"m"] fontArr:@[FontGothamLight(20),FontGothamLight(15)]]];
+    [sleep addObject:sleepState];
+    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",deepSleepAmount/60],@"h",[NSString stringWithFormat:@"%d",deepSleepAmount%60],@"m"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]]];
+    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",simpleSleepAmount/60],@"h",[NSString stringWithFormat:@"%d",simpleSleepAmount%60],@"m"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]]];
+    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",soberAmount/60],@"h",[NSString stringWithFormat:@"%d",soberAmount%60],@"m"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]]];
+    [sleep addObject:[NSString stringWithFormat:@"%f",[[[sortArr firstObject] objectForKey:@"TIME"] floatValue]>=1320?([[[sortArr firstObject] objectForKey:@"TIME"] floatValue] - 720)/12:[[[sortArr firstObject] objectForKey:@"TIME"] floatValue]/12]];
+    [sleep addObject:[NSString stringWithFormat:@"%f",[[[sortArr lastObject] objectForKey:@"TIME"] floatValue]>=1320?([[[sortArr firstObject] objectForKey:@"TIME"] floatValue] - 720)/12:[[[sortArr lastObject] objectForKey:@"TIME"] floatValue]/12]];
+    return sleep;
+}
+
+- (NSMutableAttributedString *)attributedStringWithArr:(NSArray *)strArr fontArr:(NSArray *)fontArr{
+    NSMutableAttributedString *sportStr = [[NSMutableAttributedString alloc] init];
+    for (int i = 0; i < strArr.count; i ++) {
+        NSDictionary *textDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:fontArr[0]};
+        if (i%2!=0) {
+            textDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:fontArr[1]};
+        }
+        NSAttributedString *str = [[NSAttributedString alloc] initWithString:strArr[i] attributes:textDic];
+        [sportStr appendAttributedString:str];
+    }
+    return sportStr;
+}
 @end

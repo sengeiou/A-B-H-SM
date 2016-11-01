@@ -32,4 +32,11 @@
  */
 + (ACContext *)generateContextWithSubDomain:(NSString *)subDomain;
 
+/**
+ * 生成context主要用于包含重要的上下文信息
+ * @param subDomain   服务所属子域名
+ * @param sign        是否需要签名
+ */
++ (ACContext *)generateContextWithSubDomain:(NSString *)subDomain sign:(BOOL)sign;
+
 @end

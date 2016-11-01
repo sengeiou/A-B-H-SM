@@ -206,10 +206,13 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
     [self.rollViews removeAllObjects];
     if (self.numberOfPages > 0) {
         for (NSInteger i = 0; i < self.numberOfPages + 2; i ++) {
-            [self.rollViews addObject:[self createRollView]]; }
+            UIView *view = [self createRollView];
+            view.tag = 300 + i;
+            [_rollViews addObject:view];
+        }
         [self reSetFrame];
         self.currentPage = 0;
-        [self refreshViews];
+        [self refreshViewsDirection:0];
         self.cycleCounter = 0;
         self.counting = YES;
         self.scrollView.hidden = NO;
@@ -229,13 +232,17 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 //    }
 //}
 
-- (void)refreshViews {
+- (void)refreshViewsDirection:(int)dire {//0没方向 -1左， 1右
     for (NSInteger i = 0; i < 3; i ++) {
-//        NSLog(@"self.currentPage==%d",self.currentPage);
+        NSLog(@"self.currentPage==%d",self.currentPage);
         NSInteger rollViewIndex = (self.numberOfPages + self.currentPage + 2 + i) % (self.numberOfPages + 2);
         NSInteger itemIndex = (self.numberOfPages + self.currentPage - 1 + i) % self.numberOfPages;
+        if (self.delegate && [self.delegate respondsToSelector:@selector(rollView:setAllViewForRollView:atIndex:direction:)]) {
+            [self.delegate rollView:self setAllViewForRollView:_rollViews[rollViewIndex] atIndex:_pushCountPage direction:dire];
+        }
+        
         if (self.currentPage == itemIndex) {
-             [self.delegate rollView:self setViewForRollView:self.rollViews[rollViewIndex] atIndex:itemIndex];
+             [self.delegate rollView:self setViewForRollView:_rollViews[rollViewIndex] atIndex:itemIndex];
         }
     }
 }
@@ -292,15 +299,18 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
                 [_pageTimer invalidate];
                 _pageTimer = nil;
             }
+            int direction = 0;
             _pageTimer = [NSTimer scheduledTimerWithTimeInterval:0.7 target:self selector:@selector(pageTimerOut) userInfo:nil repeats:NO];
             if (_currentPage - currentPageNow == 1 || _currentPage - currentPageNow == -(_numberOfPages - 1)) {
+                direction = -1;
                 _pushCountPage --;
             }
             else if (_currentPage - currentPageNow == -1 || _currentPage - currentPageNow == (_numberOfPages - 1)){
+                direction = 1;
                 _pushCountPage ++;
             }
             self.currentPage = currentPageNow;
-            [self refreshViews];
+            [self refreshViewsDirection:direction];
         }
     }
     return;

@@ -79,4 +79,10 @@
 - (void)uploadMACWithAccount:(NSString *)user MAC:(NSString *)mac watchType:(NSString *)smaName success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //校验MAC
 - (void)acloudCheckMACtoWeChat:(NSString *)MAC callBack:(void(^)(NSString *mac,NSError *error))callback;
+
+//插入排行步数
+- (void)acloudSetScore:(int)score;
+
+//获取所有用户步数及排行
+- (void)acloudCheckRankingCallBack:(void(^)(NSArray *list,NSError *error))callback;
 @end

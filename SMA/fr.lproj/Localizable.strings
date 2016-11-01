@@ -83,6 +83,12 @@
 "device_HR_rest" = "Repos";
 "device_HR_mean" = "Moy.";
 "device_HR_max" = "Maxi";
+"device_HR_quiet" = "Repos";
+"device_HR_rect" = "Rythme cardiaque";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Veuillez tester le rythme cardiaque au repos à jeun en tant que valeur du rythme cardiaque au repose, c’est important pour vos références de santé.";
 "device_SL_qualith" = "Qualité de sommeil";
 "device_SL_typeF" = "Très mauvais";
 "device_SL_typeS" = "Confortable";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Profond";
 "device_SL_light" = "Léger";
 "device_SL_awake" = "éveillé";
+"device_SL_fallTime" = "Endormissement";
+"device_SL_wakeTime" = "Heure de réveil";
+"device_SL_sleepTime" = "Temps de sommeil";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "Faites dérouler vers le bas pour rafraîchir";
 "device_loosenSync" = "Rafraîchissement immédiat quand vous relâchez";
 "device_lastTime" = "dernière mise à jour:";

@@ -9,9 +9,20 @@
 #import <Foundation/Foundation.h>
 #import "ACTimerTask.h"
 #import "ACDeviceMsg.h"
+#import "ACloudLibConst.h"
+
+//任务组的类型
+typedef NS_ENUM(NSUInteger, ACTaskGroupType) {
+    //设备任务组
+    ACTaskGroupTypeDevice = 1,
+    //用户任务组
+    ACTaskGroupTypeUser,
+};
 
 #define TIMER_TASK_SERVICE @"zc-timer-task"
 
+@class ACGroupTask;
+@class ACGroup;
 @interface ACTimerManager : NSObject
 
 @property (strong, nonatomic) NSTimeZone *timeZone;
@@ -19,7 +30,7 @@
 - (id)initWithTimeZone:(NSTimeZone *)timeZone;
 
 /**
- * 创建定时任务(使用二进制模型)
+ * 创建定时任务
  *
  * @param deviceId    设备id（这里的id，是调用list接口返回的id，不是制造商提供的id）
  * @param timePoint   任务时间点，时间格式为："yyyy-MM-dd HH:mm:ss",比如2015-08-08 16:39:03
@@ -40,10 +51,10 @@
                   timeCycle:(NSString *)timeCycle
                   deviceMsg:(ACDeviceMsg *)deviceMsg
                      OnType:(NSInteger)ontype
-                   callback:(void (^)(NSError *error))callback;
+                   callback:(void (^)(NSError *error))callback ACDeprecated("接口已废弃, 请使用`ACDeviceTimerManager`中的`addTask:`方法");
 
 /**
- * 修改定时任务(使用二进制模型)
+ * 修改定时任务
  *
  * @param deviceId    设备id（这里的id，是调用list接口返回的id，不是制造商提供的id）
  * @param taskId      任务id
@@ -64,7 +75,7 @@
                      timePoint:(NSString *)timePoint
                      timeCycle:(NSString *)timeCycle
                      deviceMsg:(ACDeviceMsg *)deviceMsg
-                      callback:(void (^)(NSError *error))callback;
+                      callback:(void (^)(NSError *error))callback ACDeprecated("接口已废弃, 请使用`ACDeviceTimerManager`中的`modifyTask:`方法");
 
 /**
  * 开启定时任务
@@ -75,7 +86,7 @@
  */
 - (void)openTaskWithDeviceId:(NSInteger)deviceId
                       taskId:(NSInteger)taskId
-                    callback:(void (^)(NSError *error))callback;
+                    callback:(void (^)(NSError *error))callback ACDeprecated("接口已废弃, 请使用`ACDeviceTimerManager`中的`openTask:`方法");
 
 /**
  * 关闭定时任务
@@ -86,7 +97,7 @@
  */
 - (void)closeTaskWithDeviceId:(NSInteger)deviceId
                        taskId:(NSInteger)taskId
-                     callback:(void (^)(NSError *error))callback;
+                     callback:(void (^)(NSError *error))callback ACDeprecated("接口已废弃, 请使用`ACDeviceTimerManager`中的`closeTask:`方法");
 
 /**
  * 删除定时任务
@@ -97,7 +108,7 @@
  */
 - (void)deleteTaskWithDeviceId:(NSInteger)deviceId
                         taskId:(NSInteger)taskId
-                      callback:(void (^)(NSError *error))callback;
+                      callback:(void (^)(NSError *error))callback ACDeprecated("接口已废弃, 请使用`ACDeviceTimerManager`中的`deleteTask:`方法");
 
 /**
  * 获取定时任务列表
@@ -106,6 +117,5 @@
  * @param callback 返回结果的监听回调
  */
 - (void)listTasksWithDeviceId:(NSInteger)deviceId
-                     callback:(void (^)(NSArray *timerTaskArray, NSError *error))callback;
-
+                     callback:(void (^)(NSArray *timerTaskArray, NSError *error))callback ACDeprecated("接口已废弃, 请使用`ACDeviceTimerManager`中的`listTask:`方法");
 @end

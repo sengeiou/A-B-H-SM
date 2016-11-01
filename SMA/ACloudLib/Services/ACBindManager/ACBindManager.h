@@ -10,8 +10,18 @@
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 #import "ACDeviceMsg.h"
+#import "ACloudLibConst.h"
 
 #define BIND_SERVICE @"zc-bind"
+
+//设备通讯的优先性设置
+typedef enum: NSUInteger {
+    ACDeviceCommunicationOptionOnlyLocal = 1,  //仅通过局域网
+    ACDeviceCommunicationOptionOnlyCloud,      //仅通过云端
+    ACDeviceCommunicationOptionCloudFirst,     //云端优先
+    ACDeviceCommunicationOptionLocalFirst,     //局域网优先
+} ACDeviceCommunicationOption;
+
 
 @class ACDeviceMsg, ACMsg, ACUserDevice, ACObject;
 @interface ACBindManager : NSObject
@@ -47,7 +57,7 @@
  *  绑定设备
  *
  *  @param physicalDeviceId 设备物理ID
- *  @param name             设备名称
+ *  @param name                    设备名称
  *  @param callback         回调 deviceId 设备的逻辑Id
  */
 + (void)bindDeviceWithSubDomain:(NSString *)subDomain
@@ -58,7 +68,7 @@
 /**
  * 修改设备扩展属性
  */
-+ (void) setDeviceProfileWithSubDomain:(NSString *)subDomain
++ (void)setDeviceProfileWithSubDomain:(NSString *)subDomain
                               deviceId:(NSInteger)deviceId
                                profile:(ACObject *)profile
                               callback:(void (^) (NSError *error))callback;
@@ -66,7 +76,7 @@
 /**
  * 获取设备扩展属性
  */
-+ (void) getDeviceProfileWithSubDomain:(NSString*)subDomain
++ (void)getDeviceProfileWithSubDomain:(NSString*)subDomain
                               deviceId:(NSInteger)deviceId
                               callback:(void (^) (ACObject*profile, NSError *error))callback;
 
@@ -74,13 +84,9 @@
  *  根据分享码 绑定设备
  *
  *  @param shareCode        分享码
- *  @param subDomain        子域名
- *  @param deviceId         逻辑  ID
  *  @param callback         回调 ACUserDevice 设备的对象
  */
 + (void)bindDeviceWithShareCode:(NSString *)shareCode
-                      subDomain:(NSString *)subDomain
-                       deviceId:(NSInteger )deviceId
                        callback:(void(^)(ACUserDevice *userDevice,NSError *error))callback;
 
 /**
@@ -312,26 +318,8 @@
 + (void)isDeviceOnlineWithSubDomain:(NSString *)subDomain
                            deviceId:(NSInteger)deviceId
                    physicalDeviceId:(NSString *)physicalDeviceId
-                           callback:(void(^)(Boolean online,NSError *error))callback;
-/**
- *  向设备发送消息
- *
- *  @param subDomain 子域名
- *  @param deviceId  设备逻辑ID
- *  @param msg       发送的消息
- */
-+ (void)sendToDevice:(NSString *)subDomain
-            deviceId:(NSInteger)deviceId
-                 msg:(ACDeviceMsg *)msg
-            callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback;
+                           callback:(void(^)(Boolean online,NSError *error))callback;   
 
-
-#warning 请使用sendToDeviceWithOption:SubDomain:physicalDeviceId:msg:callback: 方法
-+(void)sendToDeviceWithOption:(int)option
-                    SubDomain:(NSString *)subDomain
-                     deviceId:(NSInteger)deviceId
-                          msg:(ACDeviceMsg *)msg
-                     callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback;
 
 /**
  *  向设备发送消息
@@ -348,7 +336,6 @@
                            msg:(ACDeviceMsg *)msg
                       callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback;
 
-
 /**
  *  监听网络变化并且更新设备信息
  *
@@ -357,5 +344,27 @@
  *  @param callback    返回结果的回调
  */
 +(void)networkChangeHanderWithTimeout:(NSInteger)timeout SubDomainId:(NSInteger)subDomainId  Callback:(void(^)(NSArray * deviceArray,NSError *error))callback;
+
+
+/**
+ * 更新设备的密钥accessKey
+ *
+ * @param subDomain 子域名，如djj（豆浆机）
+ * @param deviceId  设备id（这里的id，是调用list接口返回的id，不是制造商提供的id）
+ * @param callback  返回结果的监听回调
+ */
++ (void)updateAccessKeyWithSubDomain:(NSString *)subDomain
+                            deviceId:(NSInteger)deviceId
+                            callback:(void(^)(NSError *error))callback;
+
+
+#pragma mark - Deprecated
++(void)sendToDeviceWithOption:(int)option
+                    SubDomain:(NSString *)subDomain
+                     deviceId:(NSInteger)deviceId
+                          msg:(ACDeviceMsg *)msg
+                     callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback ACDeprecated("请使用sendToDeviceWithOption:SubDomain:physicalDeviceId:msg:callback:方法") ;
+
+
 
 @end

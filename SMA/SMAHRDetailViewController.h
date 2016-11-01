@@ -11,6 +11,7 @@
 #import "SMADetailCell.h"
 #import "ZXRollView.h"
 #import "SMADetailCollectionCell.h"
+#import "SMAQuietHRViewController.h"
 #import "NSDate+Formatter.h"
 @interface SMAHRDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,corePlotViewDelegate,ZXRollViewDelegate>
 @property (nonatomic, strong) NSDate *date;

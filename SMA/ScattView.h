@@ -82,6 +82,7 @@ typedef enum {
 
 - (void)initGraph;
 - (float)maxDataInArray:(NSArray *)array;
-
-
+- (void)reloadData;
+- (void)drawXaxis;
+- (void)chanePlotSpace;
 @end

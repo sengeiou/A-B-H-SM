@@ -83,6 +83,12 @@
 "device_HR_rest" = "Resting";
 "device_HR_mean" = "Avg.";
 "device_HR_max" = "Max";
+"device_HR_quiet" = "Resting";
+"device_HR_rect" = "Heart Rate";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Please test the static heart rate in fasting status as the static heart rate value, it is important for your healthy reference.";
 "device_SL_qualith" = "Sleep quality";
 "device_SL_typeF" = "Very bad";
 "device_SL_typeS" = "Comfortable";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Deep";
 "device_SL_light" = "Light";
 "device_SL_awake" = "Awake";
+"device_SL_fallTime" = "Fall asleep";
+"device_SL_wakeTime" = "Wake-up time";
+"device_SL_sleepTime" = "Sleep time";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "Drop down to refresh";
 "device_loosenSync" = "Release immediately refresh";
 "device_lastTime" = "latest update:";

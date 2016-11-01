@@ -83,6 +83,12 @@
 "device_HR_rest" = "Покой";
 "device_HR_mean" = "Сред.";
 "device_HR_max" = "Макс.";
+"device_HR_quiet" = "Покой";
+"device_HR_rect" = "Частота сердечных сокращений";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Проверьте частоту сердечных сокращений при статической нагрузке в режиме фиксации как значение ЧСС при статической нагрузке. Это важно для рекомендаций по вашему состоянию здоровья.";
 "device_SL_qualith" = "Качество сна";
 "device_SL_typeF" = "Очень плохо";
 "device_SL_typeS" = "Комфортно";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Глубокий";
 "device_SL_light" = "Неглубокий";
 "device_SL_awake" = "бодрствования";
+"device_SL_fallTime" = "Засыпание";
+"device_SL_wakeTime" = "Время пробуждения";
+"device_SL_sleepTime" = "Время сна";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "Опустите вниз, чтобы обновить";
 "device_loosenSync" = "Сразу же отпустите, чтобы обновить";
 "device_lastTime" = "Последнее обновление:";

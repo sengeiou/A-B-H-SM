@@ -83,6 +83,12 @@
 "device_HR_rest" = "Pihenés";
 "device_HR_mean" = "Átl.";
 "device_HR_max" = "Max";
+"device_HR_quiet" = "Pihenés";
+"device_HR_rect" = "Szívritmus";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Kérjük, ellenőrizze a nyugalmi szívritmus éhgyomri állapotát, valamint a nyugalmi szívritmus értéket, fontos az egészségi állapot referencia miatt.";
 "device_SL_qualith" = "Alvásminőség";
 "device_SL_typeF" = "Nagyon rossz";
 "device_SL_typeS" = "Kényelmes";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Mély";
 "device_SL_light" = "Könnyű";
 "device_SL_awake" = "Ébrenléti";
+"device_SL_fallTime" = "Lefekvés";
+"device_SL_wakeTime" = "Ébresztés idő";
+"device_SL_sleepTime" = "Alvásidő";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "Görgesse le a kijelző frissítéséhez";
 "device_loosenSync" = "Azonnali frissítés felengedés után";
 "device_lastTime" = "utolsó frissítés:";

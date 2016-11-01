@@ -33,7 +33,7 @@
  * @return
  */
 - (void)put:(NSString *)name value:(id)value;
-- (void)putArray:(NSArray *)name value:(id)value;
+- (void)putArray:(NSString *)name value:(id)value;
 - (void)putBool:(NSString *)name value:(BOOL)value;
 - (void)putLong:(NSString *)name value:(long)value;
 - (void)putLongLong:(NSString *)name value:(long long)value;
@@ -62,7 +62,6 @@
  * @param key
  */
 - (void)removeString:(NSString *)key;
-
 
 
 - (BOOL)contains:(NSString *)name;

@@ -191,8 +191,20 @@
 
 - (NSString *)yyyyMMddNoLineWithDate{
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    formatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+    //    formatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
     [formatter setDateFormat:@"yyyyMMdd"];
+    return [formatter stringFromDate:self];
+}
+
+- (NSString *)yyyyMMddSlashWithDate{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy/MM/dd"];
+    return [formatter stringFromDate:self];
+}
+
+- (NSString *)yyyyMMddHHmmSSNoLineWithDate{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMddHHmmss"];
     return [formatter stringFromDate:self];
 }
 

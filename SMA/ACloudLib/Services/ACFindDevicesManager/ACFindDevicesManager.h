@@ -14,7 +14,8 @@
 @protocol ACFindDevicesDelegate <NSObject>
 
 @optional
-- (void)findDevice:(ACLocalDevice *)device;
+
+- (void)findDevices:(NSArray<ACLocalDevice *> *)devices;
 
 @end
 

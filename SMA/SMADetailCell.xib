@@ -30,7 +30,7 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99.9km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igi-hI-e18">
                         <constraints>
-                            <constraint firstAttribute="width" constant="57" id="oEz-g3-3Ui"/>
+                            <constraint firstAttribute="width" constant="65" id="oEz-g3-3Ui"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="15"/>
                         <nil key="textColor"/>

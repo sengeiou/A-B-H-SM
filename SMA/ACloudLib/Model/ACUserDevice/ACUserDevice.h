@@ -7,6 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+
+typedef NS_ENUM(NSInteger,ACDeviceStatus) {
+    ACDeviceStatusOffline,          //不在线
+    ACDeviceStatusNetworkOnline,    //云端在线
+    ACDeviceStatusLocalOnline,      //局域网在线
+    ACDeviceStatusBothOnline        //云端和局域网同时在线
+};
+
 @interface ACUserDevice : NSObject<NSCoding>
 //设备逻辑ID
 @property (nonatomic, assign) NSInteger deviceId;
@@ -27,9 +35,12 @@
 //设备根分组ID
 @property (nonatomic, assign) NSInteger rootId;
 //设备状态
-@property (nonatomic, assign) NSInteger status;
-
+@property (nonatomic, assign) ACDeviceStatus status;
 
 + (instancetype)userDeviceWithDict:(NSDictionary *)dict;
+
+//判断是否存在AESKey
+- (BOOL)isValidAccessKey;
+
 
 @end

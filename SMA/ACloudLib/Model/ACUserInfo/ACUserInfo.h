@@ -13,12 +13,15 @@
 
 // 用户ID
 @property(nonatomic,assign) NSInteger userId;
-// 用户昵称
-@property(nonatomic,copy) NSString *nickName;
 // 手机号码
 @property(nonatomic,copy) NSString *phone;
 // 电子邮件地址
 @property(nonatomic,copy) NSString *email;
+// 用户昵称
+@property(nonatomic,copy) NSString *nickName;
+// 头像URL
+@property (nonatomic, copy) NSString *iconURL;
 
++ (instancetype)userInfoWithDict:(NSDictionary *)dict;
 @end
 

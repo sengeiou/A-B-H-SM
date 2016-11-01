@@ -21,7 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [ACloudLib setMode:ACloudLibModeRouter Region:ACLoudLibRegionChina];
+    [ACloudLib setMode:ACLoudLibModeTest Region:ACLoudLibRegionChina];
     [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:282];
     [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
     NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"我的")];

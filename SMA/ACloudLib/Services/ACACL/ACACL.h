@@ -21,17 +21,13 @@ typedef enum: NSInteger {
 @property (nonatomic, strong, readonly) ACObject *userAccessObj;
 @property (nonatomic, strong, readonly) ACObject *userDenyObj;
 
-/**
+/*
  * 设置`全局可读`访问权限，不设置则默认为所有人可读
- *
- * @param allow 是否全局可读
  */
 -(void)setPublicReadAccess:(BOOL)allow;
 
-/**
+/*
  * 设置`全局可写`访问权限，不设置则默认为除自己外的所有人不可写
- *
- * @param allow 是否全局可写
  */
 -(void)setPublicWriteAccess:(BOOL)allow;
 

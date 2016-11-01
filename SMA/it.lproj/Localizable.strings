@@ -83,6 +83,12 @@
 "device_HR_rest" = "En reposo";
 "device_HR_mean" = "Media";
 "device_HR_max" = "Máx.";
+"device_HR_quiet" = "A riposo";
+"device_HR_rect" = "Frequenza cardiaca";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Verifica la frequenza cardiaca statica a digiuno come il valore della frequenza cardiaca statica, è importante per il tuo riferimento di salute.";
 "device_SL_qualith" = "Calidad del sueño";
 "device_SL_typeF" = "Muy malo";
 "device_SL_typeS" = "Cómodo";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Profundo";
 "device_SL_light" = "Ligero";
 "device_SL_awake" = "Despierto";
+"device_SL_fallTime" = "Addormentato";
+"device_SL_wakeTime" = "Ora di risveglio";
+"device_SL_sleepTime" = "Tempo di sonno";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "daevice_pullSync" = "Scendi giù per aggiornare";
 "device_loosenSync" = "Rilascia immediatamente per l'aggiornamento";
 "device_lastTime" = "ultimo aggiornamento:";

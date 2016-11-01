@@ -26,7 +26,7 @@
 /**
  * 往某一服务发送命令/消息(匿名)
  *
- * @param subDomain      子域
+ * @param subDomain      子域2
  * @param serviceName    服务名
  * @param ServiceVersion 服务版本
  * @param req            具体的消息内容

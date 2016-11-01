@@ -11,6 +11,9 @@
 #import "ACloudLib.h"
 #import "ACObject.h"
 #import "ACFileManager.h"
+#import "ACUserInfo.h"
+#import "ACRankingManager.h"
+#import "ACRankingValue.h"
 //#import "ACNotificationManager.h"
 #import "AFNetworking.h"
 #define servicename @"mywatch"
@@ -37,38 +40,38 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                 [userInfoDic setValue:user.phone forKey:user_acc];
             }
             if (![user.email isEqualToString:@""]) {
-                 [userInfoDic setValue:user.phone forKey:user_acc];
+                [userInfoDic setValue:user.phone forKey:user_acc];
             }
             userInfoDic = [NSMutableDictionary dictionary];
             [userInfoDic setValue:user.nickName forKey:user_nick];
             
             [self acloudGetUserifnfoSuccess:^(NSMutableDictionary *userDict) {
                 if (userDict) {
-//                    [self acloudGetFriendWithAccount:account success:^(id userInfo) {
-//                        [self acloudDownLDataWithAccount:account success:^(id result) {
-//                            [self acloudCIDSuccess:^(id result) {
+                    //                    [self acloudGetFriendWithAccount:account success:^(id userInfo) {
+                    //                        [self acloudDownLDataWithAccount:account success:^(id result) {
+                    //                            [self acloudCIDSuccess:^(id result) {
                     
-                                if (success) {
-                                    success(userInfoDic);
-                                }
-//                            } failure:^(NSError *error) {
-//                                if (failure) {
-//                                    failure(error);
-//                                }
-//                                
-//                            }];
-//                        } failure:^(NSError *error) {
-//                            if (failure) {
-//                                failure(error);
-//                            }
-//                            
-//                        }];
-                        
-//                    } failure:^(NSError *error) {
-//                        if (failure) {
-//                            failure(error);
-//                        }
-//                    }];
+                    if (success) {
+                        success(userInfoDic);
+                    }
+                    //                            } failure:^(NSError *error) {
+                    //                                if (failure) {
+                    //                                    failure(error);
+                    //                                }
+                    //
+                    //                            }];
+                    //                        } failure:^(NSError *error) {
+                    //                            if (failure) {
+                    //                                failure(error);
+                    //                            }
+                    //
+                    //                        }];
+                    
+                    //                    } failure:^(NSError *error) {
+                    //                        if (failure) {
+                    //                            failure(error);
+                    //                        }
+                    //                    }];
                 }
                 else{
                     if (failure) {
@@ -91,18 +94,18 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //第三方登录
 - (void)acloudLoginWithOpenId:(NSString *)openId provider:(NSString *)provider accessToken:(NSString *)accessToken success:(void (^)(id result))success failure:(void (^)(NSError *error))failure{
-//    [ACAccountManager registerWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
-//        if (!error) {
-//            if (success) {
-//                success(user);
-//            }
-//        }
-//        else{
-//            if (failure) {
-//                failure(error);
-//            }
-//        }
-//    }];
+    //    [ACAccountManager registerWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
+    //        if (!error) {
+    //            if (success) {
+    //                success(user);
+    //            }
+    //        }
+    //        else{
+    //            if (failure) {
+    //                failure(error);
+    //            }
+    //        }
+    //    }];
     
     [ACAccountManager loginWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
         if (!error) {
@@ -141,7 +144,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //发送验证码
 - (void)acloudSendVerifiyCodeWithAccount:(NSString *)account template:(NSInteger)templat success:(void (^)(id))success failure:(void (^)(NSError *))failure{
-      [ACAccountManager sendVerifyCodeWithAccount:account template:templat callback:^(NSError *error) {
+    [ACAccountManager sendVerifyCodeWithAccount:account template:templat callback:^(NSError *error) {
         if (!error) {
             if (success) {
                 success(error);
@@ -201,14 +204,14 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     }];
     ACObject *msg = [[ACObject alloc] init];
     [msg putInteger:@"age" value:info.userAge.integerValue?info.userAge.integerValue:@"".integerValue];
-//    [msg putString:@"client_id" value:[SmaUserDefaults objectForKey:@"clientId"]?[SmaUserDefaults objectForKey:@"clientId"]:@""];
+    //    [msg putString:@"client_id" value:[SmaUserDefaults objectForKey:@"clientId"]?[SmaUserDefaults objectForKey:@"clientId"]:@""];
     [msg putString:@"device_type" value:@"ios"];
     [msg putString:@"header_url" value:@""];
     [msg putFloat:@"hight" value:info.userHeight.floatValue?info.userHeight.floatValue:@"".floatValue];
     [msg putInteger:@"sex" value:info.userSex.integerValue?info.userSex.integerValue:@"".integerValue];
     [msg putInteger:@"steps_Aim" value:info.userSex.integerValue?info.userSex.integerValue:@"".integerValue];
     [msg putFloat:@"weight" value:info.userGoal.floatValue?info.userGoal.floatValue:@"".floatValue];
-//    [msg putInteger:@"rate" value:quitHR];
+    //    [msg putInteger:@"rate" value:quitHR];
     [ACAccountManager setUserProfile:msg callback:^(NSError *error) {
         if (!error) {
             if (success) {
@@ -223,11 +226,11 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     }];
 }
 
-//发送CID 
+//发送CID
 - (void)acloudCIDSuccess:(void (^)(id result))success failure:(void (^)(NSError *error))failure{
     ACObject *msg = [[ACObject alloc] init];
     NSLog(@"CID==%@",[SMADefaultinfos getValueforKey:@"clientId"]);
-     [msg putString:@"client_id" value:[SMADefaultinfos getValueforKey:@"clientId"]?[SMADefaultinfos getValueforKey:@"clientId"]:@""];
+    [msg putString:@"client_id" value:[SMADefaultinfos getValueforKey:@"clientId"]?[SMADefaultinfos getValueforKey:@"clientId"]:@""];
     [ACAccountManager setUserProfile:msg callback:^(NSError *error) {
         if (!error) {
             if (success) {
@@ -240,7 +243,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             }
         }
     }];
-
+    
 }
 
 //清除CID
@@ -293,12 +296,12 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *cachesDir = [NSString stringWithFormat:@"%@/%@.jpg",[paths objectAtIndex:0],account];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-   [fileManager removeItemAtPath:cachesDir error:nil];
+    [fileManager removeItemAtPath:cachesDir error:nil];
     
     ACFileInfo * fileInfo1 = [[ACFileInfo alloc] initWithName:[NSString stringWithFormat:@"%@.jpg",account] bucket:@"/sma/watch/header" Checksum:0];
     ACFileManager *upManager = [[ACFileManager alloc] init];
     [upManager getDownloadUrlWithfile:fileInfo1 ExpireTime:0 payloadCallback:^(NSString *urlString, NSError *error) {
-         [upManager downFileWithsession:urlString checkSum:0 callBack:^(float progress, NSError *error) {
+        [upManager downFileWithsession:urlString checkSum:0 callBack:^(float progress, NSError *error) {
             NSLog(@"callBack==%f   error==%@",progress,error);
             if (error) {
                 if (failure) {
@@ -306,7 +309,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                 }
             }
         } CompleteCallback:^(NSString *filePath) {
-
+            
             if (filePath) {
                 [userInfoDic setValue:filePath forKey:user_he];
                 if (success) {
@@ -429,38 +432,38 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //互动推送
 - (void)acloudDispatcherFriendAccount:(NSString *)fAccount content:(NSString *)content success:(void (^)(id))success failure:(void (^)(NSError *))failure{
-//    ACMsg *msg = [[ACMsg alloc] init];
-//    msg.name = @"dispatcherMsg";
-//    [msg putString:@"dis_account" value:fAccount];
-//    [msg putInteger:@"content_key" value:content.integerValue];
-//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
-//        if (!error) {
-//            if([content intValue]==32)
-//            {
-////                [SmaBleMgr setInteractone31];
-//                [SmaBleMgr setBLInstructionMode:SETINTERACT31 IsSwitch:NO number:0 identifier:@"0" array:@"0"];
-//            }else {
-////                [SmaBleMgr setInteractone33];
-//                [SmaBleMgr setBLInstructionMode:SETINTERACT33 IsSwitch:NO number:0 identifier:@"0" array:@"0"];
-//            }
-//            
-//            if (success) {
-//                success(responseMsg);
-//            }
-//        }
-//        else{
-//            if (failure) {
-//                failure(error);
-//            }
-//        }
-//    }];
+    //    ACMsg *msg = [[ACMsg alloc] init];
+    //    msg.name = @"dispatcherMsg";
+    //    [msg putString:@"dis_account" value:fAccount];
+    //    [msg putInteger:@"content_key" value:content.integerValue];
+    //    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+    //        if (!error) {
+    //            if([content intValue]==32)
+    //            {
+    ////                [SmaBleMgr setInteractone31];
+    //                [SmaBleMgr setBLInstructionMode:SETINTERACT31 IsSwitch:NO number:0 identifier:@"0" array:@"0"];
+    //            }else {
+    ////                [SmaBleMgr setInteractone33];
+    //                [SmaBleMgr setBLInstructionMode:SETINTERACT33 IsSwitch:NO number:0 identifier:@"0" array:@"0"];
+    //            }
+    //
+    //            if (success) {
+    //                success(responseMsg);
+    //            }
+    //        }
+    //        else{
+    //            if (failure) {
+    //                failure(error);
+    //            }
+    //        }
+    //    }];
 }
 
 //上传数据
 //- (void)acloudSyncAllDataWithAccount:(NSString *)account sportDic:(NSMutableArray *)sport sleepDic:(NSMutableArray *)sleep clockDic:(NSMutableArray *)clock HRDic:(NSMutableArray *)hr success:(void (^)(id))success failure:(void (^)(NSError *))failure{
 //    __block int i = 0;
 //    SmaSeatInfo *setInfo = [SmaAccountTool seatInfo];
-//    
+//
 //    ACMsg *msg = [[ACMsg alloc] init];
 //    msg.name = @"sync_all";
 //    if (sport.count>0) {
@@ -494,7 +497,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 //            }
 //        }
 //    }];
-//    
+//
 //    ACMsg *msg2= [[ACMsg alloc] init];
 //    msg2.name = @"sync_sma_data";
 //    [msg2 putInteger:@"lost_open" value:[SmaUserDefaults integerForKey:@"myLoseInt"]?[SmaUserDefaults integerForKey:@"myLoseInt"]:@"".integerValue];
@@ -528,7 +531,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 //下载数据
 - (void)acloudDownLDataWithAccount:(NSString *)account success:(void (^)(id))success failure:(void (^)(NSError *))failure{
-   __block int i = 0;
+    __block int i = 0;
     ACMsg *Spmsg = [[ACMsg alloc] init];
     Spmsg.name = @"sync_sport";
     [Spmsg putString:@"user_account" value:account?account:@""];
@@ -581,14 +584,14 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                     success(error);
                 }
             }
-                   }
+        }
         else {
             if (failure) {
                 failure(error);
             }
         }
     }];
-
+    
     ACMsg *smamsg = [[ACMsg alloc] init];
     smamsg.name = @"sync_sma";
     [smamsg put:@"user_account" value:account?account:@""];
@@ -628,20 +631,20 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             }
         }
     }];
-   }
+}
 
 // 上传MAC
 - (void)uploadMACWithAccount:(NSString *)user MAC:(NSString *)mac watchType:(NSString *)smaName success:(void (^)(id))success failure:(void (^)(NSError *))failure{
     ACMsg *msg = [[ACMsg alloc] init];
     msg.name = @"addAddresToWx";
-//    [msg putString:@"user_account" value:user?user:@""];
+    //    [msg putString:@"user_account" value:user?user:@""];
     [msg putString:@"type" value:smaName?smaName:@""];
     [msg putString:@"address" value:mac?mac:@""];
     [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
         if (!error) {
             if (success) {
                 success(error);
-                }
+            }
         }
         else {
             if (failure) {
@@ -665,11 +668,39 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                 [self sendMACWeChat];
             }
         }
-            callback(macStr,error);
+        callback(macStr,error);
     }];
-
+    
 }
 
+- (void)acloudSetScore:(int)score{
+    [ACRankingManager setScore:score forName:@"china" withTimestamp:0 callback:^(NSError *error) {
+        if (error) {
+            //插入失败
+            return;
+        }
+        //插入成功
+    }];
+}
+
+//获取所有用户步数及排行
+- (void)acloudCheckRankingCallBack:(void(^)(NSArray *list,NSError *error))callback{
+    [ACRankingManager scanWithName:@"china" period:ACRankingPeriodDay timestamp:0 startRank:1 endRank:10 order:ACRankingOrderDESC callback:^(NSArray<ACRankingValue *> *list, NSError *error) {
+        if (error) {   //错误处理
+
+        }
+        if (callback) {
+            callback(list,error);
+        }
+        ACRankingValue *vlaue = [list firstObject];
+        NSLog(@"valie==%@  %@",[vlaue.profile getString:@"header_icon_url"],[vlaue.profile getString:@"nick_name"]);
+        for (int i = 0; i < list.count; i ++) {
+            
+        }
+//        NSLog(@"wefwfwgw==%@",[[list objectAtIndex:0] objectForKey:@"timestamp"]);
+        //list为`ACRankingValue`的实例对象, 即每一名次的详细信息
+    }];
+}
 //整理接收用户信息
 - (NSMutableDictionary *)userDataWithACmsg:(ACObject *)responseMsg{
     if (![responseMsg isEqual:@"none"]) {
@@ -687,13 +718,13 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_he]] forKey:user_he];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]] forKey:user_aim];
         [userInfoDic setObject:quietDaArr forKey:@"user_rate"];
-//        if ([NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]].intValue/1000==0) {
-//            [SMADefaultinfos removeValueForKey:@"stepPlan"];
-//        }
-//        else{
-//            [SMADefaultinfos putInt:@"stepPlan" andValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]].intValue/1000];
-//        }
-//        [userInfoDic setValue:[responseMsg getString:@"client_id"] forKey:@"client_id"];
+        //        if ([NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]].intValue/1000==0) {
+        //            [SMADefaultinfos removeValueForKey:@"stepPlan"];
+        //        }
+        //        else{
+        //            [SMADefaultinfos putInt:@"stepPlan" andValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]].intValue/1000];
+        //        }
+        //        [userInfoDic setValue:[responseMsg getString:@"client_id"] forKey:@"client_id"];
     }
     return userInfoDic;
 }
@@ -729,190 +760,190 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 // 保存下载运动数据
 - (void)clearUserSportWithMsg:(ACMsg *)msg sportData:(NSMutableArray *)sportArr{
-//    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
-//    NSMutableArray *infos=[NSMutableArray array];
-//    if (msg) {
-//        if (![msg isEqual:@"none"]) {
-//            NSArray *spArr = [msg get:@"sport_sync_rt"];
-//            if (spArr.count>0) {
-//                for (int i =0; i<spArr.count; i++) {
-//                    SmaSportInfo *info=[[SmaSportInfo alloc]init];
-//                    info.sport_calory = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"calorie"] floatValue]];
-//                    info.sport_data = [[spArr[i] objectForKey:@"count_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//                    info.sport_distance = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"distance"] floatValue]];
-//                    info.sport_time = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"offset"] floatValue]];
-//                    info.sport_step = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"steps"] floatValue]];
-//                    info.user_id = [NSString stringWithFormat:@"%@",[spArr[i] objectForKey:@"user_account"]];
-//                    info.sport_id = [NSString stringWithFormat:@"%@",[spArr[i] objectForKey:@"sport_id"]];
-//                    info.sport_activetime = @0;
-//                    info.sport_web = @1;
-//                    if (info.sport_calory.intValue > 0) {
-//                         [infos addObject:info];
-//                    }
-//                    else{
-//                         [smaDal insertSportWithUserID:info.user_id cuffID:info.sport_id Date:info.sport_data Time:[NSString stringWithFormat:@"%@",info.sport_time] Step:[NSString stringWithFormat:@"%@",info.sport_step] Ident:@"SM07" isWeb:@"1" finish:^(id finish) {
-//                         }];
-//                    }
-//                }
-//                if (infos.count > 0) {
-//                    [smaDal insertSmaSport:infos];
-//                }
-//            }
-//        }
-//    }
-//    else if (sportArr){
-//        for (int i =0; i<sportArr.count; i++) {
-//            SmaSportInfo *info=[[SmaSportInfo alloc]init];
-//            info.sport_calory = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"calorie"] floatValue]];
-//            info.sport_data = [[sportArr[i] objectForKey:@"count_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//            info.sport_distance = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"distance"] floatValue]];
-//            info.sport_time = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"offset"] floatValue]];
-//            info.sport_step = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"steps"] floatValue]];
-//            info.user_id = [NSString stringWithFormat:@"%@",[sportArr[i] objectForKey:@"user_account"]];
-//            info.sport_id = [NSString stringWithFormat:@"%@",[sportArr[i] objectForKey:@"sport_id"]];
-//            info.sport_activetime = @0;
-//            info.sport_web = @1;
-//            [infos addObject:info];
-//        }
-//        [smaDal insertSmaSport:infos];
-//        
-//    }
+    //    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
+    //    NSMutableArray *infos=[NSMutableArray array];
+    //    if (msg) {
+    //        if (![msg isEqual:@"none"]) {
+    //            NSArray *spArr = [msg get:@"sport_sync_rt"];
+    //            if (spArr.count>0) {
+    //                for (int i =0; i<spArr.count; i++) {
+    //                    SmaSportInfo *info=[[SmaSportInfo alloc]init];
+    //                    info.sport_calory = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"calorie"] floatValue]];
+    //                    info.sport_data = [[spArr[i] objectForKey:@"count_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    //                    info.sport_distance = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"distance"] floatValue]];
+    //                    info.sport_time = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"offset"] floatValue]];
+    //                    info.sport_step = [NSNumber numberWithFloat:[[spArr[i] objectForKey:@"steps"] floatValue]];
+    //                    info.user_id = [NSString stringWithFormat:@"%@",[spArr[i] objectForKey:@"user_account"]];
+    //                    info.sport_id = [NSString stringWithFormat:@"%@",[spArr[i] objectForKey:@"sport_id"]];
+    //                    info.sport_activetime = @0;
+    //                    info.sport_web = @1;
+    //                    if (info.sport_calory.intValue > 0) {
+    //                         [infos addObject:info];
+    //                    }
+    //                    else{
+    //                         [smaDal insertSportWithUserID:info.user_id cuffID:info.sport_id Date:info.sport_data Time:[NSString stringWithFormat:@"%@",info.sport_time] Step:[NSString stringWithFormat:@"%@",info.sport_step] Ident:@"SM07" isWeb:@"1" finish:^(id finish) {
+    //                         }];
+    //                    }
+    //                }
+    //                if (infos.count > 0) {
+    //                    [smaDal insertSmaSport:infos];
+    //                }
+    //            }
+    //        }
+    //    }
+    //    else if (sportArr){
+    //        for (int i =0; i<sportArr.count; i++) {
+    //            SmaSportInfo *info=[[SmaSportInfo alloc]init];
+    //            info.sport_calory = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"calorie"] floatValue]];
+    //            info.sport_data = [[sportArr[i] objectForKey:@"count_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    //            info.sport_distance = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"distance"] floatValue]];
+    //            info.sport_time = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"offset"] floatValue]];
+    //            info.sport_step = [NSNumber numberWithFloat:[[sportArr[i] objectForKey:@"steps"] floatValue]];
+    //            info.user_id = [NSString stringWithFormat:@"%@",[sportArr[i] objectForKey:@"user_account"]];
+    //            info.sport_id = [NSString stringWithFormat:@"%@",[sportArr[i] objectForKey:@"sport_id"]];
+    //            info.sport_activetime = @0;
+    //            info.sport_web = @1;
+    //            [infos addObject:info];
+    //        }
+    //        [smaDal insertSmaSport:infos];
+    //
+    //    }
 }
 
 //保存下载睡眠数据
 - (void)clearUserSleeptWithMsg:(ACMsg *)msg sleepData:(NSMutableArray *)sleepArr Account:(NSString *)account{
-//    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
-//    NSMutableArray *infos=[NSMutableArray array];
-//    if (msg) {
-//        if (![msg isEqual:@"none"]) {
-//            NSArray *slArr = [msg get:@"sleep_sync_rt"];
-//            if (slArr.count>0) {
-//                for (int i =0; i<slArr.count; i++) {
-//                    SmaSleepInfo *info=[[SmaSleepInfo alloc]init];
-//                    info.user_id = account;
-//                    info.sleep_id = [NSString stringWithFormat:@"%@",[slArr[i] objectForKey:@"sleep_id"]];
-//                    info.sleep_data = [[slArr[i] objectForKey:@"sleep_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//                    info.sleep_mode = [NSNumber numberWithInt:[[slArr[i] objectForKey:@"time_type"] intValue]];;
-//                    info.sleep_time = [NSString stringWithFormat:@"%@",[slArr[i] objectForKey:@"action_time"]];
-//                    info.sleep_type = [NSNumber numberWithInt:[[slArr[i] objectForKey:@"sleep_type"] intValue]];
-//                    info.sleep_softly = @0;
-//                    info.sleep_strong = @0;
-//                    info.sleep_wear = @1;
-//                    info.sleep_web = @1;
-//                    [infos addObject:info];
-//                }
-//                [smaDal insertSleepInfo:infos];
-//            }
-//        }
-//    }
-//    else if (sleepArr){
-//        
-//        for (int i =0; i<sleepArr.count; i++) {
-//            SmaSleepInfo *info=[[SmaSleepInfo alloc]init];
-//            info.user_id = account;
-//            info.sleep_id = [NSString stringWithFormat:@"%@",[sleepArr[i] objectForKey:@"sleep_id"]];
-//            info.sleep_data = [[sleepArr[i] objectForKey:@"sleep_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//            info.sleep_mode = [NSNumber numberWithInt:[[sleepArr[i] objectForKey:@"time_type"] intValue]];;
-//            info.sleep_time = [NSString stringWithFormat:@"%@",[sleepArr[i] objectForKey:@"action_time"]];
-//            info.sleep_type = [NSNumber numberWithInt:[[sleepArr[i] objectForKey:@"sleep_type"] intValue]];
-//            info.sleep_softly = @0;
-//            info.sleep_strong = @0;
-//            info.sleep_wear = @1;
-//            info.sleep_web = @0;
-//            [infos addObject:info];
-//        }
-//        [smaDal insertSleepInfo:infos];
-//        
-//    }
+    //    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
+    //    NSMutableArray *infos=[NSMutableArray array];
+    //    if (msg) {
+    //        if (![msg isEqual:@"none"]) {
+    //            NSArray *slArr = [msg get:@"sleep_sync_rt"];
+    //            if (slArr.count>0) {
+    //                for (int i =0; i<slArr.count; i++) {
+    //                    SmaSleepInfo *info=[[SmaSleepInfo alloc]init];
+    //                    info.user_id = account;
+    //                    info.sleep_id = [NSString stringWithFormat:@"%@",[slArr[i] objectForKey:@"sleep_id"]];
+    //                    info.sleep_data = [[slArr[i] objectForKey:@"sleep_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    //                    info.sleep_mode = [NSNumber numberWithInt:[[slArr[i] objectForKey:@"time_type"] intValue]];;
+    //                    info.sleep_time = [NSString stringWithFormat:@"%@",[slArr[i] objectForKey:@"action_time"]];
+    //                    info.sleep_type = [NSNumber numberWithInt:[[slArr[i] objectForKey:@"sleep_type"] intValue]];
+    //                    info.sleep_softly = @0;
+    //                    info.sleep_strong = @0;
+    //                    info.sleep_wear = @1;
+    //                    info.sleep_web = @1;
+    //                    [infos addObject:info];
+    //                }
+    //                [smaDal insertSleepInfo:infos];
+    //            }
+    //        }
+    //    }
+    //    else if (sleepArr){
+    //
+    //        for (int i =0; i<sleepArr.count; i++) {
+    //            SmaSleepInfo *info=[[SmaSleepInfo alloc]init];
+    //            info.user_id = account;
+    //            info.sleep_id = [NSString stringWithFormat:@"%@",[sleepArr[i] objectForKey:@"sleep_id"]];
+    //            info.sleep_data = [[sleepArr[i] objectForKey:@"sleep_date"] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    //            info.sleep_mode = [NSNumber numberWithInt:[[sleepArr[i] objectForKey:@"time_type"] intValue]];;
+    //            info.sleep_time = [NSString stringWithFormat:@"%@",[sleepArr[i] objectForKey:@"action_time"]];
+    //            info.sleep_type = [NSNumber numberWithInt:[[sleepArr[i] objectForKey:@"sleep_type"] intValue]];
+    //            info.sleep_softly = @0;
+    //            info.sleep_strong = @0;
+    //            info.sleep_wear = @1;
+    //            info.sleep_web = @0;
+    //            [infos addObject:info];
+    //        }
+    //        [smaDal insertSleepInfo:infos];
+    //
+    //    }
 }
 //保存下载闹钟数据
 - (void)clearUserClockWithMsg:(ACMsg *)msg Account:(NSString *)account{
-//    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
-//    NSMutableArray *infos=[NSMutableArray array];
-//    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-//    fmt.dateFormat = @"HH:mm";
-//
-//    if (![msg isEqual:@"none"]) {
-//        NSArray *AlArr = [msg get:@"clock_sync_rt"];
-//        if (AlArr.count>0) {
-//            for (int i =0; i<AlArr.count; i++) {
-//                SmaAlarmInfo *info=[[SmaAlarmInfo alloc]init];
-//                info.userId = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"user_account"]];
-//                info.year = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"year"]];
-//                info.mounth = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"month"]];
-//                info.day = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"day"]];
-//                NSString *time = [fmt stringFromDate:[fmt dateFromString:[AlArr[i] objectForKey:@"clock_time"]]];
-//                info.hour = [NSString stringWithFormat:@"%@",[time substringWithRange:NSMakeRange(0, 2)]];
-//                info.minute = [NSString stringWithFormat:@"%@",[time substringWithRange:NSMakeRange(3, 2)]];
-//                info.tagname = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"name"]];
-//                info.isopen = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"clockOpen"]];
-//                info.dayFlags = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@",[AlArr[i] objectForKey:@"mon_day"],[AlArr[i] objectForKey:@"tues_day"],[AlArr[i] objectForKey:@"wes_day"],[AlArr[i] objectForKey:@"thur_day"],[AlArr[i] objectForKey:@"frid_day"],[AlArr[i] objectForKey:@"sta_day"],[AlArr[i] objectForKey:@"sun_day"]];
-//                info.web = @"1";
-//                [infos addObject:info];
-//            }
-//            if (infos>0) {
-//               [smaDal deleteClockUserInfo:account success:^(id result) {
-//                   for (int i=0; i<infos.count; i++) {
-//                       [smaDal insertClockInfo:infos[i]];
-//                   }
-// 
-//               } failure:^(id result) {
-//                   
-//               } ];
-//             
-//            }
-//        }
-//    }
+    //    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
+    //    NSMutableArray *infos=[NSMutableArray array];
+    //    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    //    fmt.dateFormat = @"HH:mm";
+    //
+    //    if (![msg isEqual:@"none"]) {
+    //        NSArray *AlArr = [msg get:@"clock_sync_rt"];
+    //        if (AlArr.count>0) {
+    //            for (int i =0; i<AlArr.count; i++) {
+    //                SmaAlarmInfo *info=[[SmaAlarmInfo alloc]init];
+    //                info.userId = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"user_account"]];
+    //                info.year = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"year"]];
+    //                info.mounth = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"month"]];
+    //                info.day = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"day"]];
+    //                NSString *time = [fmt stringFromDate:[fmt dateFromString:[AlArr[i] objectForKey:@"clock_time"]]];
+    //                info.hour = [NSString stringWithFormat:@"%@",[time substringWithRange:NSMakeRange(0, 2)]];
+    //                info.minute = [NSString stringWithFormat:@"%@",[time substringWithRange:NSMakeRange(3, 2)]];
+    //                info.tagname = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"name"]];
+    //                info.isopen = [NSString stringWithFormat:@"%@",[AlArr[i] objectForKey:@"clockOpen"]];
+    //                info.dayFlags = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@",[AlArr[i] objectForKey:@"mon_day"],[AlArr[i] objectForKey:@"tues_day"],[AlArr[i] objectForKey:@"wes_day"],[AlArr[i] objectForKey:@"thur_day"],[AlArr[i] objectForKey:@"frid_day"],[AlArr[i] objectForKey:@"sta_day"],[AlArr[i] objectForKey:@"sun_day"]];
+    //                info.web = @"1";
+    //                [infos addObject:info];
+    //            }
+    //            if (infos>0) {
+    //               [smaDal deleteClockUserInfo:account success:^(id result) {
+    //                   for (int i=0; i<infos.count; i++) {
+    //                       [smaDal insertClockInfo:infos[i]];
+    //                   }
+    //
+    //               } failure:^(id result) {
+    //
+    //               } ];
+    //
+    //            }
+    //        }
+    //    }
     
 }
 
 // 保存下载心率数据
 - (void)clearUserHRWithMsg:(ACMsg *)msg HRData:(NSMutableArray *)HRArr{
-//    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
-//    if (msg) {
-//        if (![msg isEqual:@"none"]) {
-//            NSArray *hrArr = [msg get:@"ratelist"];
-//            if (hrArr.count>0) {
-//                for (int i =0; i<hrArr.count; i++) {
-//                    NSString *hr_id = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_id"]];
-//                    NSString *userid = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"user_account"]];
-//                    NSString *hr_date = [[NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_date"]] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//                    NSString *hr_time = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_time"]];
-//                    NSString *hr_static = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_status"]];
-//                    NSString *hr = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_value"]];
-//                    [smaDal insertHRDataWithUserID:userid HRid:hr_id HRdate:hr_date HRtime:hr_time HRStatic:hr_static HRreal:hr HRWeb:@"0"];
-//                }
-//            }
-//        }
-//    }
-//    else if (HRArr){
-//        for (int i =0; i<HRArr.count; i++) {
-//            NSString *hr_id = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_id"]];
-//            NSString *userid = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"user_account"]];
-//            NSString *hr_date = [[NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_date"]] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//             NSString *hr_time = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_time"]];
-//             NSString *hr_static = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_status"]];
-//             NSString *hr = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_value"]];
-//             [smaDal insertHRDataWithUserID:userid HRid:hr_id HRdate:hr_date HRtime:hr_time HRStatic:hr_static HRreal:hr HRWeb:@"0"];
-//        }
-//        
-//    }
+    //    SmaDataDAL *smaDal = [[SmaDataDAL alloc] init];
+    //    if (msg) {
+    //        if (![msg isEqual:@"none"]) {
+    //            NSArray *hrArr = [msg get:@"ratelist"];
+    //            if (hrArr.count>0) {
+    //                for (int i =0; i<hrArr.count; i++) {
+    //                    NSString *hr_id = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_id"]];
+    //                    NSString *userid = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"user_account"]];
+    //                    NSString *hr_date = [[NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_date"]] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    //                    NSString *hr_time = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_time"]];
+    //                    NSString *hr_static = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_status"]];
+    //                    NSString *hr = [NSString stringWithFormat:@"%@",[hrArr[i] objectForKey:@"rate_value"]];
+    //                    [smaDal insertHRDataWithUserID:userid HRid:hr_id HRdate:hr_date HRtime:hr_time HRStatic:hr_static HRreal:hr HRWeb:@"0"];
+    //                }
+    //            }
+    //        }
+    //    }
+    //    else if (HRArr){
+    //        for (int i =0; i<HRArr.count; i++) {
+    //            NSString *hr_id = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_id"]];
+    //            NSString *userid = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"user_account"]];
+    //            NSString *hr_date = [[NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_date"]] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    //             NSString *hr_time = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_time"]];
+    //             NSString *hr_static = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_status"]];
+    //             NSString *hr = [NSString stringWithFormat:@"%@",[HRArr[i] objectForKey:@"rate_value"]];
+    //             [smaDal insertHRDataWithUserID:userid HRid:hr_id HRdate:hr_date HRtime:hr_time HRStatic:hr_static HRreal:hr HRWeb:@"0"];
+    //        }
+    //
+    //    }
 }
 //保存下载设置数据
 - (void)clearUserSatWithMsg:(ACMsg *)msg{
-//    SmaSeatInfo *seatInfo=[[SmaSeatInfo alloc]init];
-//    ACObject *object = [msg get:@"sma_data"];
-//     if (![msg isEqual:@"none"]) {
-//         seatInfo.beginTime = [NSString stringWithFormat:@"%ld",[object getLong:@"long_sit_start"]];
-//         seatInfo.endTime = [NSString stringWithFormat:@"%ld",[object getLong:@"long_sit_end"]];
-//         seatInfo.seatValue = [NSString stringWithFormat:@"%ld",[object getLong:@"long_min"]];
-//         seatInfo.isOpen = [NSString stringWithFormat:@"%ld",[object getLong:@"long_sit_open"]];
-//         seatInfo.pepeatWeek = [self setStringWith:[object getString:@"weeks"]];
-//         [SmaAccountTool saveSeat:seatInfo];
-//         [SmaUserDefaults setInteger:[object getLong:@"lost_open"] forKey:@"myLoseInt"];
-//         [SmaUserDefaults setInteger:[object getLong:@"msg_notic"] forKey:@"mySmsRemindInt"];
-//         [SmaUserDefaults setInteger:[object getLong:@"tel_notic"] forKey:@"myTelRemindInt"];
-//     }
+    //    SmaSeatInfo *seatInfo=[[SmaSeatInfo alloc]init];
+    //    ACObject *object = [msg get:@"sma_data"];
+    //     if (![msg isEqual:@"none"]) {
+    //         seatInfo.beginTime = [NSString stringWithFormat:@"%ld",[object getLong:@"long_sit_start"]];
+    //         seatInfo.endTime = [NSString stringWithFormat:@"%ld",[object getLong:@"long_sit_end"]];
+    //         seatInfo.seatValue = [NSString stringWithFormat:@"%ld",[object getLong:@"long_min"]];
+    //         seatInfo.isOpen = [NSString stringWithFormat:@"%ld",[object getLong:@"long_sit_open"]];
+    //         seatInfo.pepeatWeek = [self setStringWith:[object getString:@"weeks"]];
+    //         [SmaAccountTool saveSeat:seatInfo];
+    //         [SmaUserDefaults setInteger:[object getLong:@"lost_open"] forKey:@"myLoseInt"];
+    //         [SmaUserDefaults setInteger:[object getLong:@"msg_notic"] forKey:@"mySmsRemindInt"];
+    //         [SmaUserDefaults setInteger:[object getLong:@"tel_notic"] forKey:@"myTelRemindInt"];
+    //     }
 }
 
 //整理设置数据
@@ -927,10 +958,10 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             counts++;
             if ([str isEqualToString:@""]) {
                 str=[NSString stringWithFormat:@"%@",[self stringWith:i]];
-
+                
             }
             else{
-            str=[NSString stringWithFormat:@"%@,%@",str,[self stringWith:i]];
+                str=[NSString stringWithFormat:@"%@,%@",str,[self stringWith:i]];
             }
         }
     }
@@ -970,7 +1001,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     NSString *str = @"";
     NSMutableArray *WeekArr = [[NSMutableArray alloc]initWithObjects:@"0",@"0",@"0",@"0",@"0",@"0",@"0",nil];
     for (int i = 0; i<week.count; i++) {
-       WeekArr = [self createWeekWith:week[i] WeekArr:WeekArr];
+        WeekArr = [self createWeekWith:week[i] WeekArr:WeekArr];
     }
     for (int i = 0; i<7; i++) {
         if ([str isEqualToString:@""]) {
@@ -980,7 +1011,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         else{
             str=[NSString stringWithFormat:@"%@,%@",str,WeekArr[i]];
         }
-
+        
     }
     
     return str;

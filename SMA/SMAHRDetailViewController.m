@@ -15,13 +15,16 @@
     UITableView *detailTabView;
     UICollectionView *detailColView;
     ScattView *scattView;
+    UILabel *quiethrLab;
     NSInteger selectTag;
     NSUInteger showDataIndex;
     BOOL firstCreate;
     BOOL indexChange;
     NSMutableArray *dataArr;
     NSMutableArray *alldata;
+    NSMutableArray *quietArr;
     NSArray *collectionArr;
+    NSDate *quietDate;
     int cycle;
 }
 @property (nonatomic, strong) SMADatabase *dal;
@@ -53,7 +56,11 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 - (void)initializeMethod{
     alldata = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES]];
+    quietDate = self.date;
+    quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
+
     [self addSubViewWithCycle:0];
+        quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr lastObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
 }
 
 - (void)createUI{
@@ -73,9 +80,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSArray *stateArr = @[SMALocalizedString(@"device_SP_day"),SMALocalizedString(@"device_SP_week"),SMALocalizedString(@"device_SP_month")];
     for (int i = 0; i < 3; i ++) {
         UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
-        float width = (MainScreen.size.width - 120)/3;
+        float width = (MainScreen.size.width - 100)/3;
         
-        but.frame = CGRectMake(35 + (width + 25)*i, (self.tabBarController.tabBar.frame.size.height - 30)/2, width, 30);
+        but.frame = CGRectMake((MainScreen.size.width - width*3 - 50)/2 + (width + 25)*i, (self.tabBarController.tabBar.frame.size.height - 30)/2, width, 30);
         but.layer.masksToBounds = YES;
         but.layer.cornerRadius = 10;
         but.layer.borderColor = [SmaColor colorWithHexString:@"#EA2277" alpha:1].CGColor;
@@ -145,14 +152,14 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         indexView.image = [UIImage imageNamed:@"icon_next"];
         [quietView addSubview:indexView];
         
-        UILabel *quiethrLab = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(indexView.frame) - 90, 0, 80, CGRectGetHeight(quietView.frame))];
-        quiethrLab.attributedText = [self attributedStringWithArr:@[@"256",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
+        quiethrLab = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(indexView.frame) - 90, 0, 80, CGRectGetHeight(quietView.frame))];
+            quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr lastObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
         quiethrLab.textAlignment = NSTextAlignmentRight;
         [quietView addSubview:quiethrLab];
         
         UILabel *quietLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, MainScreen.size.width - CGRectGetWidth(quiethrLab.frame) - CGRectGetWidth(indexView.frame) - 45, CGRectGetHeight(quietView.frame))];
         quietLab.font = FontGothamLight(16);
-        quietLab.text = @"静息心率";
+        quietLab.text = SMALocalizedString(@"device_HR_quiet");
         [quietView addSubview:quietLab];
         
         [mainScroll addSubview:quietView];
@@ -168,7 +175,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         
         UILabel *stateLab = [[UILabel alloc] initWithFrame:CGRectMake(MainScreen.size.width - 150, 0, 150, self.tabBarController.tabBar.frame.size.height)];
         stateLab.textAlignment = NSTextAlignmentCenter;
-        stateLab.text = SMALocalizedString(@"心率");
+        stateLab.text = SMALocalizedString(@"device_HR_rect");
         stateLab.font = FontGothamLight(15);
         //        stateLab.backgroundColor = [UIColor greenColor];
         [stateView addSubview:stateLab];
@@ -177,7 +184,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         
         detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, 600 - CGRectGetHeight(detailScroll.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame)) style:UITableViewStylePlain];
         detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        detailTabView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:1];
+        detailTabView.backgroundColor = [SmaColor colorWithHexString:@"#FFFFFF" alpha:1];
         detailTabView.delegate = self;
         detailTabView.dataSource = self;
         detailTabView.tableFooterView = [[UIView alloc] init];
@@ -188,7 +195,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
     else{
         if (!collectionArr) {
-            collectionArr = @[SMALocalizedString(@"平均心率"),SMALocalizedString(@"平均静息"),SMALocalizedString(@"平均最大"),SMALocalizedString(@"平均监测")];
+            collectionArr = @[SMALocalizedString(@"device_HR_mean"),SMALocalizedString(@"device_HR_avgQuiet"),SMALocalizedString(@"device_HR_avgMax"),SMALocalizedString(@"device_HR_avgMonitor")];
         }
         //创建一个layout布局类
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
@@ -252,7 +259,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     scattView.ylabelLocation = [[spArr[2] valueForKeyPath:@"@max.intValue"] intValue];//可以yValue最大值为基准
     scattView.barIntermeNumber = @[selectTag == 101?@"0.97":@"0.08",@"0.97"];
     scattView.selectColor = selectTag == 101?NO:YES;
-    scattView.lineColors =@[selectTag == 101?[CPTColor colorWithComponentRed:205/255.0 green:226/255.0 blue:251/255.0 alpha:0.8]:[CPTColor colorWithComponentRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.8],[CPTColor colorWithComponentRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0]];
+    scattView.lineColors =@[selectTag == 101?[CPTColor colorWithComponentRed:205/255.0 green:226/255.0 blue:251/255.0 alpha:0.8]:[CPTColor colorWithComponentRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1],[CPTColor colorWithComponentRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0]];
     [scattView initGraph];
     [detailColView reloadData];
     [detailTabView reloadData];
@@ -260,7 +267,10 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 - (void)hrTapBut:(UIButton *)sender{
     if (sender.tag == 104) {
-        
+        SMAQuietHRViewController *quietVC = [[SMAQuietHRViewController alloc] initWithNibName:@"SMAQuietHRViewController" bundle:nil];
+        quietVC.hidesBottomBarWhenPushed=YES;
+        quietVC.date = quietDate;
+        [self.navigationController pushViewController:quietVC animated:YES];
         return;
     }
     for (int i = 0; i < 3; i ++) {
@@ -274,6 +284,8 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             case 101:
             {
                 alldata = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES]];
+                quietDate = self.date;
+                quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
                 [self addSubViewWithCycle:0];
             }
                 break;
@@ -340,25 +352,24 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     SMADetailCollectionCell *cell = (SMADetailCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     if (indexPath.row == 0) {
         
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[alldata lastObject] objectAtIndex:showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[alldata objectAtIndex:5] objectAtIndex:showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
     }
     else if (indexPath.row == 1){
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[@"0",@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
-        //        cell.detailLab.attributedText = [self attributedStringWithArr:@[[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[alldata objectAtIndex:2] valueForKeyPath:@"@sum.intValue"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex]intValue] ] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")]];
+         cell.detailLab.attributedText = [self attributedStringWithArr:@[[[alldata objectAtIndex:6] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
     }
     else if (indexPath.row == 2){
         cell.detailLab.attributedText = [self attributedStringWithArr:@[[alldata objectAtIndex:2][showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
     }
     else{
         cell.detailLab.textColor = [SmaColor colorWithHexString:@"#EA1F75" alpha:1];
-        if ([[[alldata lastObject] objectAtIndex:showDataIndex] intValue] < 60) {
-            cell.detailLab.text = SMALocalizedString(@"偏低");
+        if ([[[alldata objectAtIndex:5] objectAtIndex:showDataIndex] intValue] < 60) {
+            cell.detailLab.text = SMALocalizedString(@"device_HR_typeS");
         }
-        else if ([[[alldata lastObject] objectAtIndex:showDataIndex] intValue] >= 60 && [[[alldata lastObject] objectAtIndex:showDataIndex] intValue] <= 100){
-            cell.detailLab.text = SMALocalizedString(@"正常");
+        else if ([[[alldata objectAtIndex:5] objectAtIndex:showDataIndex] intValue] >= 60 && [[[alldata objectAtIndex:5] objectAtIndex:showDataIndex] intValue] <= 100){
+            cell.detailLab.text = SMALocalizedString(@"device_HR_typeF");
         }
         else{
-            cell.detailLab.text = SMALocalizedString(@"偏高");
+            cell.detailLab.text = SMALocalizedString(@"device_HR_typeT");
         }
         //
     }
@@ -447,6 +458,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             {
                 NSDate *changeDate = [self.date timeDifferenceWithNumbers:index];
                 alldata = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:changeDate.yyyyMMddNoLineWithDate toDate:changeDate.yyyyMMddNoLineWithDate detailData:YES]];
+                quietDate = changeDate;
+                quietArr = [self.dal readQuietHearReatDataWithDate:changeDate.yyyyMMddNoLineWithDate toDate:changeDate.yyyyMMddNoLineWithDate detailData:YES];
+                quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr lastObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
                 if ([changeDate.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
                     self.date = changeDate ;
                     [self addSubViewWithCycle:0];
@@ -584,6 +598,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 - (void)gethrDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month updateUI:(BOOL)update{
     NSDate *firstdate = date;
     NSMutableArray *weekDate = [NSMutableArray array];
+    NSMutableArray *quietData = [NSMutableArray array];
     int allMax = 0;
     for (int i = 0; i < 4; i ++) {
         NSDate *nextDate = firstdate;
@@ -597,6 +612,8 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         else{
             firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
         }
+        NSMutableArray *quietDateArr = [self.dal readQuietHearReatDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate detailData:NO];
+        [quietData addObject:quietDateArr];
         NSMutableArray *weekData = [self.dal readHearReatDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate detailData:NO];
         if (weekData.count > 0) {
             for (int i = 0; i < (int)weekData.count; i ++) {
@@ -627,12 +644,14 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSMutableArray *yValue1 = [NSMutableArray array];
     NSMutableArray *yBaesValues = [NSMutableArray array];
     NSMutableArray *yBaesValues1 = [NSMutableArray array];
+    NSMutableArray *quietValues = [NSMutableArray array];
     NSMutableArray *avgArr = [NSMutableArray array];
     alldata = [NSMutableArray array];
     for (int i = 0; i < 5; i ++ ) {
         [yValue1 addObject:[NSString stringWithFormat:@"%d",allMax + 10]];
         [yBaesValues1 addObject:@"0"];
         if (i == 0) {
+            [quietValues addObject:@"0"];
             [yBaesValues addObject:@"0"];
             [yValue addObject:@"0"];
             [avgArr addObject:@"0"];
@@ -642,7 +661,8 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             [yBaesValues addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"minHR"]];
             [yValue addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"maxHR"]];
             [avgArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"avgHR"]];
-            //            [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
+            [quietValues addObject:[NSString stringWithFormat:@"%d",[[[[quietData objectAtIndex:4 - i] firstObject] objectForKey:@"avgHR"] intValue]]];
+            //  [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
         }
     }
     [alldata addObject:xText];
@@ -651,6 +671,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [alldata addObject:yValue1];
     [alldata addObject:yBaesValues1];
     [alldata addObject:avgArr];
+    [alldata addObject:quietValues];
     showDataIndex = 4;
     if (update) {
         [self addSubViewWithCycle:1];

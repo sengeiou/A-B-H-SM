@@ -83,6 +83,12 @@
 "device_HR_rest" = "静息";
 "device_HR_mean" = "平均";
 "device_HR_max" = "最大";
+"device_HR_quiet" = "静息心率";
+"device_HR_rect" = "心率";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "请每周固定最少一天，早上醒来后十分钟之内在没有运动、没有喝水和咖啡的情况下监测一次心率，并将心率值录入作为静息心率，此值对您的健康情况参考作用很重要。";
 "device_SL_qualith" = "睡眠质量";
 "device_SL_typeF" = "很差";
 "device_SL_typeS" = "舒适";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "深睡";
 "device_SL_light" = "浅睡";
 "device_SL_awake" = "清醒";
+"device_SL_fallTime" = "入睡时间";
+"device_SL_wakeTime" = "醒来时间";
+"device_SL_sleepTime" = "睡眠时长";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "下拉可以刷新";
 "device_loosenSync" = "松开马上刷新";
 "device_lastTime" = "最后更新:";

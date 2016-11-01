@@ -83,6 +83,12 @@
 "device_HR_rest" = "Odihnă";
 "device_HR_mean" = "Med.";
 "device_HR_max" = "Max.";
+"device_HR_quiet" = "Odihnă";
+"device_HR_rect" = "Puls";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Vă rugăm să testaţi valoarea pulsului static pe stomacul gol, este important pentru referinţa dvs. de sănătate.";
 "device_SL_qualith" = "Calitate somn";
 "device_SL_typeF" = "Foarte rău";
 "device_SL_typeS" = "Confortabil";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Profund";
 "device_SL_light" = "Superficial";
 "device_SL_awake" = "Trezire";
+"device_SL_fallTime" = "Somn";
+"device_SL_wakeTime" = "Oră trezire";
+"device_SL_sleepTime" = "Timp pentru somn";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "Desdobre para atualizar";
 "device_loosenSync" = "Lançamento atualiza imediatamente";
 "device_lastTime" = "última atualização:";

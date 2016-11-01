@@ -25,9 +25,11 @@
  *  @param view      设置到 rollView 的视图对象.
  *  @param index     view 的位置.
  */
+
 - (void)rollView:(nonnull ZXRollView *)rollView setViewForRollView:(nonnull UIView *)view atIndex:(NSInteger)index;
 
 @optional
+- (void)rollView:(nonnull ZXRollView *)rollView setAllViewForRollView:(nonnull UIView *)view atIndex:(NSInteger)index direction:(int)direct;
 - (void)scrollViewWillEndDecelerating:(nonnull ZXRollView *)scrollView AtIndex:(NSInteger)index;
 - (void)scrollViewDidEndDecelerating:(nonnull ZXRollView *)scrollView AtIndex:(NSInteger)index;
 /**

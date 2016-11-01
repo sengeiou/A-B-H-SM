@@ -83,6 +83,12 @@
 "device_HR_rest" = "Odpoczynek";
 "device_HR_mean" = "Śr.";
 "device_HR_max" = "Maks.";
+"device_HR_quiet" = "Odpoczynek";
+"device_HR_rect" = "Pomiar rytmu pracy serca";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Należy sprawdzić rytm pracy serca w trybie statycznym i spoczynkowym, ponieważ wartość ta ma duże znaczenie dla zdrowia użytkownika,";
 "device_SL_qualith" = "Jakość snu";
 "device_SL_typeF" = "Bardzo niedobra";
 "device_SL_typeS" = "Wygodna";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Głęboki";
 "device_SL_light" = "Lekki";
 "device_SL_awake" = "Przebudzenia";
+"device_SL_fallTime" = "Godzina zaśnięcia";
+"device_SL_wakeTime" = "Godzina obudzenia";
+"device_SL_sleepTime" = "Czas snu";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "Przeciągnij w dół, aby odświeżyć";
 "device_loosenSync" = "Zwolnij, aby odświeżyć natychmiast";
 "device_lastTime" = "ostatnia aktualizacja:";

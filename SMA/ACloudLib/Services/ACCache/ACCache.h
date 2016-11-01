@@ -10,12 +10,7 @@
 
 @interface ACCache : NSObject
 
-+ (void)updateGroups:(NSArray *)groups;
-+ (NSArray *)getGroupsCache;
-
 + (void)updateDevices:(NSArray *)devices;
 + (NSArray *)getDevicesCache;
 
-+(void)cache:(NSArray *)array;
-+(NSArray *)getCacheArrayWithKey:(NSString *)key;
 @end

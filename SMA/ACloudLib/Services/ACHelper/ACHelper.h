@@ -31,4 +31,5 @@
 + (NSString *)encodeBase64:(NSString *)input;
 //base64解密
 + (NSString *)decodeBase64:(NSString *)input;
+ 
 @end

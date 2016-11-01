@@ -8,22 +8,23 @@
 
 #import <Foundation/Foundation.h>
 #import "ACDeviceMsg.h"
+#import "ACloudLibConst.h"
 
 @interface ACDeviceClient : NSObject
 
-//请使用ACBindManager中 sendToDeviceWithOption:msg:physicalDeviceId:timeout:callback 方法, 不要直接使用该方法
-- (void)sendToDevice:(NSInteger)subDomainId
-                 msg:(ACDeviceMsg *)msg
-            deviceId:(NSInteger)deviceId
-             timeout:(NSTimeInterval)timeout
-            callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback;
-
-//请使用ACBindManager中 sendToDeviceWithOption:msg:physicalDeviceId:timeout:callback 方法, 不要直接使用该方法
 - (void)sendToDevice:(NSInteger)subDomainId
                  msg:(ACDeviceMsg *)msg
     physicalDeviceId:(NSString *)physicalDeviceId
              timeout:(NSTimeInterval)timeout
             callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback;
+
+
+#pragma mark - Deperated
+- (void)sendToDevice:(NSInteger)subDomainId
+                 msg:(ACDeviceMsg *)msg
+            deviceId:(NSInteger)deviceId
+             timeout:(NSTimeInterval)timeout
+            callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback ACDeprecated("使用sendToDevice:msg:physicalDeviceId:timeout:callback");
 
 
 @end

@@ -28,17 +28,17 @@
     //    [graph applyTheme:[CPTTheme themeNamed:kCPTPlainWhiteTheme]];
     // graph在hostingView中的偏移
     graph.paddingBottom=5.0f;
-    graph.paddingLeft=5.0f;
-    graph.paddingRight=5.0f;
+    graph.paddingLeft=0.0f;
+    graph.paddingRight=0.0f;
     graph.paddingTop=5.0f;
     graph.plotAreaFrame.borderLineStyle=nil;
     graph.plotAreaFrame.cornerRadius=0.0f;// hide frame
     // 绘图区4边留白
     graph.plotAreaFrame.paddingTop=5.0;
-    graph.plotAreaFrame.paddingRight=5.0;
+    graph.plotAreaFrame.paddingRight=0;
     graph.plotAreaFrame.paddingLeft= self.plotAreaFramePaddingLeft;//20.0
     graph.plotAreaFrame.paddingBottom=20.0;
-    
+
     for (int i = 0; i < yValues.count; i ++) {
         if (self.DrawMode == CPTGraphScatterPlot) {
             CPTScatterPlot *plot = [[CPTScatterPlot alloc] init];
@@ -64,7 +64,12 @@
             [barPlot setBarWidth:decimal];
             barPlot.baseValue = decimal;
             barPlot.barBasesVary = YES;
+            //柱状图偏移
+            NSDecimalNumber *barOffsetNumber = [[NSDecimalNumber alloc] initWithFloat:0.005];
+            NSDecimal barOffsetdDecimal = [barOffsetNumber decimalValue];
+//             barPlot. barOffset = barOffsetdDecimal ;
             barPlot.fill = [CPTFill fillWithColor:[lineColors objectAtIndex:i]];
+//            barPlot.barBaseCornerRadius = 5.0;
             CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
             lineStyle.miterLimit = 1.0f;
             lineStyle.lineWidth = _barLineWidth?_barLineWidth:1.0f;
@@ -79,8 +84,6 @@
             //            if (i == 0) {
             [graph addPlot:barPlot toPlotSpace:graph.defaultPlotSpace];  // 将plot添加到默认的空间
             //            }
-            
-            
         }
     }
     
@@ -110,7 +113,7 @@
     plotSpace.allowsUserInteraction = _allowsUserInteraction;
     plotSpace.xRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax <= 31 ? xMax : 31)];  //显示可见部分（globalXRange设置的是滚动可见部分，前者是后者的一部分）
     plotSpace.yRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(yMin) length:CPTDecimalFromFloat(self.yRangeLength? self.yRangeLength :yMax)];
-    plotSpace.globalXRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax )];  //globalXRange、globalYRange需要配合allowsUserInteraction属性为YES时使用，用于限制可滑动的最大区域
+    plotSpace.globalXRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax )];  //globalXRange、globalYRange需要配合allowsUserInteraction属性为YES时使用，用于限制可滑动的最大区域 //可控制显示的X坐标起始位置
     plotSpace.globalYRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(yMin) length:CPTDecimalFromFloat(yMax)];
     
     // set axis
@@ -204,12 +207,15 @@
     yGridLineStyle.lineColor = self.hiddenAxis ?[CPTColor clearColor] : [CPTColor clearColor];
     yGridLineStyle.lineWidth = 0.5f;
     CPTXYAxis   *yAxis=axisSet.yAxis;
-    yAxis.axisLineStyle=xLineStyle;
+    CPTMutableLineStyle *yLineStyle=[[CPTMutableLineStyle alloc] init];
+    yLineStyle.lineColor= self.hiddenAxis ?[CPTColor clearColor] : [CPTColor greenColor];
+    yAxis.axisLineStyle=yLineStyle;
     yAxis.labelTextStyle = yTextStyle;
     yAxis.majorTickLineStyle=xLineStyle; //X轴大刻度线，线型设置
     yAxis.majorGridLineStyle = yGridLineStyle;
     yAxis.majorTickLength=5;  // 刻度线的长度
     yAxis.minorTicksPerInterval = 4;
+//    yAxis.borderColor
     //    NSLog(@"^^^initGraph t4");
     yAxis.majorIntervalLength=CPTDecimalFromString(self.yMajorIntervalLength); // 间隔单位，和yMin～yMax对应
     
@@ -294,6 +300,116 @@
     ///////////////////触屏
     //    }
     //    NSLog(@"^^^initGraph done!");
+}
+
+- (void)reloadData{
+    [graph reloadData];
+}
+
+- (void)chanePlotSpace{
+    //set up plot space
+    CGFloat xMin=0.0f;
+    CGFloat xMax=xAxisTexts.count+1;
+    CGFloat yMin=0.0f;
+    CGFloat yLengh=0.0f;
+    if (self.xCoordinateDecimal) {
+        yMin = self.xCoordinateDecimal;
+    }
+    CGFloat yMax=[self maxDataInArray:yValues]*1.02;
+    //    NSLog(@"^^^initGraph t0");
+    if (yMax == 0) {
+        if (self.yMajorIntervalLength && ![self.yMajorIntervalLength isEqualToString:@""])
+            yMax = self.yMajorIntervalLength.floatValue*2;
+        else
+            yMax = 100;
+    }
+    if (self.yRangeLength) {
+        yLengh = self.yRangeLength;
+    }
+    //    NSLog(@"^^^initGraph t1");
+    CPTXYPlotSpace *plotSpace=(CPTXYPlotSpace *)graph.defaultPlotSpace;
+    plotSpace.delegate = self;
+    
+    plotSpace.allowsUserInteraction = _allowsUserInteraction;
+    CPTPlotRange *xRange = [[CPTPlotRange alloc] init];
+//    xRange.length = CPTDecimalFromFloat(xMax <= 5 ? xMax : 5);
+//    plotSpace.xRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax <= 5 ? xMax : 5)];  //显示可见部分（globalXRange设置的是滚动可见部分，前者是后者的一部分）
+    plotSpace.yRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(yMin) length:CPTDecimalFromFloat(self.yRangeLength? self.yRangeLength :yMax)];
+    plotSpace.globalXRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax)];  //globalXRange、globalYRange需要配合allowsUserInteraction属性为YES时使用，用于限制可滑动的最大区域 //可控制显示的X坐标起始位置
+    plotSpace.globalYRange=[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(yMin) length:CPTDecimalFromFloat(yMax)];
+}
+
+- (void)drawXaxis{
+    CGRect screenSize = [UIScreen mainScreen].bounds;
+    CPTXYAxisSet *axisSet=(CPTXYAxisSet *)graph.axisSet;
+    //    NSLog(@"^^^initGraph t2");
+    if (!self.xMajorIntervalLength || [self.xMajorIntervalLength isEqualToString:@""]) {
+        self.xMajorIntervalLength = @"6";
+    }
+    if (!self.yMajorIntervalLength || [self.yMajorIntervalLength isEqualToString:@""]) {
+        self.yMajorIntervalLength = @"10";
+    }
+    // xAxis
+    CPTXYAxis   *xAxis=axisSet.xAxis;
+    CPTMutableLineStyle *xLineStyle=[[CPTMutableLineStyle alloc] init];
+    xLineStyle.lineColor= self.hiddenAxis ?[CPTColor clearColor] : [CPTColor blueColor];
+    CPTMutableTextStyle *textStyle = [[CPTMutableTextStyle alloc] init];
+    //    textStyle.fontName = @"EurostileExtended-Roman-DTC";
+    textStyle.fontSize = screenSize.size.width > 320 ? 10 :7;
+    textStyle.color = self.hiddenAxis ?[CPTColor clearColor] : [CPTColor whiteColor];
+    xAxis.axisLineStyle=xLineStyle;
+    xAxis.labelTextStyle = textStyle;
+    xAxis.labelingPolicy=CPTAxisLabelingPolicyNone;
+    xAxis.axisConstraints=[CPTConstraints constraintWithLowerOffset:0.0];// 加上这两句才能显示label
+    //    NSLog(@"^^^initGraph t3-------t1");
+    xAxis.majorTickLineStyle=xLineStyle; //X轴大刻度线，线型设置
+    xAxis.majorTickLength=2;  // 刻度线的长度
+    xAxis.majorIntervalLength=CPTDecimalFromString(self.xMajorIntervalLength); // 间隔单位,和xMin~xMax对应
+    // 小刻度线minor...
+    xAxis.minorTickLineStyle=nil;  //新版coreplot不同于旧版，默认不为nil
+    //    xAxis.minorTickLength = 2;
+    xAxis.minorTicksPerInterval = 2;  //每2个大刻度之间包含的小刻度
+    xAxis.orthogonalCoordinateDecimal=CPTDecimalFromInt(self.xCoordinateDecimal?self.xCoordinateDecimal:0);
+    //x轴网格线（注意：若x轴的labelingPolicy属性设置为CPTAxisLabelingPolicyNone，则网格线设置无效，除非对majorTickLocations进行自定义设置）
+    
+    CPTMutableLineStyle *xGridLineStyle = [CPTMutableLineStyle lineStyle];
+    xGridLineStyle.lineColor = [CPTColor clearColor] ;//虚线颜色
+    xGridLineStyle.lineWidth = 0.5f;
+    xAxis.majorGridLineStyle = xGridLineStyle; // 轴线是否显示或显示风格
+    xAxis.minorGridLineStyle = xGridLineStyle;
+    //title
+    xAxis.title = self.xAxisTitle ? self.xAxisTitle : @"";
+    //    xAxis.titleLocation = [[NSDecimalNumber numberWithInt:10] decimalValue];
+    xAxis.titleOffset = 15;
+    xAxis.titleTextStyle = textStyle;
+    //    NSLog(@"^^^initGraph t3_0");
+    
+    //设置X轴自定义label
+    NSMutableArray *labelArray=[NSMutableArray arrayWithCapacity:7];
+    NSMutableArray *locationLabels = [[NSMutableArray alloc] init];
+    _cyTime = !_cyTime?1:_cyTime;
+    int labelLocation=1;
+    for(NSString *label in xAxisTexts){
+        CPTTextStyle *ts = xAxis.labelTextStyle;
+        CPTAxisLabel *newLabel=[[CPTAxisLabel alloc] initWithText:label textStyle:ts];
+        newLabel.tickLocation=[[NSNumber numberWithInt:labelLocation] decimalValue];
+        [locationLabels addObject:[NSNumber numberWithInt:labelLocation]];
+        newLabel.offset=xAxis.labelOffset+xAxis.majorTickLength;
+        //        newLabel.rotation=M_PI/6;
+        if (xAxisTexts.count > 12) {
+            if (labelLocation%_cyTime == 0) {
+                [labelArray addObject:newLabel];
+            } else {
+                [labelArray addObject:[[CPTAxisLabel alloc] initWithText:@"" textStyle:xAxis.labelTextStyle]];
+            }
+        } else {
+            [labelArray addObject:newLabel];
+        }
+        labelLocation++;
+    }
+    xAxis.axisLabels=[NSSet setWithArray:labelArray];
+    xAxis.majorTickLocations = [NSSet setWithArray:locationLabels];  //自定义标签的网格线需要设置majorTickLocations
+    xAxis.labelOffset = -1;
 }
 
 - (float)maxDataInArray:(NSArray *)array {
@@ -507,7 +623,7 @@
     // 手指选择
     CPTMutableLineStyle *lineStyle = [[CPTMutableLineStyle alloc] init];
     lineStyle.lineWidth              = 2.0;
-    lineStyle.lineColor              = [CPTColor whiteColor];
+    lineStyle.lineColor              = [CPTColor clearColor];
     //滑动的折线，触摸屏幕会有橙色的线可以滑动 第一次触摸屏幕出现的线是touchPlot 第二次是secondTouchPlot
     //出现两条线的时候设置highlightTouchPlot会有填充的一块。具体的可以在真机上试试，再结合代码。
     //    if (self.DrawMode == CPTGraphScatterPlot) {
@@ -535,11 +651,27 @@
     //    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient1];
     //    boundLinePlot.areaFill = areaGradientFill;
     //    boundLinePlot.areaBaseValue = [[NSDecimalNumber numberWithFloat:1.0]decimalValue];// 渐变色的起点位置
+    
+//    CPTScatterPlot *dataSourceLinePlot = [[CPTScatterPlot alloc] initWithFrame:graph.bounds];
+//    
+//    CPTColor *areaColor = [CPTColor colorWithComponentRed:CPTFloat(1.0) green:CPTFloat(1.0) blue:CPTFloat(1.0) alpha:CPTFloat(0.6)];
+//    
+//    CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:areaColor endingColor:[CPTColor clearColor]]; areaGradient.angle = -90.0;
+//    
+//    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient]; dataSourceLinePlot.areaFill = areaGradientFill; dataSourceLinePlot.areaBaseValue = CPTDecimalFromDouble(0.0);
+//    
+//    boundLinePlot.areaFill = areaGradientFill;
+    
+    
+
     boundLinePlot.interpolation = CPTScatterPlotInterpolationLinear;
     // Add plot symbols: 表示数值的符号的形状
     CPTPlotSymbol *plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     plotSymbol.fill = [CPTFill fillWithColor:[[CPTColor redColor] colorWithAlphaComponent:1]];
-    plotSymbol.lineStyle = lineStyle;
+    CPTMutableLineStyle *symbolLineStyle = [CPTMutableLineStyle lineStyle];
+    symbolLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:1];
+    symbolLineStyle.lineWidth = 3;
+    plotSymbol.lineStyle = symbolLineStyle;
     plotSymbol.size = CGSizeMake(self.HRDateMode == 1?9.0f:9.0f,self.HRDateMode == 1?9.0f:9.0f);
     boundLinePlot.plotSymbol = plotSymbol;
     
@@ -572,7 +704,7 @@
         xx = (int)[yValues.firstObject count] - 1;
         // NSLog(@"123");
     }
-    //    NSLog(@"getX: 6 xx=%d", xx);
+//        NSLog(@"getX: 6 xx=%d", xx);
     
     return xx;
 }
@@ -657,13 +789,13 @@
     //        if ([plot isKindOfClass:[CPTScatterPlot class]]) {
     //            //            NSLog(@"%@",plot.identifier);
     //            [plot reloadData];
-    //            NSLog(@"CPTScatterPlot=%u",[(CPTScatterPlot *)plot indexOfVisiblePointClosestToPlotAreaPoint:point]);
+//                NSLog(@"CPTScatterPlot=%u",[(CPTScatterPlot *)space indexOfVisiblePointClosestToPlotAreaPoint:point]);
     //
     //        }
     //    }
     //
-    //   int pointInPlotArea = [self getXFromPoint:point];
-    ////    NSLog(@"===%d",pointInPlotArea);
+       int pointInPlotArea = [self getXFromPoint:point];
+//        NSLog(@"===%d",pointInPlotArea);
     //     if (self.DrawMode == 0) {
     //    if (event.allTouches.count >= 2) {
     //        // 2个指头
@@ -735,7 +867,7 @@
             }
         }
         else if ([plot isKindOfClass:[CPTBarPlot class]]){
-            
+
         }
     }
     return YES;
@@ -744,9 +876,6 @@
 
 
 -(CPTFill *)barFillForBarPlot:(CPTBarPlot *)barPlot recordIndex:(NSUInteger)idx{
-    
-
-    
     if ([barPlot.identifier isEqual:[self.identifiers objectAtIndex:0]]) {
         if (idx == _selectIdx && idx != 0 && _selectColor) {
             return [CPTFill fillWithColor:[CPTColor whiteColor]];
@@ -761,18 +890,18 @@
         }
       return [CPTFill fillWithColor:[lineColors objectAtIndex:1]];
     }
+    
 }
 
-- (void)barPlot:(CPTBarPlot *)plot barTouchDownAtRecordIndex:(NSUInteger)idx withEvent:(CPTNativeEvent *)event{
-    //    NSDecimalNumber *range =[NSDecimalNumber decimalNumberWithDecimal: plot.baseValue];
-    //    plot.fill = [CPTFill fillWithColor:[CPTColor greenColor]];
+-(void)barPlot:(CPTBarPlot *)plot barTouchUpAtRecordIndex:(NSUInteger)idx{
     _selectIdx = idx;
     [plot reloadBarFills];
     if(self.delegate && [self.delegate respondsToSelector:@selector(barTouchDownAtRecordIndex:)]){
         [self.delegate barTouchDownAtRecordIndex:idx];
     }
-    NSLog(@"=====%lu",(unsigned long)idx);
 }
+//- (void)barPlot:(CPTBarPlot *)plot barTouchDownAtRecordIndex:(NSUInteger)idx withEvent:(CPTNativeEvent *)event{
+//}
 
 
 -(void)scatterPlot:(CPTScatterPlot *)plot prepareForDrawingPlotLine:(CGPathRef)dataLinePath inContext:(CGContextRef)context{

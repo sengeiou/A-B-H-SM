@@ -154,7 +154,7 @@
             NSLog(@"超时");
         }
         else if (error.code == -1009) {
-            [MBProgressHUD showError:SMALocalizedString(@"alert_disconnetcted_net")];
+            [MBProgressHUD showError:SMALocalizedString(@"login_lostNet")];
         }
     }];
 }

@@ -83,6 +83,12 @@
 "device_HR_rest" = "Відпочинок";
 "device_HR_mean" = "Сер.";
 "device_HR_max" = "Макс";
+"device_HR_quiet" = "Відпочинок";
+"device_HR_rect" = "Частота пульсу";
+"device_HR_avgQuiet" = "平均静息";
+"device_HR_avgMax" = "平均最大";
+"device_HR_avgMonitor" = "平均监测";
+"device_HR_quietRemind" = "Будь ласка, перевірте статичний пульс в стані голодування, так як статичне значення частоти пульсу є дуже важливим для еталону вашого здоров'я.";
 "device_SL_qualith" = "Якість сну";
 "device_SL_typeF" = "Дуже погано";
 "device_SL_typeS" = "Спокійно";
@@ -90,6 +96,14 @@
 "device_SL_deep" = "Глибокий";
 "device_SL_light" = "Поверхневий";
 "device_SL_awake" = "Неспання";
+"device_SL_fallTime" = "Заснути";
+"device_SL_wakeTime" = "Час пробудження";
+"device_SL_sleepTime" = "Час сну";
+"device_SL_none" = "无";
+"device_SL_avgAwake" = "平均清醒";
+"device_SL_avgDeep" = "平均深睡";
+"device_SL_avgLight" = "平均浅睡";
+"device_SL_thisWeek" = "本周";
 "device_pullSync" = "Ковзніть вниз, щоб оновити";
 "device_loosenSync" = "Відпустіть негайно, щоб оновити";
 "device_lastTime" = "саме останнє оновлення:";

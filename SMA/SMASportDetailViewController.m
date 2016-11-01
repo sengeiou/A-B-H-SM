@@ -23,6 +23,7 @@
     NSMutableArray *alldata;
     BOOL firstCreate;
     NSDate *dateNow;
+    NSTimer *readXaxisTimer;
 }
 @property (nonatomic, strong) SMADatabase *dal;
 
@@ -38,6 +39,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     //    [self ui];
     [self createUI];
     [self initializeMethod];
+//     self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,18 +59,24 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 }
 
 - (void)initializeMethod{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     alldata = [self getFullDatasForOneDay:[self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES]];
-    [self addSubViewWithCycle:0];
+//         dispatch_async(dispatch_get_main_queue(), ^{
+             [self addSubViewWithCycle:0];
+//    });
+//});
 //    [self drawSPViewMode:1 spData:spArr];
 }
 
 - (void)createUI{
+    self.title = [self dateWithYMDWithDate:self.date];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     self.view.backgroundColor = [UIColor whiteColor];
     mainScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height)];
     mainScroll.backgroundColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];
     mainScroll.contentSize = CGSizeMake(MainScreen.size.width, 600);
     mainScroll.delegate = self;
+    mainScroll.scrollEnabled = NO;
     [self.view addSubview:mainScroll];
     
     UIView *tabBarView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(mainScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
@@ -80,9 +88,8 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSArray *stateArr = @[SMALocalizedString(@"device_SP_day"),SMALocalizedString(@"device_SP_week"),SMALocalizedString(@"device_SP_month")];
     for (int i = 0; i < 3; i ++) {
         UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
-        float width = (MainScreen.size.width - 120)/3;
-
-        but.frame = CGRectMake(35 + (width + 25)*i, (self.tabBarController.tabBar.frame.size.height - 30)/2, width, 30);
+        float width = (MainScreen.size.width - 100)/3;
+        but.frame = CGRectMake((MainScreen.size.width - width*3 - 50)/2 + (width + 25)*i, (self.tabBarController.tabBar.frame.size.height - 30)/2, width, 30);
         but.layer.masksToBounds = YES;
         but.layer.cornerRadius = 10;
         but.layer.borderColor = [SmaColor colorWithHexString:@"#5A94F9" alpha:1].CGColor;
@@ -135,6 +142,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     detailScroll.interitemSpacing = 0;
     if (selectTag == 101 && ![self.date.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
         detailScroll.leftTopDrawing = YES;
+    }
+    if (selectTag != 101) {
+        detailScroll.scrollView.scrollEnabled = NO;
     }
     [detailScroll reloadViews];
     
@@ -200,7 +210,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         scattView.frame = detailScroll.bounds;//10, 134, 300, 140
         scattView.delegate = self;
         // scattView.frame = CGRectMake(50, 0, 400, 200);
-        scattView.backgroundColor = [UIColor clearColor];
+        scattView.backgroundColor = [UIColor redColor];
         [view addSubview:scattView];
     }
     scattView.HRdataArr = [NSMutableArray array];
@@ -212,7 +222,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     scattView.showLegend = NO;
     scattView.xCoordinateDecimal = 0.0f;
     scattView.hideYAxisLabels = YES;
-    scattView.plotAreaFramePaddingLeft = -10;
+    scattView.plotAreaFramePaddingLeft = 5;
      scattView.selectColor = YES;
     if (selectTag == 101) {
         scattView.selectColor = NO;
@@ -233,6 +243,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [scattView initGraph];
     [detailColView reloadData];
     [detailTabView reloadData];
+   
 }
 
 - (void)tapBut:(UIButton *)sender{
@@ -253,8 +264,15 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                 break;
             case 102:
             {
+//                scattView.yValues = @[[self dayYvalue]];
+                
+//                 [scattView reloadData];
                 dateNow = [NSDate date];
-                [self getDetalilDataWithNowDate:dateNow month:NO updateUI:YES];
+                readXaxisTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(getXaxis:) userInfo:nil repeats:YES];
+                [self addSubViewWithCycle:0];
+//                scattView.xAxisTexts = weekArr;
+//                [scattView drawXaxis];
+//                [self getDetalilDataWithNowDate:dateNow month:NO updateUI:YES];
             }
                 break;
             case 103:
@@ -314,7 +332,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SMADetailCollectionCell *cell = (SMADetailCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     if (indexPath.row == 0) {
-        cell.detailLab.text = [NSString stringWithFormat:@"%d",[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex] intValue]/[[[alldata objectAtIndex:3] objectAtIndex:showDataIndex] intValue]];
+        cell.detailLab.text = [NSString stringWithFormat:@"%d",[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex] intValue]];
     }
     else if (indexPath.row == 1){
         cell.detailLab.attributedText = [self attributedStringWithArr:@[[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[alldata objectAtIndex:2] valueForKeyPath:@"@sum.intValue"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex]intValue] ] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")]];
@@ -325,6 +343,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     else{
         cell.detailLab.text = @"0min";
     }
+//    cell.backgroundColor = [UIColor greenColor];
     cell.titleLab.text = collectionArr[indexPath.row];
     return cell;
 }
@@ -369,6 +388,44 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
 }
 
+static int changeIndex;
+- (void)rollView:(ZXRollView *)rollView setAllViewForRollView:(UIView *)view atIndex:(NSInteger)index direction:(int)direct{
+    NSLog(@"setAllViewForRollView==%d  %d",index,direct);
+    
+    switch (selectTag) {
+        case 101:
+        {
+            switch (changeIndex) {
+                case 0:
+                {
+                    NSDate *leftDate = [self.date timeDifferenceWithNumbers:index].yesterday;
+                    NSLog(@"leftDate = %@",leftDate.yyyyMMddByLineWithDate);
+                }
+                    break;
+                    case 1:
+                {
+                    NSDate *mediDate = [self.date timeDifferenceWithNumbers:index];
+                    NSLog(@"mediDate = %@",mediDate.yyyyMMddByLineWithDate);
+                }
+                    break;
+                default:
+                {
+                     NSDate *rightDate = [[self.date timeDifferenceWithNumbers:index] timeDifferenceWithNumbers:1];
+                    NSLog(@"rightDate = %@",rightDate.yyyyMMddByLineWithDate);
+                }
+                    break;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+    changeIndex ++;
+    if (changeIndex == 3) {
+        changeIndex = 0;
+    }
+}
 
 - (void)scrollViewDidEndDecelerating:(ZXRollView *)scrollView AtIndex:(NSInteger)index{
     switch (selectTag) {
@@ -379,6 +436,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                  self.date = changeDate ;
                  [self addSubViewWithCycle:0];
             }
+            self.title = [self dateWithYMDWithDate:changeDate];
              alldata = [self getFullDatasForOneDay:[self.dal readSportDataWithDate:changeDate.yyyyMMddNoLineWithDate toDate:changeDate.yyyyMMddNoLineWithDate lastData:YES]];
         }
             break;
@@ -443,7 +501,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                 dataNum ++;
                 step = [[weekData[i] objectForKey:@"STEP"] intValue] + step;
                 if (i == weekData.count - 2) {
-                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
+                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step/dataNum],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
                     [weekDate addObject:dic];
                 }
             }
@@ -546,6 +604,89 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     return dayAlldata;
 }
 
+static NSMutableArray *arr;
+- (void)getXaxis:(NSTimer *)timer{
+    if (!arr) {
+        arr = [NSMutableArray array];
+//         [scattView chanePlotSpace];
+    }
+    [arr addObjectsFromArray:[self weekTextWithDate:dateNow]];
+    scattView.xAxisTexts = [[arr reverseObjectEnumerator] allObjects];
+    scattView.allowsUserInteraction = YES;
+    [scattView chanePlotSpace];
+    [scattView drawXaxis];
+    if (arr.count >= 90) {
+        [readXaxisTimer invalidate];
+        readXaxisTimer = nil;
+    }
+    NSLog(@"fwfwwrgr000==%@",arr);
+//    NSMutableArray *weekArr = [self weekTextWithDate:dateNow];
+}
+
+- (NSMutableArray *)dayText{
+    NSMutableArray *xText = [NSMutableArray array];
+    for (int i = 0; i < 25; i ++) {
+        if (i == 0 || i == 12 || i == 23) {
+            [xText addObject:[NSString stringWithFormat:@"%@%d:10",i<10?@"":@"",i]];
+        }
+        else{
+            [xText addObject:@""];
+        }
+    }
+    return xText;
+}
+
+- (NSMutableArray *)weekTextWithDate:(NSDate *)date{
+    NSDate *firstdate = date;
+   NSString *dae = [self.dal readFirstSportdata];
+    NSLog(@"fewfwef==%@",dae);
+    NSMutableArray *weekText = [NSMutableArray array];
+    for (int i = 0; i < 4; i ++) {
+        NSDate *nextDate = firstdate;
+        int step = 0;
+        int dataNum = 0;
+//        if (month) {
+//            firstdate = [nextDate dayOfMonthToDateIndex:0];
+//        }
+//        else{
+            firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+//        }
+//        NSMutableArray *weekData = [self.dal readSportDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate lastData:YES];
+//        if (weekData.count > 0) {
+//            for (int i = 0; i < (int)weekData.count - 1; i ++) {
+//                dataNum ++;
+//                step = [[weekData[i] objectForKey:@"STEP"] intValue] + step;
+//                if (i == weekData.count - 2) {
+//                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step/dataNum],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
+//                    [weekDate addObject:dic];
+//                }
+//            }
+//        }
+//        else{
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
+            [weekText addObject:[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]]];
+//        }
+        firstdate = firstdate.yesterday;
+        dateNow = firstdate;
+    }
+    return weekText;
+}
+
+- (NSMutableArray *)dayYvalue{
+    
+    NSMutableArray *xText = [NSMutableArray array];
+    for (int i = 0; i < [alldata[2] count]; i ++) {
+        [xText addObject:[NSString stringWithFormat:@"%d",[[alldata[2] objectAtIndex:i] integerValue]+ 10]];
+//        if (i == 0 || i == 12 || i == 23) {
+//            [xText addObject:[NSString stringWithFormat:@"%@%d:10",i<10?@"":@"",i]];
+//        }
+//        else{
+//            [xText addObject:@""];
+//        }
+    }
+    return xText;
+}
+
 - (NSString *)getMonthText:(NSString *)str{
     NSArray *dayArr = [str componentsSeparatedByString:@"-"];
     NSArray *monArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
@@ -570,14 +711,17 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
     return sportStr;
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
+- (NSString *)dateWithYMDWithDate:(NSDate *)date{
+    NSString *selfStr;
+    if ([[NSDate date].yyyyMMddNoLineWithDate isEqualToString:date.yyyyMMddNoLineWithDate]) {
+        selfStr = SMALocalizedString(@"device_todate");
+    }
+    else {
+        selfStr= date.yyyyMMddByLineWithDate;
+    }
+    return selfStr;
+}
+
 
 @end
