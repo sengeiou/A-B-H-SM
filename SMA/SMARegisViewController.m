@@ -10,7 +10,6 @@
 
 @interface SMARegisViewController ()
 {
-    UIButton *geCodeBut;
     NSTimer *codeTimer;
 }
 @end
@@ -19,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initializeMethod];
     [self createUI];
     //设置本地区号
     [self setTheLocalAreaCode];
@@ -30,8 +30,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [self.view endEditing:YES];
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
+}
+
+- (void)initializeMethod{
+    [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+
 }
 
 #pragma mark *******创建UI
@@ -64,25 +74,25 @@
     
     _verCodeField.placeholder = SMALocalizedString(@"register_code");
     _verCodeField.delegate = self;
-    geCodeBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    geCodeBut.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight ;//设置文字位置，现设为居右
-    [geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
-    geCodeBut.titleLabel.font = FontGothamLight(10);
-    CGSize fontsize1 = [geCodeBut.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(11)}];
-    [geCodeBut addTarget:self action:@selector(getVerificationCodeSelector:) forControlEvents:UIControlEventTouchUpInside];
-    geCodeBut.frame = CGRectMake(0, 0, fontsize1.width>30?fontsize1.width:30, 30);
-    _verCodeField.rightView = geCodeBut;
-    _verCodeField.rightViewMode = UITextFieldViewModeAlways;
+
+    [_verCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+    _verCodeBut.titleLabel.numberOfLines = 2;
     
     [_emailBut setTitle:SMALocalizedString(@"register_email") forState:UIControlStateNormal];
     
-    NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol1") attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(11)}];
+    _protocolBut.titleLabel.numberOfLines = 2;
+    _protocolBut.titleLabel.textAlignment = NSTextAlignmentCenter;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:6];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol1") attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(11),NSParagraphStyleAttributeName:paragraphStyle}];
      NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol2") attributes:@{NSForegroundColorAttributeName:[SmaColor colorWithHexString:@"#1E6EFF" alpha:1],NSFontAttributeName:FontGothamLight(11)}];
     NSMutableAttributedString *attributed = [[NSMutableAttributedString alloc] init];
+        
     [attributed appendAttributedString:str1];
     [attributed appendAttributedString:str2];
     [_protocolBut setAttributedTitle:attributed forState:UIControlStateNormal];
-    
+
     [_registerBut setTitle:SMALocalizedString(@"login_regis") forState:UIControlStateNormal];
 }
 
@@ -99,7 +109,7 @@
 }
 
 
-- (void)getVerificationCodeSelector:(id)sender{
+- (IBAction)getVerificationCodeSelector:(id)sender{
     if([_accountField.text isEqualToString:@""])
     {
         [MBProgressHUD showError: SMALocalizedString(@"register_enterphone")];
@@ -126,8 +136,8 @@
                         [codeTimer invalidate];
                         codeTimer = nil;
                     }
-                    geCodeBut.enabled = NO;
-                    [geCodeBut setTitle:@"60 S" forState:UIControlStateNormal];
+                    _verCodeBut.enabled = NO;
+                    [_verCodeBut setTitle:@"60 S" forState:UIControlStateNormal];
                     codeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(geCodeTimer) userInfo:nil repeats:YES];
                 } failure:^(NSError *error) {
                     [MBProgressHUD hideHUD];
@@ -202,7 +212,6 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
             controller.leftItemHidden = YES;
-//            [self presentViewController:controller animated:YES completion:nil];
              [UIApplication sharedApplication].keyWindow.rootViewController=controller;
         });
     } failure:^(NSError *erro) {
@@ -223,6 +232,38 @@
 
 }
 
+/**
+ *  键盘即将显示的时候调用
+ */
+- (void)keyboardWillShow:(NSNotification *)note
+{
+    // 1.取出键盘的frame
+    //zzzzCGRect keyboardF = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    // 2.取出键盘弹出的时间
+    CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    // 3.执行动画
+    [UIView animateWithDuration:duration animations:^{
+        self.view.transform = CGAffineTransformMakeTranslation(0, -100);
+        _backBut.hidden = YES;// 上移或者导航栏效果不理想，直接隐藏返回键
+    }];
+}
+
+/**
+ *  键盘即将退出的时候调用
+ */
+- (void)keyboardWillHide:(NSNotification *)note
+{
+    // 1.取出键盘弹出的时间
+    CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    // 2.执行动画
+    [UIView animateWithDuration:duration animations:^{
+        self.view.transform = CGAffineTransformIdentity;
+        _backBut.hidden = NO;
+    }];
+    
+}
+
 - (void)eyseSelect:(UIButton *)sender{
     sender.selected = !sender.selected;
     [_passwordField resignFirstResponder];
@@ -232,11 +273,11 @@
 static int second = 60;
 - (void)geCodeTimer{
     second--;
-    [geCodeBut setTitle:[NSString stringWithFormat:@"%d S",second] forState:UIControlStateNormal];
+    [_verCodeBut setTitle:[NSString stringWithFormat:@"%d S",second] forState:UIControlStateNormal];
     if (second == 0) {
         second = 60;
-        [geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
-        geCodeBut.enabled = YES;
+        [_verCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+        _verCodeBut.enabled = YES;
         [codeTimer invalidate];
         codeTimer = nil;
     }
@@ -311,6 +352,7 @@ static int second = 60;
     NSString* tt=[locale objectForKey:NSLocaleCountryCode];
     NSString* defaultCode=[dictCodes objectForKey:tt];
     _codeLab.text=[NSString stringWithFormat:@"+%@",defaultCode];
+    _countryLab.text=[locale displayNameForKey:NSLocaleCountryCode value:tt];
         
 }
 
@@ -335,7 +377,8 @@ static int second = 60;
 - (void)setSecondData:(NSString *)code
 {
     NSLog(@"the area data：%@,", code);
-    _codeLab.text = code;
+    _codeLab.text = [NSString stringWithFormat:@"+%@",[[code componentsSeparatedByString:@","] lastObject]];
+    _countryLab.text = [[code componentsSeparatedByString:@","] firstObject];
 }
 /*
 #pragma mark - Navigation

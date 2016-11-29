@@ -52,6 +52,14 @@
     }
 }
 
+- (void)viewDidLayoutSubviews{
+    //由于初始化未能实时创建相关对象，因此在此方法修改
+    _titleCell.alpha = _openSwitch.on;
+    _timePickCell.alpha = _openSwitch.on;
+    _gapCell.alpha = _openSwitch.on;
+    _saveCell.alpha = _openSwitch.on;
+}
+
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_heart_title");
     [self.navigationController.navigationBar setBackgroundImage:[UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[SmaColor colorWithHexString:@"#FF77A6" alpha:1]] ByGradientType:topToBottom size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
@@ -61,19 +69,13 @@
     [_pickView selectRow:[HRInfo.beginhour0 integerValue] inComponent:0 animated:NO];
     [_pickView selectRow:[HRInfo.endhour0 integerValue] inComponent:1 animated:NO];
     _openSwitch.on = HRInfo.isopen0.intValue;
-    if (!_openSwitch.on) {
-        for (int i = 1; i < 5; i ++ ) {
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:i]];
-            [UIView animateWithDuration:0.5 animations:^{
-                cell.alpha = _openSwitch.on;
-            }];
-        }
-    }
+
     _hrMonitorLab.text = SMALocalizedString(@"setting_heart_monitor");
     _gapLab.text = SMALocalizedString(@"setting_heart_gap");
     _timeLab.text = [NSString stringWithFormat:@"%@%@",HRInfo.tagname,SMALocalizedString(@"setting_sedentary_minute")];
     [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
 }
+
 
 - (IBAction)switchSelector:(UISwitch *)sender{
     if ([SmaBleMgr checkBLConnectState]) {
@@ -126,7 +128,7 @@
             NSArray *timeArr = @[@"15",@"30",@"60",@"120"];
             for ( int i = 0; i < 5; i ++) {
                 if (i < 4) {
-                    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ %@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%d %@",[timeArr[i] intValue] > 60 ? [timeArr[i] intValue]/60 : [timeArr[i] intValue],[timeArr[i] intValue] > 60 ? SMALocalizedString(@"setting_sedentary_hour") : SMALocalizedString(@"setting_sedentary_minute")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         HRInfo.tagname = timeArr[i];
                         _timeLab.text = [NSString stringWithFormat:@"%@%@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")];
                     }];

@@ -13,6 +13,7 @@
 @protocol BLConnectDelegate <NSObject>
 @optional
 - (void)reloadView;
+- (void)searchTimeOut;
 - (void)bleDidConnect;
 - (void)bleDisconnected:(NSString *)error;
 - (void)bleBindState:(int)state;//0：绑定中；1：绑定成功；2：绑定失败

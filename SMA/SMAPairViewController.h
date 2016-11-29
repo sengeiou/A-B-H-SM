@@ -15,4 +15,5 @@
 @property (nonatomic, weak) IBOutlet UIView *searchView;
 @property (nonatomic, weak) IBOutlet UIButton *searchBut;
 @property (nonatomic, weak) IBOutlet UITableView *deviceTableView;
+
 @end

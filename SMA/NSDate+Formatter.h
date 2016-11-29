@@ -50,5 +50,8 @@
 
 - (NSString *)morningOrAfterWithHH;
 - (id)firstDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class;
+- (id)lastDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class;
 - (NSDate *)dayOfMonthToDateIndex:(int)index;
+- (NSUInteger)numberOfDaysInMonth;
+
 @end

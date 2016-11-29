@@ -13,6 +13,7 @@
 #import "NSDate+Formatter.h"
 #import "ZXRollView.h"
 #import "MTKSleepView.h"
-@interface SMASleepDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,corePlotViewDelegate,ZXRollViewDelegate>
+#import "WYScrollView.h"
+@interface SMASleepDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,corePlotViewDelegate,ZXRollViewDelegate,WYScrollViewLocalDelegate>
 @property (nonatomic, strong) NSDate *date;
 @end

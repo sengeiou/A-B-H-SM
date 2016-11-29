@@ -21,7 +21,7 @@
     [self addSubview:view];
     self.titleLab = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, view.frame.size.width/2, 30)];
     self.titleLab.backgroundColor = [UIColor colorWithRed:108/255.0 green:108/255.0 blue:108/255.0 alpha:1];
-    self.titleLab.text = SMALocalizedString(@"hearRate_RestHR");
+    self.titleLab.text = SMALocalizedString(@"device_HR_quiet");
     self.titleLab.textColor = [UIColor whiteColor];
     self.titleLab.font = FontGothamLight(15);
     [view addSubview:self.titleLab];
@@ -47,7 +47,7 @@
     self.cancleBut = [UIButton buttonWithType:UIButtonTypeCustom];
     self.cancleBut.frame = CGRectMake(-1, CGRectGetMaxY(self.quietField.frame), view.frame.size.width/2+2, 35);
     self.cancleBut.backgroundColor = [UIColor whiteColor];
-    [self.cancleBut setTitle:SMALocalizedString(@"clokadd_can") forState:UIControlStateNormal];
+    [self.cancleBut setTitle:SMALocalizedString(@"setting_sedentary_cancel") forState:UIControlStateNormal];
     [self.cancleBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.cancleBut.titleLabel.font = FontGothamLight(14);
     self.cancleBut.layer.borderColor = [UIColor colorWithRed:87/255.0 green:87/255.1 blue:87/255.0 alpha:0.7].CGColor;
@@ -59,7 +59,7 @@
     self.confirmBut = [UIButton buttonWithType:UIButtonTypeCustom];
     self.confirmBut.frame = CGRectMake(CGRectGetMaxX(self.cancleBut.frame)-2, CGRectGetMaxY(self.quietField.frame), view.frame.size.width/2+2, 35);
     self.confirmBut.backgroundColor = [UIColor whiteColor];
-    [self.confirmBut setTitle:SMALocalizedString(@"clockadd_confirm") forState:UIControlStateNormal];
+    [self.confirmBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
     [self.confirmBut setTitle:SMALocalizedString(@"hearReat_dele") forState:UIControlStateSelected];
     [self.confirmBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.confirmBut.titleLabel.font = FontGothamLight(14);

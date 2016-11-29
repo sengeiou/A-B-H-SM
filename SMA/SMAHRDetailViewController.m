@@ -11,21 +11,21 @@
 @interface SMAHRDetailViewController ()
 {
     UIScrollView *mainScroll;
-    ZXRollView *detailScroll;
     UITableView *detailTabView;
     UICollectionView *detailColView;
-    ScattView *scattView;
+    WYScrollView *WYLocalScrollView;
     UILabel *quiethrLab;
     NSInteger selectTag;
     NSUInteger showDataIndex;
-    BOOL firstCreate;
-    BOOL indexChange;
-    NSMutableArray *dataArr;
-    NSMutableArray *alldata;
     NSMutableArray *quietArr;
     NSArray *collectionArr;
     NSDate *quietDate;
+    NSDate *dateNow;
+    NSDate *leftDate;
+    NSDate *rightDate;
+    NSMutableArray *aggregateData;
     int cycle;
+    int oldDirection ;
 }
 @property (nonatomic, strong) SMADatabase *dal;
 @end
@@ -43,6 +43,16 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    quietDate = dateNow;
+    quietArr = [self.dal readQuietHearReatDataWithDate:quietDate.yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate detailData:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr lastObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
+        });
+    });
+}
+
 - (void)viewWillDisappear:(BOOL)animated{
     [self.navigationController.navigationBar setBackgroundImage:[UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#5790F9" alpha:1],[SmaColor colorWithHexString:@"#80C1F9" alpha:1]] ByGradientType:topToBottom size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
 }
@@ -55,12 +65,25 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 }
 
 - (void)initializeMethod{
-    alldata = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES]];
-    quietDate = self.date;
-    quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
+    
+    self.title = [self dateWithYMDWithDate:self.date];
+    dateNow = self.date;
+    leftDate = self.date.yesterday;
+    rightDate = [self.date timeDifferenceWithNumbers:1];
+    NSMutableArray *nowData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:dateNow.yyyyMMddNoLineWithDate toDate:dateNow.yyyyMMddNoLineWithDate detailData:YES] withDate:dateNow];
+    NSMutableArray *leftData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:leftDate.yyyyMMddNoLineWithDate toDate:leftDate.yyyyMMddNoLineWithDate detailData:YES] withDate:leftDate];
+    NSMutableArray *rightData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:rightDate.yyyyMMddNoLineWithDate toDate:rightDate.yyyyMMddNoLineWithDate detailData:YES] withDate:rightDate];
+    if (aggregateData) {
+        [aggregateData removeAllObjects];
+        aggregateData = nil;
+    }
+    aggregateData = [NSMutableArray array];
+    [aggregateData addObject:leftData];
+    [aggregateData addObject:nowData];
+    [aggregateData addObject:rightData];
 
     [self addSubViewWithCycle:0];
-        quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr lastObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
+    
 }
 
 - (void)createUI{
@@ -111,7 +134,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
     UIView *detailBackView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, 260)];
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
-    //    _gradientLayer.bounds = detailScroll.bounds;
     _gradientLayer.borderWidth = 0;
     _gradientLayer.frame = detailBackView.bounds;
     _gradientLayer.colors = [NSArray arrayWithObjects:
@@ -122,25 +144,32 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [detailBackView.layer insertSublayer:_gradientLayer atIndex:0];
     
     [mainScroll addSubview:detailBackView];
-    
-    detailScroll = [[ZXRollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, 260)];
-    firstCreate = NO;
-    [detailBackView addSubview:detailScroll];
-    detailScroll.pageIndicatorColor = [UIColor clearColor];
-    detailScroll.backgroundColor = [UIColor clearColor];
-    detailScroll.currentPageIndicatorColor = [UIColor clearColor];
-    detailScroll.delegate = self;
-    detailScroll.autoRolling = NO;
-    detailScroll.tapGesture = NO;
-    detailScroll.hideIndicatorForSinglePage = YES;
-    detailScroll.interitemSpacing = 0;
-    if (selectTag == 101 && ![self.date.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
-        detailScroll.leftTopDrawing = YES;
-    }
-    [detailScroll reloadViews];
+
+    /** 设置本地scrollView的Frame及所需图片*/
+    WYLocalScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 260) WithLocalImages:aggregateData];
+    /** 设置滚动延时*/
+    WYLocalScrollView.AutoScrollDelay = 0;
+    WYLocalScrollView.selectColor = selectTag == 101 ? YES : NO;
+    WYLocalScrollView.xRangeLength = selectTag == 101 ? 31 : 4;
+    WYLocalScrollView.xCoordinateDecimal = selectTag == 101 ? 0 : 0.5;
+    WYLocalScrollView.mode = selectTag == 101 ? CPTGraphScatterPlot : CPTGraphBarPlot;
+    WYLocalScrollView.identifiers = @[@"heartDate",@"heartDate1"];
+    WYLocalScrollView.categorymode = 2;
+    WYLocalScrollView.barOffset = selectTag == 101 ? 0 : 0.005;
+    WYLocalScrollView.barIntermeNumber = @[selectTag == 101?@"0.97":@"0.03",@"0.97"];
+    WYLocalScrollView.showBarGoap = selectTag == 101 ? NO : YES;
+    WYLocalScrollView.lineColors = @[selectTag == 101?[CPTColor colorWithComponentRed:205/255.0 green:226/255.0 blue:251/255.0 alpha:0.8]:[CPTColor colorWithComponentRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1],[CPTColor colorWithComponentRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0]];
+    WYLocalScrollView.yValueHiden = selectTag == 101 ? NO : NO;
+    WYLocalScrollView.banRightSlide = selectTag == 101 ? ([_date.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate] ? YES : NO) : YES;
+    /** 获取本地图片的index*/
+    WYLocalScrollView.localDelagate = self;
+    /** 添加到当前View上*/
+    [detailBackView addSubview:WYLocalScrollView];
+    [WYLocalScrollView setMaxImageCount];
+
     
     if (cycle == 0) {
-        UIView *quietView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(detailScroll.frame), MainScreen.size.width,44)];
+        UIView *quietView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame), MainScreen.size.width,44)];
         quietView.backgroundColor = [SmaColor colorWithHexString:@"#EA1F75" alpha:1];
         UIButton *quietBut = [UIButton buttonWithType:UIButtonTypeCustom];
         quietBut.frame = CGRectMake(0, 0, MainScreen.size.width, CGRectGetHeight(quietView.frame));
@@ -170,7 +199,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         timeLab.textAlignment = NSTextAlignmentCenter;
         timeLab.font = FontGothamLight(15);
         timeLab.text = SMALocalizedString(@"device_SP_time");
-        //        timeLab.backgroundColor = [UIColor greenColor];
         [stateView addSubview:timeLab];
         
         UILabel *stateLab = [[UILabel alloc] initWithFrame:CGRectMake(MainScreen.size.width - 150, 0, 150, self.tabBarController.tabBar.frame.size.height)];
@@ -182,18 +210,21 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         
         [mainScroll addSubview:stateView];
         
-        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, 600 - CGRectGetHeight(detailScroll.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame)) style:UITableViewStylePlain];
+        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, 600 - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame)) style:UITableViewStylePlain];
         detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        detailTabView.backgroundColor = [SmaColor colorWithHexString:@"#FFFFFF" alpha:1];
+        detailTabView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:1];
         detailTabView.delegate = self;
         detailTabView.dataSource = self;
         detailTabView.tableFooterView = [[UIView alloc] init];
         detailTabView.scrollEnabled = NO;
         [mainScroll addSubview:detailTabView];
         
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(detailScroll.frame) + CGRectGetHeight(stateLab.frame)+ dataArr.count * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(detailScroll.frame) + CGRectGetHeight(stateLab.frame)+ dataArr.count * 44.0);
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
     }
     else{
+        NSInteger selectIndex;
+        selectIndex = [[aggregateData[1] objectAtIndex:7] integerValue];
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
         if (!collectionArr) {
             collectionArr = @[SMALocalizedString(@"device_HR_mean"),SMALocalizedString(@"device_HR_avgQuiet"),SMALocalizedString(@"device_HR_avgMax"),SMALocalizedString(@"device_HR_avgMonitor")];
         }
@@ -206,63 +237,14 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         
         //创建collectionView 通过一个布局策略layout来创建
         detailColView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 260 + 1, MainScreen.size.width, [UIScreen mainScreen].bounds.size.width-1) collectionViewLayout:layout];
-        detailColView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:1];
+        detailColView.backgroundColor = [SmaColor colorWithHexString:@"#FFFFFF" alpha:1];
         detailColView.delegate= self;
         detailColView.dataSource = self;
         detailColView.scrollEnabled = NO;
         [detailColView registerNib:[UINib nibWithNibName:@"SMADetailCollectionCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
         [mainScroll addSubview:detailColView];
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, CGRectGetHeight(detailScroll.frame) + CGRectGetHeight(detailColView.frame));
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(detailColView.frame));
     }
-}
-
-- (void)addSPViewMode:(int)mode superView:(UIView *)view{
-    if (scattView) {  //若没有此段，则当使用3.5寸手机切换月份时会产生两个柱状图，导致每个图都显示不全，原因不明
-        [scattView removeFromSuperview];
-        scattView = nil;
-    }
-    
-    if (!scattView) {
-        scattView = [[ScattView alloc] init];
-        scattView.frame = detailScroll.bounds;//10, 134, 300, 140
-        //         scattView.frame = CGRectMake(0, 0,  MainScreen.size.width, 260);
-        scattView.backgroundColor = [UIColor clearColor];
-        [view addSubview:scattView];
-        
-    }
-    scattView.delegate = self;
-    scattView.HRdataArr = [NSMutableArray array];
-    scattView.YgiveLsat = cycle == 0 ? YES:NO;//隐藏Y轴数据最后一位
-    scattView.DrawMode = mode==0?0:1;
-    scattView.allowsUserInteraction =  mode==0?1:0;
-    scattView.poinColors = [CPTColor whiteColor];
-    scattView.showLegend = NO;
-    scattView.isZoom = NO;
-    scattView.xCoordinateDecimal = 0.0f;
-    scattView.hideYAxisLabels = YES;
-    scattView.showBarGoap = YES;
-    scattView.plotAreaFramePaddingLeft = -10;
-    scattView.yAxisTexts = @[@""];
-    scattView.xMajorIntervalLength = @"1";
-}
-
-- (void)drawScattViewWithSpArr:(NSMutableArray *)spArr{
-    if ([spArr[2] count]<30 && selectTag == 101) {
-        detailScroll.scrollView.scrollEnabled = YES;
-    }
-    scattView.identifiers = selectTag == 101?@[@"Sleep Pattern",@"Sleep Pattern1"]:@[@"Sleep Pattern",@"Sleep Pattern1"];  //随便定义
-    scattView.xAxisTexts = [spArr firstObject];
-    scattView.yValues = selectTag == 101?@[spArr[2],spArr[1]]:@[spArr[2],spArr[3]];
-    scattView.yBaesValues = selectTag == 101?@[]:@[spArr[1],spArr[4]];
-    scattView.barLineWidth = [spArr[2] count] >10 ?7.0f:5;
-    scattView.selectIdx = [spArr[2] count] - 1;//
-    scattView.ylabelLocation = [[spArr[2] valueForKeyPath:@"@max.intValue"] intValue];//可以yValue最大值为基准
-    scattView.barIntermeNumber = @[selectTag == 101?@"0.97":@"0.08",@"0.97"];
-    scattView.selectColor = selectTag == 101?NO:YES;
-    scattView.lineColors =@[selectTag == 101?[CPTColor colorWithComponentRed:205/255.0 green:226/255.0 blue:251/255.0 alpha:0.8]:[CPTColor colorWithComponentRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1],[CPTColor colorWithComponentRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0]];
-    [scattView initGraph];
-    [detailColView reloadData];
-    [detailTabView reloadData];
 }
 
 - (void)hrTapBut:(UIButton *)sender{
@@ -283,7 +265,22 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         switch (sender.tag) {
             case 101:
             {
-                alldata = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES]];
+                dateNow = self.date;
+                self.title = [self dateWithYMDWithDate:dateNow];
+                leftDate = self.date.yesterday;
+                rightDate = [self.date timeDifferenceWithNumbers:1];
+                NSMutableArray *nowData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:dateNow.yyyyMMddNoLineWithDate toDate:dateNow.yyyyMMddNoLineWithDate detailData:YES] withDate:dateNow];
+                NSMutableArray *leftData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:leftDate.yyyyMMddNoLineWithDate toDate:leftDate.yyyyMMddNoLineWithDate detailData:YES] withDate:leftDate];
+                NSMutableArray *rightData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:rightDate.yyyyMMddNoLineWithDate toDate:rightDate.yyyyMMddNoLineWithDate detailData:YES] withDate:rightDate];
+                if (aggregateData) {
+                    [aggregateData removeAllObjects];
+                    aggregateData = nil;
+                }
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:leftData];
+                [aggregateData addObject:nowData];
+                [aggregateData addObject:rightData];
+
                 quietDate = self.date;
                 quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
                 [self addSubViewWithCycle:0];
@@ -291,12 +288,50 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                 break;
             case 102:
             {
-                [self gethrDetalilDataWithNowDate:[NSDate date] month:NO updateUI:YES];
+                dateNow = [NSDate date];
+                leftDate = [dateNow timeDifferenceWithNumbers:-28];
+                rightDate = [dateNow timeDifferenceWithNumbers:28];
+                NSMutableArray *lDataArr = [self gethrDetalilDataWithNowDate:leftDate month:NO];
+                NSMutableArray *MDataArr = [self gethrDetalilDataWithNowDate:dateNow month:NO];
+                NSMutableArray *RDataArr = [self gethrDetalilDataWithNowDate:rightDate month:NO];
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:lDataArr];
+                [aggregateData addObject:MDataArr];
+                [aggregateData addObject:RDataArr];
+                NSLog(@"aggregateData 102== %@",aggregateData);
+                [self addSubViewWithCycle:1];
             }
                 break;
             case 103:
             {
-                [self gethrDetalilDataWithNowDate:[NSDate date] month:YES updateUI:YES];
+                dateNow = [NSDate date];
+                NSDate *firstdate = dateNow;
+                for (int i = 0; i < 4; i ++ ) {
+                    NSDate *nextDate = firstdate;
+                    firstdate = [nextDate dayOfMonthToDateIndex:0];
+                    firstdate = firstdate.yesterday;
+                    if (i == 3) {
+                        leftDate = firstdate;
+                    }
+                }
+                NSDate *lastdate = dateNow;
+                for (int i = 0; i < 4; i ++ ) {
+                    NSDate *nextDate = lastdate;
+                    lastdate = [nextDate dayOfMonthToDateIndex:32];
+                    lastdate = [lastdate timeDifferenceWithNumbers:1];
+                    if (i == 3) {
+                        rightDate = lastdate;
+                    }
+                }
+                NSMutableArray *lDataArr = [self gethrDetalilDataWithNowDate:leftDate month:YES];
+                NSMutableArray *MDataArr = [self gethrDetalilDataWithNowDate:dateNow month:YES];
+                NSMutableArray *RDataArr = [self gethrDetalilDataWithNowDate:rightDate month:YES];
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:lDataArr];
+                [aggregateData addObject:MDataArr];
+                [aggregateData addObject:RDataArr];
+                
+                [self addSubViewWithCycle:1];
             }
                 break;
             default:
@@ -308,7 +343,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 #pragma mark ******UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [dataArr  count];
+    return [[[aggregateData objectAtIndex:1] objectAtIndex:3]  count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -320,12 +355,12 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     if (indexPath.row == 0) {
         cell.topLine.hidden = YES;
     }
-    else if (indexPath.row == dataArr.count - 1){
+    else if (indexPath.row == [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] - 1){
         cell.botLine.hidden = YES;
     }
-    cell.timeLab.text = [[dataArr  objectAtIndex:indexPath.row] objectForKey:@"TIME"];
+    cell.timeLab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3]  objectAtIndex:indexPath.row] objectForKey:@"TIME"];
     cell.statelab.text = @"";
-    cell.distanceLab.text = [NSString stringWithFormat:@"%@bmp",[[dataArr  objectAtIndex:indexPath.row] objectForKey:@"REAT"]];
+    cell.distanceLab.text = [NSString stringWithFormat:@"%@bmp",[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"REAT"]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -350,28 +385,30 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SMADetailCollectionCell *cell = (SMADetailCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    if (showDataIndex == 0) {
+        showDataIndex = [[[aggregateData objectAtIndex:1] objectAtIndex:7] integerValue];
+    }
     if (indexPath.row == 0) {
         
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[alldata objectAtIndex:5] objectAtIndex:showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
     }
     else if (indexPath.row == 1){
-         cell.detailLab.attributedText = [self attributedStringWithArr:@[[[alldata objectAtIndex:6] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
+         cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:6] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
     }
     else if (indexPath.row == 2){
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[alldata objectAtIndex:2][showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[aggregateData objectAtIndex:1] objectAtIndex:2][showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)]];
     }
     else{
         cell.detailLab.textColor = [SmaColor colorWithHexString:@"#EA1F75" alpha:1];
-        if ([[[alldata objectAtIndex:5] objectAtIndex:showDataIndex] intValue] < 60) {
+        if ([[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex] intValue] < 60) {
             cell.detailLab.text = SMALocalizedString(@"device_HR_typeS");
         }
-        else if ([[[alldata objectAtIndex:5] objectAtIndex:showDataIndex] intValue] >= 60 && [[[alldata objectAtIndex:5] objectAtIndex:showDataIndex] intValue] <= 100){
+        else if ([[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex] intValue] >= 60 && [[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex] intValue] <= 100){
             cell.detailLab.text = SMALocalizedString(@"device_HR_typeF");
         }
         else{
             cell.detailLab.text = SMALocalizedString(@"device_HR_typeT");
         }
-        //
     }
     cell.titleLab.text = collectionArr[indexPath.row];
     return cell;
@@ -391,134 +428,305 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     return 1.0f;
 }
 
-#pragma mark******corePlotViewDelegate
-- (void)barTouchDownAtRecordIndex:(NSUInteger)idx{
-    showDataIndex = idx;
-    [detailColView reloadData];
-}
-
-- (void)plotTouchDownAtRecordPoit:(CGPoint)poit{
-    if ([alldata.firstObject count]>30 && selectTag == 101) {
-        detailScroll.scrollView.scrollEnabled = NO;
-        mainScroll.scrollEnabled = NO;
-    }
-}
-
-- (void)plotTouchUpAtRecordPoit:(CGPoint)poit{
-    mainScroll.scrollEnabled = YES;
-    
-}
-
-- (void)prepareForDrawingPlotLine:(CGPoint)poit{
-    //    NSLog(@"prepareForDrawingPlotLine %@",NSStringFromCGPoint(poit));
-    if (poit.x == 0) {
-        detailScroll.scrollView.scrollEnabled = YES;
-        //         [detailScroll becomeFirstResponder];
-    }
-    else if (poit.x <= -670){
-        detailScroll.scrollView.scrollEnabled = YES;
-    }
-}
-
-#pragma mark <ZXRollViewDelegate>
-- (NSInteger)numberOfItemsInRollView:(ZXRollView *)rollView {
-    return 3;
-}
-
-
-- (void)rollView:(nonnull ZXRollView *)rollView setViewForRollView:(nonnull UIView *)view atIndex:(NSInteger)index {
-    if (firstCreate) {
-        indexChange = YES;
-    }
+#pragma mark *****************WYScrollViewLocalDelegate
+//绘图区域滑动接近边沿时预加载各项数据
+- (void)scrollViewWillToBorderAtDirection:(int)direction{
     if (selectTag == 101) {
-        [self addSPViewMode:0 superView:view];
-    }
-    else{
-        [self addSPViewMode:1 superView:view];
-    }
-    switch (index) {
-        case 0: {
-            if (!firstCreate) {
-                [self drawScattViewWithSpArr:alldata];
-                firstCreate = YES;
+        if (oldDirection != direction) {
+            if (direction == -1) {
+                leftDate = [dateNow timeDifferenceWithNumbers:-2];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSMutableArray *leftData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:leftDate.yyyyMMddNoLineWithDate toDate:leftDate.yyyyMMddNoLineWithDate detailData:YES] withDate:leftDate];
+                    [aggregateData insertObject:leftData atIndex:0];
+                    [aggregateData removeLastObject];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
+            }
+            else if (direction == 1){
+                rightDate = [dateNow timeDifferenceWithNumbers:2];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSMutableArray *rightData = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:rightDate.yyyyMMddNoLineWithDate toDate:rightDate.yyyyMMddNoLineWithDate detailData:YES] withDate:rightDate];
+                    [aggregateData addObject:rightData];
+                    [aggregateData removeObjectAtIndex:0];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
             }
         }
-            break;
-        default:
-            break;
     }
-}
-
-
-- (void)scrollViewDidEndDecelerating:(ZXRollView *)scrollView AtIndex:(NSInteger)index{
-    if (indexChange) {
-        indexChange = NO;
-        switch (selectTag) {
-            case 101:
-            {
-                NSDate *changeDate = [self.date timeDifferenceWithNumbers:index];
-                alldata = [self gethrFullDatasForOneDay:[self.dal readHearReatDataWithDate:changeDate.yyyyMMddNoLineWithDate toDate:changeDate.yyyyMMddNoLineWithDate detailData:YES]];
-                quietDate = changeDate;
-                quietArr = [self.dal readQuietHearReatDataWithDate:changeDate.yyyyMMddNoLineWithDate toDate:changeDate.yyyyMMddNoLineWithDate detailData:YES];
-                quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr lastObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
-                if ([changeDate.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
-                    self.date = changeDate ;
-                    [self addSubViewWithCycle:0];
+    else if (selectTag == 102){
+        if (oldDirection != direction) {
+            if (direction == -1) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    leftDate = [dateNow timeDifferenceWithNumbers:-56];
+                    NSMutableArray *lDataArr = [self gethrDetalilDataWithNowDate:leftDate month:NO];
+                    [aggregateData insertObject:lDataArr atIndex:0];
+                    [aggregateData removeLastObject];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
+            }
+            else if (direction == 1){
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    rightDate = [dateNow timeDifferenceWithNumbers:56];
+                    NSMutableArray *RDataArr = [self gethrDetalilDataWithNowDate:rightDate month:NO];
+                    [aggregateData addObject:RDataArr];
+                    [aggregateData removeObjectAtIndex:0];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
+            }
+        }
+    }
+    else if (selectTag == 103){
+        if (oldDirection != direction) {
+            if (direction == -1) {
+                //获取所需要预加载的日期（dateNow 的前八个月）
+                NSDate *firstdate1 = dateNow;
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyyMMdd"];
+                NSString *nowMonth = [[formatter stringFromDate:firstdate1] substringWithRange:NSMakeRange(4, 2)];
+                int goalMonth;
+                NSString *goalDate;
+                if (nowMonth.intValue - 8 < 1){
+                    goalMonth = nowMonth.intValue - 8 + 12;
+                    goalDate = [NSString stringWithFormat:@"%@%@%@",[NSString stringWithFormat:@"%d",[[[formatter stringFromDate:firstdate1] substringToIndex:4] intValue] - 1],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
                 }
                 else{
-                    [self drawScattViewWithSpArr:alldata];
+                    goalMonth = nowMonth.intValue - 8;
+                    goalDate = [NSString stringWithFormat:@"%@%@%@",[[formatter stringFromDate:firstdate1] substringToIndex:4],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
                 }
-                
+                leftDate = [formatter dateFromString:goalDate];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSMutableArray *lDataArr = [self gethrDetalilDataWithNowDate:leftDate month:YES];
+                    [aggregateData insertObject:lDataArr atIndex:0];
+                    [aggregateData removeLastObject];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
             }
-                break;
-            case 102:
-            {
-                NSDate *firstdate = [NSDate date];
-                for (int j = 0; j < -index ; j ++) {
-                    for (int i = 0; i < 4; i ++ ) {
-                        NSDate *nextDate = firstdate;
-                        firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
-                        firstdate = firstdate.yesterday;
-                        if (j == - index - 1) {
-                            [self gethrDetalilDataWithNowDate:firstdate month:NO updateUI:NO];
-                        }
-                    }
+            else if (direction == 1){
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyyMMdd"];
+                NSString *nowMonth = [[formatter stringFromDate:dateNow] substringWithRange:NSMakeRange(4, 2)];
+                int goalMonth;
+                NSString *goalDate;
+                if (nowMonth.intValue + 8 > 12) {
+                    goalMonth = nowMonth.intValue + 8 - 12;
+                    goalDate = [NSString stringWithFormat:@"%@%@%@",[NSString stringWithFormat:@"%d",[[[formatter stringFromDate:dateNow] substringToIndex:4] intValue] + 1],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
                 }
-                if (index == 0) {
-                    [self gethrDetalilDataWithNowDate:[NSDate date] month:NO updateUI:NO];
+                else{
+                    goalMonth = nowMonth.intValue + 8;
+                    goalDate = [NSString stringWithFormat:@"%@%@%@",[[formatter stringFromDate:dateNow] substringToIndex:4],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
                 }
-                [self drawScattViewWithSpArr:alldata];
+                rightDate = [formatter dateFromString:goalDate];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSMutableArray *RDataArr = [self gethrDetalilDataWithNowDate:rightDate month:YES];
+                    [aggregateData addObject:RDataArr];
+                    [aggregateData removeObjectAtIndex:0];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
             }
-                break;
-            case 103:
-            {
-                NSDate *firstdate = [NSDate date];
-                for (int j = 0; j < -index ; j ++) {
-                    for (int i = 0; i < 4; i ++ ) {
-                        NSDate *nextDate = firstdate;
-                        firstdate = [nextDate dayOfMonthToDateIndex:0];
-                        firstdate = firstdate.yesterday;
-                        if (j == - index - 1) {
-                            [self gethrDetalilDataWithNowDate:firstdate month:YES updateUI:NO];
-                        }
-                    }
-                }
-                if (index == 0) {
-                    [self gethrDetalilDataWithNowDate:[NSDate date] month:YES updateUI:NO];
-                }
-                [self drawScattViewWithSpArr:alldata];
-            }
-                break;
-            default:
-                break;
         }
     }
+    oldDirection = direction;
+}
+
+//顶部绘图区域滑动完成（翻页）刷新UI
+- (void)WYScrollViewDidEndDecelerating:(WYScrollView *)scrollView{
+    if (selectTag == 101) {
+        if (oldDirection == -1) {
+            dateNow = [leftDate timeDifferenceWithNumbers:1];
+            rightDate = [dateNow timeDifferenceWithNumbers:1];
+        }
+        else if (oldDirection == 1){
+            dateNow = [rightDate timeDifferenceWithNumbers:-1];
+            leftDate = [dateNow timeDifferenceWithNumbers:-1];
+        }
+        self.title = [self dateWithYMDWithDate:dateNow];
+        if ([self.title isEqualToString:SMALocalizedString(@"device_todate")]) {
+            scrollView.banRightSlide = YES;
+        }
+        else{
+            scrollView.banRightSlide = NO;
+        }
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
+    }
+    else if (selectTag == 102){
+        if (oldDirection == -1) {
+            dateNow = [leftDate timeDifferenceWithNumbers:28];
+            rightDate = [dateNow timeDifferenceWithNumbers:28];
+        }
+        else if (oldDirection == 1){
+            dateNow = [rightDate timeDifferenceWithNumbers:-28];
+            leftDate = [dateNow timeDifferenceWithNumbers:-28];
+        }
+        NSInteger selectIndex;
+        selectIndex = [[aggregateData[1] objectAtIndex:7] integerValue];
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
+        if ([self.title isEqualToString:SMALocalizedString(@"device_SL_thisWeek")]) {
+            scrollView.banRightSlide = YES;
+        }
+        else{
+            scrollView.banRightSlide = NO;
+        }
+    }
+    else if (selectTag == 103){
+        if (oldDirection == -1) {
+            NSDate *lastdate = leftDate;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = lastdate;
+                lastdate = [nextDate dayOfMonthToDateIndex:32];
+                lastdate = [lastdate timeDifferenceWithNumbers:1];
+                if (i == 3) {
+                    dateNow = lastdate;
+                }
+            }
+            lastdate = dateNow;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = lastdate;
+                lastdate = [nextDate dayOfMonthToDateIndex:32];
+                lastdate = [lastdate timeDifferenceWithNumbers:1];
+                if (i == 3) {
+                    rightDate = lastdate;
+                }
+            }
+        }
+        else if (oldDirection == 1){
+            NSDate *firstdate = rightDate;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = firstdate;
+                firstdate = [nextDate dayOfMonthToDateIndex:0];
+                firstdate = firstdate.yesterday;
+                if (i == 3) {
+                    dateNow = firstdate;
+                }
+            }
+            firstdate = dateNow;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = firstdate;
+                firstdate = [nextDate dayOfMonthToDateIndex:0];
+                firstdate = firstdate.yesterday;
+                if (i == 3) {
+                    leftDate = firstdate;
+                }
+            }
+        }
+        NSInteger selectIndex;
+        selectIndex = [[aggregateData[1] objectAtIndex:7] integerValue];
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
+        if ([self.title isEqualToString:SMALocalizedString(@"device_SL_thisMonth")]) {
+            scrollView.banRightSlide = YES;
+        }
+        else{
+            scrollView.banRightSlide = NO;
+        }
+    }
+    oldDirection = 0;
+    scrollView.imageArray = aggregateData;
+    [detailTabView reloadData];
+    [detailColView reloadData];
+    quietDate = dateNow;
+    quietArr = [self.dal readQuietHearReatDataWithDate:quietDate.yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate detailData:YES];
+    quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr lastObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]];
+    NSLog(@"scrollViewDidEndDecelerating = %@",scrollView);
+}
+
+- (void)WYplotTouchDown{
+    mainScroll.scrollEnabled = NO;
+}
+
+- (void)WYplotTouchUp{
+     mainScroll.scrollEnabled = YES;
+}
+
+- (void)WYbarTouchDownAtRecordIndex:(NSUInteger)idx{
+    if (selectTag != 101) {
+        showDataIndex = idx;
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:showDataIndex-1];
+        [detailColView reloadData];
+        mainScroll.scrollEnabled = YES;
+    }
+}
+
+- (NSMutableArray *)gethrFullDatasForOneDay:(NSMutableArray *)dayArr withDate:(NSDate *)date{
+    
+    NSMutableArray *fullDatas = [[NSMutableArray alloc] init];
+    NSMutableArray *dayAlldata = [NSMutableArray array];
+    SmaHRHisInfo *hrinfo = [SMAAccountTool HRHisInfo];
+    int hrCycle =  hrinfo.tagname.intValue;
+    if (!hrinfo) {
+        hrCycle = 30;
+    }
+    int cyTime = hrCycle==15?96:hrCycle==30?48:hrCycle==60?24:12;
+    for (int i = 0; i < cyTime; i ++) {
+        BOOL found = NO;
+        int time = -1 ;
+        if (dayArr.count > 0 && [[[dayArr lastObject] objectForKey:@"TIME"] intValue]/(1440/cyTime)>=i) {
+            for (NSDictionary *dic in dayArr) {
+                if ([[dic objectForKey:@"TIME"] intValue]/(1440/cyTime) == i) {
+                    if (time == i) {
+                        [fullDatas removeLastObject];
+                    }
+                    time = i;
+                    [fullDatas addObject:dic];
+                    found = YES;
+                }
+                else{
+                    if (!found) {
+                        if (time == i) {
+                            [fullDatas removeLastObject];
+                        }
+                        time = i;
+                        [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i*hrCycle],@"TIME",[[fullDatas lastObject] objectForKey:@"REAT"]?[[fullDatas lastObject] objectForKey:@"REAT"]:@"0",@"REAT",[dic objectForKey:@"DATE"],@"DATE", nil]];
+                    }
+                }
+            }
+        }
+        else{
+            [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i*hrCycle],@"TIME",@"0",@"REAT",date.yyyyMMddNoLineWithDate,@"DATE", nil]];
+        }
+    }
+    NSMutableArray *xText = [NSMutableArray array];
+    NSMutableArray *yValue = [NSMutableArray array];
+    NSMutableArray *yBaesValues = [NSMutableArray array];
+    NSMutableArray *dataArr = [NSMutableArray array];
+    for (int i = 0; i < cyTime; i ++) {
+        if (i == 0) {
+            [xText addObject:[NSString stringWithFormat:@"%d",i]];
+        }
+        else if ((cyTime/2 == i && cyTime%2 == 0)){
+            [xText addObject:[NSString stringWithFormat:@"%d",12]];
+        }
+        else if (i == cyTime - 1){
+            [xText addObject:[NSString stringWithFormat:@"%d",23]];
+        }
+        else{
+            [xText addObject:@""];
+        }
+    }
+    for (int i = 0; i < cyTime + 1; i ++) {
+        if (i == 0) {
+            [yValue addObject:@"0"];
+        }
+        else{
+            NSDictionary *dic = [fullDatas objectAtIndex:i - 1];
+            [yValue addObject:[dic objectForKey:@"REAT"]];
+            if ([[dic objectForKey:@"REAT"] intValue] > 0) {
+                NSMutableDictionary *dict = [dic mutableCopy];
+                [dict setObject:[self getHourAndMin:[dic objectForKey:@"TIME"]] forKey:@"TIME"];
+                
+                [dataArr addObject:dict];
+            }
+        }
+        [yBaesValues addObject:@"0"];
+    }
+    [dayAlldata addObject:xText];
+    [dayAlldata addObject:yBaesValues];
+    [dayAlldata addObject:yValue];
+    [dayAlldata addObject:dataArr];
+    [dayAlldata addObject:date.yyyyMMddNoLineWithDate];
+    return dayAlldata;
 }
 
 
 - (NSMutableArray *)gethrFullDatasForOneDay:(NSMutableArray *)dayArr{
-    
-    //    NSMutableArray *fulldata = [NSMutableArray array];
     NSMutableArray *fullDatas = [[NSMutableArray alloc] init];
     NSMutableArray *dayAlldata = [NSMutableArray array];
     SmaHRHisInfo *hrinfo = [SMAAccountTool HRHisInfo];
@@ -559,7 +767,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSMutableArray *xText = [NSMutableArray array];
     NSMutableArray *yValue = [NSMutableArray array];
     NSMutableArray *yBaesValues = [NSMutableArray array];
-    dataArr = [NSMutableArray array];
+    NSMutableArray *dataArr = [NSMutableArray array];
     for (int i = 0; i < cyTime; i ++) {
         if (i == 0) {
             [xText addObject:[NSString stringWithFormat:@"%d",i]];
@@ -595,7 +803,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     return dayAlldata;
 }
 
-- (void)gethrDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month updateUI:(BOOL)update{
+- (NSMutableArray *)gethrDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month{
     NSDate *firstdate = date;
     NSMutableArray *weekDate = [NSMutableArray array];
     NSMutableArray *quietData = [NSMutableArray array];
@@ -625,7 +833,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                     if (allMax < maxHR/dataNum) {
                         allMax = maxHR/dataNum;
                     }
-                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE", nil];
+                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
                     [weekDate addObject:dic];
                 }
             }
@@ -634,7 +842,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             if (allMax < maxHR/dataNum) {
                 allMax = maxHR/dataNum;
             }
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE", nil];
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
             [weekDate addObject:dic];
         }
         firstdate = firstdate.yesterday;
@@ -646,7 +854,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSMutableArray *yBaesValues1 = [NSMutableArray array];
     NSMutableArray *quietValues = [NSMutableArray array];
     NSMutableArray *avgArr = [NSMutableArray array];
-    alldata = [NSMutableArray array];
+    NSMutableArray *alldataArr = [NSMutableArray array];
     for (int i = 0; i < 5; i ++ ) {
         [yValue1 addObject:[NSString stringWithFormat:@"%d",allMax + 10]];
         [yBaesValues1 addObject:@"0"];
@@ -657,32 +865,69 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             [avgArr addObject:@"0"];
         }
         else{
-            [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"]]:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"]];
+            [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]:[self getWeekText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]];
             [yBaesValues addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"minHR"]];
             [yValue addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"maxHR"]];
             [avgArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"avgHR"]];
             [quietValues addObject:[NSString stringWithFormat:@"%d",[[[[quietData objectAtIndex:4 - i] firstObject] objectForKey:@"avgHR"] intValue]]];
-            //  [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
+            if ([[[[quietData objectAtIndex:4 - i] firstObject] objectForKey:@"avgHR"] intValue] > 0) {
+                showDataIndex = i;
+            }
         }
     }
-    [alldata addObject:xText];
-    [alldata addObject:yBaesValues];
-    [alldata addObject:yValue];
-    [alldata addObject:yValue1];
-    [alldata addObject:yBaesValues1];
-    [alldata addObject:avgArr];
-    [alldata addObject:quietValues];
-    showDataIndex = 4;
-    if (update) {
-        [self addSubViewWithCycle:1];
-    }
-    
+    [alldataArr addObject:xText];
+    [alldataArr addObject:yBaesValues];
+    [alldataArr addObject:yValue];
+    [alldataArr addObject:yValue1];
+    [alldataArr addObject:yBaesValues1];
+    [alldataArr addObject:avgArr];
+    [alldataArr addObject:quietValues];
+    [alldataArr addObject:[NSString stringWithFormat:@"%d",showDataIndex == 0 ? 4 : showDataIndex]];  //图像（周）最后一第含有数据的项（若没有，默认为最后一项）
+    showDataIndex = 0;
+    return alldataArr;
 }
 
-- (NSString *)getMonthText:(NSString *)str{
+- (NSString *)dateWithYMDWithDate:(NSDate *)date{
+    NSString *selfStr;
+    if ([[NSDate date].yyyyMMddNoLineWithDate isEqualToString:date.yyyyMMddNoLineWithDate]) {
+        selfStr = SMALocalizedString(@"device_todate");
+    }
+    else {
+        selfStr= date.yyyyMMddByLineWithDate;
+    }
+    return selfStr;
+}
+
+- (NSString *)getWeekText:(NSString *)str year:(NSString *)year{
+    NSArray *dayArr = [str componentsSeparatedByString:@"-"];
+    NSArray *weekArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
+    NSArray *weekArr1 = [[dayArr lastObject] componentsSeparatedByString:@"."];
+    NSString *weekStr;
+    weekStr = str;
+    if ([[weekArr firstObject] intValue] == 12 && [[weekArr1 firstObject] intValue] == 1) {
+        weekStr = [NSString stringWithFormat:@"%@ %@ - %@ %@",year,[dayArr firstObject],[NSString stringWithFormat:@"%d",year.intValue + 1],[dayArr lastObject]];
+    }
+    //本周第一天
+    NSString *nowFirstDate = [[NSDate date] firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSString class]];
+    NSString *monDayStr = [SMADateDaultionfos monAndDateStringFormDateStr:nowFirstDate format:@"yyyyMMdd"];
+    if ([[dayArr firstObject] isEqualToString:monDayStr]) {
+        weekStr = SMALocalizedString(@"device_SL_thisWeek");
+    }
+    return weekStr;
+}
+
+- (NSString *)getMonthText:(NSString *)str year:(NSString *)year{
     NSArray *dayArr = [str componentsSeparatedByString:@"-"];
     NSArray *monArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
-    return [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    NSString *monStr;
+    monStr = [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    if ([[monArr firstObject] intValue] == 1) {
+        monStr = [NSString stringWithFormat:@"%@ %@%@",year,[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    }
+    if ([[monArr firstObject] intValue] == [[[[NSDate date] yyyyMMddNoLineWithDate] substringWithRange:NSMakeRange(4, 2)] intValue] && [year isEqualToString:[[[NSDate date] yyyyMMddNoLineWithDate] substringToIndex:4]]) {
+        monStr = SMALocalizedString(@"device_SL_thisMonth");
+    }
+    return monStr;
 }
 
 - (NSMutableAttributedString *)attributedStringWithArr:(NSArray *)strArr fontArr:(NSArray *)fontArr{

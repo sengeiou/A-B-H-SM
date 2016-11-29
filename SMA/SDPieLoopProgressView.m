@@ -50,7 +50,7 @@
             CGFloat Y = center.y - (rect.size.width/2 -(fontsize.height +5)/2) *cos((M_PI/180)*i*(360.0 /(12))) - fontsize.height/2;//R*cosB(夹角)
             text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
             text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];//whiteColor
-            if (i<self.startTime/5 || i > self.endTime/5) {
+            if (i<self.startTime/5 && i > self.endTime/5) {
                 text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
             }
             
@@ -65,8 +65,8 @@
             CGFloat Y = center.y - (rect.size.width/2 -fontsize.height/2) *cos((M_PI/180)*i*(360.0 /(12))) - fontsize.height/2 + 1;//R*cosB(夹角)
             text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
             text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];
-            if (i<self.startTime/5 || i > self.endTime/5) {
-                text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+            if (i<self.startTime/5 && i > self.endTime/5) {
+                text.string   =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
             }
             text.alignmentMode   = kCAAlignmentCenter;
         }

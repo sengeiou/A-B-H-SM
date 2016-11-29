@@ -45,8 +45,8 @@
     _ruleView.textStyleDict = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:style, NSForegroundColorAttributeName:[UIColor blackColor]};
     _ruleView.alarmDelegate = self;
     _saveLab.text = SMALocalizedString(@"setting_sedentary_achieve");
-    _walkLab.text = SMALocalizedString(@"me_goal_walk");
-    _runLab.text = SMALocalizedString(@"me_goal_run");
+    _walkLab.text = SMALocalizedString(@"device_SP_walking");
+    _runLab.text = SMALocalizedString(@"device_SP_running");
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

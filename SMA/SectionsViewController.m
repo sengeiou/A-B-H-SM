@@ -241,7 +241,7 @@ sectionForSectionIndexTitle:(NSString *)title
 
     //传递数据
     if ([self.delegate respondsToSelector:@selector(setSecondData:)]) {
-        [self.delegate setSecondData:str2];
+        [self.delegate setSecondData:[NSString stringWithFormat:@"%@,%@",countryName,areaCode]];
     }
     
     //关闭当前

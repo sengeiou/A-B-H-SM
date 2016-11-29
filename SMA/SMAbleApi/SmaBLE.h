@@ -28,7 +28,8 @@ typedef enum {
     CUFFHEARTRATE,  //心率数据(05、07)
     CUFFSLEEPDATA,  //07睡眠数据
     CUFFSWITCHS,     //获取设备表盘（10-A）
-    XMODEM          //进入XODEM模式（10-A）
+    XMODEM,          //进入XODEM模式（10-A）
+    RUNMODE         //进入运动模式
 }SMA_INFO_MODE;
 /*
  @param BAND            反馈绑定信息，反馈数组内若为1，绑定成功，若为0，绑定失败

@@ -28,8 +28,11 @@ typedef enum  {
  */
 + (UIImage *)resizedImageWithName:(NSString *)name;
 + (UIImage *)resizedImageWithName:(NSString *)name left:(CGFloat)left top:(CGFloat)top;
-+(UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize imageName:(NSString *)imageName;
-+(UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
-+ (UIImage*) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType size:(CGSize )size;
-+ (UIImage*) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType radius:(CGFloat)radius size:(CGSize )size;
++ (UIImage *)imageByScalingAndCroppingForSize:(CGSize)targetSize imageName:(NSString *)imageName;
++ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
++ (UIImage *) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType size:(CGSize )size;
++ (UIImage *) buttonImageFromColors:(NSArray*)colors ByGradientType:(GradientType)gradientType radius:(CGFloat)radius size:(CGSize )size;
++ (UIImage *)compressImage:(UIImage *)image newWidth:(CGFloat)newImageWidth;
++ (NSData *)zipImageWithImage:(UIImage *)imag;
++ (UIImage *)imageUserToCompressForSizeImage:(UIImage *)image newSize:(CGSize)size;//等比例压缩图片
 @end

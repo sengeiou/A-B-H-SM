@@ -10,7 +10,6 @@
 
 @interface SMAEmailRegisViewController ()
 {
-    UIButton *geCodeBut;
     NSTimer *codeTimer;
 }
 @end
@@ -45,14 +44,14 @@
     _gradientLayer.endPoint = CGPointMake(0, 1);
     [self.view.layer insertSublayer:_gradientLayer atIndex:0];
     
-    _accountField.placeholder = SMALocalizedString(@"register_accplace");
+    _accountField.placeholder = SMALocalizedString(@"register_emalplace");
     _accountField.delegate = self;
     
     UIButton *eyesBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [eyesBut setImage:[UIImage imageNamed:@"icon_View"] forState:UIControlStateNormal];
     [eyesBut setImage:[UIImage imageNamed:@"icon_view_pre"] forState:UIControlStateSelected];
     [eyesBut addTarget:self action:@selector(eyseSelect:) forControlEvents:UIControlEventTouchUpInside];
-    eyesBut.frame = CGRectMake(0, 0, 32, 30);
+    eyesBut.frame = CGRectMake(0, 0, 35, 30);
     _passwordField.rightViewMode = UITextFieldViewModeAlways;
     _passwordField.rightView = eyesBut;
     _passwordField.secureTextEntry = YES;
@@ -61,19 +60,28 @@
     
     _verCodeField.placeholder = SMALocalizedString(@"register_code");
     _verCodeField.delegate = self;
-    geCodeBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    geCodeBut.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight ;//设置文字位置，现设为居右
-    [geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
-    geCodeBut.titleLabel.font = FontGothamLight(10);
-    CGSize fontsize1 = [geCodeBut.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(11)}];
-    [geCodeBut addTarget:self action:@selector(getVerificationCodeSelector:) forControlEvents:UIControlEventTouchUpInside];
-    geCodeBut.frame = CGRectMake(0, 0, fontsize1.width>30?fontsize1.width:30, 30);
-    _verCodeField.rightView = geCodeBut;
-    _verCodeField.rightViewMode = UITextFieldViewModeAlways;
-        
-    NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol1") attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(11)}];
+    
+//    geCodeBut = [UIButton buttonWithType:UIButtonTypeCustom];
+//    geCodeBut.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight ;//设置文字位置，现设为居右
+//    [geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+//    geCodeBut.titleLabel.font = FontGothamLight(10);
+//    CGSize fontsize1 = [geCodeBut.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(11)}];
+//    [geCodeBut addTarget:self action:@selector(getVerificationCodeSelector:) forControlEvents:UIControlEventTouchUpInside];
+//    geCodeBut.frame = CGRectMake(0, 0, fontsize1.width>150?fontsize1.width:30, 30);
+//    _verCodeField.rightView = geCodeBut;
+//    _verCodeField.rightViewMode = UITextFieldViewModeAlways;
+    
+    [_geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+    _geCodeBut.titleLabel.numberOfLines = 2;
+    
+    _protocolBut.titleLabel.numberOfLines = 2;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:6];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol1") attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(11),NSParagraphStyleAttributeName:paragraphStyle}];
     NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"register_protocol2") attributes:@{NSForegroundColorAttributeName:[SmaColor colorWithHexString:@"#1E6EFF" alpha:1],NSFontAttributeName:FontGothamLight(11)}];
     NSMutableAttributedString *attributed = [[NSMutableAttributedString alloc] init];
+    
     [attributed appendAttributedString:str1];
     [attributed appendAttributedString:str2];
     [_protocolBut setAttributedTitle:attributed forState:UIControlStateNormal];
@@ -81,7 +89,7 @@
     [_registerBut setTitle:SMALocalizedString(@"login_regis") forState:UIControlStateNormal];
 }
 
-- (void)getVerificationCodeSelector:(id)sender{
+- (IBAction)getVerificationCodeSelector:(id)sender{
     if([_accountField.text isEqualToString:@""])
     {
         [MBProgressHUD showError: SMALocalizedString(@"register_enteremail")];
@@ -106,8 +114,8 @@
                         [codeTimer invalidate];
                         codeTimer = nil;
                     }
-                    geCodeBut.enabled = NO;
-                    [geCodeBut setTitle:@"60 S" forState:UIControlStateNormal];
+                    _geCodeBut.enabled = NO;
+                    [_geCodeBut setTitle:@"60 S" forState:UIControlStateNormal];
                     codeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(geCodeTimer) userInfo:nil repeats:YES];
                 } failure:^(NSError *error) {
                     [MBProgressHUD hideHUD];
@@ -124,11 +132,11 @@
 static int second = 60;
 - (void)geCodeTimer{
     second--;
-    [geCodeBut setTitle:[NSString stringWithFormat:@"%d S",second] forState:UIControlStateNormal];
+    [_geCodeBut setTitle:[NSString stringWithFormat:@"%d S",second] forState:UIControlStateNormal];
     if (second == 0) {
         second = 60;
-        [geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
-        geCodeBut.enabled = YES;
+        [_geCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+        _geCodeBut.enabled = YES;
         [codeTimer invalidate];
         codeTimer = nil;
     }

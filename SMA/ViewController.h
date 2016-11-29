@@ -11,6 +11,6 @@
 @interface ViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UILabel *titLab;
 @property (nonatomic, weak) IBOutlet UIButton *loginBut, *regisBut;
-
+@property (nonatomic, weak) IBOutlet UIImageView *backIma;
 @end
 

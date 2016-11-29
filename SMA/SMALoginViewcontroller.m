@@ -11,7 +11,7 @@
 #import "SMAthirdPartyManager.h"
 #import "SMANavViewController.h"
 @interface SMALoginViewcontroller (){
-  NSString *LoginProvider;
+    NSString *LoginProvider;
 }
 @property (retain, nonatomic) TencentOAuth *tencentOAuth;
 @end
@@ -40,7 +40,8 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    [self.navigationController setNavigationBarHidden:YES];
+    [self.view endEditing:YES];
+    //    [self.navigationController setNavigationBarHidden:YES];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -57,18 +58,18 @@
     [self presentViewController:country2 animated:YES completion:^{
         
     }];
-
+    
 }
 
 - (void)update{
-     [_accountField resignFirstResponder];
+    [_accountField resignFirstResponder];
     [_passwordField resignFirstResponder];
 }
 
 #pragma mark *******创建UI
 - (void)createUI{
     [_accountField setValue:FontGothamLight(14) forKeyPath:@"_placeholderLabel.font"];
-    _accountField.placeholder = SMALocalizedString(@"login_accplace");
+    _accountField.placeholder = SMALocalizedString(@"register_accplace");
     [_passwordField setValue:FontGothamLight(14) forKeyPath:@"_placeholderLabel.font"];
     _passwordField.placeholder = SMALocalizedString(@"login_passplace");
     _passwordField.secureTextEntry = YES;
@@ -77,7 +78,7 @@
     [eyesBut setImage:[UIImage imageNamed:@"icon_View"] forState:UIControlStateNormal];
     [eyesBut setImage:[UIImage imageNamed:@"icon_view_pre"] forState:UIControlStateSelected];
     [eyesBut addTarget:self action:@selector(eyseSelect:) forControlEvents:UIControlEventTouchUpInside];
-    eyesBut.frame = CGRectMake(0, 0, 32, 30);
+    eyesBut.frame = CGRectMake(0, 0, 35, 30);
     _passwordField.rightViewMode = UITextFieldViewModeAlways;
     _passwordField.rightView = eyesBut;
     _passwordField.delegate = self;
@@ -86,6 +87,25 @@
     _loginBut.enabled = NO;
     _thiPartyLab.text = SMALocalizedString(@"login_hirdParty");
     
+    NSLog(@"ffg5rg==%d  %d",[[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled],[[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]);
+    if (![[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled]) {
+        [_QQBut setImage:[UIImage imageNamed:@"icon_qq_2"] forState:UIControlStateNormal];
+    }
+    else{
+        [_QQBut setImage:[UIImage imageNamed:@"icon_qq"] forState:UIControlStateNormal];
+    }
+    if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
+        [_weChatBut setImage:[UIImage imageNamed:@"icon_weixin_2"] forState:UIControlStateNormal];
+    }
+    else{
+        [_weChatBut setImage:[UIImage imageNamed:@"icon_weixin"] forState:UIControlStateNormal];
+    }
+    if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
+        [_weiboBut setImage:[UIImage imageNamed:@"icon_weibo_2"] forState:UIControlStateNormal];
+    }
+    else{
+        [_weiboBut setImage:[UIImage imageNamed:@"icon_weibo"] forState:UIControlStateNormal];
+    }
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.bounds = self.view.bounds;
     _gradientLayer.borderWidth = 0;
@@ -103,12 +123,13 @@
     NSString *userAccount;
     [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
     SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
-    if ([_accountField.text rangeOfString:@"@"].location) {
-        userAccount = _accountField.text;
-    }
-    else{
-        userAccount = [NSString stringWithFormat:@"%@%@",[[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"] isEqualToString:@"0086"]?@"":[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"],_accountField.text];
-    }
+    
+    //    if ([_accountField.text rangeOfString:@"@"].location) {
+    //        userAccount = _accountField.text;
+    //    }
+    //    else{
+    userAccount = [NSString stringWithFormat:@"%@%@",[[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"] isEqualToString:@"0086"]?@"":[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"],_accountField.text];
+    //    }
     [webServict acloudLoginWithAccount:userAccount Password:_passwordField.text success:^(id dic) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUD];
@@ -126,23 +147,24 @@
         user.userAge = [dic objectForKey:@"age"];
         user.userSex = [dic objectForKey:@"sex"];
         user.userGoal = [dic objectForKey:@"steps_Aim"];
-        user.userResHr = [dic objectForKey:@"user_rate"];
+        user.userHeadUrl = [dic objectForKey:@"_avatar"];
         [SMAAccountTool saveUser:user];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
         });
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            UITabBarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
-             NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"我的")];
+            SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+            controller.isLogin = NO;
+            NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
             NSArray *arrControllers = controller.viewControllers;
             for (int i = 0; i < arrControllers.count; i ++) {
                 SMANavViewController *nav = [arrControllers objectAtIndex:i];
                 nav.tabBarItem.title = itemArr[i];
             }
             [UIApplication sharedApplication].keyWindow.rootViewController=controller;
-//            [self presentViewController:controller animated:YES completion:nil];
+            //            [self presentViewController:controller animated:YES completion:nil];
         });
-
+        
         
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -161,11 +183,19 @@
 
 - (IBAction)thirdPartySelector:(UIButton *)sender{
     if (sender.tag == 101){
+        if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
+            [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
+            return;
+        }
         LoginProvider = ACAccountManagerLoginProviderWechat;
         [[SMAthirdPartyLoginTool getinstance] WeChatLoginController:self];
     }
-   else if (sender.tag == 102) {
-       LoginProvider = ACAccountManagerLoginProviderQQ;
+    else if (sender.tag == 102) {
+        if (![[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled]) {
+            [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
+            return;
+        }
+        LoginProvider = ACAccountManagerLoginProviderQQ;
         [[SMAthirdPartyLoginTool getinstance] QQlogin];
     }
     
@@ -173,7 +203,7 @@
 
 - (void)eyseSelect:(UIButton *)sender{
     sender.selected = !sender.selected;
-     [_passwordField resignFirstResponder];
+    [_passwordField resignFirstResponder];
     _passwordField.secureTextEntry = !_passwordField.secureTextEntry;
 }
 
@@ -182,18 +212,15 @@
  */
 - (void)keyboardWillShow:(NSNotification *)note
 {
-    
     // 1.取出键盘的frame
     //zzzzCGRect keyboardF = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     // 2.取出键盘弹出的时间
     CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     // 3.执行动画
-  
     [UIView animateWithDuration:duration animations:^{
-        self.view.transform = CGAffineTransformMakeTranslation(0, -120);
+        self.view.transform = CGAffineTransformMakeTranslation(0, -100);
         _backBut.hidden = YES;// 上移或者导航栏效果不理想，直接隐藏返回键
     }];
-
 }
 
 /**
@@ -218,34 +245,88 @@
     NSLog(@"登录成功   %@",systemVersion.userInfo);
     SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
     [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
-//    [webServict acloudCheckExist:[NSString stringWithFormat:@"%@ %@",[systemVersion.userInfo objectForKey:@"LOGINTYPE"],[[[SMAthirdPartyLoginTool getinstance] oauth] openId]] success:^(bool exit) {
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
+    //    [webServict acloudCheckExist:[NSString stringWithFormat:@"%@ %@",[systemVersion.userInfo objectForKey:@"LOGINTYPE"],[[[SMAthirdPartyLoginTool getinstance] oauth] openId]] success:^(bool exit) {
+    //
+    //    } failure:^(NSError *error) {
+    //
+    //    }];
     [webServict acloudLoginWithOpenId:systemVersion.userInfo[@"OPENID"] provider:LoginProvider accessToken:systemVersion.userInfo[@"TOKEN"] success:^(id result) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUD];
         });
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
-        });
+        
+        [webServict acloudDownLHeadUrlWithAccount:systemVersion.userInfo[@"OPENID"] Success:^(id result) {
+            
+        } failure:^(NSError *error) {
+        }];
+//        if (![result objectForKey:@"nickName"] && [[result objectForKey:@"nickName"] isEqualToString:@""]) {
+            SMAUserInfo *user = [[SMAUserInfo alloc] init];
+            user.userID = systemVersion.userInfo[@"OPENID"];
+            user.userPass = _passwordField.text;
+            user.userWeigh = @"60";
+            user.userHeight = @"170";
+            user.userSex = @"1";
+            user.userAge = @"26";
+            user.userName = @"Welcome";
+            user.userGoal = @"5000";
+            [SMAAccountTool saveUser:user];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
+            });
+            dispatch_async(dispatch_get_main_queue(), ^{
+               
+            });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMANickViewController"];
+                controller.leftItemHidden = YES;
+                [UIApplication sharedApplication].keyWindow.rootViewController=controller;
+            });
+            
+//        }
+//        else{
+//            SMAUserInfo *user = [[SMAUserInfo alloc]init];
+//            user.userName = [result objectForKey:@"nickName"];
+//            user.userID = systemVersion.userInfo[@"OPENID"];
+//            user.userPass = _passwordField.text;
+//            user.userHeight = [result objectForKey:@"hight"];
+//            user.userWeigh = [result objectForKey:@"weight"];
+//            user.userAge = [result objectForKey:@"age"];
+//            user.userSex = [result objectForKey:@"sex"];
+//            user.userGoal = [result objectForKey:@"steps_Aim"];
+//            user.userHeadUrl = [result objectForKey:@"_avatar"];
+//            [SMAAccountTool saveUser:user];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
+//            });
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+//                controller.isLogin = NO;
+//                NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+//                NSArray *arrControllers = controller.viewControllers;
+//                for (int i = 0; i < arrControllers.count; i ++) {
+//                    SMANavViewController *nav = [arrControllers objectAtIndex:i];
+//                    nav.tabBarItem.title = itemArr[i];
+//                }
+//                [UIApplication sharedApplication].keyWindow.rootViewController=controller;
+//            });
+//        }
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUD];
-        if ([error.userInfo objectForKey:@"errorInfo"]) {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]]];
-        }
-        else if (error.code == -1001) {
-            [MBProgressHUD showError:SMALocalizedString(@"login_timeout")];
-            NSLog(@"超时");
-        }
-        else if (error.code == -1009) {
-            [MBProgressHUD showError:SMALocalizedString(@"login_lostNet")];
-        }
-            });
+            [MBProgressHUD hideHUD];
+            if ([error.userInfo objectForKey:@"errorInfo"]) {
+                [MBProgressHUD showError:[NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]]];
+            }
+            else if (error.code == -1001) {
+                [MBProgressHUD showError:SMALocalizedString(@"login_timeout")];
+                NSLog(@"超时");
+            }
+            else if (error.code == -1009) {
+                [MBProgressHUD showError:SMALocalizedString(@"login_lostNet")];
+            }
+        });
     }];
-
+    
 }
 
 - (void)loginFailed:(NSNotification *)systemVersion
@@ -255,7 +336,7 @@
 
 - (void) loginCancelled:(NSNotification *)systemVersion
 {
-     NSLog(@"登录取消");
+    NSLog(@"登录取消");
 }
 
 -(void)setTheLocalAreaCode
@@ -327,8 +408,8 @@
     NSString* tt=[locale objectForKey:NSLocaleCountryCode];
     NSString* defaultCode=[dictCodes objectForKey:tt];
     _codeLab.text=[NSString stringWithFormat:@"+%@",defaultCode];
-    
-//    state.text=[locale displayNameForKey:NSLocaleCountryCode value:tt];
+    [_countryBut setTitle:[locale displayNameForKey:NSLocaleCountryCode value:tt] forState:UIControlStateNormal];
+    //    state.text=[locale displayNameForKey:NSLocaleCountryCode value:tt];
     
 }
 
@@ -336,7 +417,8 @@
 - (void)setSecondData:(NSString *)code
 {
     NSLog(@"the area data：%@,", code);
-    _codeLab.text = code;
+    _codeLab.text = [NSString stringWithFormat:@"+%@",[[code componentsSeparatedByString:@","] lastObject]];
+    [_countryBut setTitle:[[code componentsSeparatedByString:@","] firstObject] forState:UIControlStateNormal];
 }
 
 #pragma mark *****
@@ -373,13 +455,13 @@ static bool passInt;
     return YES;
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

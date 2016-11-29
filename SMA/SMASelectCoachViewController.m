@@ -28,7 +28,7 @@
 }
 
 - (void)initializeMethod{
-    deviceArr = @[@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail")],SMALocalizedString(@"setting_band_buywatch")];
+    deviceArr = @[@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail")],@[@"SMA-07B",SMALocalizedString(@"setting_band_07detail")],SMALocalizedString(@"setting_band_buywatch")];
 }
 
 - (void)createUI{
@@ -95,9 +95,9 @@
     if (indexPath.row == 0) {
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
     }
-//    else if (indexPath.row == 1){
-//        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM05"];
-//    }
+    else if (indexPath.row == 1){
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"up01"];
+    }
     if (indexPath.row == deviceArr.count - 1) {
          [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/Store"]];
     }

@@ -28,10 +28,11 @@
 
 - (void)rollView:(nonnull ZXRollView *)rollView setViewForRollView:(nonnull UIView *)view atIndex:(NSInteger)index;
 
+- (void)rollView:(nonnull ZXRollView *)rollView setNewViewForRollView:(nonnull UIView *)view atIndex:(NSInteger)index;
 @optional
 - (void)rollView:(nonnull ZXRollView *)rollView setAllViewForRollView:(nonnull UIView *)view atIndex:(NSInteger)index direction:(int)direct;
 - (void)scrollViewWillEndDecelerating:(nonnull ZXRollView *)scrollView AtIndex:(NSInteger)index;
-- (void)scrollViewDidEndDecelerating:(nonnull ZXRollView *)scrollView AtIndex:(NSInteger)index;
+- (void)ZXscrollViewDidEndDecelerating:(nonnull ZXRollView *)scrollView AtIndex:(NSInteger)index;
 /**
  *  点击事件回调
  *

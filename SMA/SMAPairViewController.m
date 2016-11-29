@@ -12,6 +12,7 @@
 {
     NSTimer *timer;
     SMABindRemindView *remindView;
+    CALayer *searchImalayer;
 }
 @end
 
@@ -31,8 +32,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
 - (void)initializeMehtod{
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [SmaBleMgr reunitonPeripheral:NO];//关闭重连机制
+    [SmaBleMgr disconnectBl];
+    [SmaBleMgr stopSearch];
+    SmaBleMgr.sortedArray = nil;//清除设备信息
+//     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)updateUI{
@@ -48,6 +61,7 @@
     _searchBut.layer.cornerRadius = 126/2;
     _searchBut.titleLabel.numberOfLines = 2;
     _searchBut.titleLabel.textAlignment = NSTextAlignmentCenter;
+    _searchBut.selected = YES;
     [_searchBut setTitle:SMALocalizedString(@"setting_band_search") forState:UIControlStateNormal];
     [_searchBut setTitle:SMALocalizedString(@"setting_band_searching") forState:UIControlStateSelected];
     _ignoreLab.text = SMALocalizedString(@"setting_band_remind07");
@@ -64,18 +78,41 @@
     _gradientLayer.startPoint = CGPointMake(0,0);
     _gradientLayer.endPoint = CGPointMake(0, 1);
     [_searchView.layer insertSublayer:_gradientLayer atIndex:0];
+    
+    searchImalayer = [CALayer layer];
+    searchImalayer.contents = (__bridge id _Nullable)([UIImage imageNamed:@"icon-xuanzhuan"].CGImage);
+    searchImalayer.frame       = _searchBut.bounds;
+    [_searchBut.layer addSublayer:searchImalayer];
 
+    [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+   
+    SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+    [SmaBleMgr scanBL:12];
 }
 
 - (IBAction)searchSelector:(UIButton *)sender{
     sender.selected = !sender.selected;
     if (sender.selected) {
+        [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
         SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
-        [SmaBleMgr scanBL:0];
+        [SmaBleMgr scanBL:12];
     }
     else{
-//        [SmaBleMgr scanBL:0];
+        [SmaBleMgr stopSearch];
+        [searchImalayer removeAllAnimations];
     }
+}
+
+- (CABasicAnimation *)searchAnimation{
+    CABasicAnimation *animation = [ CABasicAnimation animationWithKeyPath: @"transform" ];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    //围绕Z轴旋转，垂直与屏幕
+    animation.toValue = [ NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI / 2, 0.0, 0.0, 1.0) ];
+    animation.duration = 0.5;
+    //旋转效果累计，先转180度，接着再旋转180度，从而实现360旋转
+    animation.cumulative = YES;
+    animation.repeatCount = 10000;
+    return animation;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -90,11 +127,11 @@
     if (!cell) {
       cell = [[[NSBundle mainBundle] loadNibNamed:@"SMADeviceCell" owner:self options:nil] lastObject];
     }
-    
     if (SmaBleMgr.sortedArray && SmaBleMgr.sortedArray.count > 0 && indexPath.row < SmaBleMgr.sortedArray.count) {
         ScannedPeripheral *peripheral = [SmaBleMgr.sortedArray objectAtIndex:indexPath.row];
         cell.peripheralName.text = [peripheral name];
         cell.RSSI.text = [NSString stringWithFormat:@"%d",peripheral.RSSI];
+        cell.rrsiIma.image = [self rrsiImageWithRrsi:peripheral.RSSI];
         cell.UUID.text = peripheral.UUIDstring;
     }
     else{
@@ -126,6 +163,11 @@
     [_deviceTableView reloadData];
 }
 
+- (void)searchTimeOut{
+    [searchImalayer removeAllAnimations];
+    NSLog(@"搜索超时");
+}
+
 - (void)bleDisconnected:(NSString *)error{
     if (error) {
         if (timer) {
@@ -133,11 +175,28 @@
             timer = nil;
         }
         [MBProgressHUD hideHUD];
+        [SmaBleMgr stopSearch];
+        [searchImalayer removeAllAnimations];
+        UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"连接失败") message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"暂不绑定") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"重试") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+            SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+            [SmaBleMgr scanBL:12];
+        }];
+        [aler addAction:canAction];
+        [aler addAction:confAction];
+        [self presentViewController:aler animated:YES completion:^{
+           
+        }];
+
         if ([error isEqualToString:@"蓝牙关闭"]) {
 //            [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectfail")];
         }
         else{
-        [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectfail")];
+//        [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectfail")];
         }
     }
 }
@@ -159,7 +218,9 @@
         [remindView removeFromSuperview];
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindsuccess")];
+        [SmaBleMgr reunitonPeripheral:YES];//开启重连机制
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSLog(@"绑定成功===%@",[[SMAAccountTool userInfo] watchUUID]);
            [self.navigationController popToRootViewControllerAnimated:YES];
         });
     }
@@ -169,8 +230,27 @@
             timer = nil;
         }
         [remindView removeFromSuperview];
+//        [MBProgressHUD hideHUD];
+//        [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindfail")];
+        
         [MBProgressHUD hideHUD];
-        [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindfail")];
+        [SmaBleMgr disconnectBl];
+//        [SmaBleMgr stopSearch];
+        [searchImalayer removeAllAnimations];
+        UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_band_bindfail") message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"暂不绑定") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"重试") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+            SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+            [SmaBleMgr scanBL:12];
+        }];
+        [aler addAction:canAction];
+        [aler addAction:confAction];
+        [self presentViewController:aler animated:YES completion:^{
+           
+        }];
     }
 }
 
@@ -179,11 +259,45 @@
         [timer invalidate];
         timer = nil;
     }
-    [MBProgressHUD hideHUD];
-    [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectTimeOut")];
+//    [MBProgressHUD hideHUD];
+//    [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectTimeOut")];
     [SmaBleMgr disconnectBl];
+    [MBProgressHUD hideHUD];
+//    [SmaBleMgr stopSearch];
+    [searchImalayer removeAllAnimations];
+    UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_band_connectTimeOut") message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"暂不绑定") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"重试") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+        SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+        [SmaBleMgr scanBL:12];
+
+    }];
+    [aler addAction:canAction];
+    [aler addAction:confAction];
+    [self presentViewController:aler animated:YES completion:^{
+        
+    }];
 }
 
+- (UIImage *)rrsiImageWithRrsi:(int)rrsi{
+    UIImage *image;
+    if (rrsi > -50) {
+        image = [UIImage imageWithName:@"icon_xinhao_1"];
+    }
+    else if (rrsi < -50 && rrsi > -70){
+        image = [UIImage imageWithName:@"icon_xinhao_2"];
+    }
+    else if (rrsi < -70 && rrsi > -90){
+        image = [UIImage imageWithName:@"icon_xinhao_3"];
+    }
+    else{
+        image = [UIImage imageWithName:@"icon_xinhao_4"];
+    }
+    return image;
+}
 /*
 #pragma mark - Navigation
 

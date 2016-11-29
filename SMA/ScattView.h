@@ -25,9 +25,8 @@ typedef enum {
 @end
 
 @interface ScattView : UIView<CPTScatterPlotDelegate,CPTPlotDataSource, BaseTouchesViewDelegate,CPTPlotSpaceDelegate,CPTBarPlotDelegate,CPTPlotDelegate>
-{
-     CPTGraph *graph;
-}
+
+@property (nonatomic, strong)     CPTGraph *graph;
 @property (nonatomic, weak)       id<corePlotViewDelegate> delegate;
 @property (nonatomic, assign)     CPTGraphMode DrawMode;  //绘图模式
 @property (nonatomic, assign)     int HRDateMode;  //日期选择模式
@@ -36,6 +35,7 @@ typedef enum {
 @property (nonatomic, assign)     NSUInteger selectIdx; //所选择的柱状图
 
 @property (nonatomic, assign)     BOOL selectColor;  //选中是否改变颜色
+@property (nonatomic, assign)     BOOL reloadFinish;  //选中是否reload完成
 @property (nonatomic, assign)     BOOL isZoom;  //选中是否改变颜色
 @property BOOL hideYAxisLabels;  //是否需要隐藏y轴刻度文本
 @property BOOL showLegend;  //是否显示图例
@@ -60,8 +60,11 @@ typedef enum {
 @property (nonatomic, strong)NSString *xAxisTitle;
 @property (nonatomic, strong)NSString *yAxisTitle;
 @property (nonatomic, assign)CGFloat xCoordinateDecimal; //x轴起始坐标
+@property (nonatomic, assign)CGFloat yCoordinateDecimal; //x轴起始坐标
+@property (nonatomic, assign)CGFloat xRangeLength; //定义Y轴显示长度
 @property (nonatomic, assign)CGFloat ylabelLocation; //定义Y轴间距离
 @property (nonatomic, assign)CGFloat yRangeLength; //定义Y轴显示长度
+@property (nonatomic, assign)CGFloat barOffset;
 @property (nonatomic, strong)CPTColor *poinColors;
 ////////////////手指触摸
 @property (nonatomic, strong) NSNumber *selectedCoordination;

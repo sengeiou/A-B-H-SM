@@ -34,7 +34,7 @@
         [formatter1 setTimeZone:GTMzone];
     }
     NSTimeInterval timeIntervalSince1970 = [[formatter dateFromString:date] timeIntervalSince1970];
-    return timeIntervalSince1970 * 1000;
+    return timeIntervalSince1970 * 1000; //保存毫秒
 }
 
 + (NSString *)stringFormmsecIntervalSince1970:(NSTimeInterval)interval timeZone:(NSTimeZone *)zone{
@@ -47,6 +47,18 @@
     }
     NSString *nowDate = [formatter stringFromDate:date];
   return nowDate;
+}
+
++ (NSString *)stringFormmsecIntervalSince1970:(NSTimeInterval)interval withFormatStr:(NSString *)formatterStr timeZone:(NSTimeZone *)zone{
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval/1000];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:formatterStr];
+    if (zone) {
+        NSTimeZone* GTMzone = zone;
+        [formatter setTimeZone:GTMzone];
+    }
+    NSString *nowDate = [formatter stringFromDate:date];
+    return nowDate;
 }
 
 + (NSString *)minuteFormDate:(NSString *)date{
@@ -95,11 +107,40 @@
 
 + (NSString *)monAndDateStringFormDateStr:(NSString *)dateString format:(NSString *)format{
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    NSTimeZone *zone = [NSTimeZone defaultTimeZone];
+    [formater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:zone.secondsFromGMT/3600]];
     [formater setDateFormat:format];
+//    NSLog(@"fewfg-----%@",[formater dateFromString:dateString]);
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay
                                          fromDate:[formater dateFromString:dateString]];
     NSString *monAndDate = [NSString stringWithFormat:@"%ld.%ld",(long)[comp month],(long)[comp day]];
     return monAndDate;
+}
+
++ (void)dat{
+    NSDate *beginDate = nil;
+    NSDate *endDate = nil;
+    NSTimeInterval calendarInterval;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setFirstWeekday:2];//设定周一为周首日
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月"];
+    NSString *timeString = @"2016年11月";
+    NSDate *localeDate = [formatter dateFromString:timeString];
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSInteger interval = [zone secondsFromGMTForDate:localeDate];
+    NSDate *now = [localeDate  dateByAddingTimeInterval: interval];
+    
+    BOOL ok = [calendar rangeOfUnit:NSMonthCalendarUnit startDate:&beginDate interval:&calendarInterval forDate:now];
+    //分别修改为 NSDayCalendarUnit NSWeekCalendarUnit NSYearCalendarUnit
+    if (ok) {
+        endDate = [beginDate dateByAddingTimeInterval:calendarInterval-1];
+    }
+    
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
+     NSString *updateTime = [formatter stringFromDate:endDate];
+    NSLog(@"fwefwfewgr===%@",updateTime);
 }
 @end

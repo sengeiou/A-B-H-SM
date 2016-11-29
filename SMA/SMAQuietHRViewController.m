@@ -47,6 +47,7 @@
 }
 
 - (void)createUI{
+    self.title = SMALocalizedString(@"device_HR_quiet");
     [self.navigationController.navigationBar setBackgroundImage:[UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[SmaColor colorWithHexString:@"#FF77A6" alpha:1]] ByGradientType:topToBottom size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     _quietTBView.delegate = self;
     _quietTBView.dataSource = self;
@@ -110,9 +111,8 @@
                 [self.dal deleteQuietHearReatDataWithDate:[[quietDaArr objectAtIndex:selectIdx] objectForKey:@"DATE"] time:[[quietDaArr objectAtIndex:selectIdx] objectForKey:@"TIME"]];
                 [quietDaArr removeObjectAtIndex:selectIdx];
             }
-            NSString *dateNow = [[NSDate date] yyyyMMddHHmmSSNoLineWithDate];
-            NSLog(@"fwfwef==%@",dateNow);
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:dateNow,@"DATE",quietView.quietField.text,@"HEART",@"SMA",@"INDEX",@"0",@"WEB",@"0",@"HRMODE",@"1",@"QUIET",[SMAAccountTool userInfo].userID,@"USERID", nil];
+            NSString *dateNow = [self.date yyyyMMddHHmmSSNoLineWithDate];
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:dateNow,@"DATE",quietView.quietField.text,@"HEART",@"SMA",@"INDEX",@"0",@"WEB",@"1",@"HRMODE",[SMAAccountTool userInfo].userID,@"USERID", nil];
                 NSMutableArray *hrArr = [NSMutableArray arrayWithObject:dic];
 
                 [self.dal insertHRDataArr:hrArr finish:^(id finish) {
@@ -127,7 +127,7 @@
                     break;
                 }
             }
-                NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:self.date.yyyyMMddNoLineWithDate,@"DATE",quietView.quietField.text,@"HEART",@"SMA",@"INDEX",moment,@"TIME",@"0",@"WEB",@"0",@"HRMODE",@"1",@"QUIET",[SMAAccountTool userInfo].userID,@"USERID", nil];
+                NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:self.date.yyyyMMddNoLineWithDate,@"DATE",quietView.quietField.text,@"HEART",@"SMA",@"INDEX",moment,@"TIME",@"0",@"WEB",@"1",@"HRMODE",[SMAAccountTool userInfo].userID,@"USERID", nil];
                 [quietDaArr insertObject:dic1 atIndex:0];
 
             [quietView.quietField resignFirstResponder];

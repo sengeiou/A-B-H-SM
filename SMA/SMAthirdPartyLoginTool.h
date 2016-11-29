@@ -22,5 +22,7 @@
 + (SMAthirdPartyLoginTool *)getinstance;
 + (void)resetSDK;
 - (BOOL)QQlogin;
+- (BOOL)iphoneQQInstalled;
 - (BOOL)WeChatLoginController:(UIViewController *)viewController;
+- (BOOL)isWXAppInstalled;
 @end

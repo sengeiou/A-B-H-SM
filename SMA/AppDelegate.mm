@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ACloudLib.h"
 #import "SMANavViewController.h"
+#import "SMATabbarController.h"
 //#import <TencentOpenAPI/TencentOAuth.h>
 //#import "WXApi.h"
 #import "SMAthirdPartyLoginTool.h"
@@ -22,17 +23,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [ACloudLib setMode:ACLoudLibModeTest Region:ACLoudLibRegionChina];
-    [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:282];
+    [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:375]; //282
     [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
-    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"我的")];
+   
+    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
     
     if ([SMAAccountTool userInfo].userID && ![[SMAAccountTool userInfo].userID isEqualToString:@""]) {
-        UITabBarController* controller = [MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+        
+        SMATabbarController* controller = [MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+        controller.isLogin = YES;
         NSArray *arrControllers = controller.viewControllers;
         for (int i = 0; i < arrControllers.count; i ++) {
             SMANavViewController *nav = [arrControllers objectAtIndex:i];
             nav.tabBarItem.title = itemArr[i];
         }
+        
+//        SMANavViewController* controller = [MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
+//        controller.leftItemHidden = YES;
+//        [UIApplication sharedApplication].keyWindow.rootViewController=controller;
         self.window.rootViewController = controller;
     }
     SMAUserInfo *info =[SMAAccountTool userInfo];

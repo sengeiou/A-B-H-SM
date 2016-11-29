@@ -26,8 +26,8 @@
 {
     NSMutableDictionary *userInfoDic;
 }
-static  NSInteger versionInteger = 1;//1为正式环境，3测试环境
-static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user_nick = @"nickName";NSString *user_token = @"token";NSString *user_hi = @"hight";NSString *user_we= @"weight";NSString *user_sex = @"sex";NSString *user_age = @"age";NSString *user_he = @"header_url";NSString *user_fri = @"friend_account";NSString *user_fName = @"friend_nickName";NSString *user_agree = @"agree";NSString *user_aim = @"steps_Aim";NSString *user_rate = @"rate";
+static  NSInteger versionInteger = 3;//1为正式环境，3测试环境
+static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user_nick = @"nickName";NSString *user_token = @"token";NSString *user_hi = @"hight";NSString *user_we= @"weight";NSString *user_sex = @"sex";NSString *user_age = @"age";NSString *user_he = @"_avatar";NSString *user_fri = @"friend_account";NSString *user_fName = @"friend_nickName";NSString *user_agree = @"agree";NSString *user_aim = @"steps_Aim";NSString *user_rate = @"rate";
 //****** account 用户账号；_id 蓝牙设备唯一ID；nickName 用户名；token 友盟token；hight 身高；weight 体重；sex 性别；age 年龄；header_url 头像链接；friend_account 好友账号；agree 是否同意好友；aim_steps 运动目标；*****//
 
 #pragma mark *******云平台接口*******
@@ -109,9 +109,31 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     
     [ACAccountManager loginWithOpenId:openId provider:provider accessToken:accessToken callback:^(ACUserInfo *user, NSError *error) {
         if (!error) {
-            if (success) {
-                success(user);
+            if (![user.phone isEqualToString:@""]) {
+                [userInfoDic setValue:user.phone forKey:user_acc];
             }
+            if (![user.email isEqualToString:@""]) {
+                [userInfoDic setValue:user.phone forKey:user_acc];
+            }
+            userInfoDic = [NSMutableDictionary dictionary];
+            [userInfoDic setValue:user.nickName forKey:user_nick];
+            
+            [self acloudGetUserifnfoSuccess:^(NSMutableDictionary *userDict) {
+                if (userDict) {
+                    if (success) {
+                        success(userInfoDic);
+                    }
+                }
+                else{
+                    if (failure) {
+                        failure(error);
+                    }
+                }
+            } failure:^(NSError *error) {
+                if (failure) {
+                    failure(error);
+                }
+            }];
         }
         else{
             if (failure) {
@@ -206,11 +228,13 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     [msg putInteger:@"age" value:info.userAge.integerValue?info.userAge.integerValue:@"".integerValue];
     //    [msg putString:@"client_id" value:[SmaUserDefaults objectForKey:@"clientId"]?[SmaUserDefaults objectForKey:@"clientId"]:@""];
     [msg putString:@"device_type" value:@"ios"];
-    [msg putString:@"header_url" value:@""];
+    [msg putString:@"_avatar" value:info.userHeadUrl?info.userHeadUrl:@""];
     [msg putFloat:@"hight" value:info.userHeight.floatValue?info.userHeight.floatValue:@"".floatValue];
     [msg putInteger:@"sex" value:info.userSex.integerValue?info.userSex.integerValue:@"".integerValue];
-    [msg putInteger:@"steps_Aim" value:info.userSex.integerValue?info.userSex.integerValue:@"".integerValue];
-    [msg putFloat:@"weight" value:info.userGoal.floatValue?info.userGoal.floatValue:@"".floatValue];
+    [msg putInteger:@"steps_Aim" value:info.userGoal.integerValue?info.userGoal.integerValue:@"".integerValue];
+    [msg putFloat:@"weight" value:info.userWeigh.floatValue?info.userWeigh.floatValue:@"".floatValue];
+    [msg putInteger:@"unit" value:info.unit.intValue];
+    //    [msg putFloat:@"weight" value:info.userGoal.floatValue?info.userGoal.floatValue:@"".floatValue];
     //    [msg putInteger:@"rate" value:quitHR];
     [ACAccountManager setUserProfile:msg callback:^(NSError *error) {
         if (!error) {
@@ -274,6 +298,19 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     fileInfo.filePath = uniquePath;
     fileInfo.acl = [[ACACL alloc] init];
     ACFileManager *upManager = [[ACFileManager alloc] init];
+    [upManager getDownloadUrlWithfile:fileInfo ExpireTime:0 payloadCallback:^(NSString *urlString, NSError *error) {
+        if (urlString) {
+            SMAUserInfo *user = [SMAAccountTool userInfo];
+            user.userHeadUrl = urlString;
+            [SMAAccountTool saveUser:user];
+            [self acloudPutUserifnfo:user success:^(NSString *success) {
+                
+            } failure:^(NSError *error) {
+                
+            }];
+        }
+    }];
+    
     [upManager uploadFileWithfileInfo:fileInfo progressCallback:^(float progress) {
     } voidCallback:^(ACMsg *responseObject, NSError *error) {
         NSLog(@"error %@",error);
@@ -301,15 +338,14 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     ACFileInfo * fileInfo1 = [[ACFileInfo alloc] initWithName:[NSString stringWithFormat:@"%@.jpg",account] bucket:@"/sma/watch/header" Checksum:0];
     ACFileManager *upManager = [[ACFileManager alloc] init];
     [upManager getDownloadUrlWithfile:fileInfo1 ExpireTime:0 payloadCallback:^(NSString *urlString, NSError *error) {
-        [upManager downFileWithsession:urlString checkSum:0 callBack:^(float progress, NSError *error) {
-            NSLog(@"callBack==%f   error==%@",progress,error);
+        [self acloudDownFileWithsession:urlString callBack:^(float progress, NSError *error) {
             if (error) {
                 if (failure) {
                     failure(error);
                 }
             }
-        } CompleteCallback:^(NSString *filePath) {
             
+        } CompleteCallback:^(NSString *filePath) {
             if (filePath) {
                 [userInfoDic setValue:filePath forKey:user_he];
                 if (success) {
@@ -325,6 +361,25 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     }];
 }
 
+- (void)acloudDownFileWithsession:(NSString *)url callBack:(void(^)(float progress,NSError * error))callback
+                 CompleteCallback:(void (^)(NSString *filePath))completeCallback{
+    ACFileManager *upManager = [[ACFileManager alloc] init];
+    [upManager downFileWithsession:url checkSum:0 callBack:^(float progress, NSError *error) {
+//        NSLog(@"callBack==%f   error==%@  %@",progress,error,url);
+        if (error) {
+            if (callback) {
+                callback(progress,error);
+            }
+        }
+    } CompleteCallback:^(NSString *filePath) {
+//        NSLog(@"filePath==%@",filePath);
+        if (filePath) {
+            if (completeCallback) {
+                completeCallback(filePath);
+            }
+        }
+    }];
+}
 
 //获取个人信息
 - (void)acloudGetUserifnfoSuccess:(void (^)(NSMutableDictionary *))success failure:(void (^)(NSError *))failure{
@@ -460,6 +515,139 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 }
 
 //上传数据
+- (void)acloudSyncAllDataWithAccount:(NSString *)account callBack:(void (^)(id finish)) callBack{
+    SMADatabase *dal = [[SMADatabase alloc] init];
+    NSMutableArray *spArr = [dal readNeedUploadSPData];
+    NSMutableArray *slArr = [dal readNeedUploadSLData];
+    NSMutableArray *rhArr = [dal readNeedUploadHRData];
+    NSMutableArray *alArr = [dal readNeedUploadALData];
+    ACObject *hrSetObject = [SMAWebDataHandleInfo heartRateSetObject];
+    ACObject *sedentObject = [SMAWebDataHandleInfo sedentarinessSetObject];
+    
+    ACMsg *msg = [[ACMsg alloc] init];
+    msg.name = @"upload_all_data";
+    
+    ACObject *dataObject = [[ACObject alloc] init];
+    [dataObject putString:@"account" value:account];
+    
+    if (spArr.count > 0) {
+        ACObject *obje = [[ACObject alloc] init];
+        [obje putString:@"account" value:[[spArr objectAtIndex:0] objectForKey:@"account"]];
+        [obje putString:@"date" value:[[spArr objectAtIndex:0] objectForKey:@"date"]];
+        [obje putLongLong:@"time" value:[[[spArr objectAtIndex:0] objectForKey:@"time"] longLongValue]/1000];
+        [obje putInteger:@"step" value:[[[spArr objectAtIndex:0] objectForKey:@"step"] integerValue]];
+        [obje putInteger:@"mode" value:[[[spArr objectAtIndex:0] objectForKey:@"mode"] integerValue]];
+        [dataObject put:@"sport_list" value:spArr];
+    }
+    if (slArr.count > 0) {
+        [dataObject put:@"sleep_list" value:slArr];
+    }
+    if (rhArr.count > 0) {
+        [dataObject put:@"rate_list" value:rhArr];
+    }
+    if (alArr.count > 0) {
+        [dataObject put:@"alarm_list" value:alArr];
+    }
+    if (hrSetObject) {
+        [dataObject put:@"heart_rate_settings" value:hrSetObject];
+    }
+    if (sedentObject) {
+        [dataObject put:@"sedentariness_settings" value:sedentObject];
+    }
+    [msg put:@"data" value:dataObject];
+    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+        NSLog(@"sendToService %@  %@",responseMsg,error);
+        if (error) {
+            callBack(error);
+            return ;
+        }
+       
+            [SMAWebDataHandleInfo updateSPData:spArr finish:^(id finish) {
+                
+            }];
+            [SMAWebDataHandleInfo updateSLData:slArr finish:^(id finish) {
+                
+            }];
+            [SMAWebDataHandleInfo updateHRData:rhArr finish:^(id finish) {
+                
+            }];
+            [SMAWebDataHandleInfo updateALData:alArr finish:^(id finish) {
+                
+            }];
+       
+    }];
+}
+
+//下载数据
+- (void)acloudDownLDataWithAccount:(NSString *)account callBack:(void (^)(id finish))callback{
+    ACMsg *msg = [[ACMsg alloc] init];
+    msg.name = @"download_all_data";
+    ACObject *dataObject = [[ACObject alloc] init];
+    [dataObject putString:@"account" value:account];
+    [msg put:@"data" value:dataObject];
+    __block NSInteger saveAccount = 0;
+    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+        NSLog(@"acloudDownLDataWithAccount %@  %@",responseMsg,error);
+        if (error) {
+            callback(error.localizedDescription);
+            return ;
+        }
+        ACObject *backObject = [responseMsg getACObject:@"data"];
+        NSInteger backAccount = [[backObject getKeys] count];
+        NSMutableArray *spArr = [(NSMutableArray *)[backObject get:@"sport_list"] mutableCopy];
+        NSMutableArray *slArr = [(NSMutableArray *)[backObject get:@"sleep_list"] mutableCopy];
+        NSMutableArray *hrArr = [(NSMutableArray *)[backObject get:@"rate_list"] mutableCopy];
+        NSMutableArray *alArr = [(NSMutableArray *)[backObject get:@"alarm_list"] mutableCopy];
+        ACObject *sedentObject = [backObject getACObject:@"sedentariness_settings"];
+        ACObject *hrObject = [backObject getACObject:@"heart_rate_settings"];
+        if (sedentObject) {
+            saveAccount ++;
+            [SMAWebDataHandleInfo saveWebSedentarinessSetObject:sedentObject];
+        }
+        if (hrObject) {
+            saveAccount ++;
+            [SMAWebDataHandleInfo saveWebHeartRateSetObject:hrObject];
+        }
+        if (spArr.count > 0) {
+            [SMAWebDataHandleInfo updateSPData:spArr finish:^(id finish) {
+                NSLog(@"spArr===%@",finish);
+                saveAccount ++;
+                if (saveAccount == backAccount) {
+                    callback(@"finish");
+                }
+            }];
+        }
+        if (slArr.count > 0) {
+            [SMAWebDataHandleInfo updateSLData:slArr finish:^(id finish) {
+                NSLog(@"slArr===%@",finish);
+                saveAccount ++;
+                if (saveAccount == backAccount) {
+                    callback(@"finish");
+                }
+            }];
+        }
+        if (hrArr.count > 0) {
+            [SMAWebDataHandleInfo updateHRData:hrArr finish:^(id finish) {
+                NSLog(@"hrArr===%@",finish);
+                saveAccount ++;
+                if (saveAccount == backAccount) {
+                    callback(@"finish");
+                }
+            }];
+        }
+        if (alArr.count > 0) {
+            [SMAWebDataHandleInfo updateALData:alArr finish:^(id finish) {
+                NSLog(@"alArr===%@",finish);
+                saveAccount ++;
+                if (saveAccount == backAccount) {
+                    callback(@"finish");
+                }
+            }];
+        }
+    }];
+}
+
+//上传数据
 //- (void)acloudSyncAllDataWithAccount:(NSString *)account sportDic:(NSMutableArray *)sport sleepDic:(NSMutableArray *)sleep clockDic:(NSMutableArray *)clock HRDic:(NSMutableArray *)hr success:(void (^)(id))success failure:(void (^)(NSError *))failure{
 //    __block int i = 0;
 //    SmaSeatInfo *setInfo = [SmaAccountTool seatInfo];
@@ -530,108 +718,108 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 //}
 
 //下载数据
-- (void)acloudDownLDataWithAccount:(NSString *)account success:(void (^)(id))success failure:(void (^)(NSError *))failure{
-    __block int i = 0;
-    ACMsg *Spmsg = [[ACMsg alloc] init];
-    Spmsg.name = @"sync_sport";
-    [Spmsg putString:@"user_account" value:account?account:@""];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:Spmsg callback:^(ACMsg *responseMsg, NSError *error) {
-        if (!error) {
-            [self clearUserSportWithMsg:responseMsg sportData:nil];
-            i++;
-            if (i==5) {
-                if (success) {
-                    success(error);
-                }
-            }
-        }
-        else {
-            if (failure) {
-                failure(error);
-            }
-        }
-    }];
-    
-    ACMsg *Slmsg = [[ACMsg alloc] init];
-    Slmsg.name = @"sync_sleep";
-    [Slmsg put:@"user_account" value:account?account:@""];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:Slmsg callback:^(ACMsg *responseMsg, NSError *error) {
-        if (!error) {
-            [self clearUserSleeptWithMsg:responseMsg sleepData:nil Account:account];
-            i++;
-            if (i==5) {
-                if (success) {
-                    success(error);
-                }
-            }
-        }
-        else {
-            if (failure) {
-                failure(error);
-            }
-        }
-    }];
-    
-    ACMsg *Clmsg = [[ACMsg alloc] init];
-    Clmsg.name = @"sync_clock";
-    [Clmsg put:@"user_account" value:account?account:@""];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:Clmsg callback:^(ACMsg *responseMsg, NSError *error) {
-        if (!error) {
-            [self clearUserClockWithMsg:responseMsg Account:account];
-            i++;
-            if (i==5) {
-                if (success) {
-                    success(error);
-                }
-            }
-        }
-        else {
-            if (failure) {
-                failure(error);
-            }
-        }
-    }];
-    
-    ACMsg *smamsg = [[ACMsg alloc] init];
-    smamsg.name = @"sync_sma";
-    [smamsg put:@"user_account" value:account?account:@""];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:smamsg callback:^(ACMsg *responseMsg, NSError *error) {
-        if (!error) {
-            [self clearUserSatWithMsg:responseMsg];
-            i++;
-            if (i==5) {
-                if (success) {
-                    success(error);
-                }
-            }
-        }
-        else {
-            if (failure) {
-                failure(error);
-            }
-        }
-    }];
-    
-    ACMsg *HRmsg = [[ACMsg alloc] init];
-    HRmsg.name = @"sync_rate";
-    [HRmsg put:@"user_account" value:account?account:@""];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:HRmsg callback:^(ACMsg *responseMsg, NSError *error) {
-        if (!error) {
-            [self clearUserHRWithMsg:responseMsg HRData:nil];
-            i++;
-            if (i==5) {
-                if (success) {
-                    success(error);
-                }
-            }
-        }
-        else {
-            if (failure) {
-                failure(error);
-            }
-        }
-    }];
-}
+//- (void)acloudDownLDataWithAccount:(NSString *)account success:(void (^)(id))success failure:(void (^)(NSError *))failure{
+//    __block int i = 0;
+//    ACMsg *Spmsg = [[ACMsg alloc] init];
+//    Spmsg.name = @"sync_sport";
+//    [Spmsg putString:@"user_account" value:account?account:@""];
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:Spmsg callback:^(ACMsg *responseMsg, NSError *error) {
+//        if (!error) {
+//            [self clearUserSportWithMsg:responseMsg sportData:nil];
+//            i++;
+//            if (i==5) {
+//                if (success) {
+//                    success(error);
+//                }
+//            }
+//        }
+//        else {
+//            if (failure) {
+//                failure(error);
+//            }
+//        }
+//    }];
+//
+//    ACMsg *Slmsg = [[ACMsg alloc] init];
+//    Slmsg.name = @"sync_sleep";
+//    [Slmsg put:@"user_account" value:account?account:@""];
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:Slmsg callback:^(ACMsg *responseMsg, NSError *error) {
+//        if (!error) {
+//            [self clearUserSleeptWithMsg:responseMsg sleepData:nil Account:account];
+//            i++;
+//            if (i==5) {
+//                if (success) {
+//                    success(error);
+//                }
+//            }
+//        }
+//        else {
+//            if (failure) {
+//                failure(error);
+//            }
+//        }
+//    }];
+//
+//    ACMsg *Clmsg = [[ACMsg alloc] init];
+//    Clmsg.name = @"sync_clock";
+//    [Clmsg put:@"user_account" value:account?account:@""];
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:Clmsg callback:^(ACMsg *responseMsg, NSError *error) {
+//        if (!error) {
+//            [self clearUserClockWithMsg:responseMsg Account:account];
+//            i++;
+//            if (i==5) {
+//                if (success) {
+//                    success(error);
+//                }
+//            }
+//        }
+//        else {
+//            if (failure) {
+//                failure(error);
+//            }
+//        }
+//    }];
+//
+//    ACMsg *smamsg = [[ACMsg alloc] init];
+//    smamsg.name = @"sync_sma";
+//    [smamsg put:@"user_account" value:account?account:@""];
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:smamsg callback:^(ACMsg *responseMsg, NSError *error) {
+//        if (!error) {
+//            [self clearUserSatWithMsg:responseMsg];
+//            i++;
+//            if (i==5) {
+//                if (success) {
+//                    success(error);
+//                }
+//            }
+//        }
+//        else {
+//            if (failure) {
+//                failure(error);
+//            }
+//        }
+//    }];
+//
+//    ACMsg *HRmsg = [[ACMsg alloc] init];
+//    HRmsg.name = @"sync_rate";
+//    [HRmsg put:@"user_account" value:account?account:@""];
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:HRmsg callback:^(ACMsg *responseMsg, NSError *error) {
+//        if (!error) {
+//            [self clearUserHRWithMsg:responseMsg HRData:nil];
+//            i++;
+//            if (i==5) {
+//                if (success) {
+//                    success(error);
+//                }
+//            }
+//        }
+//        else {
+//            if (failure) {
+//                failure(error);
+//            }
+//        }
+//    }];
+//}
 
 // 上传MAC
 - (void)uploadMACWithAccount:(NSString *)user MAC:(NSString *)mac watchType:(NSString *)smaName success:(void (^)(id))success failure:(void (^)(NSError *))failure{
@@ -684,21 +872,27 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 }
 
 //获取所有用户步数及排行
-- (void)acloudCheckRankingCallBack:(void(^)(NSArray *list,NSError *error))callback{
+- (void)acloudCheckRankingCallBack:(void(^)(NSMutableArray *lis,NSError *error))callback{
+    NSMutableArray *listArr = [NSMutableArray array];
     [ACRankingManager scanWithName:@"china" period:ACRankingPeriodDay timestamp:0 startRank:1 endRank:10 order:ACRankingOrderDESC callback:^(NSArray<ACRankingValue *> *list, NSError *error) {
         if (error) {   //错误处理
-
+            if (callback) {
+                callback([list mutableCopy],error);
+                return;
+            }
         }
-        if (callback) {
-            callback(list,error);
-        }
-        ACRankingValue *vlaue = [list firstObject];
-        NSLog(@"valie==%@  %@",[vlaue.profile getString:@"header_icon_url"],[vlaue.profile getString:@"nick_name"]);
         for (int i = 0; i < list.count; i ++) {
-            
+            ACRankingValue *value = [list objectAtIndex:i];
+            NSString *icon_url = [value.profile getString:@"_avatar"] ? [value.profile getString:@"_avatar"]:@"";
+            NSString *nickName = [value.profile getString:@"nick_name"] ? [value.profile getString:@"nick_name"]:@"";
+            double score = value.score;
+            long place = value.place;
+            __block NSDictionary *rankDic;
+            NSLog(@"fwgfwgg==%@  %@",[NSNumber numberWithDouble:score],[NSNumber numberWithLong:place]);
+            rankDic = [NSDictionary dictionaryWithObjectsAndKeys:nickName,@"NAME",icon_url,@"IMAGE",[NSNumber numberWithDouble:score],@"SCORE",[NSNumber numberWithLong:place],@"PLACE", nil];
+            [listArr addObject:rankDic];
         }
-//        NSLog(@"wefwfwgw==%@",[[list objectAtIndex:0] objectForKey:@"timestamp"]);
-        //list为`ACRankingValue`的实例对象, 即每一名次的详细信息
+        callback(listArr,nil);
     }];
 }
 //整理接收用户信息
@@ -710,14 +904,14 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         fmt.dateFormat = @"yyyy.MM.dd";
         NSString *str = [fmt stringFromDate:[NSDate date]];
         [quietDaArr addObject:@[str,[NSString stringWithFormat:@"%ld bpm",[responseMsg getLong:user_rate]]]];
-        [SMADefaultinfos putKey:@"quietDaArr" andValue:quietDaArr];
+        //        [SMADefaultinfos putKey:@"quietDaArr" andValue:quietDaArr];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_hi]] forKey:user_hi];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_we]] forKey:user_we];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_sex]] forKey:user_sex];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_age]] forKey:user_age];
-        [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_he]] forKey:user_he];
+        [userInfoDic setValue:[NSString stringWithFormat:@"%@",[responseMsg getString:user_he]] forKey:user_he];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]] forKey:user_aim];
-        [userInfoDic setObject:quietDaArr forKey:@"user_rate"];
+                [userInfoDic setObject:quietDaArr forKey:@"user_rate"];
         //        if ([NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]].intValue/1000==0) {
         //            [SMADefaultinfos removeValueForKey:@"stepPlan"];
         //        }

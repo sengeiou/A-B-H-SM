@@ -10,5 +10,5 @@
 #import "SMANavViewController.h"
 @interface SMAEmailRegisViewController : UIViewController<UITextFieldDelegate>
 @property (nonatomic, weak) IBOutlet UITextField *accountField, *passwordField, *verCodeField;
-@property (nonatomic, weak) IBOutlet UIButton  *protocolBut, *registerBut;
+@property (nonatomic, weak) IBOutlet UIButton  *geCodeBut, *protocolBut, *registerBut;
 @end

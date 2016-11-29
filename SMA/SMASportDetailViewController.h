@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SMADetailCell.h"
 #import "SMADetailCollectionCell.h"
-#import "ScattView.h"
 #import "NSDate+Formatter.h"
-#import "ZXRollView.h"
-@interface SMASportDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,corePlotViewDelegate,ZXRollViewDelegate>
+#import "WYScrollView.h"
+#import "UIBarButtonItem+CKQ.h"
+#import "SMARunTableViewController.h"
+@interface SMASportDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,WYScrollViewLocalDelegate>
 @property (nonatomic, strong) NSDate *date;
 @end

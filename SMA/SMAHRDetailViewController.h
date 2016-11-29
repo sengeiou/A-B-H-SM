@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ScattView.h"
 #import "SMADetailCell.h"
-#import "ZXRollView.h"
 #import "SMADetailCollectionCell.h"
 #import "SMAQuietHRViewController.h"
 #import "NSDate+Formatter.h"
-@interface SMAHRDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,corePlotViewDelegate,ZXRollViewDelegate>
+#import "WYScrollView.h"
+@interface SMAHRDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,WYScrollViewLocalDelegate>
 @property (nonatomic, strong) NSDate *date;
 @end

@@ -14,7 +14,6 @@
     NSDictionary *allNames;
     NSMutableDictionary *names;
     NSMutableArray  *keys;    
-    
     BOOL    isSearching;
 }
 

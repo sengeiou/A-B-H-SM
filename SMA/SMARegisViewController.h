@@ -10,8 +10,8 @@
 #import "SectionsViewController.h"
 #import "SMANavViewController.h"
 @interface SMARegisViewController : UIViewController<SecondViewControllerDelegate,UITextFieldDelegate>
-@property (nonatomic, weak) IBOutlet UILabel *codeLab;
+@property (nonatomic, weak) IBOutlet UILabel *codeLab, *countryLab;
 @property (nonatomic, weak) IBOutlet UITextField *accountField, *passwordField, *verCodeField;
-@property (nonatomic, weak) IBOutlet UIButton *emailBut, *protocolBut, *registerBut;
+@property (nonatomic, weak) IBOutlet UIButton *emailBut, *protocolBut, *registerBut, *verCodeBut, *backBut;
 
 @end

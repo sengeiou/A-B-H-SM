@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UIImage+CKQ.h"
 @interface SMAMeViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *personalLab, *goalLab, *moreLab, *helpLab, *signOutLab;
 @property (nonatomic, weak) IBOutlet UIButton *photoBut;

@@ -69,6 +69,10 @@ static SMAthirdPartyLoginTool *g_instance = nil;
    return [_oauth authorize:permissions];
 }
 
+- (BOOL)iphoneQQInstalled{
+  return [TencentOAuth iphoneQQInstalled];
+}
+
 - (BOOL)WeChatLoginController:(UIViewController *)viewController{
     SendAuthReq *req = [[SendAuthReq alloc] init];
     req.scope = WXauthScope;
@@ -77,5 +81,8 @@ static SMAthirdPartyLoginTool *g_instance = nil;
     return [WXApi sendAuthReq:req viewController:viewController delegate:[SMAthirdPartyManager sharedManager]];
 }
 
+- (BOOL)isWXAppInstalled{
+    return [WXApi isWXAppInstalled];
+}
 
 @end

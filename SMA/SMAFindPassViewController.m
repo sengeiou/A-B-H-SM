@@ -37,6 +37,12 @@
     [self.view endEditing:YES];
 }
 
+- (void)viewWillLayoutSubviews{
+    if (_emailFind) {
+        _countryTop.constant = _countryFloat;
+    }
+}
+
 - (void)createUI{
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.bounds = self.view.bounds;
@@ -50,14 +56,14 @@
     _gradientLayer.endPoint = CGPointMake(0, 1);
     [self.view.layer insertSublayer:_gradientLayer atIndex:0];
     
-    _accountField.placeholder = SMALocalizedString(@"login_accplace");
+    _accountField.placeholder = SMALocalizedString(@"register_accplace");
     _accountField.delegate = self;
     
     UIButton *eyesBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [eyesBut setImage:[UIImage imageNamed:@"icon_View"] forState:UIControlStateNormal];
     [eyesBut setImage:[UIImage imageNamed:@"icon_view_pre"] forState:UIControlStateSelected];
     [eyesBut addTarget:self action:@selector(eyseSelect:) forControlEvents:UIControlEventTouchUpInside];
-    eyesBut.frame = CGRectMake(0, 0, 32, 30);
+    eyesBut.frame = CGRectMake(0, 0, 35, 30);
     _passwordField.rightViewMode = UITextFieldViewModeAlways;
     _passwordField.rightView = eyesBut;
     _passwordField.secureTextEntry = YES;
@@ -68,7 +74,20 @@
     _verCodeField.delegate = self;
     
     [_verCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
- [_findPassBut setTitle:SMALocalizedString(@"login_findPass") forState:UIControlStateNormal];
+    _verCodeBut.titleLabel.numberOfLines = 2;
+   [_findPassBut setTitle:SMALocalizedString(@"login_findPass") forState:UIControlStateNormal];
+    _accountIma.image = [UIImage imageNamed:@"icon_shouji"];
+    _accW.constant = 17;
+    _accH.constant = 21;
+    _accTop.constant = 14;
+    if (_emailFind) {
+        _countryView.hidden = YES;
+        _accountField.placeholder = SMALocalizedString(@"register_emalplace");
+        _accountIma.image = [UIImage imageNamed:@"icon_email"];
+        _accW.constant = 20;
+        _accH.constant = 15;
+        _accTop.constant = 10;
+    }
 }
 
 - (void)update{
@@ -99,7 +118,7 @@
     {
         NSString *userAccount;
         [MBProgressHUD showMessage:SMALocalizedString(@"register_sending")];
-        if ([_accountField.text rangeOfString:@"@"].location) {
+        if (_emailFind) {
             userAccount = _accountField.text;
         }
         else{
@@ -148,12 +167,12 @@
     NSString *userAccount;
     [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
     SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
-    if ([_accountField.text rangeOfString:@"@"].location) {
-        userAccount = _accountField.text;
-    }
-    else{
+//    if ([_accountField.text rangeOfString:@"@"].location) {
+//        userAccount = _accountField.text;
+//    }
+//    else{
         userAccount = [NSString stringWithFormat:@"%@%@",[[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"] isEqualToString:@"0086"]?@"":[_codeLab.text stringByReplacingOccurrencesOfString:@"+" withString:@"00"],_accountField.text];
-    }
+//    }
     [webServict acloudResetPasswordWithAccount:userAccount verifyCode:_verCodeField.text password:_passwordField.text success:^(id result) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showSuccess:SMALocalizedString(@"login_findSucc")];
@@ -235,7 +254,15 @@
     NSString* tt=[locale objectForKey:NSLocaleCountryCode];
     NSString* defaultCode=[dictCodes objectForKey:tt];
     _codeLab.text=[NSString stringWithFormat:@"+%@",defaultCode];
+    _countryLab.text=[locale displayNameForKey:NSLocaleCountryCode value:tt];
+}
 
+#pragma mark - SecondViewControllerDelegate的方法
+- (void)setSecondData:(NSString *)code
+{
+    NSLog(@"the area data：%@,", code);
+    _codeLab.text = [NSString stringWithFormat:@"+%@",[[code componentsSeparatedByString:@","] lastObject]];
+    _countryLab.text = [[code componentsSeparatedByString:@","] firstObject];
 }
 
 /**
@@ -251,7 +278,7 @@
     // 3.执行动画
     
     [UIView animateWithDuration:duration animations:^{
-        self.view.transform = CGAffineTransformMakeTranslation(0, -120);
+        self.view.transform = CGAffineTransformMakeTranslation(0, -100);
         _backBut.hidden = YES;// 上移或者导航栏效果不理想，直接隐藏返回键
     }];
     
@@ -285,7 +312,7 @@ static int second = 60;
     [_verCodeBut setTitle:[NSString stringWithFormat:@"%d S",second] forState:UIControlStateNormal];
     if (second == 0) {
         second = 60;
-        [_verCodeBut setTitle:SMALocalizedString(@"register_getcode") forState:UIControlStateNormal];
+        [_verCodeBut setTitle:SMALocalizedString(@"register_getagain") forState:UIControlStateNormal];
         _verCodeBut.enabled = YES;
         [codeTimer invalidate];
         codeTimer = nil;

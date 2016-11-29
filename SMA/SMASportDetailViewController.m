@@ -11,19 +11,20 @@
 @interface SMASportDetailViewController ()
 {
     UIScrollView *mainScroll;
-    ZXRollView *detailScroll;
     UITableView *detailTabView;
     UICollectionView *detailColView;
-    ScattView *scattView;
+    WYScrollView *WYLocalScrollView;
     int cycle;
     NSUInteger showDataIndex;
     NSInteger selectTag;
-    NSMutableArray *dataArr;
     NSArray *collectionArr;
-    NSMutableArray *alldata;
-    BOOL firstCreate;
     NSDate *dateNow;
-    NSTimer *readXaxisTimer;
+    NSDate *dateRun;
+    NSDate *leftDate;
+    NSDate *rightDate;
+    NSMutableArray *aggregateData;
+    int oldDirection ;
+    int aggregateIndex;
 }
 @property (nonatomic, strong) SMADatabase *dal;
 
@@ -36,19 +37,16 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //    [self ui];
     [self createUI];
     [self initializeMethod];
-//     self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-      [self.navigationController.navigationBar setBackgroundImage:[UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#5790F9" alpha:1],[SmaColor colorWithHexString:@"#80C1F9" alpha:1]] ByGradientType:topToBottom size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#5790F9" alpha:1],[SmaColor colorWithHexString:@"#80C1F9" alpha:1]] ByGradientType:topToBottom size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (SMADatabase *)dal{
@@ -59,24 +57,34 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 }
 
 - (void)initializeMethod{
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    alldata = [self getFullDatasForOneDay:[self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES]];
-//         dispatch_async(dispatch_get_main_queue(), ^{
-             [self addSubViewWithCycle:0];
-//    });
-//});
-//    [self drawSPViewMode:1 spData:spArr];
+    //加载绘图区域所需要数据（左中右三页）
+    dateNow = self.date;
+    dateRun = self.date;
+    leftDate = self.date.yesterday;
+    rightDate = [self.date timeDifferenceWithNumbers:1];
+    NSMutableArray *nowData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate ]];
+    NSMutableArray *leftData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:leftDate.yyyyMMddNoLineWithDate toDate:leftDate.yyyyMMddNoLineWithDate ]];
+    NSMutableArray *rightData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:rightDate.yyyyMMddNoLineWithDate toDate:rightDate.yyyyMMddNoLineWithDate ]];
+    if (aggregateData) {
+        [aggregateData removeAllObjects];
+        aggregateData = nil;
+    }
+    aggregateData = [NSMutableArray array];
+    [aggregateData addObject:leftData];
+    [aggregateData addObject:nowData];
+    [aggregateData addObject:rightData];
+    [self addSubViewWithCycle:0];
 }
 
 - (void)createUI{
     self.title = [self dateWithYMDWithDate:self.date];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithIcon:@"跑步" highIcon:@"跑步" frame:CGRectMake(0, 0, 45, 30) target:self action:@selector(runButton) transfrom:0];
     self.view.backgroundColor = [UIColor whiteColor];
     mainScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height)];
     mainScroll.backgroundColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];
     mainScroll.contentSize = CGSizeMake(MainScreen.size.width, 600);
     mainScroll.delegate = self;
-    mainScroll.scrollEnabled = NO;
     [self.view addSubview:mainScroll];
     
     UIView *tabBarView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(mainScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
@@ -117,7 +125,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
     UIView *detailBackView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, 260)];
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
-    //    _gradientLayer.bounds = detailScroll.bounds;
     _gradientLayer.borderWidth = 0;
     _gradientLayer.frame = detailBackView.bounds;
     _gradientLayer.colors = [NSArray arrayWithObjects:
@@ -128,56 +135,55 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [detailBackView.layer insertSublayer:_gradientLayer atIndex:0];
     
     [mainScroll addSubview:detailBackView];
+    /** 设置本地scrollView的Frame及所需图片*/
+    WYLocalScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 260) WithLocalImages:aggregateData];
+    /** 设置滚动延时*/
+    WYLocalScrollView.AutoScrollDelay = 0;
+    WYLocalScrollView.selectColor = selectTag == 101 ? YES : NO;
+    WYLocalScrollView.xRangeLength = selectTag == 101 ? 25 : 4;
+    WYLocalScrollView.xCoordinateDecimal = selectTag == 101 ? 0 : 0.5;
+    WYLocalScrollView.identifiers = @[@"sport detail"];
+    WYLocalScrollView.mode = CPTGraphBarPlot;
+    //柱状图线颜色
+    WYLocalScrollView.lineColors = @[[CPTColor colorWithComponentRed:205/255.0 green:226/255.0 blue:251/255.0 alpha:1]];
+    WYLocalScrollView.banRightSlide = selectTag == 101 ? ([self.date.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate] ? YES : NO) : YES;
+    WYLocalScrollView.yValueHiden = selectTag == 101 ? NO : NO;
+    /** 获取本地图片的index*/
+    WYLocalScrollView.localDelagate = self;
+    /** 添加到当前View上*/
+    [detailBackView addSubview:WYLocalScrollView];
+    [WYLocalScrollView setMaxImageCount];
     
-    detailScroll = [[ZXRollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, 260)];
-    firstCreate = NO;
-    [detailBackView addSubview:detailScroll];
-    detailScroll.pageIndicatorColor = [UIColor clearColor];
-    detailScroll.backgroundColor = [UIColor clearColor];
-    detailScroll.currentPageIndicatorColor = [UIColor clearColor];
-    detailScroll.delegate = self;
-    detailScroll.autoRolling = NO;
-    detailScroll.tapGesture = NO;
-    detailScroll.hideIndicatorForSinglePage = YES;
-    detailScroll.interitemSpacing = 0;
-    if (selectTag == 101 && ![self.date.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
-        detailScroll.leftTopDrawing = YES;
-    }
-    if (selectTag != 101) {
-        detailScroll.scrollView.scrollEnabled = NO;
-    }
-    [detailScroll reloadViews];
-    
-    if (cycle == 0) {
-        UIView *stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(detailScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
+    if (selectTag == 101) {
+        UIView *stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
         stateView.backgroundColor = [UIColor whiteColor];
         UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, self.tabBarController.tabBar.frame.size.height)];
         timeLab.textAlignment = NSTextAlignmentCenter;
         timeLab.font = FontGothamLight(15);
         timeLab.text = SMALocalizedString(@"device_SP_time");
-//        timeLab.backgroundColor = [UIColor greenColor];
         [stateView addSubview:timeLab];
         
         UILabel *stateLab = [[UILabel alloc] initWithFrame:CGRectMake(MainScreen.size.width - 150, 0, 150, self.tabBarController.tabBar.frame.size.height)];
         stateLab.textAlignment = NSTextAlignmentCenter;
         stateLab.text = SMALocalizedString(@"device_SP_state");
         stateLab.font = FontGothamLight(15);
-//        stateLab.backgroundColor = [UIColor greenColor];
         [stateView addSubview:stateLab];
-        
         [mainScroll addSubview:stateView];
         
-        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, 600 - CGRectGetHeight(detailScroll.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
+        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, 600 - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
         detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        detailTabView.backgroundColor = [UIColor whiteColor];
         detailTabView.delegate = self;
         detailTabView.dataSource = self;
         detailTabView.tableFooterView = [[UIView alloc] init];
         detailTabView.scrollEnabled = NO;
         [mainScroll addSubview:detailTabView];
-        
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(detailScroll.frame) + CGRectGetHeight(stateLab.frame)+ dataArr.count * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(detailScroll.frame) + CGRectGetHeight(stateLab.frame)+ dataArr.count * 44.0);
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
     }
     else{
+        NSInteger selectIndex;
+        selectIndex = [[aggregateData[1] objectAtIndex:4] integerValue];
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
         if (!collectionArr) {
             collectionArr = @[SMALocalizedString(@"device_SP_avgStep"),SMALocalizedString(@"device_SP_sumDista"),SMALocalizedString(@"device_SP_avgCal"),SMALocalizedString(@"device_SP_sit")];
         }
@@ -196,101 +202,96 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         detailColView.scrollEnabled = NO;
         [detailColView registerNib:[UINib nibWithNibName:@"SMADetailCollectionCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
         [mainScroll addSubview:detailColView];
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, CGRectGetHeight(detailScroll.frame) + CGRectGetHeight(detailColView.frame));
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(detailColView.frame));
     }
 }
 
-- (void)addSPViewMode: (int)mode superView:(UIView *)view{
-    if (scattView) {  //若没有此段，则当使用3.5寸手机切换月份时会产生两个柱状图，导致每个图都显示不全，原因不明
-        [scattView removeFromSuperview];
-        scattView = nil;
-    }
-    if (!scattView) {
-        scattView = [[ScattView alloc] init];
-        scattView.frame = detailScroll.bounds;//10, 134, 300, 140
-        scattView.delegate = self;
-        // scattView.frame = CGRectMake(50, 0, 400, 200);
-        scattView.backgroundColor = [UIColor redColor];
-        [view addSubview:scattView];
-    }
-    scattView.HRdataArr = [NSMutableArray array];
-    scattView.YgiveLsat = cycle == 0 ? YES:NO;//隐藏Y轴数据最后一位
-    scattView.DrawMode = mode==0?0:1;
-    scattView.lineColors =@[[CPTColor colorWithComponentRed:205/255.0 green:226/255.0 blue:251/255.0 alpha:1]];
-    scattView.poinColors = [CPTColor whiteColor];
-    scattView.identifiers = @[@"Sleep Pattern"];  //随便定义
-    scattView.showLegend = NO;
-    scattView.xCoordinateDecimal = 0.0f;
-    scattView.hideYAxisLabels = YES;
-    scattView.plotAreaFramePaddingLeft = 5;
-     scattView.selectColor = YES;
-    if (selectTag == 101) {
-        scattView.selectColor = NO;
-    }
-    scattView.yAxisTexts = @[@""];
-    scattView.xMajorIntervalLength = @"1";
-    
-}
-
-- (void)drawScattViewWithSpArr:(NSMutableArray *)spArr{
-    scattView.xAxisTexts = [spArr firstObject];
-    scattView.yValues = @[spArr[2]];
-    scattView.yBaesValues = @[spArr[1]];
-    scattView.barLineWidth = [spArr[2] count] >10 ?7.0f:5;
-    scattView.selectIdx = [spArr[2] count] - 1;
-    scattView.selectColor = [spArr[2] count] >10 ?NO:YES;
-    scattView.ylabelLocation = [[spArr[2] valueForKeyPath:@"@max.intValue"] intValue];//可以yValue最大值为基准
-    [scattView initGraph];
-    [detailColView reloadData];
-    [detailTabView reloadData];
-   
+- (void)runButton{
+    SMARunTableViewController *runVC = [[SMARunTableViewController alloc] init];
+    runVC.date = dateRun;
+    [self.navigationController pushViewController:runVC animated:YES];
 }
 
 - (void)tapBut:(UIButton *)sender{
+    NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
+    if (aggregateNowData.count < 3) {
+        return;
+    }
+
     for (int i = 0; i < 3; i ++) {
         UIButton *but = (UIButton *)[self.view viewWithTag:101 + i];
         but.selected = NO;
     }
     sender.selected = !sender.selected;
-    
-    if (selectTag != sender.tag) {
+       if (selectTag != sender.tag) {
         selectTag = sender.tag;
         switch (sender.tag) {
             case 101:
             {
-                alldata  = [self getFullDatasForOneDay:[self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate lastData:YES]];
+                dateNow = self.date;
+                dateRun = self.date;
+                self.title = [self dateWithYMDWithDate:dateNow];
+                leftDate = self.date.yesterday;
+                rightDate = [self.date timeDifferenceWithNumbers:1];
+                NSMutableArray *nowData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate ]];
+                NSMutableArray *leftData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:leftDate.yyyyMMddNoLineWithDate toDate:leftDate.yyyyMMddNoLineWithDate ]];
+                NSMutableArray *rightData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:rightDate.yyyyMMddNoLineWithDate toDate:rightDate.yyyyMMddNoLineWithDate ]];
+                if (aggregateData) {
+                    [aggregateData removeAllObjects];
+                    aggregateData = nil;
+                }
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:leftData];
+                [aggregateData addObject:nowData];
+                [aggregateData addObject:rightData];
                 [self addSubViewWithCycle:0];
             }
                 break;
             case 102:
             {
-//                scattView.yValues = @[[self dayYvalue]];
+//                dateNow = [NSDate date];
+//                leftDate = [dateNow timeDifferenceWithNumbers:-28];
+//                rightDate = [dateNow timeDifferenceWithNumbers:28];
+//                NSMutableArray *lDataArr = [self getDetalilDataWithNowDate:leftDate month:NO];
+//                NSMutableArray *MDataArr = [self getDetalilDataWithNowDate:dateNow month:NO];
+//                NSMutableArray *RDataArr = [self getDetalilDataWithNowDate:rightDate month:NO];
+//                aggregateData = [NSMutableArray array];
+//                [aggregateData addObject:lDataArr];
+//                [aggregateData addObject:MDataArr];
+//                [aggregateData addObject:RDataArr];
                 
-//                 [scattView reloadData];
-                dateNow = [NSDate date];
-                readXaxisTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(getXaxis:) userInfo:nil repeats:YES];
-                [self addSubViewWithCycle:0];
-//                scattView.xAxisTexts = weekArr;
-//                [scattView drawXaxis];
-//                [self getDetalilDataWithNowDate:dateNow month:NO updateUI:YES];
+                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSpWeekData;
+                aggregateData = [NSMutableArray array];
+                aggregateIndex = 1;
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+                NSLog(@"aggregateData102== %@ %d",aggregateData,aggregateNowData.count);
+                [self addSubViewWithCycle:1];
             }
                 break;
             case 103:
             {
-                dateNow = [NSDate date];
-                [self getDetalilDataWithNowDate:dateNow month:YES updateUI:YES];
+                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSpMonthData;
+                aggregateData = [NSMutableArray array];
+                aggregateIndex = 1;
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+                NSLog(@"aggregateData103== %d",aggregateData,aggregateNowData.count);
+                [self addSubViewWithCycle:1];
+
             }
                 break;
             default:
                 break;
         }
     }
-    
 }
 
 #pragma mark ******UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [dataArr  count];
+    return [[[aggregateData objectAtIndex:1] objectAtIndex:3]  count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -302,11 +303,12 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     if (indexPath.row == 0) {
         cell.topLine.hidden = YES;
     }
-    else if (indexPath.row == dataArr.count - 1){
+    else if (indexPath.row == [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] - 1){
         cell.botLine.hidden = YES;
     }
-    cell.timeLab.text = [self getHourAndMin:[[dataArr  objectAtIndex:indexPath.row] objectForKey:@"TIME"]];
-    cell.distanceLab.text = [NSString stringWithFormat:@"%@%@",[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue] ] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")];
+    cell.timeLab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"TIME"];
+    cell.statelab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"MODE"];
+    cell.distanceLab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"DURATION"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -331,19 +333,22 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SMADetailCollectionCell *cell = (SMADetailCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    if (showDataIndex == 0) {
+        showDataIndex = [[[aggregateData objectAtIndex:1] objectAtIndex:4] integerValue];
+    }
     if (indexPath.row == 0) {
-        cell.detailLab.text = [NSString stringWithFormat:@"%d",[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex] intValue]];
+        cell.detailLab.text = [NSString stringWithFormat:@"%d",[[[[aggregateData objectAtIndex:1] objectAtIndex:2] objectAtIndex:showDataIndex] intValue]];
     }
     else if (indexPath.row == 1){
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[alldata objectAtIndex:2] valueForKeyPath:@"@sum.intValue"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex]intValue] ] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[[aggregateData objectAtIndex:1] objectAtIndex:2] valueForKeyPath:@"@sum.intValue"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[[aggregateData objectAtIndex:1] objectAtIndex:2] objectAtIndex:showDataIndex] intValue]/[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] intValue]] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")]];
     }
     else if (indexPath.row == 2){
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[SMACalculate notRounding:[SMACalculate countCalWithSex:[SMAAccountTool userInfo].userSex userWeight:[[SMAAccountTool userInfo].userWeigh floatValue] step:[[[alldata objectAtIndex:2] objectAtIndex:showDataIndex] intValue]/[[[alldata objectAtIndex:3] objectAtIndex:showDataIndex] intValue]] afterPoint:1],SMALocalizedString(@"device_SP_cal")]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[SMACalculate notRounding:[SMACalculate countCalWithSex:[SMAAccountTool userInfo].userSex userWeight:[[SMAAccountTool userInfo].userWeigh floatValue] step:[[[[aggregateData objectAtIndex:1] objectAtIndex:2] objectAtIndex:showDataIndex] intValue]/[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] intValue]] afterPoint:1],SMALocalizedString(@"device_SP_cal")]];
     }
     else{
-        cell.detailLab.text = @"0min";
+        int avgSit = [[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex] intValue]/[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] intValue];
+        cell.detailLab.text = [NSString stringWithFormat:@"%@%@%@%@",avgSit >= 60 ? [NSString stringWithFormat:@"%d",avgSit/60]:@"",avgSit >= 60 ? @"h":@"",[NSString stringWithFormat:@"%d",avgSit%60],@"m"];
     }
-//    cell.backgroundColor = [UIColor greenColor];
     cell.titleLab.text = collectionArr[indexPath.row];
     return cell;
 }
@@ -362,131 +367,248 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     return 1.0f;
 }
 
-#pragma mark******corePlotViewDelegate
-- (void)barTouchDownAtRecordIndex:(NSUInteger)idx{
-    showDataIndex = idx;
+#pragma mark *****************WYScrollViewLocalDelegate
+//绘图区域滑动接近边沿时预加载各项数据
+- (void)scrollViewWillToBorderAtDirection:(int)direction{
+    if (selectTag == 101) {
+        if (oldDirection != direction) {
+            if (direction == -1) {
+                leftDate = [dateNow timeDifferenceWithNumbers:-2];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSMutableArray *leftData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:leftDate.yyyyMMddNoLineWithDate toDate:leftDate.yyyyMMddNoLineWithDate ]];
+                    [aggregateData insertObject:leftData atIndex:0];
+                    [aggregateData removeLastObject];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
+            }
+            else if (direction == 1){
+                rightDate = [dateNow timeDifferenceWithNumbers:2];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSMutableArray *rightData = [self getFullDatasForOneDay:[self.dal readSportDetailDataWithDate:rightDate.yyyyMMddNoLineWithDate toDate:rightDate.yyyyMMddNoLineWithDate ]];
+                    [aggregateData addObject:rightData];
+                    [aggregateData removeObjectAtIndex:0];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+                });
+            }
+        }
+    }
+    else if (selectTag == 102){
+        if (oldDirection != direction) {
+            if (direction == -1) {
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    leftDate = [dateNow timeDifferenceWithNumbers:-56];
+//                    NSMutableArray *lDataArr = [self getDetalilDataWithNowDate:leftDate month:NO];
+//                    [aggregateData insertObject:lDataArr atIndex:0];
+//                    [aggregateData removeLastObject];
+                
+                aggregateIndex = aggregateIndex + 1;
+                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSpWeekData;
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+                NSLog(@"aggregateData102-1 == %@  %d",aggregateData,aggregateNowData.count);
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+//                });
+            }
+            else if (direction == 1){
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    rightDate = [dateNow timeDifferenceWithNumbers:56];
+//                    NSMutableArray *RDataArr = [self getDetalilDataWithNowDate:rightDate month:NO];
+//                    [aggregateData addObject:RDataArr];
+//                    [aggregateData removeObjectAtIndex:0];
+                aggregateIndex = aggregateIndex - 1;
+                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSpWeekData;
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+                NSLog(@"aggregateData102+1== %@  %d",aggregateData,aggregateNowData.count);
+
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+//                });
+            }
+        }
+    }
+    else if (selectTag == 103){
+        if (oldDirection != direction) {
+            if (direction == -1) {
+//                //获取所需要预加载的日期（dateNow 的前八个月）
+//                NSDate *firstdate1 = dateNow;
+//                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//                [formatter setDateFormat:@"yyyyMMdd"];
+//                NSString *nowMonth = [[formatter stringFromDate:firstdate1] substringWithRange:NSMakeRange(4, 2)];
+//                int goalMonth;
+//                NSString *goalDate;
+//                if (nowMonth.intValue - 8 < 1){
+//                    goalMonth = nowMonth.intValue - 8 + 12;
+//                    goalDate = [NSString stringWithFormat:@"%@%@%@",[NSString stringWithFormat:@"%d",[[[formatter stringFromDate:firstdate1] substringToIndex:4] intValue] - 1],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
+//                }
+//                else{
+//                    goalMonth = nowMonth.intValue - 8;
+//                    goalDate = [NSString stringWithFormat:@"%@%@%@",[[formatter stringFromDate:firstdate1] substringToIndex:4],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
+//                }
+//                leftDate = [formatter dateFromString:goalDate];
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    NSMutableArray *lDataArr = [self getDetalilDataWithNowDate:leftDate month:YES];
+//                    [aggregateData insertObject:lDataArr atIndex:0];
+//                    [aggregateData removeLastObject];
+                aggregateIndex = aggregateIndex + 1;
+                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSpMonthData;
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+                NSLog(@"aggregateData103-1 == %@ %d",aggregateData,aggregateNowData.count);
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+//                });
+            }
+            else if (direction == 1){
+                aggregateIndex = aggregateIndex - 1;
+                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSpMonthData;
+                aggregateData = [NSMutableArray array];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+                NSLog(@"aggregateData103+1 == %@  %d",aggregateData,aggregateNowData.count);
+//                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//                [formatter setDateFormat:@"yyyyMMdd"];
+//                NSString *nowMonth = [[formatter stringFromDate:dateNow] substringWithRange:NSMakeRange(4, 2)];
+//                int goalMonth;
+//                NSString *goalDate;
+//                if (nowMonth.intValue + 8 > 12) {
+//                    goalMonth = nowMonth.intValue + 8 - 12;
+//                    goalDate = [NSString stringWithFormat:@"%@%@%@",[NSString stringWithFormat:@"%d",[[[formatter stringFromDate:dateNow] substringToIndex:4] intValue] + 1],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
+//                }
+//                else{
+//                    goalMonth = nowMonth.intValue + 8;
+//                    goalDate = [NSString stringWithFormat:@"%@%@%@",[[formatter stringFromDate:dateNow] substringToIndex:4],[NSString stringWithFormat:@"%@%d",goalMonth > 10 ? @"":@"0",goalMonth],@"10"];
+//                }
+//                rightDate = [formatter dateFromString:goalDate];
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    NSMutableArray *RDataArr = [self getDetalilDataWithNowDate:rightDate month:YES];
+//                    [aggregateData addObject:RDataArr];
+//                    [aggregateData removeObjectAtIndex:0];
+                    NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
+//                });
+            }
+        }
+    }
+    oldDirection = direction;
+}
+
+//顶部绘图区域滑动完成（翻页）刷新UI
+- (void)WYScrollViewDidEndDecelerating:(WYScrollView *)scrollView{
+    if (selectTag == 101) {
+        if (oldDirection == -1) {
+            dateNow = [leftDate timeDifferenceWithNumbers:1];
+            rightDate = [dateNow timeDifferenceWithNumbers:1];
+        }
+        else if (oldDirection == 1){
+            dateNow = [rightDate timeDifferenceWithNumbers:-1];
+            leftDate = [dateNow timeDifferenceWithNumbers:-1];
+        }
+        self.title = [self dateWithYMDWithDate:dateNow];
+        dateRun = dateNow;
+        if ([self.title isEqualToString:SMALocalizedString(@"device_todate")]) {
+            scrollView.banRightSlide = YES;
+        }
+        else{
+            scrollView.banRightSlide = NO;
+        }
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
+    }
+    else if (selectTag == 102){
+        if (oldDirection == -1) {
+            dateNow = [leftDate timeDifferenceWithNumbers:28];
+            rightDate = [dateNow timeDifferenceWithNumbers:28];
+        }
+        else if (oldDirection == 1){
+            dateNow = [rightDate timeDifferenceWithNumbers:-28];
+            leftDate = [dateNow timeDifferenceWithNumbers:-28];
+        }
+        NSInteger selectIndex;
+        selectIndex = [[aggregateData[1] objectAtIndex:4] integerValue];
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
+        if ([self.title isEqualToString:SMALocalizedString(@"device_SL_thisWeek")]) {
+            scrollView.banRightSlide = YES;
+        }
+        else{
+            scrollView.banRightSlide = NO;
+        }
+    }
+    else if (selectTag == 103){
+        if (oldDirection == -1) {
+            NSDate *lastdate = leftDate;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = lastdate;
+                lastdate = [nextDate dayOfMonthToDateIndex:32];
+                lastdate = [lastdate timeDifferenceWithNumbers:1];
+                if (i == 3) {
+                    dateNow = lastdate;
+                }
+            }
+            lastdate = dateNow;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = lastdate;
+                lastdate = [nextDate dayOfMonthToDateIndex:32];
+                lastdate = [lastdate timeDifferenceWithNumbers:1];
+                if (i == 3) {
+                    rightDate = lastdate;
+                }
+            }
+        }
+        else if (oldDirection == 1){
+            NSDate *firstdate = rightDate;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = firstdate;
+                firstdate = [nextDate dayOfMonthToDateIndex:0];
+                firstdate = firstdate.yesterday;
+                if (i == 3) {
+                    dateNow = firstdate;
+                }
+            }
+            firstdate = dateNow;
+            for (int i = 0; i < 4; i ++ ) {
+                NSDate *nextDate = firstdate;
+                firstdate = [nextDate dayOfMonthToDateIndex:0];
+                firstdate = firstdate.yesterday;
+                if (i == 3) {
+                    leftDate = firstdate;
+                }
+            }
+        }
+        NSInteger selectIndex;
+        selectIndex = [[aggregateData[1] objectAtIndex:4] integerValue];
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
+        if ([self.title isEqualToString:SMALocalizedString(@"device_SL_thisMonth")]) {
+            scrollView.banRightSlide = YES;
+        }
+        else{
+            scrollView.banRightSlide = NO;
+        }
+    }
+    oldDirection = 0;
+    scrollView.imageArray = aggregateData;
+    [detailTabView reloadData];
     [detailColView reloadData];
+    NSLog(@"scrollViewDidEndDecelerating = %@",scrollView);
 }
 
-#pragma mark <ZXRollViewDelegate>
-- (NSInteger)numberOfItemsInRollView:(ZXRollView *)rollView {
-        return 3;
-}
-
-- (void)rollView:(nonnull ZXRollView *)rollView setViewForRollView:(nonnull UIView *)view atIndex:(NSInteger)index {
-     [self addSPViewMode:1 superView:view];
-    switch (index) {
-        case 0: {
-             if (!firstCreate) {
-                [self drawScattViewWithSpArr:alldata];
-                firstCreate = YES;
-            }
-        }
-            break;
-        default:
-            break;
+- (void)WYbarTouchDownAtRecordIndex:(NSUInteger)idx{
+    if (selectTag != 101) {
+        showDataIndex = idx;
+        self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:showDataIndex-1];
+        [detailColView reloadData];
     }
 }
 
-static int changeIndex;
-- (void)rollView:(ZXRollView *)rollView setAllViewForRollView:(UIView *)view atIndex:(NSInteger)index direction:(int)direct{
-    NSLog(@"setAllViewForRollView==%d  %d",index,direct);
-    
-    switch (selectTag) {
-        case 101:
-        {
-            switch (changeIndex) {
-                case 0:
-                {
-                    NSDate *leftDate = [self.date timeDifferenceWithNumbers:index].yesterday;
-                    NSLog(@"leftDate = %@",leftDate.yyyyMMddByLineWithDate);
-                }
-                    break;
-                    case 1:
-                {
-                    NSDate *mediDate = [self.date timeDifferenceWithNumbers:index];
-                    NSLog(@"mediDate = %@",mediDate.yyyyMMddByLineWithDate);
-                }
-                    break;
-                default:
-                {
-                     NSDate *rightDate = [[self.date timeDifferenceWithNumbers:index] timeDifferenceWithNumbers:1];
-                    NSLog(@"rightDate = %@",rightDate.yyyyMMddByLineWithDate);
-                }
-                    break;
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
-    changeIndex ++;
-    if (changeIndex == 3) {
-        changeIndex = 0;
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(ZXRollView *)scrollView AtIndex:(NSInteger)index{
-    switch (selectTag) {
-        case 101:
-        {
-            NSDate *changeDate = [self.date timeDifferenceWithNumbers:index];
-            if ([changeDate.yyyyMMddNoLineWithDate isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
-                 self.date = changeDate ;
-                 [self addSubViewWithCycle:0];
-            }
-            self.title = [self dateWithYMDWithDate:changeDate];
-             alldata = [self getFullDatasForOneDay:[self.dal readSportDataWithDate:changeDate.yyyyMMddNoLineWithDate toDate:changeDate.yyyyMMddNoLineWithDate lastData:YES]];
-        }
-            break;
-        case 102:
-        {
-            NSDate *firstdate = [NSDate date];
-            for (int j = 0; j < -index ; j ++) {
-                for (int i = 0; i < 4; i ++ ) {
-                    NSDate *nextDate = firstdate;
-                    firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
-                      firstdate = firstdate.yesterday;
-                    if (j == - index - 1) {
-                        [self getDetalilDataWithNowDate:firstdate month:NO updateUI:NO];
-                    }
-                }
-            }
-            if (index == 0) {
-                [self getDetalilDataWithNowDate:[NSDate date] month:NO updateUI:NO];
-            }
-        }
-            break;
-        case 103:
-        {
-            NSDate *firstdate = [NSDate date];
-            for (int j = 0; j < -index ; j ++) {
-                for (int i = 0; i < 4; i ++ ) {
-                    NSDate *nextDate = firstdate;
-                    firstdate = [nextDate dayOfMonthToDateIndex:0];
-                    firstdate = firstdate.yesterday;
-                    if (j == - index - 1) {
-                        [self getDetalilDataWithNowDate:firstdate month:YES updateUI:NO];
-                    }
-                }
-            }
-            if (index == 0) {
-                [self getDetalilDataWithNowDate:[NSDate date] month:YES updateUI:NO];
-            }
-        }
-            break;
-        default:
-            break;
-    }
-    [self drawScattViewWithSpArr:alldata];
-}
-
-- (void)getDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month updateUI:(BOOL)update{
+- (NSMutableArray *)getDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month{
     NSDate *firstdate = date;
     NSMutableArray *weekDate = [NSMutableArray array];
     for (int i = 0; i < 4; i ++) {
         NSDate *nextDate = firstdate;
+        NSDate *lastdate;
         int step = 0;
         int dataNum = 0;
         if (month) {
@@ -494,29 +616,33 @@ static int changeIndex;
         }
         else{
             firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+            lastdate = [nextDate lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
         }
-        NSMutableArray *weekData = [self.dal readSportDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate lastData:YES];
+        NSMutableArray *weekData = [self.dal readSportDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate];
+//        NSString * prevMode;//上一类型
+//        NSString *prevTime;//上一时间点
+//        int atTypeTime = 0;//相同状态下起始时间
+//        int prevTypeTime=0;//运动状态下持续时长
         if (weekData.count > 0) {
             for (int i = 0; i < (int)weekData.count - 1; i ++) {
                 dataNum ++;
                 step = [[weekData[i] objectForKey:@"STEP"] intValue] + step;
                 if (i == weekData.count - 2) {
-                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step/dataNum],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
+                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step/dataNum],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],lastdate ? [SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"] : @""],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
                     [weekDate addObject:dic];
                 }
             }
         }
         else{
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],lastdate?[SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"] : @""],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
             [weekDate addObject:dic];
         }
         firstdate = firstdate.yesterday;
-        dateNow = firstdate;
     }
     NSMutableArray *xText = [NSMutableArray array];
     NSMutableArray *yValue = [NSMutableArray array];
     NSMutableArray *yBaesValues = [NSMutableArray array];
-    alldata = [NSMutableArray array];
+    NSMutableArray *alldataArr = [NSMutableArray array];
     NSMutableArray *numArr = [NSMutableArray array];
     for (int i = 0; i < 5; i ++ ) {
         if (i == 0) {
@@ -525,31 +651,107 @@ static int changeIndex;
             [numArr addObject:@"0"];
         }
         else{
-            [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"]]:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"]];
+            [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]:[self getWeekText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]];
             [yBaesValues addObject:@"0"];
             [yValue addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"]];
+            if ([[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"] intValue] > 0) {
+                showDataIndex = i;
+            }
             [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
         }
     }
-    [alldata addObject:xText];
-    [alldata addObject:yBaesValues];
-    [alldata addObject:yValue];
-    [alldata addObject:numArr];
-    showDataIndex = 4;
-    if (update) {
-        [self addSubViewWithCycle:1];
-    }
+    [alldataArr addObject:xText];        //图像底部坐标
+    [alldataArr addObject:yBaesValues];  //图像底部起始点（柱状图）
+    [alldataArr addObject:yValue];       //图像每个轴高度
+    [alldataArr addObject:numArr];       //图像所包含数据量（含多少天数据，用于计算平均值）
+    [alldataArr addObject:[NSString stringWithFormat:@"%lu",(unsigned long)(showDataIndex == 0 ? 4 : showDataIndex)]];  //图像（周）最后一第含有数据的项（若没有，默认为最后一项）
+    showDataIndex = 0;
+    return alldataArr;
 }
 
+//整理当天数据
 - (id)getFullDatasForOneDay:(NSMutableArray *)spDatas{
-    dataArr = [[[[spDatas lastObject] reverseObjectEnumerator] allObjects] mutableCopy];
+    NSMutableArray *detailArr = [NSMutableArray array];
+//    int sitAmount = 0;//静坐时间
+//    int walkAmount = 0;//浅睡眠时长
+//    int runSleepAmount = 0;//深睡时长
+    
+    NSString * prevMode;//上一类型
+    NSString *prevTime;//上一时间点
+    int atTypeTime = 0;//相同状态下起始时间
+    int prevTypeTime=0;//运动状态下持续时长
+    /* 	16-17 静坐开始到步行开始---静坐时间
+     *  16-18 静坐开始到跑步开始---静坐时间
+     *  17-16 步行开始到静坐开始---步行时间
+     *  17-18 步行开始到跑步开始---步行时间
+     *  18-16 跑步开始到静坐开始---跑步时间
+     *  18-17 跑步开始到步行开始---跑步时间
+     */
+    if (spDatas.count > 0) {
+        NSMutableArray *detail = spDatas;
+        for (int i = 0; i < detail.count; i ++) {
+            NSDictionary *dic = detail[i];
+            NSString *atTime = dic[@"TIME"];
+            NSString *atMode = dic[@"MODE"];
+            int amount = atTime.intValue - prevTime.intValue;
+            if (i == 0) {
+                amount = 0;
+                if (atMode.intValue != 0) {
+                    prevMode = dic[@"MODE"];
+                    prevTime = dic[@"TIME"] ;
+                }
+            }
+            else{
+                if (atMode.intValue != 0) {
+                    if (prevMode) {
+                        if (prevMode.intValue == atMode.intValue) {
+                            if (prevTypeTime == 0) {
+                                atTypeTime = prevTime.intValue;
+                            }
+                            prevTypeTime = prevTypeTime + amount;
+                            if (i == detail.count - 1) {
+                                //                        prevTypeTime = prevTypeTime + amount;
+                                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",atTypeTime]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",prevTypeTime/60] intValue], @"h",[NSString stringWithFormat:@"%@%d",prevTypeTime%60 < 10 ? @"0":@"",prevTypeTime%60],@"m"],@"DURATION", nil];
+                                [detailArr addObject:dic];
+                            }
+                        }
+                        else{
+                            if (prevTypeTime != 0) {
+                                prevTypeTime = prevTypeTime + amount;
+                                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",atTypeTime]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",prevTypeTime/60] intValue], @"h",[NSString stringWithFormat:@"%@%d",prevTypeTime%60 < 10 ? @"0":@"",prevTypeTime%60],@"m"],@"DURATION", nil];
+                                [detailArr addObject:dic];
+                            }
+                            else{
+                                prevTypeTime =  amount;
+                                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",prevTypeTime/60] intValue], @"h",[NSString stringWithFormat:@"%@%d",prevTypeTime%60 < 10 ? @"0":@"",prevTypeTime%60],@"m"],@"DURATION", nil];
+                                [detailArr addObject:dic];
+                            }
+                        }
+                        if (![prevMode isEqualToString:atMode]) {
+                            prevTypeTime = 0;
+                        }
+                    }
+                    
+                    prevMode = dic[@"MODE"];
+                    prevTime = dic[@"TIME"] ;
+                }
+            }
+        }
+        if (prevMode.intValue != 0 && prevTime.intValue != [[SMADateDaultionfos minuteFormDate:[[NSDate date] yyyyMMddHHmmSSNoLineWithDate]] intValue] && [[[spDatas lastObject] objectForKey:@"DATE"] isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
+            NSString *nowMinute = [SMADateDaultionfos minuteFormDate:[[NSDate date] yyyyMMddHHmmSSNoLineWithDate]];
+            int sustainTime = nowMinute.intValue - prevTime.intValue;
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:nowMinute]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",sustainTime /60] intValue], @"h",[NSString stringWithFormat:@"%@%d",sustainTime%60 < 10 ? @"0":@"",sustainTime%60],@"m"],@"DURATION", nil];
+            [detailArr addObject:dic];
+        }
+    }
+
     NSMutableArray *fullDatas = [[NSMutableArray alloc] init];
     NSMutableArray *dayAlldata = [NSMutableArray array];
     for (int i = 0; i < 24; i ++) {
         BOOL found = NO;
         int time = -1 ;
-        if (spDatas.count > 1) {
-            for (NSDictionary *dic in [spDatas lastObject]) {
+        if (spDatas.count > 0) {
+            for (NSDictionary *dic in spDatas) {
                 if ([[dic objectForKey:@"TIME"] intValue]/60 == i) {
                     if (time == i) {
                         [fullDatas removeLastObject];
@@ -564,20 +766,20 @@ static int changeIndex;
                             [fullDatas removeLastObject];
                         }
                         time = i;
-                        [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[[spDatas lastObject] lastObject] objectForKey:@"DATE"],@"DATE", nil]];
+                        [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[spDatas  lastObject] objectForKey:@"DATE"],@"DATE", nil]];
                     }
                 }
             }
         }
         else{
-            [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[[spDatas lastObject] lastObject] objectForKey:@"DATE"],@"DATE", nil]];
+            [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[spDatas lastObject] objectForKey:@"DATE"],@"DATE", nil]];
         }
     }
     
     NSMutableArray *xText = [NSMutableArray array];
     NSMutableArray *yValue = [NSMutableArray array];
     NSMutableArray *yBaesValues = [NSMutableArray array];
-    for (int i = 0; i < 25; i ++) {
+    for (int i = 0; i < 24; i ++) {
         if (i == 0 || i == 12 || i == 23) {
             [xText addObject:[NSString stringWithFormat:@"%@%d:00",i<10?@"":@"",i]];
         }
@@ -585,7 +787,7 @@ static int changeIndex;
             [xText addObject:@""];
         }
     }
-    for (int i = 0; i < 26; i ++) {
+    for (int i = 0; i < 25; i ++) {
         if (i == 0) {
             [yValue addObject:@"0"];
         }
@@ -598,104 +800,48 @@ static int changeIndex;
         }
         [yBaesValues addObject:@"0"];
     }
-    [dayAlldata addObject:xText];
-    [dayAlldata addObject:yBaesValues];
-    [dayAlldata addObject:yValue];
+    [dayAlldata addObject:xText];       //图像底部坐标
+    [dayAlldata addObject:yBaesValues]; //图像底部起始点（柱状图）
+    [dayAlldata addObject:yValue];      //图像每个轴高度
+    [dayAlldata addObject:detailArr];   //运动数据详情（用于显示cell）
     return dayAlldata;
 }
 
-static NSMutableArray *arr;
-- (void)getXaxis:(NSTimer *)timer{
-    if (!arr) {
-        arr = [NSMutableArray array];
-//         [scattView chanePlotSpace];
+- (NSString *)getWeekText:(NSString *)str year:(NSString *)year{
+    NSArray *dayArr = [str componentsSeparatedByString:@"-"];
+    NSArray *weekArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
+    NSArray *weekArr1 = [[dayArr lastObject] componentsSeparatedByString:@"."];
+    NSString *weekStr;
+    weekStr = str;
+    if ([[weekArr firstObject] intValue] == 12 && [[weekArr1 firstObject] intValue] == 1) {
+        weekStr = [NSString stringWithFormat:@"%@ %@ - %@ %@",year,[dayArr firstObject],[NSString stringWithFormat:@"%d",year.intValue + 1],[dayArr lastObject]];
     }
-    [arr addObjectsFromArray:[self weekTextWithDate:dateNow]];
-    scattView.xAxisTexts = [[arr reverseObjectEnumerator] allObjects];
-    scattView.allowsUserInteraction = YES;
-    [scattView chanePlotSpace];
-    [scattView drawXaxis];
-    if (arr.count >= 90) {
-        [readXaxisTimer invalidate];
-        readXaxisTimer = nil;
+    //本周第一天
+    NSString *nowFirstDate = [[NSDate date] firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSString class]];
+    NSString *monDayStr = [SMADateDaultionfos monAndDateStringFormDateStr:nowFirstDate format:@"yyyyMMdd"];
+    if ([[dayArr firstObject] isEqualToString:monDayStr]) {
+        weekStr = SMALocalizedString(@"device_SL_thisWeek");
     }
-    NSLog(@"fwfwwrgr000==%@",arr);
-//    NSMutableArray *weekArr = [self weekTextWithDate:dateNow];
+    return weekStr;
 }
 
-- (NSMutableArray *)dayText{
-    NSMutableArray *xText = [NSMutableArray array];
-    for (int i = 0; i < 25; i ++) {
-        if (i == 0 || i == 12 || i == 23) {
-            [xText addObject:[NSString stringWithFormat:@"%@%d:10",i<10?@"":@"",i]];
-        }
-        else{
-            [xText addObject:@""];
-        }
-    }
-    return xText;
-}
-
-- (NSMutableArray *)weekTextWithDate:(NSDate *)date{
-    NSDate *firstdate = date;
-   NSString *dae = [self.dal readFirstSportdata];
-    NSLog(@"fewfwef==%@",dae);
-    NSMutableArray *weekText = [NSMutableArray array];
-    for (int i = 0; i < 4; i ++) {
-        NSDate *nextDate = firstdate;
-        int step = 0;
-        int dataNum = 0;
-//        if (month) {
-//            firstdate = [nextDate dayOfMonthToDateIndex:0];
-//        }
-//        else{
-            firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
-//        }
-//        NSMutableArray *weekData = [self.dal readSportDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate lastData:YES];
-//        if (weekData.count > 0) {
-//            for (int i = 0; i < (int)weekData.count - 1; i ++) {
-//                dataNum ++;
-//                step = [[weekData[i] objectForKey:@"STEP"] intValue] + step;
-//                if (i == weekData.count - 2) {
-//                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step/dataNum],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
-//                    [weekDate addObject:dic];
-//                }
-//            }
-//        }
-//        else{
-//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM", nil];
-            [weekText addObject:[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]]];
-//        }
-        firstdate = firstdate.yesterday;
-        dateNow = firstdate;
-    }
-    return weekText;
-}
-
-- (NSMutableArray *)dayYvalue{
-    
-    NSMutableArray *xText = [NSMutableArray array];
-    for (int i = 0; i < [alldata[2] count]; i ++) {
-        [xText addObject:[NSString stringWithFormat:@"%d",[[alldata[2] objectAtIndex:i] integerValue]+ 10]];
-//        if (i == 0 || i == 12 || i == 23) {
-//            [xText addObject:[NSString stringWithFormat:@"%@%d:10",i<10?@"":@"",i]];
-//        }
-//        else{
-//            [xText addObject:@""];
-//        }
-    }
-    return xText;
-}
-
-- (NSString *)getMonthText:(NSString *)str{
+- (NSString *)getMonthText:(NSString *)str year:(NSString *)year{
     NSArray *dayArr = [str componentsSeparatedByString:@"-"];
     NSArray *monArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
-    return [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    NSString *monStr;
+    monStr = [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    if ([[monArr firstObject] intValue] == 1) {
+        monStr = [NSString stringWithFormat:@"%@ %@%@",year,[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    }
+    if ([[monArr firstObject] intValue] == [[[[NSDate date] yyyyMMddNoLineWithDate] substringWithRange:NSMakeRange(4, 2)] intValue] && [year isEqualToString:[[[NSDate date] yyyyMMddNoLineWithDate] substringToIndex:4]]) {
+        monStr = SMALocalizedString(@"device_SL_thisMonth");
+    }
+    return monStr;
 }
 
 - (NSString *)getHourAndMin:(NSString *)time{
     NSString *hour = [NSString stringWithFormat:@"%d",time.intValue/60];
-    NSString *min = [NSString stringWithFormat:@"%@%d",time.intValue%60 < 10?@"0":@"",time.intValue%60];
+    NSString *min = [NSString stringWithFormat:@"%@%d",time.intValue%60 < 10 ? @"0":@"",time.intValue%60];
     return [NSString stringWithFormat:@"%@:%@",hour,min];
 }
 
@@ -723,5 +869,20 @@ static NSMutableArray *arr;
     return selfStr;
 }
 
+- (NSString *)sportMode:(int)mode{
+    NSString *modeStr;
+    switch (mode) {
+        case 16:
+            modeStr = SMALocalizedString(@"device_SP_sit");
+            break;
+        case 17:
+            modeStr = SMALocalizedString(@"device_SP_walking");
+            break;
+        default:
+            modeStr = SMALocalizedString(@"device_SP_running");
+            break;
+    }
+    return modeStr;
+}
 
 @end

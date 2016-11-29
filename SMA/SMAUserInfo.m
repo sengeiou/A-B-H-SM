@@ -13,7 +13,7 @@
         _userAge = [decoder decodeObjectForKey:@"_userAge"];
         _userSex = [decoder decodeObjectForKey:@"_userSex"];
         _userGoal = [decoder decodeObjectForKey:@"_userGoal"];
-        _userResHr = [decoder decodeObjectForKey:@"_userResHr"];
+        _userHeadUrl = [decoder decodeObjectForKey:@"_userHeadUrl"];
         _scnaName = [decoder decodeObjectForKey:@"_scnaName"];
         _watchUUID = [decoder decodeObjectForKey:@"_watchUUID"];
         _watchVersion = [decoder decodeObjectForKey:@"_watchVersion"];
@@ -32,7 +32,7 @@
     [encoder encodeObject:_userAge forKey:@"_userAge"];
     [encoder encodeObject:_userSex forKey:@"_userSex"];
     [encoder encodeObject:_userGoal forKey:@"_userGoal"];
-    [encoder encodeObject:_userResHr forKey:@"_userResHr"];
+    [encoder encodeObject:_userHeadUrl forKey:@"_userHeadUrl"];
     [encoder encodeObject:_scnaName forKey:@"_scnaName"];
     [encoder encodeObject:_watchUUID forKey:@"_watchUUID"];
     [encoder encodeObject:_watchVersion forKey:@"_watchVersion"];

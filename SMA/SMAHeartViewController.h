@@ -13,4 +13,6 @@
 @property (nonatomic, weak) IBOutlet UISwitch *openSwitch;
 @property (nonatomic, weak) IBOutlet UIPickerView *pickView;
 @property (nonatomic, weak) IBOutlet UIButton *saveBut;
+@property (nonatomic, weak) IBOutlet UITableViewCell *timePickCell, *gapCell, *saveCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *titleCell;
 @end

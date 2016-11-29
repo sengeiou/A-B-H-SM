@@ -33,6 +33,14 @@
         result = [result stringByAppendingFormat:@"%@%@",
                   [prepare substringWithRange:NSMakeRange(i , 1)],i==0?@"":@","];
     }
+    NSMutableArray *resultArr = [[result componentsSeparatedByString:@","] mutableCopy];
+    NSInteger count = 7 - resultArr.count;
+    if (resultArr.count < 7) {
+        for (int j = 0; j < count; j ++) {
+            [resultArr insertObject:@"0" atIndex:0];
+        }
+        result = [resultArr componentsJoinedByString:@","];
+    }
     return result;
 }
 

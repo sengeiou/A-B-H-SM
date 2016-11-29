@@ -12,4 +12,5 @@
 @property (nonatomic, strong) IBOutlet UILabel *peripheralName;
 @property (nonatomic, strong) IBOutlet UILabel *UUID;
 @property (nonatomic, strong) IBOutlet UILabel *RSSI;
+@property (nonatomic, weak) IBOutlet UIImageView *rrsiIma;
 @end

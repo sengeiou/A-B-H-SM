@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SMAUserInfo.h"
 #import "SMAAccountTool.h"
+#import "SMAWebDataHandleInfo.h"
 
 @interface SmaAnalysisWebServiceTool : NSObject
 
@@ -72,9 +73,11 @@
 //互动推送
 - (void)acloudDispatcherFriendAccount:(NSString *)fAccount content:(NSString *)content success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //上传数据
-- (void)acloudSyncAllDataWithAccount:(NSString *)account sportDic:(NSMutableArray *)sport sleepDic:(NSMutableArray *)sleep clockDic:(NSMutableArray *)clock HRDic:(NSMutableArray *)hr success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+- (void)acloudSyncAllDataWithAccount:(NSString *)account callBack:(void (^)(id finish)) callBack;
+//- (void)acloudSyncAllDataWithAccount:(NSString *)account sportDic:(NSMutableArray *)sport sleepDic:(NSMutableArray *)sleep clockDic:(NSMutableArray *)clock HRDic:(NSMutableArray *)hr success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //下载数据
-- (void)acloudDownLDataWithAccount:(NSString *)account success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+- (void)acloudDownLDataWithAccount:(NSString *)account callBack:(void (^)(id finish))callback;
+//- (void)acloudDownLDataWithAccount:(NSString *)account success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 // 上传MAC
 - (void)uploadMACWithAccount:(NSString *)user MAC:(NSString *)mac watchType:(NSString *)smaName success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //校验MAC
@@ -84,5 +87,9 @@
 - (void)acloudSetScore:(int)score;
 
 //获取所有用户步数及排行
-- (void)acloudCheckRankingCallBack:(void(^)(NSArray *list,NSError *error))callback;
+- (void)acloudCheckRankingCallBack:(void(^)(NSMutableArray *list,NSError *error))callback;
+
+//下载文件
+- (void)acloudDownFileWithsession:(NSString *)url callBack:(void(^)(float progress,NSError * error))callback
+                 CompleteCallback:(void (^)(NSString *filePath))completeCallback;
 @end

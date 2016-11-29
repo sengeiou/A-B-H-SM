@@ -56,9 +56,10 @@
 - (IBAction)saveSelector:(id)sender{
     if ([SmaBleMgr checkBLConnectState]) {
         [SMAAccountTool saveUser:user];
+        NSLog(@"saveSelector===%@",[user watchUUID]);
         [MBProgressHUD showSuccess:SMALocalizedString(@"setting_setSuccess")];
         SmaAnalysisWebServiceTool *webser=[[SmaAnalysisWebServiceTool alloc]init];
-        
+        [SmaBleSend setUserMnerberInfoWithHeight:user.userHeight.intValue weight:user.userWeigh.intValue sex:user.userSex.intValue age:user.userAge.intValue];
         [webser acloudPutUserifnfo:user success:^(NSString *result) {
             
         } failure:^(NSError *erro) {
@@ -129,11 +130,11 @@
                     user.userName = titleField.text;
                 }
                 else if (indexPath.section == 1 && indexPath.row == 0){
-                    _hightDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit?SMALocalizedString(@"me_perso_cm"):SMALocalizedString(@"me_perso_inch")];
+                    _hightDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit.intValue == 0 ? SMALocalizedString(@"me_perso_cm"):SMALocalizedString(@"me_perso_inch")];
                     user.userHeight = user.unit.intValue == 0?titleField.text:[NSString stringWithFormat:@"%.0f",[SMACalculate convertToCm:titleField.text.floatValue]];
                 }
                 else if (indexPath.section == 1 && indexPath.row == 1){
-                    _weightDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit?SMALocalizedString(@"me_perso_kg"):SMALocalizedString(@"me_perso_lbs")];
+                    _weightDetalLab.text = [NSString stringWithFormat:@"%@%@",titleField.text,user.unit.intValue == 0 ? SMALocalizedString(@"me_perso_kg"):SMALocalizedString(@"me_perso_lbs")];
                     user.userWeigh = user.unit.intValue == 0?titleField.text:[NSString stringWithFormat:@"%.0f",[SMACalculate convertToLbs:titleField.text.floatValue]];
                 }
                 else if (indexPath.section == 1 && indexPath.row == 2){

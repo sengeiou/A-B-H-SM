@@ -64,12 +64,14 @@
 }
 
 - (IBAction)editSelector:(UIButton *)sender{
+    if ( alarmArr.count > 0) {
     sender.selected = !sender.selected;
     editIng = sender.selected;
     for (int i = 0; i < alarmArr.count; i ++ ) {
         SMASedentEditCell *cell = [_alarmTView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         cell.edit = editIng;
     }
+  }
 }
 
 - (IBAction)addSelector:(id)sender{

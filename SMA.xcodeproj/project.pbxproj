@@ -13,6 +13,7 @@
 		EE09ACF31DAA2B2E00CA2EC5 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = EE09ACEB1DAA2B2E00CA2EC5 /* FMDatabasePool.m */; };
 		EE09ACF41DAA2B2E00CA2EC5 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = EE09ACED1DAA2B2E00CA2EC5 /* FMDatabaseQueue.m */; };
 		EE09ACF51DAA2B2E00CA2EC5 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = EE09ACF01DAA2B2E00CA2EC5 /* FMResultSet.m */; };
+		EE0DDAEA1DE020A900F2CDF0 /* SMAWebDataHandleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0DDAE91DE020A900F2CDF0 /* SMAWebDataHandleInfo.m */; };
 		EE0E14091D6707E40054BE87 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE0E14071D6707E40054BE87 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		EE0E140A1D6707E40054BE87 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0E14081D6707E40054BE87 /* TencentOpenAPI.framework */; };
 		EE0E140C1D6708190054BE87 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0E140B1D6708190054BE87 /* libiconv.tbd */; };
@@ -130,6 +131,9 @@
 		EE3DBE451DC1E6EB0005C9F9 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3DBD7C1DC1E6EB0005C9F9 /* YYClassInfo.m */; };
 		EE3DBE461DC1E6EB0005C9F9 /* libAbleCloudLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3DBD7E1DC1E6EB0005C9F9 /* libAbleCloudLib.a */; };
 		EE3DBE471DC1E6EB0005C9F9 /* libAbleCloudLib_simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3DBD7F1DC1E6EB0005C9F9 /* libAbleCloudLib_simulator.a */; };
+		EE438B421DDC2D4E0066D5A6 /* SMARankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE438B401DDC2D4D0066D5A6 /* SMARankTableViewCell.m */; };
+		EE438B431DDC2D4E0066D5A6 /* SMARankTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE438B411DDC2D4D0066D5A6 /* SMARankTableViewCell.xib */; };
+		EE486C931DD9DCA200E3E385 /* SMADeviceAggregate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE486C921DD9DCA200E3E385 /* SMADeviceAggregate.m */; };
 		EE48F7C41DA881850086CB57 /* SMAAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE48F7C31DA881850086CB57 /* SMAAlarmViewController.m */; };
 		EE4B1C111D6469C900825E2B /* NSDictionary-DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4B1C101D6469C900825E2B /* NSDictionary-DeepMutableCopy.m */; };
 		EE4B1C141D6469DD00825E2B /* SectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4B1C131D6469DD00825E2B /* SectionsViewController.m */; };
@@ -146,13 +150,18 @@
 		EE4B1DDB1D648A7500825E2B /* SmaAnalysisWebServiceTool.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4B1DD81D648A7500825E2B /* SmaAnalysisWebServiceTool.m */; };
 		EE4B1DDC1D648A7500825E2B /* SMADefaultinfos.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4B1DDA1D648A7500825E2B /* SMADefaultinfos.m */; };
 		EE4B1DDF1D648BC600825E2B /* SmaCommonStudio.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4B1DDE1D648BC600825E2B /* SmaCommonStudio.m */; };
+		EE4CE2BE1DD47D9100AB66A6 /* ZXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4CE2BB1DD47D9100AB66A6 /* ZXPageControl.m */; };
+		EE4CE2BF1DD47D9100AB66A6 /* ZXRollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4CE2BC1DD47D9100AB66A6 /* ZXRollView.m */; };
+		EE59C7421DE7D5C20064D19F /* SMAUnPaierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE59C7411DE7D5C20064D19F /* SMAUnPaierViewController.m */; };
 		EE6160361D77BFC600FA1626 /* SMADialMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6160351D77BFC600FA1626 /* SMADialMainView.m */; };
 		EE62D2C61DAB95120047FC6B /* SMACalculate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62D2C51DAB95120047FC6B /* SMACalculate.m */; };
 		EE63AD9B1DC07EFB00ABA94D /* SMASleepDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE63AD9A1DC07EFB00ABA94D /* SMASleepDetailViewController.m */; };
 		EE63AD9E1DC08ABE00ABA94D /* MTKSleepView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE63AD9D1DC08ABE00ABA94D /* MTKSleepView.m */; };
 		EE733EC81DBDE41B00CF2887 /* SMAQuietHRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE733EC61DBDE41B00CF2887 /* SMAQuietHRViewController.m */; };
 		EE733EC91DBDE41B00CF2887 /* SMAQuietHRViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE733EC71DBDE41B00CF2887 /* SMAQuietHRViewController.xib */; };
+		EE796C4C1DE6F01100DCA2BA /* SMARunHrViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE796C4B1DE6F01100DCA2BA /* SMARunHrViewController.m */; };
 		EE7A86E91DB08A5F0089BA70 /* SMAGoalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7A86E81DB08A5F0089BA70 /* SMAGoalViewController.m */; };
+		EE7CB58D1DEC539800AB5E7D /* SMAEmailLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7CB58C1DEC539800AB5E7D /* SMAEmailLoginViewController.m */; };
 		EE8086751DAF55E00075C705 /* SMAPersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8086741DAF55E00075C705 /* SMAPersonalViewController.m */; };
 		EE8086781DAF918D0075C705 /* SMAPersonalPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8086771DAF918D0075C705 /* SMAPersonalPickView.m */; };
 		EE8169991D8E801B003BEDDF /* SMAPairViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8169981D8E801B003BEDDF /* SMAPairViewController.m */; };
@@ -161,14 +170,29 @@
 		EE83C1691DACCB8A00A4FD88 /* SMAHeartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83C1681DACCB8A00A4FD88 /* SMAHeartViewController.m */; };
 		EE83C16C1DACDAAB00A4FD88 /* SMAPickLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83C16B1DACDAAB00A4FD88 /* SMAPickLineView.m */; };
 		EE83C1731DACF65D00A4FD88 /* SMAMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83C1721DACF65D00A4FD88 /* SMAMeViewController.m */; };
+		EE83CE191DD2AF0A0031CF58 /* WYScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE181DD2AF0A0031CF58 /* WYScrollView.m */; };
+		EE83CE3C1DD2AFB20031CF58 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE1C1DD2AFB20031CF58 /* MKAnnotationView+WebCache.m */; };
+		EE83CE3D1DD2AFB20031CF58 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE1E1DD2AFB20031CF58 /* NSData+ImageContentType.m */; };
+		EE83CE3E1DD2AFB20031CF58 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE201DD2AFB20031CF58 /* SDImageCache.m */; };
+		EE83CE3F1DD2AFB20031CF58 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE221DD2AFB20031CF58 /* SDWebImageCompat.m */; };
+		EE83CE401DD2AFB20031CF58 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE241DD2AFB20031CF58 /* SDWebImageDecoder.m */; };
+		EE83CE411DD2AFB20031CF58 /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE261DD2AFB20031CF58 /* SDWebImageDownloader.m */; };
+		EE83CE421DD2AFB20031CF58 /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE281DD2AFB20031CF58 /* SDWebImageDownloaderOperation.m */; };
+		EE83CE431DD2AFB20031CF58 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE2A1DD2AFB20031CF58 /* SDWebImageManager.m */; };
+		EE83CE441DD2AFB20031CF58 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE2D1DD2AFB20031CF58 /* SDWebImagePrefetcher.m */; };
+		EE83CE451DD2AFB20031CF58 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE2F1DD2AFB20031CF58 /* UIButton+WebCache.m */; };
+		EE83CE461DD2AFB20031CF58 /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE311DD2AFB20031CF58 /* UIImage+GIF.m */; };
+		EE83CE471DD2AFB20031CF58 /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE331DD2AFB20031CF58 /* UIImage+MultiFormat.m */; };
+		EE83CE481DD2AFB20031CF58 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE351DD2AFB20031CF58 /* UIImage+WebP.m */; };
+		EE83CE491DD2AFB20031CF58 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE371DD2AFB20031CF58 /* UIImageView+HighlightedWebCache.m */; };
+		EE83CE4A1DD2AFB20031CF58 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE391DD2AFB20031CF58 /* UIImageView+WebCache.m */; };
+		EE83CE4B1DD2AFB20031CF58 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83CE3B1DD2AFB20031CF58 /* UIView+WebCacheOperation.m */; };
 		EE8420EF1D93AAC5007DA9C6 /* SMADeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8420ED1D93AAC5007DA9C6 /* SMADeviceCell.m */; };
 		EE8420F01D93AAC5007DA9C6 /* SMADeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE8420EE1D93AAC5007DA9C6 /* SMADeviceCell.xib */; };
 		EE8652DA1D65468900A051C2 /* SMARegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8652D91D65468900A051C2 /* SMARegisViewController.m */; };
 		EE8652E11D6557F000A051C2 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8652DD1D6557F000A051C2 /* MBProgressHUD+MJ.m */; };
 		EE8652E21D6557F000A051C2 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE8652DE1D6557F000A051C2 /* MBProgressHUD.bundle */; };
 		EE8652E31D6557F000A051C2 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8652E01D6557F000A051C2 /* MBProgressHUD.m */; };
-		EE910E741DB8606D002F7BEF /* ZXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EE910E731DB8606D002F7BEF /* ZXPageControl.m */; };
-		EE910E771DB86071002F7BEF /* ZXRollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE910E761DB86071002F7BEF /* ZXRollView.m */; };
 		EE91FAB21D83DBF60064A5A5 /* SDDemoItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91FAB11D83DBF60064A5A5 /* SDDemoItemView.m */; };
 		EE91FAB51D83DC200064A5A5 /* SDLoopProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91FAB41D83DC200064A5A5 /* SDLoopProgressView.m */; };
 		EE91FABB1D83DCBF0064A5A5 /* SDPieLoopProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91FAB81D83DCBF0064A5A5 /* SDPieLoopProgressView.m */; };
@@ -183,12 +207,16 @@
 		EE9C00331DA8D99000DF050D /* SMARulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9C00321DA8D99000DF050D /* SMARulerView.m */; };
 		EE9C00361DA8DA0800DF050D /* SMAClockRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9C00351DA8DA0800DF050D /* SMAClockRulerView.m */; };
 		EEA834001D96765800AF4CA9 /* SMAFindPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA833FF1D96765800AF4CA9 /* SMAFindPassViewController.m */; };
+		EEAD86561DE2BF07000D9DB7 /* SMATabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAD86551DE2BF07000D9DB7 /* SMATabbarController.m */; };
 		EEAD8E9A1D9A1997009128BB /* SMASedentEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAD8E981D9A1997009128BB /* SMASedentEditCell.m */; };
 		EEAD8E9B1D9A1997009128BB /* SMASedentEditCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEAD8E991D9A1997009128BB /* SMASedentEditCell.xib */; };
 		EEAE8F1A1D952ED4008F82CE /* SMABindRemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE8F191D952ED4008F82CE /* SMABindRemindView.m */; };
 		EEAF8A661DA9F14B00E1FE83 /* SMARepeatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAF8A641DA9F14B00E1FE83 /* SMARepeatCell.m */; };
 		EEAF8A671DA9F14B00E1FE83 /* SMARepeatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEAF8A651DA9F14B00E1FE83 /* SMARepeatCell.xib */; };
 		EEB09AAF1D79214500E34B9D /* SMADeviceDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB09AAE1D79214500E34B9D /* SMADeviceDataTableViewController.m */; };
+		EEB643831DEC05C600544FFE /* SMALocatiuonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */; };
+		EEB643851DEC067D00544FFE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB643841DEC067D00544FFE /* CoreLocation.framework */; };
+		EEB643871DEC2DEC00544FFE /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB643861DEC2DEC00544FFE /* libSmaBLE.a */; };
 		EEB9F68E1D64318B0011AA07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F68D1D64318B0011AA07 /* main.m */; };
 		EEB9F6911D64318B0011AA07 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F6901D64318B0011AA07 /* AppDelegate.mm */; };
 		EEB9F6941D64318B0011AA07 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F6931D64318B0011AA07 /* ViewController.m */; };
@@ -209,6 +237,8 @@
 		EEC3CD191DB0CE320034105B /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC3CD0F1DB0CE320034105B /* UIScrollView+MJExtension.m */; };
 		EEC3CD1A1DB0CE320034105B /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC3CD111DB0CE320034105B /* UIScrollView+MJRefresh.m */; };
 		EEC3CD1B1DB0CE320034105B /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC3CD131DB0CE320034105B /* UIView+MJExtension.m */; };
+		EEC582141DED6A2100980DDA /* SMANickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC582131DED6A2100980DDA /* SMANickViewController.m */; };
+		EEC582171DED6CB400980DDA /* SMABottomSelView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC582161DED6CB400980DDA /* SMABottomSelView.m */; };
 		EEC6CC3F1DB4C6D200A6CD9C /* SMASportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC6CC3E1DB4C6D200A6CD9C /* SMASportDetailViewController.m */; };
 		EEC6CC431DB4D02800A6CD9C /* SMADetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC6CC411DB4D02800A6CD9C /* SMADetailCell.m */; };
 		EEC6CC441DB4D02800A6CD9C /* SMADetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC6CC421DB4D02800A6CD9C /* SMADetailCell.xib */; };
@@ -224,9 +254,13 @@
 		EED2F7C61D71ADCC00527FA7 /* UINavigationController+MTKNaVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EED2F7C51D71ADCC00527FA7 /* UINavigationController+MTKNaVC.m */; };
 		EED44BAD1D73D40500BF7D07 /* SMAAgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAC1D73D40500BF7D07 /* SMAAgeViewController.m */; };
 		EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */; };
-		EEE582541DB21857005C2B0E /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEE582531DB21857005C2B0E /* libSmaBLE.a */; };
 		EEE5825C1DB22E5D005C2B0E /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE5825B1DB22E5D005C2B0E /* NSDate+Formatter.m */; };
 		EEE79A8A1D9CF252005683BA /* SMATimePickView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE79A891D9CF252005683BA /* SMATimePickView.m */; };
+		EEEC5E8E1DE420290096DAF3 /* SMARunTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEC5E8D1DE420290096DAF3 /* SMARunTableViewController.m */; };
+		EEEC5E921DE4206B0096DAF3 /* SMARunTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEC5E901DE4206B0096DAF3 /* SMARunTableViewCell.m */; };
+		EEEC5E931DE4206B0096DAF3 /* SMARunTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEC5E911DE4206B0096DAF3 /* SMARunTableViewCell.xib */; };
+		EEEC5E961DE42D710096DAF3 /* SMATrackDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEC5E951DE42D710096DAF3 /* SMATrackDetailView.m */; };
+		EEEC5E991DE434D70096DAF3 /* SMATrackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEC5E981DE434D70096DAF3 /* SMATrackViewController.m */; };
 		EEECE0C01DBDF3BC00B8F041 /* SmaQuietView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEECE0BF1DBDF3BC00B8F041 /* SmaQuietView.m */; };
 		EEEDD2971D98C93B009D6CA3 /* SMASedentaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2961D98C93B009D6CA3 /* SMASedentaryController.m */; };
 		EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */; };
@@ -248,6 +282,8 @@
 		EE09ACEE1DAA2B2E00CA2EC5 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
 		EE09ACEF1DAA2B2E00CA2EC5 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		EE09ACF01DAA2B2E00CA2EC5 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		EE0DDAE81DE020A900F2CDF0 /* SMAWebDataHandleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAWebDataHandleInfo.h; sourceTree = "<group>"; };
+		EE0DDAE91DE020A900F2CDF0 /* SMAWebDataHandleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAWebDataHandleInfo.m; sourceTree = "<group>"; };
 		EE0E14071D6707E40054BE87 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		EE0E14081D6707E40054BE87 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		EE0E140B1D6708190054BE87 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
@@ -634,6 +670,11 @@
 		EE3DBDE61DC1E6EB0005C9F9 /* ACUserTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACUserTimerManager.h; sourceTree = "<group>"; };
 		EE3DBDE81DC1E6EB0005C9F9 /* ACWeatherManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWeatherManager.h; sourceTree = "<group>"; };
 		EE3DBDEA1DC1E6EB0005C9F9 /* ACWifiLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWifiLinkManager.h; sourceTree = "<group>"; };
+		EE438B3F1DDC2D4D0066D5A6 /* SMARankTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARankTableViewCell.h; sourceTree = "<group>"; };
+		EE438B401DDC2D4D0066D5A6 /* SMARankTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARankTableViewCell.m; sourceTree = "<group>"; };
+		EE438B411DDC2D4D0066D5A6 /* SMARankTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMARankTableViewCell.xib; sourceTree = "<group>"; };
+		EE486C911DD9DCA200E3E385 /* SMADeviceAggregate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADeviceAggregate.h; sourceTree = "<group>"; };
+		EE486C921DD9DCA200E3E385 /* SMADeviceAggregate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADeviceAggregate.m; sourceTree = "<group>"; };
 		EE48F7C21DA881850086CB57 /* SMAAlarmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAAlarmViewController.h; sourceTree = "<group>"; };
 		EE48F7C31DA881850086CB57 /* SMAAlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAlarmViewController.m; sourceTree = "<group>"; };
 		EE4B1C0F1D6469C900825E2B /* NSDictionary-DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary-DeepMutableCopy.h"; sourceTree = "<group>"; };
@@ -663,6 +704,12 @@
 		EE4B1DDA1D648A7500825E2B /* SMADefaultinfos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADefaultinfos.m; sourceTree = "<group>"; };
 		EE4B1DDD1D648BC600825E2B /* SmaCommonStudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaCommonStudio.h; sourceTree = "<group>"; };
 		EE4B1DDE1D648BC600825E2B /* SmaCommonStudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmaCommonStudio.m; sourceTree = "<group>"; };
+		EE4CE2BA1DD47D9100AB66A6 /* ZXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPageControl.h; sourceTree = "<group>"; };
+		EE4CE2BB1DD47D9100AB66A6 /* ZXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPageControl.m; sourceTree = "<group>"; };
+		EE4CE2BC1DD47D9100AB66A6 /* ZXRollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXRollView.m; sourceTree = "<group>"; };
+		EE4CE2BD1DD47D9100AB66A6 /* ZXRollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXRollView.h; sourceTree = "<group>"; };
+		EE59C7401DE7D5C20064D19F /* SMAUnPaierViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAUnPaierViewController.h; sourceTree = "<group>"; };
+		EE59C7411DE7D5C20064D19F /* SMAUnPaierViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAUnPaierViewController.m; sourceTree = "<group>"; };
 		EE6160341D77BFC600FA1626 /* SMADialMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADialMainView.h; sourceTree = "<group>"; };
 		EE6160351D77BFC600FA1626 /* SMADialMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADialMainView.m; sourceTree = "<group>"; };
 		EE62D2C41DAB95120047FC6B /* SMACalculate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMACalculate.h; sourceTree = "<group>"; };
@@ -674,8 +721,12 @@
 		EE733EC51DBDE41B00CF2887 /* SMAQuietHRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAQuietHRViewController.h; sourceTree = "<group>"; };
 		EE733EC61DBDE41B00CF2887 /* SMAQuietHRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAQuietHRViewController.m; sourceTree = "<group>"; };
 		EE733EC71DBDE41B00CF2887 /* SMAQuietHRViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMAQuietHRViewController.xib; sourceTree = "<group>"; };
+		EE796C4A1DE6F01100DCA2BA /* SMARunHrViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARunHrViewController.h; sourceTree = "<group>"; };
+		EE796C4B1DE6F01100DCA2BA /* SMARunHrViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARunHrViewController.m; sourceTree = "<group>"; };
 		EE7A86E71DB08A5F0089BA70 /* SMAGoalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAGoalViewController.h; sourceTree = "<group>"; };
 		EE7A86E81DB08A5F0089BA70 /* SMAGoalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAGoalViewController.m; sourceTree = "<group>"; };
+		EE7CB58B1DEC539800AB5E7D /* SMAEmailLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAEmailLoginViewController.h; sourceTree = "<group>"; };
+		EE7CB58C1DEC539800AB5E7D /* SMAEmailLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAEmailLoginViewController.m; sourceTree = "<group>"; };
 		EE8086731DAF55E00075C705 /* SMAPersonalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPersonalViewController.h; sourceTree = "<group>"; };
 		EE8086741DAF55E00075C705 /* SMAPersonalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPersonalViewController.m; sourceTree = "<group>"; };
 		EE8086761DAF918D0075C705 /* SMAPersonalPickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPersonalPickView.h; sourceTree = "<group>"; };
@@ -692,6 +743,41 @@
 		EE83C16B1DACDAAB00A4FD88 /* SMAPickLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPickLineView.m; sourceTree = "<group>"; };
 		EE83C1711DACF65D00A4FD88 /* SMAMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAMeViewController.h; sourceTree = "<group>"; };
 		EE83C1721DACF65D00A4FD88 /* SMAMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAMeViewController.m; sourceTree = "<group>"; };
+		EE83CE171DD2AF0A0031CF58 /* WYScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYScrollView.h; sourceTree = "<group>"; };
+		EE83CE181DD2AF0A0031CF58 /* WYScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYScrollView.m; sourceTree = "<group>"; };
+		EE83CE1B1DD2AFB20031CF58 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
+		EE83CE1C1DD2AFB20031CF58 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
+		EE83CE1D1DD2AFB20031CF58 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
+		EE83CE1E1DD2AFB20031CF58 /* NSData+ImageContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ImageContentType.m"; sourceTree = "<group>"; };
+		EE83CE1F1DD2AFB20031CF58 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
+		EE83CE201DD2AFB20031CF58 /* SDImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDImageCache.m; sourceTree = "<group>"; };
+		EE83CE211DD2AFB20031CF58 /* SDWebImageCompat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageCompat.h; sourceTree = "<group>"; };
+		EE83CE221DD2AFB20031CF58 /* SDWebImageCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageCompat.m; sourceTree = "<group>"; };
+		EE83CE231DD2AFB20031CF58 /* SDWebImageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDecoder.h; sourceTree = "<group>"; };
+		EE83CE241DD2AFB20031CF58 /* SDWebImageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDecoder.m; sourceTree = "<group>"; };
+		EE83CE251DD2AFB20031CF58 /* SDWebImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDownloader.h; sourceTree = "<group>"; };
+		EE83CE261DD2AFB20031CF58 /* SDWebImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDownloader.m; sourceTree = "<group>"; };
+		EE83CE271DD2AFB20031CF58 /* SDWebImageDownloaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDownloaderOperation.h; sourceTree = "<group>"; };
+		EE83CE281DD2AFB20031CF58 /* SDWebImageDownloaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDownloaderOperation.m; sourceTree = "<group>"; };
+		EE83CE291DD2AFB20031CF58 /* SDWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageManager.h; sourceTree = "<group>"; };
+		EE83CE2A1DD2AFB20031CF58 /* SDWebImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageManager.m; sourceTree = "<group>"; };
+		EE83CE2B1DD2AFB20031CF58 /* SDWebImageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageOperation.h; sourceTree = "<group>"; };
+		EE83CE2C1DD2AFB20031CF58 /* SDWebImagePrefetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImagePrefetcher.h; sourceTree = "<group>"; };
+		EE83CE2D1DD2AFB20031CF58 /* SDWebImagePrefetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImagePrefetcher.m; sourceTree = "<group>"; };
+		EE83CE2E1DD2AFB20031CF58 /* UIButton+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+WebCache.h"; sourceTree = "<group>"; };
+		EE83CE2F1DD2AFB20031CF58 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WebCache.m"; sourceTree = "<group>"; };
+		EE83CE301DD2AFB20031CF58 /* UIImage+GIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
+		EE83CE311DD2AFB20031CF58 /* UIImage+GIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GIF.m"; sourceTree = "<group>"; };
+		EE83CE321DD2AFB20031CF58 /* UIImage+MultiFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MultiFormat.h"; sourceTree = "<group>"; };
+		EE83CE331DD2AFB20031CF58 /* UIImage+MultiFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MultiFormat.m"; sourceTree = "<group>"; };
+		EE83CE341DD2AFB20031CF58 /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+WebP.h"; sourceTree = "<group>"; };
+		EE83CE351DD2AFB20031CF58 /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+WebP.m"; sourceTree = "<group>"; };
+		EE83CE361DD2AFB20031CF58 /* UIImageView+HighlightedWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+HighlightedWebCache.h"; sourceTree = "<group>"; };
+		EE83CE371DD2AFB20031CF58 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
+		EE83CE381DD2AFB20031CF58 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
+		EE83CE391DD2AFB20031CF58 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		EE83CE3A1DD2AFB20031CF58 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
+		EE83CE3B1DD2AFB20031CF58 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		EE8420EC1D93AAC5007DA9C6 /* SMADeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADeviceCell.h; sourceTree = "<group>"; };
 		EE8420ED1D93AAC5007DA9C6 /* SMADeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADeviceCell.m; sourceTree = "<group>"; };
 		EE8420EE1D93AAC5007DA9C6 /* SMADeviceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMADeviceCell.xib; sourceTree = "<group>"; };
@@ -702,10 +788,6 @@
 		EE8652DE1D6557F000A051C2 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		EE8652DF1D6557F000A051C2 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		EE8652E01D6557F000A051C2 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		EE910E721DB8606D002F7BEF /* ZXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPageControl.h; sourceTree = "<group>"; };
-		EE910E731DB8606D002F7BEF /* ZXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPageControl.m; sourceTree = "<group>"; };
-		EE910E751DB86071002F7BEF /* ZXRollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXRollView.h; sourceTree = "<group>"; };
-		EE910E761DB86071002F7BEF /* ZXRollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXRollView.m; sourceTree = "<group>"; };
 		EE91FAB01D83DBF60064A5A5 /* SDDemoItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDDemoItemView.h; sourceTree = "<group>"; };
 		EE91FAB11D83DBF60064A5A5 /* SDDemoItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDDemoItemView.m; sourceTree = "<group>"; };
 		EE91FAB31D83DC200064A5A5 /* SDLoopProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLoopProgressView.h; sourceTree = "<group>"; };
@@ -736,6 +818,8 @@
 		EE9C00351DA8DA0800DF050D /* SMAClockRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAClockRulerView.m; sourceTree = "<group>"; };
 		EEA833FE1D96765800AF4CA9 /* SMAFindPassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAFindPassViewController.h; sourceTree = "<group>"; };
 		EEA833FF1D96765800AF4CA9 /* SMAFindPassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAFindPassViewController.m; sourceTree = "<group>"; };
+		EEAD86541DE2BF07000D9DB7 /* SMATabbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATabbarController.h; sourceTree = "<group>"; };
+		EEAD86551DE2BF07000D9DB7 /* SMATabbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATabbarController.m; sourceTree = "<group>"; };
 		EEAD8E971D9A1997009128BB /* SMASedentEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASedentEditCell.h; sourceTree = "<group>"; };
 		EEAD8E981D9A1997009128BB /* SMASedentEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASedentEditCell.m; sourceTree = "<group>"; };
 		EEAD8E991D9A1997009128BB /* SMASedentEditCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMASedentEditCell.xib; sourceTree = "<group>"; };
@@ -746,6 +830,10 @@
 		EEAF8A651DA9F14B00E1FE83 /* SMARepeatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMARepeatCell.xib; sourceTree = "<group>"; };
 		EEB09AAD1D79214500E34B9D /* SMADeviceDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADeviceDataTableViewController.h; sourceTree = "<group>"; };
 		EEB09AAE1D79214500E34B9D /* SMADeviceDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADeviceDataTableViewController.m; sourceTree = "<group>"; };
+		EEB643811DEC05C600544FFE /* SMALocatiuonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMALocatiuonManager.h; sourceTree = "<group>"; };
+		EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMALocatiuonManager.m; sourceTree = "<group>"; };
+		EEB643841DEC067D00544FFE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		EEB643861DEC2DEC00544FFE /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EEB9F6891D64318B0011AA07 /* SMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEB9F68D1D64318B0011AA07 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EEB9F68F1D64318B0011AA07 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -789,6 +877,10 @@
 		EEC3CD111DB0CE320034105B /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		EEC3CD121DB0CE320034105B /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		EEC3CD131DB0CE320034105B /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		EEC582121DED6A2100980DDA /* SMANickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMANickViewController.h; sourceTree = "<group>"; };
+		EEC582131DED6A2100980DDA /* SMANickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMANickViewController.m; sourceTree = "<group>"; };
+		EEC582151DED6CB400980DDA /* SMABottomSelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMABottomSelView.h; sourceTree = "<group>"; };
+		EEC582161DED6CB400980DDA /* SMABottomSelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMABottomSelView.m; sourceTree = "<group>"; };
 		EEC6CC3D1DB4C6D200A6CD9C /* SMASportDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASportDetailViewController.h; sourceTree = "<group>"; };
 		EEC6CC3E1DB4C6D200A6CD9C /* SMASportDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASportDetailViewController.m; sourceTree = "<group>"; };
 		EEC6CC401DB4D02800A6CD9C /* SMADetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADetailCell.h; sourceTree = "<group>"; };
@@ -817,11 +909,19 @@
 		EED44BAC1D73D40500BF7D07 /* SMAAgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAgeViewController.m; sourceTree = "<group>"; };
 		EED44BAE1D73D8B900BF7D07 /* SMAPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPickerView.h; sourceTree = "<group>"; };
 		EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPickerView.m; sourceTree = "<group>"; };
-		EEE582531DB21857005C2B0E /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EEE5825A1DB22E5D005C2B0E /* NSDate+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatter.h"; sourceTree = "<group>"; };
 		EEE5825B1DB22E5D005C2B0E /* NSDate+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatter.m"; sourceTree = "<group>"; };
 		EEE79A881D9CF252005683BA /* SMATimePickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATimePickView.h; sourceTree = "<group>"; };
 		EEE79A891D9CF252005683BA /* SMATimePickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATimePickView.m; sourceTree = "<group>"; };
+		EEEC5E8C1DE420290096DAF3 /* SMARunTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARunTableViewController.h; sourceTree = "<group>"; };
+		EEEC5E8D1DE420290096DAF3 /* SMARunTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARunTableViewController.m; sourceTree = "<group>"; };
+		EEEC5E8F1DE4206B0096DAF3 /* SMARunTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARunTableViewCell.h; sourceTree = "<group>"; };
+		EEEC5E901DE4206B0096DAF3 /* SMARunTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARunTableViewCell.m; sourceTree = "<group>"; };
+		EEEC5E911DE4206B0096DAF3 /* SMARunTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMARunTableViewCell.xib; sourceTree = "<group>"; };
+		EEEC5E941DE42D710096DAF3 /* SMATrackDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATrackDetailView.h; sourceTree = "<group>"; };
+		EEEC5E951DE42D710096DAF3 /* SMATrackDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATrackDetailView.m; sourceTree = "<group>"; };
+		EEEC5E971DE434D70096DAF3 /* SMATrackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATrackViewController.h; sourceTree = "<group>"; };
+		EEEC5E981DE434D70096DAF3 /* SMATrackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATrackViewController.m; sourceTree = "<group>"; };
 		EEECE0BE1DBDF3BC00B8F041 /* SmaQuietView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaQuietView.h; sourceTree = "<group>"; };
 		EEECE0BF1DBDF3BC00B8F041 /* SmaQuietView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmaQuietView.m; sourceTree = "<group>"; };
 		EEEDD2951D98C93B009D6CA3 /* SMASedentaryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASedentaryController.h; sourceTree = "<group>"; };
@@ -838,11 +938,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEB643851DEC067D00544FFE /* CoreLocation.framework in Frameworks */,
 				EE3DBE471DC1E6EB0005C9F9 /* libAbleCloudLib_simulator.a in Frameworks */,
 				EE3DBE251DC1E6EB0005C9F9 /* libFTC_DEBUG_ARM_64.a in Frameworks */,
 				EE10CE831DB5F9E100585B74 /* Accelerate.framework in Frameworks */,
 				EE3DBE2A1DC1E6EB0005C9F9 /* libEasyLink.a in Frameworks */,
 				EE9AB5C41D6EF6170028F8DA /* libsqlite3.0.tbd in Frameworks */,
+				EEB643871DEC2DEC00544FFE /* libSmaBLE.a in Frameworks */,
 				EE3DBE281DC1E6EB0005C9F9 /* EasyConfig.a in Frameworks */,
 				EE3DBE261DC1E6EB0005C9F9 /* libcooee.a in Frameworks */,
 				EE3DBE401DC1E6EB0005C9F9 /* libsmartlinklib_7x.a in Frameworks */,
@@ -855,7 +957,6 @@
 				EE10CE7A1DB5F7F000585B74 /* libCorePlot-CocoaTouch.a in Frameworks */,
 				EE0E14141D6708420054BE87 /* libsqlite3.tbd in Frameworks */,
 				EE3DBE431DC1E6EB0005C9F9 /* libUMessage_Sdk_1.3.0.a in Frameworks */,
-				EEE582541DB21857005C2B0E /* libSmaBLE.a in Frameworks */,
 				EE3DBE3F1DC1E6EB0005C9F9 /* libConfiguration.a in Frameworks */,
 				EE0E14121D6708350054BE87 /* CoreGraphics.framework in Frameworks */,
 				EE3DBE271DC1E6EB0005C9F9 /* libcrypto.a in Frameworks */,
@@ -990,6 +1091,7 @@
 		EE10CE811DB5F9E100585B74 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EEB643841DEC067D00544FFE /* CoreLocation.framework */,
 				EE10CE821DB5F9E100585B74 /* Accelerate.framework */,
 			);
 			name = Frameworks;
@@ -1008,8 +1110,8 @@
 		EE155BCB1DC34FA800AD4900 /* DeviceRank */ = {
 			isa = PBXGroup;
 			children = (
-				EE155BCC1DC34FD400AD4900 /* SMARankTableViewController.h */,
-				EE155BCD1DC34FD400AD4900 /* SMARankTableViewController.m */,
+				EE438B3D1DDC2D190066D5A6 /* VC */,
+				EE438B3E1DDC2D230066D5A6 /* VIEW */,
 			);
 			name = DeviceRank;
 			sourceTree = "<group>";
@@ -1017,7 +1119,6 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EEE582531DB21857005C2B0E /* libSmaBLE.a */,
 				EE30F2E51D8E284300869CF9 /* SmaAlarmInfo.h */,
 				EE30F2E61D8E284300869CF9 /* SmaBLE.h */,
 				EE30F2E71D8E284300869CF9 /* SmaBusinessTool.h */,
@@ -1984,6 +2085,34 @@
 			path = ACWifiLinkManager;
 			sourceTree = "<group>";
 		};
+		EE438B3D1DDC2D190066D5A6 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				EE155BCC1DC34FD400AD4900 /* SMARankTableViewController.h */,
+				EE155BCD1DC34FD400AD4900 /* SMARankTableViewController.m */,
+			);
+			name = VC;
+			sourceTree = "<group>";
+		};
+		EE438B3E1DDC2D230066D5A6 /* VIEW */ = {
+			isa = PBXGroup;
+			children = (
+				EE438B3F1DDC2D4D0066D5A6 /* SMARankTableViewCell.h */,
+				EE438B401DDC2D4D0066D5A6 /* SMARankTableViewCell.m */,
+				EE438B411DDC2D4D0066D5A6 /* SMARankTableViewCell.xib */,
+			);
+			name = VIEW;
+			sourceTree = "<group>";
+		};
+		EE486C901DD9DC2C00E3E385 /* MODEL */ = {
+			isa = PBXGroup;
+			children = (
+				EE486C911DD9DCA200E3E385 /* SMADeviceAggregate.h */,
+				EE486C921DD9DCA200E3E385 /* SMADeviceAggregate.m */,
+			);
+			name = MODEL;
+			sourceTree = "<group>";
+		};
 		EE4B1C0C1D64699400825E2B /* VC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1991,6 +2120,8 @@
 				EEB9F6931D64318B0011AA07 /* ViewController.m */,
 				EEB9F6B71D64386A0011AA07 /* SMALoginViewcontroller.h */,
 				EEB9F6B81D64386A0011AA07 /* SMALoginViewcontroller.m */,
+				EE7CB58B1DEC539800AB5E7D /* SMAEmailLoginViewController.h */,
+				EE7CB58C1DEC539800AB5E7D /* SMAEmailLoginViewController.m */,
 				EE8652D81D65468900A051C2 /* SMARegisViewController.h */,
 				EE8652D91D65468900A051C2 /* SMARegisViewController.m */,
 				EED2F7B31D7167CB00527FA7 /* SMAEmailRegisViewController.h */,
@@ -2032,6 +2163,7 @@
 		EE81699A1D8E9E8C003BEDDF /* SMABLE */ = {
 			isa = PBXGroup;
 			children = (
+				EEB643861DEC2DEC00544FFE /* libSmaBLE.a */,
 				EE81699B1D8E9E8C003BEDDF /* BLConnect.h */,
 				EE81699C1D8E9E8C003BEDDF /* BLConnect.m */,
 				EE81699D1D8E9E8C003BEDDF /* ScannedPeripheral.h */,
@@ -2079,6 +2211,46 @@
 			name = VC;
 			sourceTree = "<group>";
 		};
+		EE83CE1A1DD2AFB20031CF58 /* SDWebImage */ = {
+			isa = PBXGroup;
+			children = (
+				EE83CE1B1DD2AFB20031CF58 /* MKAnnotationView+WebCache.h */,
+				EE83CE1C1DD2AFB20031CF58 /* MKAnnotationView+WebCache.m */,
+				EE83CE1D1DD2AFB20031CF58 /* NSData+ImageContentType.h */,
+				EE83CE1E1DD2AFB20031CF58 /* NSData+ImageContentType.m */,
+				EE83CE1F1DD2AFB20031CF58 /* SDImageCache.h */,
+				EE83CE201DD2AFB20031CF58 /* SDImageCache.m */,
+				EE83CE211DD2AFB20031CF58 /* SDWebImageCompat.h */,
+				EE83CE221DD2AFB20031CF58 /* SDWebImageCompat.m */,
+				EE83CE231DD2AFB20031CF58 /* SDWebImageDecoder.h */,
+				EE83CE241DD2AFB20031CF58 /* SDWebImageDecoder.m */,
+				EE83CE251DD2AFB20031CF58 /* SDWebImageDownloader.h */,
+				EE83CE261DD2AFB20031CF58 /* SDWebImageDownloader.m */,
+				EE83CE271DD2AFB20031CF58 /* SDWebImageDownloaderOperation.h */,
+				EE83CE281DD2AFB20031CF58 /* SDWebImageDownloaderOperation.m */,
+				EE83CE291DD2AFB20031CF58 /* SDWebImageManager.h */,
+				EE83CE2A1DD2AFB20031CF58 /* SDWebImageManager.m */,
+				EE83CE2B1DD2AFB20031CF58 /* SDWebImageOperation.h */,
+				EE83CE2C1DD2AFB20031CF58 /* SDWebImagePrefetcher.h */,
+				EE83CE2D1DD2AFB20031CF58 /* SDWebImagePrefetcher.m */,
+				EE83CE2E1DD2AFB20031CF58 /* UIButton+WebCache.h */,
+				EE83CE2F1DD2AFB20031CF58 /* UIButton+WebCache.m */,
+				EE83CE301DD2AFB20031CF58 /* UIImage+GIF.h */,
+				EE83CE311DD2AFB20031CF58 /* UIImage+GIF.m */,
+				EE83CE321DD2AFB20031CF58 /* UIImage+MultiFormat.h */,
+				EE83CE331DD2AFB20031CF58 /* UIImage+MultiFormat.m */,
+				EE83CE341DD2AFB20031CF58 /* UIImage+WebP.h */,
+				EE83CE351DD2AFB20031CF58 /* UIImage+WebP.m */,
+				EE83CE361DD2AFB20031CF58 /* UIImageView+HighlightedWebCache.h */,
+				EE83CE371DD2AFB20031CF58 /* UIImageView+HighlightedWebCache.m */,
+				EE83CE381DD2AFB20031CF58 /* UIImageView+WebCache.h */,
+				EE83CE391DD2AFB20031CF58 /* UIImageView+WebCache.m */,
+				EE83CE3A1DD2AFB20031CF58 /* UIView+WebCacheOperation.h */,
+				EE83CE3B1DD2AFB20031CF58 /* UIView+WebCacheOperation.m */,
+			);
+			path = SDWebImage;
+			sourceTree = "<group>";
+		};
 		EE8652DB1D6557F000A051C2 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -2089,17 +2261,6 @@
 				EE8652E01D6557F000A051C2 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
-			sourceTree = "<group>";
-		};
-		EE910E711DB86050002F7BEF /* ZXRollView */ = {
-			isa = PBXGroup;
-			children = (
-				EE910E751DB86071002F7BEF /* ZXRollView.h */,
-				EE910E761DB86071002F7BEF /* ZXRollView.m */,
-				EE910E721DB8606D002F7BEF /* ZXPageControl.h */,
-				EE910E731DB8606D002F7BEF /* ZXPageControl.m */,
-			);
-			name = ZXRollView;
 			sourceTree = "<group>";
 		};
 		EE91FABD1D83DCC50064A5A5 /* SDDemoItemView */ = {
@@ -2136,6 +2297,8 @@
 		EEAD8E9C1D9A1F6D009128BB /* MainVC */ = {
 			isa = PBXGroup;
 			children = (
+				EEAD86541DE2BF07000D9DB7 /* SMATabbarController.h */,
+				EEAD86551DE2BF07000D9DB7 /* SMATabbarController.m */,
 				EEB09AA91D79208E00E34B9D /* DeviceData */,
 				EE155BCB1DC34FA800AD4900 /* DeviceRank */,
 				EECC9DC11D88F2B80019CAD8 /* DeviceSetting */,
@@ -2172,6 +2335,12 @@
 				EEB09AAE1D79214500E34B9D /* SMADeviceDataTableViewController.m */,
 				EEC6CC3D1DB4C6D200A6CD9C /* SMASportDetailViewController.h */,
 				EEC6CC3E1DB4C6D200A6CD9C /* SMASportDetailViewController.m */,
+				EEEC5E8C1DE420290096DAF3 /* SMARunTableViewController.h */,
+				EEEC5E8D1DE420290096DAF3 /* SMARunTableViewController.m */,
+				EEEC5E971DE434D70096DAF3 /* SMATrackViewController.h */,
+				EEEC5E981DE434D70096DAF3 /* SMATrackViewController.m */,
+				EE796C4A1DE6F01100DCA2BA /* SMARunHrViewController.h */,
+				EE796C4B1DE6F01100DCA2BA /* SMARunHrViewController.m */,
 				EEC84CF81DB9B98D0013D991 /* SMAHRDetailViewController.h */,
 				EEC84CF91DB9B98D0013D991 /* SMAHRDetailViewController.m */,
 				EE733EC51DBDE41B00CF2887 /* SMAQuietHRViewController.h */,
@@ -2180,8 +2349,18 @@
 				EE63AD991DC07EFB00ABA94D /* SMASleepDetailViewController.h */,
 				EE63AD9A1DC07EFB00ABA94D /* SMASleepDetailViewController.m */,
 				EE12EF191D7D1EC70096F811 /* VIEW */,
+				EE486C901DD9DC2C00E3E385 /* MODEL */,
 			);
 			name = DeviceData;
+			sourceTree = "<group>";
+		};
+		EEB643801DEC058600544FFE /* SMASystemMap */ = {
+			isa = PBXGroup;
+			children = (
+				EEB643811DEC05C600544FFE /* SMALocatiuonManager.h */,
+				EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */,
+			);
+			name = SMASystemMap;
 			sourceTree = "<group>";
 		};
 		EEB9F6801D64318B0011AA07 = {
@@ -2251,6 +2430,8 @@
 				EE4B1DD81D648A7500825E2B /* SmaAnalysisWebServiceTool.m */,
 				EE09ACE21DAA2B1000CA2EC5 /* SMADatabase.h */,
 				EE09ACE31DAA2B1000CA2EC5 /* SMADatabase.m */,
+				EE0DDAE81DE020A900F2CDF0 /* SMAWebDataHandleInfo.h */,
+				EE0DDAE91DE020A900F2CDF0 /* SMAWebDataHandleInfo.m */,
 				EE4B1DD91D648A7500825E2B /* SMADefaultinfos.h */,
 				EE4B1DDA1D648A7500825E2B /* SMADefaultinfos.m */,
 				EE4B1DC81D6487F700825E2B /* SmaLocalizeableInfo.h */,
@@ -2278,6 +2459,7 @@
 		EEB9F6BA1D6443200011AA07 /* other */ = {
 			isa = PBXGroup;
 			children = (
+				EEB643801DEC058600544FFE /* SMASystemMap */,
 				EE3DBC8D1DC1E6EA0005C9F9 /* ACloudLib */,
 				EE10CE2A1DB5F7F000585B74 /* CorePlotHeaders */,
 				EE09ACE51DAA2B2E00CA2EC5 /* fmdb */,
@@ -2333,6 +2515,8 @@
 				EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */,
 				EE8169971D8E801B003BEDDF /* SMAPairViewController.h */,
 				EE8169981D8E801B003BEDDF /* SMAPairViewController.m */,
+				EE59C7401DE7D5C20064D19F /* SMAUnPaierViewController.h */,
+				EE59C7411DE7D5C20064D19F /* SMAUnPaierViewController.m */,
 				EEEDD2951D98C93B009D6CA3 /* SMASedentaryController.h */,
 				EEEDD2961D98C93B009D6CA3 /* SMASedentaryController.m */,
 				EE48F7C21DA881850086CB57 /* SMAAlarmViewController.h */,
@@ -2378,6 +2562,8 @@
 		EED2F7B91D71960500527FA7 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				EEC582121DED6A2100980DDA /* SMANickViewController.h */,
+				EEC582131DED6A2100980DDA /* SMANickViewController.m */,
 				EED2F7BC1D71964900527FA7 /* SMAGenderViewController.h */,
 				EED2F7BD1D71964900527FA7 /* SMAGenderViewController.m */,
 				EED44BAB1D73D40500BF7D07 /* SMAAgeViewController.h */,
@@ -2403,6 +2589,8 @@
 				EE6160351D77BFC600FA1626 /* SMADialMainView.m */,
 				EED21B041D76BC5700BB8770 /* SMADialView.h */,
 				EED21B051D76BC5700BB8770 /* SMADialView.m */,
+				EEC582151DED6CB400980DDA /* SMABottomSelView.h */,
+				EEC582161DED6CB400980DDA /* SMABottomSelView.m */,
 			);
 			name = VIEW;
 			sourceTree = "<group>";
@@ -2449,6 +2637,9 @@
 				EEC6CC451DB4EE5C00A6CD9C /* SMADetailCollectionCell.h */,
 				EEC6CC461DB4EE5C00A6CD9C /* SMADetailCollectionCell.m */,
 				EEC6CC471DB4EE5C00A6CD9C /* SMADetailCollectionCell.xib */,
+				EEEC5E8F1DE4206B0096DAF3 /* SMARunTableViewCell.h */,
+				EEEC5E901DE4206B0096DAF3 /* SMARunTableViewCell.m */,
+				EEEC5E911DE4206B0096DAF3 /* SMARunTableViewCell.xib */,
 			);
 			name = CELL;
 			sourceTree = "<group>";
@@ -2456,7 +2647,13 @@
 		EEE582561DB22C84005C2B0E /* UIView */ = {
 			isa = PBXGroup;
 			children = (
-				EE910E711DB86050002F7BEF /* ZXRollView */,
+				EE4CE2BA1DD47D9100AB66A6 /* ZXPageControl.h */,
+				EE4CE2BB1DD47D9100AB66A6 /* ZXPageControl.m */,
+				EE4CE2BC1DD47D9100AB66A6 /* ZXRollView.m */,
+				EE4CE2BD1DD47D9100AB66A6 /* ZXRollView.h */,
+				EE83CE1A1DD2AFB20031CF58 /* SDWebImage */,
+				EE83CE171DD2AF0A0031CF58 /* WYScrollView.h */,
+				EE83CE181DD2AF0A0031CF58 /* WYScrollView.m */,
 				EE10CE7B1DB5F82A00585B74 /* ScattView.h */,
 				EE10CE7C1DB5F82A00585B74 /* ScattView.m */,
 				EE10CE7E1DB5F85100585B74 /* BaseTouchesView.h */,
@@ -2469,6 +2666,8 @@
 				EEECE0BF1DBDF3BC00B8F041 /* SmaQuietView.m */,
 				EE63AD9C1DC08ABE00ABA94D /* MTKSleepView.h */,
 				EE63AD9D1DC08ABE00ABA94D /* MTKSleepView.m */,
+				EEEC5E941DE42D710096DAF3 /* SMATrackDetailView.h */,
+				EEEC5E951DE42D710096DAF3 /* SMATrackDetailView.m */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -2504,6 +2703,11 @@
 				TargetAttributes = {
 					EEB9F6881D64318B0011AA07 = {
 						CreatedOnToolsVersion = 7.3.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -2543,6 +2747,8 @@
 				EEB9F6BD1D6443340011AA07 /* Gotham-Light_0.otf in Resources */,
 				EE12EF2C1D7D6BCB0096F811 /* SMADieviceDataCell.xib in Resources */,
 				EEB9F69C1D64318B0011AA07 /* LaunchScreen.storyboard in Resources */,
+				EE438B431DDC2D4E0066D5A6 /* SMARankTableViewCell.xib in Resources */,
+				EEEC5E931DE4206B0096DAF3 /* SMARunTableViewCell.xib in Resources */,
 				EEAD8E9B1D9A1997009128BB /* SMASedentEditCell.xib in Resources */,
 				EEC3CD141DB0CE320034105B /* MJRefresh.bundle in Resources */,
 				EE9AB5C21D6EF5EA0028F8DA /* README.txt in Resources */,
@@ -2572,23 +2778,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE4B1DDB1D648A7500825E2B /* SmaAnalysisWebServiceTool.m in Sources */,
+				EE83CE3C1DD2AFB20031CF58 /* MKAnnotationView+WebCache.m in Sources */,
 				EE4B1C1D1D646D9500825E2B /* UIBarButtonItem+CKQ.m in Sources */,
 				EE6160361D77BFC600FA1626 /* SMADialMainView.m in Sources */,
 				EE4B1C141D6469DD00825E2B /* SectionsViewController.m in Sources */,
 				EE3DBDED1DC1E6EB0005C9F9 /* AFHTTPSessionManager.m in Sources */,
 				EE83C1731DACF65D00A4FD88 /* SMAMeViewController.m in Sources */,
+				EE83CE3E1DD2AFB20031CF58 /* SDImageCache.m in Sources */,
 				EEC3CD181DB0CE320034105B /* MJRefreshHeaderView.m in Sources */,
 				EE3DBE3E1DC1E6EB0005C9F9 /* MarvellSmartConfig.m in Sources */,
 				EE3DBDFF1DC1E6EB0005C9F9 /* CKMemoryCache.m in Sources */,
 				EE4B1DCA1D6487F700825E2B /* SmaLocalizeableInfo.m in Sources */,
 				EE9C002A1DA8D52100DF050D /* SMAAlarmRulerView.m in Sources */,
+				EE83CE411DD2AFB20031CF58 /* SDWebImageDownloader.m in Sources */,
 				EEE5825C1DB22E5D005C2B0E /* NSDate+Formatter.m in Sources */,
+				EE83CE3D1DD2AFB20031CF58 /* NSData+ImageContentType.m in Sources */,
 				EE3DBE111DC1E6EB0005C9F9 /* QNDnspodEnterprise.m in Sources */,
 				EE4B1DDF1D648BC600825E2B /* SmaCommonStudio.m in Sources */,
 				EE83C1691DACCB8A00A4FD88 /* SMAHeartViewController.m in Sources */,
+				EE438B421DDC2D4E0066D5A6 /* SMARankTableViewCell.m in Sources */,
 				EE3DBE1F1DC1E6EB0005C9F9 /* QNConfiguration.m in Sources */,
 				EE3DBDF61DC1E6EB0005C9F9 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				EEC3CD1B1DB0CE320034105B /* UIView+MJExtension.m in Sources */,
+				EEC582141DED6A2100980DDA /* SMANickViewController.m in Sources */,
 				EE3DBE2B1DC1E6EB0005C9F9 /* MXCHIPAirlink.m in Sources */,
 				EE3DBE121DC1E6EB0005C9F9 /* QNDnspodFree.m in Sources */,
 				EE9C00361DA8DA0800DF050D /* SMAClockRulerView.m in Sources */,
@@ -2601,7 +2813,6 @@
 				EE3DBE0A1DC1E6EB0005C9F9 /* QNPHAssetResource.m in Sources */,
 				EE3DBE0F1DC1E6EB0005C9F9 /* QNNetworkInfo.m in Sources */,
 				EE3DBE221DC1E6EB0005C9F9 /* QNUploadManager.m in Sources */,
-				EE910E741DB8606D002F7BEF /* ZXPageControl.m in Sources */,
 				EE3DBE151DC1E6EB0005C9F9 /* QNResolver.m in Sources */,
 				EE3DBE041DC1E6EB0005C9F9 /* QNALAssetFile.m in Sources */,
 				EE3DBE331DC1E6EB0005C9F9 /* ESPUDPSocketClient.m in Sources */,
@@ -2613,17 +2824,19 @@
 				EE733EC81DBDE41B00CF2887 /* SMAQuietHRViewController.m in Sources */,
 				EEC6CC481DB4EE5C00A6CD9C /* SMADetailCollectionCell.m in Sources */,
 				EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */,
-				EE910E771DB86071002F7BEF /* ZXRollView.m in Sources */,
 				EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */,
 				EE91FABC1D83DCBF0064A5A5 /* SDRotationLoopProgressView.m in Sources */,
 				EE3DBDEC1DC1E6EB0005C9F9 /* aes_core.c in Sources */,
 				EE3DBE001DC1E6EB0005C9F9 /* CKNullCache.m in Sources */,
 				EE3DBE241DC1E6EB0005C9F9 /* QNUpToken.m in Sources */,
+				EE83CE451DD2AFB20031CF58 /* UIButton+WebCache.m in Sources */,
 				EE62D2C61DAB95120047FC6B /* SMACalculate.m in Sources */,
+				EE83CE401DD2AFB20031CF58 /* SDWebImageDecoder.m in Sources */,
 				EE30F2F31D8E42C000869CF9 /* SMASelectViewCell.m in Sources */,
 				EE9AB5C71D6EFB540028F8DA /* SMAthirdPartyManager.m in Sources */,
 				EEC84CFA1DB9B98D0013D991 /* SMAHRDetailViewController.m in Sources */,
 				EEC6CC431DB4D02800A6CD9C /* SMADetailCell.m in Sources */,
+				EE796C4C1DE6F01100DCA2BA /* SMARunHrViewController.m in Sources */,
 				EE3DBE191DC1E6EB0005C9F9 /* QNHex.m in Sources */,
 				EED2F7BE1D71964900527FA7 /* SMAGenderViewController.m in Sources */,
 				EE3DBE171DC1E6EB0005C9F9 /* QNTxtResolver.m in Sources */,
@@ -2633,6 +2846,7 @@
 				EE3DBE321DC1E6EB0005C9F9 /* ESPTouchTaskParameter.m in Sources */,
 				EED44BAD1D73D40500BF7D07 /* SMAAgeViewController.m in Sources */,
 				EE3DBE101DC1E6EB0005C9F9 /* QNRecord.m in Sources */,
+				EEEC5E8E1DE420290096DAF3 /* SMARunTableViewController.m in Sources */,
 				EEFC6D2B1DB2428A0091283A /* SMACalendarView.m in Sources */,
 				EEB9F6941D64318B0011AA07 /* ViewController.m in Sources */,
 				EED2F7C21D719BF300527FA7 /* SMANavViewController.m in Sources */,
@@ -2641,6 +2855,7 @@
 				EE3DBE2D1DC1E6EB0005C9F9 /* ESPDatumCode.m in Sources */,
 				EE3DBE061DC1E6EB0005C9F9 /* QNCrc32.m in Sources */,
 				EE4B1DDC1D648A7500825E2B /* SMADefaultinfos.m in Sources */,
+				EE83CE471DD2AFB20031CF58 /* UIImage+MultiFormat.m in Sources */,
 				EEB9F6B91D64386A0011AA07 /* SMALoginViewcontroller.m in Sources */,
 				EE8169991D8E801B003BEDDF /* SMAPairViewController.m in Sources */,
 				EE227CF81D74381C00B9387D /* SMARulerScrollView.m in Sources */,
@@ -2656,6 +2871,7 @@
 				EE3DBE201DC1E6EB0005C9F9 /* QNFormUpload.m in Sources */,
 				EEC3CD171DB0CE320034105B /* MJRefreshFooterView.m in Sources */,
 				EE3DBDF41DC1E6EB0005C9F9 /* AFImageDownloader.m in Sources */,
+				EE59C7421DE7D5C20064D19F /* SMAUnPaierViewController.m in Sources */,
 				EEEDD2971D98C93B009D6CA3 /* SMASedentaryController.m in Sources */,
 				EE3DBE181DC1E6EB0005C9F9 /* QNDes.m in Sources */,
 				EE3DBDF91DC1E6EB0005C9F9 /* UIProgressView+AFNetworking.m in Sources */,
@@ -2663,11 +2879,14 @@
 				EE3DBE091DC1E6EB0005C9F9 /* QNPHAssetFile.m in Sources */,
 				EE3DBDF71DC1E6EB0005C9F9 /* UIButton+AFNetworking.m in Sources */,
 				EE3DBE3B1DC1E6EB0005C9F9 /* AsyncUdpSocket.m in Sources */,
+				EEC582171DED6CB400980DDA /* SMABottomSelView.m in Sources */,
 				EE3DBE231DC1E6EB0005C9F9 /* QNUploadOption.m in Sources */,
 				EE3DBE371DC1E6EB0005C9F9 /* ESP_NetUtil.m in Sources */,
 				EE3DBDFA1DC1E6EB0005C9F9 /* UIRefreshControl+AFNetworking.m in Sources */,
 				EE4B1C201D64767C00825E2B /* UIImage+CKQ.m in Sources */,
 				EE8652E31D6557F000A051C2 /* MBProgressHUD.m in Sources */,
+				EEEC5E921DE4206B0096DAF3 /* SMARunTableViewCell.m in Sources */,
+				EE4CE2BE1DD47D9100AB66A6 /* ZXPageControl.m in Sources */,
 				EE09ACE41DAA2B1000CA2EC5 /* SMADatabase.m in Sources */,
 				EE81699F1D8E9E8C003BEDDF /* BLConnect.m in Sources */,
 				EEECE0C01DBDF3BC00B8F041 /* SmaQuietView.m in Sources */,
@@ -2685,21 +2904,26 @@
 				EED21B031D76AF0400BB8770 /* SMAWeightViewController.m in Sources */,
 				EE3DBE311DC1E6EB0005C9F9 /* ESPTouchTask.m in Sources */,
 				EE3A32B71DA8BD060077C813 /* BEMAnalogClockView.m in Sources */,
+				EE4CE2BF1DD47D9100AB66A6 /* ZXRollView.m in Sources */,
 				EE3DBE3A1DC1E6EB0005C9F9 /* AsyncSocket.m in Sources */,
 				EE3DBDF01DC1E6EB0005C9F9 /* AFURLRequestSerialization.m in Sources */,
 				EED21B061D76BC5700BB8770 /* SMADialView.m in Sources */,
 				EEC3CD161DB0CE320034105B /* MJRefreshConst.m in Sources */,
+				EEB643831DEC05C600544FFE /* SMALocatiuonManager.m in Sources */,
 				EE4B1C231D6476C500825E2B /* SmaColor.m in Sources */,
 				EE3DBDF11DC1E6EB0005C9F9 /* AFURLResponseSerialization.m in Sources */,
+				EE83CE481DD2AFB20031CF58 /* UIImage+WebP.m in Sources */,
 				EE3DBE2E1DC1E6EB0005C9F9 /* ESPGuideCode.m in Sources */,
 				EE09ACF31DAA2B2E00CA2EC5 /* FMDatabasePool.m in Sources */,
 				EE3DBE0E1DC1E6EB0005C9F9 /* QNDomain.m in Sources */,
 				EE3DBE2C1DC1E6EB0005C9F9 /* ESPDataCode.m in Sources */,
+				EE83CE441DD2AFB20031CF58 /* SDWebImagePrefetcher.m in Sources */,
 				EE8086751DAF55E00075C705 /* SMAPersonalViewController.m in Sources */,
 				EE3DBE1B1DC1E6EB0005C9F9 /* QNResponseInfo.m in Sources */,
 				EE3DBE131DC1E6EB0005C9F9 /* QNHijackingDetectWrapper.m in Sources */,
 				EEC6CC3F1DB4C6D200A6CD9C /* SMASportDetailViewController.m in Sources */,
 				EE8169A01D8E9E8C003BEDDF /* ScannedPeripheral.m in Sources */,
+				EE83CE4B1DD2AFB20031CF58 /* UIView+WebCacheOperation.m in Sources */,
 				EEBAB5A61D6D2F8700AAC710 /* SMAthirdPartyLoginTool.m in Sources */,
 				EE09ACF21DAA2B2E00CA2EC5 /* FMDatabaseAdditions.m in Sources */,
 				EE3DBE0B1DC1E6EB0005C9F9 /* QNSystem.m in Sources */,
@@ -2710,10 +2934,13 @@
 				EEAF8A661DA9F14B00E1FE83 /* SMARepeatCell.m in Sources */,
 				EE4B1DD61D648A6E00825E2B /* SMAUserInfo.m in Sources */,
 				EE3DBE081DC1E6EB0005C9F9 /* QNFile.m in Sources */,
+				EEAD86561DE2BF07000D9DB7 /* SMATabbarController.m in Sources */,
 				EEC3CD1A1DB0CE320034105B /* UIScrollView+MJRefresh.m in Sources */,
 				EE3DBE031DC1E6EB0005C9F9 /* QN_GTM_Base64.m in Sources */,
 				EEB09AAF1D79214500E34B9D /* SMADeviceDataTableViewController.m in Sources */,
+				EE83CE431DD2AFB20031CF58 /* SDWebImageManager.m in Sources */,
 				EE3DBDEE1DC1E6EB0005C9F9 /* AFNetworkReachabilityManager.m in Sources */,
+				EE83CE3F1DD2AFB20031CF58 /* SDWebImageCompat.m in Sources */,
 				EE8086781DAF918D0075C705 /* SMAPersonalPickView.m in Sources */,
 				EEAE8F1A1D952ED4008F82CE /* SMABindRemindView.m in Sources */,
 				EE3DBE141DC1E6EB0005C9F9 /* QNHosts.m in Sources */,
@@ -2722,29 +2949,39 @@
 				EE91FAC01D83DEAE0064A5A5 /* SDBaseProgressView.m in Sources */,
 				EE3DBE071DC1E6EB0005C9F9 /* QNEtag.m in Sources */,
 				EE48F7C41DA881850086CB57 /* SMAAlarmViewController.m in Sources */,
+				EE83CE4A1DD2AFB20031CF58 /* UIImageView+WebCache.m in Sources */,
 				EE3DBE2F1DC1E6EB0005C9F9 /* ESPTouchGenerator.m in Sources */,
+				EE83CE421DD2AFB20031CF58 /* SDWebImageDownloaderOperation.m in Sources */,
 				EEC3CD151DB0CE320034105B /* MJRefreshBaseView.m in Sources */,
+				EE486C931DD9DCA200E3E385 /* SMADeviceAggregate.m in Sources */,
 				EE3DBE291DC1E6EB0005C9F9 /* EasyLinkForAXZWifiLink.m in Sources */,
+				EE83CE191DD2AF0A0031CF58 /* WYScrollView.m in Sources */,
 				EE3DBE301DC1E6EB0005C9F9 /* ESPTouchResult.m in Sources */,
 				EE155BCE1DC34FD400AD4900 /* SMARankTableViewController.m in Sources */,
 				EE10CE7D1DB5F82A00585B74 /* ScattView.m in Sources */,
+				EE83CE461DD2AFB20031CF58 /* UIImage+GIF.m in Sources */,
 				EE3DBE011DC1E6EB0005C9F9 /* GCDAsyncSocket.m in Sources */,
 				EE1749001DAC7A6D004A892D /* SMADateDaultionfos.m in Sources */,
 				EE63AD9E1DC08ABE00ABA94D /* MTKSleepView.m in Sources */,
 				EEB9F6911D64318B0011AA07 /* AppDelegate.mm in Sources */,
 				EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */,
 				EE3DBE451DC1E6EB0005C9F9 /* YYClassInfo.m in Sources */,
+				EE7CB58D1DEC539800AB5E7D /* SMAEmailLoginViewController.m in Sources */,
 				EE09ACF51DAA2B2E00CA2EC5 /* FMResultSet.m in Sources */,
 				EE3DBDEB1DC1E6EB0005C9F9 /* aes_cbc.c in Sources */,
 				EE9C00331DA8D99000DF050D /* SMARulerView.m in Sources */,
+				EE83CE491DD2AFB20031CF58 /* UIImageView+HighlightedWebCache.m in Sources */,
 				EE3DBE341DC1E6EB0005C9F9 /* ESPUDPSocketServer.m in Sources */,
+				EE0DDAEA1DE020A900F2CDF0 /* SMAWebDataHandleInfo.m in Sources */,
 				EE3DBE211DC1E6EB0005C9F9 /* QNResumeUpload.m in Sources */,
 				EE3DBE1C1DC1E6EB0005C9F9 /* QNSessionManager.m in Sources */,
 				EEAD8E9A1D9A1997009128BB /* SMASedentEditCell.m in Sources */,
 				EE3DBDFD1DC1E6EB0005C9F9 /* CKCacheContent.m in Sources */,
 				EE3DBE421DC1E6EB0005C9F9 /* SRWebSocket.m in Sources */,
+				EEEC5E961DE42D710096DAF3 /* SMATrackDetailView.m in Sources */,
 				EEB9F68E1D64318B0011AA07 /* main.m in Sources */,
 				EE63AD9B1DC07EFB00ABA94D /* SMASleepDetailViewController.m in Sources */,
+				EEEC5E991DE434D70096DAF3 /* SMATrackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

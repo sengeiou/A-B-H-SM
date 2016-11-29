@@ -9,7 +9,11 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-
+{
+    NSTimer *changeBgTimer;
+    int index;
+    NSArray *titLabArr;
+}
 @end
 
 @implementation ViewController
@@ -36,11 +40,33 @@
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     
-     self.navigationController.navigationBar.translucent = true;
+    self.navigationController.navigationBar.translucent = true;
     self.extendedLayoutIncludesOpaqueBars = YES;
+    titLabArr = @[SMALocalizedString(@"属于你的 SMA 智能生活"),SMALocalizedString(@"记录你的健康数据"),SMALocalizedString(@"分享你的汗水与努力")];
     _titLab.text = SMALocalizedString(@"login_smaTit");
     [_loginBut setTitle:SMALocalizedString(@"login_login") forState:UIControlStateNormal];
     [_regisBut setTitle:SMALocalizedString(@"login_regis") forState:UIControlStateNormal];
+    
+    if (changeBgTimer) {
+        [changeBgTimer invalidate];
+        changeBgTimer = nil;
+    }
+    index = 0;
+    changeBgTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSubview) userInfo:nil repeats:YES];
+}
+
+- (void)changeSubview{
+    int random = [self getRandomNumber:1 to:3];
+    _titLab.text = titLabArr[random - 1];
+    _backIma.image = [UIImage imageWithName:[NSString stringWithFormat:@"new_feature_%d",random]];
+}
+
+//获取一个随机整数，范围在[from,to），包括from，包括to
+                 
+- (int)getRandomNumber:(int)from to:(int)to{
+
+    return (int)(from + (arc4random() % (to - from + 1)));
+    
 }
 
 @end

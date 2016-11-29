@@ -234,13 +234,13 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
 
 - (void)refreshViewsDirection:(int)dire {//0没方向 -1左， 1右
     for (NSInteger i = 0; i < 3; i ++) {
-        NSLog(@"self.currentPage==%d",self.currentPage);
+//        NSLog(@"self.currentPage==%d",self.currentPage);
         NSInteger rollViewIndex = (self.numberOfPages + self.currentPage + 2 + i) % (self.numberOfPages + 2);
         NSInteger itemIndex = (self.numberOfPages + self.currentPage - 1 + i) % self.numberOfPages;
         if (self.delegate && [self.delegate respondsToSelector:@selector(rollView:setAllViewForRollView:atIndex:direction:)]) {
             [self.delegate rollView:self setAllViewForRollView:_rollViews[rollViewIndex] atIndex:_pushCountPage direction:dire];
         }
-        
+        [self.delegate rollView:self setNewViewForRollView:_rollViews[rollViewIndex] atIndex:itemIndex];
         if (self.currentPage == itemIndex) {
              [self.delegate rollView:self setViewForRollView:_rollViews[rollViewIndex] atIndex:itemIndex];
         }
@@ -274,8 +274,8 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
         [_pageTimer invalidate];
         _pageTimer = nil;
     }
-    if ([self.delegate respondsToSelector:@selector(scrollViewDidEndDecelerating:AtIndex:)]) {
-        [self.delegate scrollViewDidEndDecelerating:self AtIndex:_pushCountPage];
+    if ([self.delegate respondsToSelector:@selector(ZXscrollViewDidEndDecelerating:AtIndex:)]) {
+        [self.delegate ZXscrollViewDidEndDecelerating:self AtIndex:_pushCountPage];
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -362,8 +362,8 @@ typedef NS_ENUM(NSUInteger, ZXRollViewIndicatorStyle) {
         [_pageTimer invalidate];
         _pageTimer = nil;
     }
-    if ([self.delegate respondsToSelector:@selector(scrollViewDidEndDecelerating:AtIndex:)]) {
-        [self.delegate scrollViewDidEndDecelerating:self AtIndex:_pushCountPage];
+    if ([self.delegate respondsToSelector:@selector(ZXscrollViewDidEndDecelerating:AtIndex:)]) {
+        [self.delegate ZXscrollViewDidEndDecelerating:self AtIndex:_pushCountPage];
     }
 }
 

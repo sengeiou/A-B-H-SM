@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SMARankTableViewCell.h"
 @interface SMARankTableViewController : UITableViewController
 
 @end

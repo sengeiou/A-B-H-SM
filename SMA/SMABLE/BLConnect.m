@@ -62,20 +62,20 @@ static id _instace;
 }
 
 - (BOOL)checkBLConnectState{
-    if (self.user.watchUUID.UUIDString) {
+    if (self.user.watchUUID) {
         if (self.peripheral.state == CBPeripheralStateConnected) {
             if (_syncing) {
-                [MBProgressHUD showError:@"未完成数据同步，请稍候"];
+                [MBProgressHUD showError:SMALocalizedString(@"device_SP_syncWait")];
                 return NO;
             }
             return YES;
         }
         else{
-            [MBProgressHUD showError:SMALocalizedString(@"请先连接手表")];
+            [MBProgressHUD showError:SMALocalizedString(@"aler_conFirst")];
         }
     }
     else{
-        [MBProgressHUD showError:SMALocalizedString(@"未绑定设备,请绑定设备")];
+        [MBProgressHUD showError:SMALocalizedString(@"aler_bandDevice")];
     }
     return NO;
 }
@@ -92,7 +92,7 @@ static id _instace;
     else{
         self.mgr =  [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
     }
-     [self stopSearch];
+    [self stopSearch];
     if (time) {
         self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(timerFireScan) userInfo:nil repeats:YES];
     }
@@ -102,14 +102,17 @@ static id _instace;
 - (void)reunitonPeripheral:(BOOL)open{
     if (open) {
         if (self.user.watchUUID) {
-            [self scanBL:0];
+            if (!self.peripheral && self.peripheral.state != CBPeripheralStateConnected) {
+                [self scanBL:0];
+            }
             if (!_reunionTimer) {
-                _reunionTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(reunionTimer:) userInfo:nil repeats:YES];
+                _reunionTimer = [NSTimer scheduledTimerWithTimeInterval:12 target:self selector:@selector(reunionTimer:) userInfo:nil repeats:YES];
             }
         }
     }
     else{
         [self stopSearch];
+        NSLog(@"fwefwefwergr+++++22g====");
         if (_reunionTimer) {
             [_reunionTimer invalidate];
             _reunionTimer = nil;
@@ -118,13 +121,13 @@ static id _instace;
 }
 
 - (void)reunionTimer:(id)sender{
-    
+    NSLog(@"fwefwefwergrg====");
     if (self.peripheral.state != CBPeripheralStateConnected) {
         NSArray *SystemArr = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
-        NSLog(@"重连系统连接设备====%@",SystemArr);
+        NSLog(@"重连系统连接设备====%@  %@",SystemArr,self.user.watchUUID);
         if (SystemArr.count > 0) {
             [SystemArr enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL *stop) {
-                if ([obj.identifier isEqual:self.user.watchUUID]) {
+                if ([obj.identifier.UUIDString isEqual:self.user.watchUUID]) {
                     NSLog(@"重连系统设备");
                     [self connectBl:obj];
                 }
@@ -145,6 +148,9 @@ static id _instace;
     if (self.scanTimer) {
         [self.scanTimer invalidate];
         self.scanTimer = nil;
+        //        [self.peripherals removeAllObjects];
+        //        self.peripherals = nil;
+        //        self.sortedArray = nil;
     }
 }
 
@@ -160,7 +166,9 @@ static id _instace;
 
 //断开链接
 - (void)disconnectBl{
-    [self.mgr cancelPeripheralConnection:self.peripheral];
+    if (self.peripheral) {
+         [self.mgr cancelPeripheralConnection:self.peripheral];
+    }
 }
 
 //设备更新状态
@@ -193,7 +201,7 @@ static id _instace;
             if (SystemArr.count > 0) {
                 [SystemArr enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL *stop) {
                     blNum ++;
-                    if ([obj.identifier isEqual:self.user.watchUUID]) {
+                    if ([obj.identifier.UUIDString isEqual:self.user.watchUUID]) {
                         NSLog(@"重连系统设备");
                         [self connectBl:obj];
                         blNum --;
@@ -205,7 +213,6 @@ static id _instace;
                             self.peripherals = nil;
                             [self.mgr scanForPeripheralsWithServices:nil options:nil];
                         }
-                        
                     }
                 }];
             }
@@ -224,9 +231,9 @@ static id _instace;
 
 //发现周边蓝牙设备
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
-    NSLog(@"搜索设备UUID：%@  记录UUID：%@",peripheral.identifier.UUIDString,self.user.watchUUID.UUIDString);
-    if (self.user.watchUUID.UUIDString) {
-        if ([self.user.watchUUID.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
+    NSLog(@"搜索设备UUID：%@  记录UUID：%@",peripheral.identifier.UUIDString,self.user.watchUUID);
+    if (self.user.watchUUID) {
+        if ([self.user.watchUUID isEqualToString:peripheral.identifier.UUIDString]) {
             [self connectBl:peripheral];
         }
     }
@@ -247,7 +254,6 @@ static id _instace;
                     sensor = [peripherals objectAtIndex:[peripherals indexOfObject:sensor]];
                     sensor.RSSI = RSSI.intValue;
                 }
-                
                 _sortedArray = [peripherals sortedArrayUsingComparator:^NSComparisonResult(ScannedPeripheral *obj1, ScannedPeripheral *obj2){
                     if (obj1.RSSI > obj2.RSSI){
                         return NSOrderedAscending;
@@ -269,7 +275,7 @@ static id _instace;
 //连接上蓝牙后调用
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     NSLog(@"连接上蓝牙后调用 %@",self.peripheral);
-     [self stopSearch];
+    [self stopSearch];
     [self.peripheral discoverServices:nil];
 }
 
@@ -298,7 +304,7 @@ static id _instace;
         if ([characteristic.UUID.UUIDString isEqualToString:@"6E400002-B5A3-F393-E0A9-E50E24DCCA9E"]) {
             SmaBleSend.Write = characteristic;
             SMAUserInfo *user = [SMAAccountTool userInfo];
-            if (user.watchUUID.UUIDString) {
+            if (user.watchUUID) {
                 [SmaBleSend setHighSpeed:YES];
                 [SmaBleSend LoginUserWithUserID:user.userID];
             }
@@ -331,6 +337,7 @@ static id _instace;
 
 -(void)peripheral:(CBPeripheral*)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
+    NSLog(@"fewfwef==%@",characteristic.value);
     [SmaBleSend handleResponseValue:characteristic];
     if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleDidUpdateValue:)]) {
         [self.BLdelegate bleDidUpdateValue:characteristic];
@@ -363,23 +370,23 @@ static id _instace;
     //    }];
     //    NSLog(@"排序后的数组：%@",_sortedArray);
     //
-    //    if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(reloadView)]) {
-    //        [self.BLdelegate reloadView];
-    //    }
+        if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(searchTimeOut)]) {
+            [self.BLdelegate searchTimeOut];
+        }
     //    [self.mgr scanForPeripheralsWithServices:nil options:nil];
     //    [self.peripherals removeAllObjects];
 }
 
 #pragma mark ********SamCoreBlueToolDelegate*******
 - (void)bleDataParsingWithMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)array Checkout:(BOOL)check{
-    NSLog(@"mac---%@",array);
+    NSLog(@"mac---%d",array.count);
     SMADatabase *dal = [[SMADatabase alloc] init];
     switch (mode) {
         case BAND:
             if([array[0] intValue])//绑定成功
             {
                 SMAUserInfo *user = [SMAAccountTool userInfo];
-                user.watchUUID = self.peripheral.identifier;
+                user.watchUUID = self.peripheral.identifier.UUIDString;
                 [SMAAccountTool saveUser:user];
                 [SmaBleSend LoginUserWithUserID:self.user.userID];
                 if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleBindState:)]){
@@ -414,6 +421,14 @@ static id _instace;
         }
             break;
         case CUFFSPORTDATA:
+            /****
+             静坐开始 10
+             步行开始 11
+             跑步开始 12
+             运动模式开始 20
+             运动中数据   21
+             运动模式结束 2F
+             *****/
             if (![[[array firstObject] objectForKey:@"NODATA"] isEqualToString:@"NODATA"]) {
                 [dal insertSportDataArr: [self clearUpSportData:array] finish:^(id finish) {
                     
@@ -431,11 +446,24 @@ static id _instace;
             break;
         case CUFFHEARTRATE:
             if (![[[array firstObject] objectForKey:@"NODATA"] isEqualToString:@"NODATA"]) {
-                [dal insertHRDataArr:[self clearUpHRData:array] finish:^(id finish) {
-                    
-                }];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                    [dal insertHRDataArr:[self clearUpHRData:array] finish:^(id finish) {
+                        //上传运动步数到排行榜
+                        SMADatabase *dal = [[SMADatabase alloc] init];
+                        NSMutableArray *spArr = [dal readSportDataWithDate:[NSDate date].yyyyMMddNoLineWithDate toDate:[NSDate date].yyyyMMddNoLineWithDate];
+                        NSLog(@"spArr==%@",[spArr firstObject]);
+                        SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
+                        [webTool acloudSetScore:[[[spArr firstObject] objectForKey:@"STEP"] intValue]];
+                        [webTool acloudSyncAllDataWithAccount:[SMAAccountTool userInfo].userID callBack:^(id finish) {
+                        
+                        }];
+                    }];
+                });
             }
             [SmaBleSend requestCuffSleepData];
+            break;
+        case RUNMODE:
+            NSLog(@"riunfjwfiow===%@",array);
             break;
         default:
             break;
@@ -483,6 +511,11 @@ static id _instace;
     }
     [SmaBleSend setHRWithHR:HRInfo];
     
+    SmaSeatInfo *setInfo = [SMAAccountTool seatInfo];
+    if (setInfo) {
+         [SmaBleSend seatLongTimeInfoV2:setInfo];
+    }
+
     [SmaBleSend setBacklight:[SMADefaultinfos getIntValueforKey:BACKLIGHTSET]];
     SmaVibrationInfo *vibration = [[SmaVibrationInfo alloc] init];
     vibration.type = @"5";
@@ -511,46 +544,16 @@ static bool isSpMode;
 - (NSMutableArray *)clearUpSportData:(NSMutableArray *)dataArr{
     NSMutableArray *sp_arr = [NSMutableArray array];
     for (int i = 0; i < dataArr.count; i ++) {
-      
         NSMutableDictionary *spDic = [(NSDictionary *)dataArr[i] mutableCopy];
         [spDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
         [spDic setObject:@"0" forKey:@"WEB"];
         [spDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
-        double nowInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:[spDic objectForKey:@"DATE"] timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        if ((nowInterval - spInterval) != 60) {
-            if (isSpMode) {
-                NSMutableDictionary *spModeDic = [(NSDictionary *)dataArr[i-1] mutableCopy];
-                [spModeDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
-                [spModeDic setObject:@"0" forKey:@"WEB"];
-                [spModeDic setObject:@"2" forKey:@"SPMODE"];
-                [spModeDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
-                [sp_arr replaceObjectAtIndex:i withObject:spModeDic];
-                isSpMode = NO;
-            }
-            else{
-               [spDic setObject:@"0" forKey:@"SPMODE"];
-            }
-        }
-        else{
-            if (!isSpMode) {
-                isSpMode = YES;
-                NSMutableDictionary *spModeDic = [(NSDictionary *)dataArr[i-1] mutableCopy];
-                [spModeDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
-                [spModeDic setObject:@"0" forKey:@"WEB"];
-                [spModeDic setObject:@"1" forKey:@"SPMODE"];
-                [spModeDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
-                [sp_arr replaceObjectAtIndex:i withObject:spModeDic];
-            }
-            else{
-                [spDic setObject:@"1" forKey:@"SPMODE"];
-            }
-        }
-          [sp_arr addObject:spDic];
-        spInterval = nowInterval;
+        [sp_arr addObject:spDic];
+        //        spInterval = nowInterval;
         if (i == dataArr.count - 1) {
             spInterval = 0;
         }
-
+        
     }
     return sp_arr;
 }
@@ -559,7 +562,7 @@ static bool isSpMode;
     NSMutableArray *sl_arr = [NSMutableArray array];
     for (int i = 0; i < dataArr.count; i ++) {
         NSMutableDictionary *slDic = [(NSDictionary *)dataArr[i] mutableCopy];
-        [slDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
+        [slDic setObject:[SMADefaultinfos getValueforKey:BANDDEVELIVE] forKey:@"INDEX"];
         [slDic setObject:@"0" forKey:@"WEB"];
         [slDic setObject:@"1" forKey:@"WEAR"];
         [slDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
@@ -577,45 +580,16 @@ static bool ishrMode;
         [hrDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
         [hrDic setObject:@"0" forKey:@"WEB"];
         [hrDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
+        //        [hrDic setObject:@"0" forKey:@"HRMODE"];
+        //        [hrDic setObject:@"0" forKey:@"QUIET"];
         double nowInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:[hrDic objectForKey:@"DATE"] timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        if ((nowInterval - hrInterval) != 60) {
-            if (ishrMode) {
-                NSMutableDictionary *hrModeDic = [(NSDictionary *)dataArr[i-1] mutableCopy];
-                [hrModeDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
-                [hrModeDic setObject:@"0" forKey:@"WEB"];
-                [hrModeDic setObject:@"2" forKey:@"HRMODE"];
-                [hrModeDic setObject:@"0" forKey:@"QUIET"];
-                [hrModeDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
-                [hr_arr replaceObjectAtIndex:i withObject:hrModeDic];
-                isSpMode = NO;
-            }
-            else{
-                [hrDic setObject:@"0" forKey:@"HRMODE"];
-                [hrDic setObject:@"0" forKey:@"QUIET"];
-            }
-        }
-        else{
-            if (!ishrMode) {
-                isSpMode = YES;
-                NSMutableDictionary *hrModeDic = [(NSDictionary *)dataArr[i-1] mutableCopy];
-                [hrModeDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
-                [hrModeDic setObject:@"0" forKey:@"WEB"];
-                [hrModeDic setObject:@"1" forKey:@"HRMODE"];
-                [hrModeDic setObject:@"0" forKey:@"QUIET"];
-                [hrModeDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
-                [hr_arr replaceObjectAtIndex:i withObject:hrModeDic];
-            }
-            else{
-                [hrDic setObject:@"1" forKey:@"HRMODE"];
-                [hrDic setObject:@"0" forKey:@"QUIET"];
-            }
-        }
+
         [hr_arr addObject:hrDic];
         hrInterval = nowInterval;
         if (i == dataArr.count - 1) {
             hrInterval = 0;
         }
-
+        
     }
     return hr_arr;
 }

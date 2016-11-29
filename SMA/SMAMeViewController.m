@@ -131,12 +131,14 @@
         UIAlertController *aler = [UIAlertController alertControllerWithTitle:nil message:SMALocalizedString(@"me_signOut_remind") preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *confimAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
-            
+            SMAUserInfo *user = [SMAAccountTool userInfo];
             if (indexPath.section == 3) {
+                [webservice acloudSyncAllDataWithAccount:user.userID callBack:^(id finish) {
+                    
+                }];
                 [webservice logOutSuccess:^(bool result) {
                     
                 }];
-                SMAUserInfo *user = [SMAAccountTool userInfo];
                 user.userID = @"";
                 user.watchUUID = nil;
                 [SMAAccountTool saveUser:user];
@@ -168,7 +170,8 @@
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userID]];
-        BOOL result = [[self scaleToSize:image] writeToFile: filePath  atomically:YES];
+        image = [UIImage imageUserToCompressForSizeImage:image newSize:CGSizeMake(100, 100)];
+        BOOL result = [UIImageJPEGRepresentation(image, 1) writeToFile: filePath  atomically:YES];
         if(result)
         {
             SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
@@ -194,24 +197,6 @@
     }
 }
 
-static float i = 0.1; float A = 0;
-- (NSData *)scaleToSize:(UIImage *)imge{
-    NSData *data;
-    data= UIImageJPEGRepresentation(imge, 1);
-    
-    if (data.length > 70000) {
-        [self zoomImaData:imge];
-        data = UIImageJPEGRepresentation(imge,1-A);
-        A = 0;
-    }
-    return data;
-}
 
-- (void)zoomImaData:(UIImage *)image{
-    A = A + i;
-    NSData *data = UIImageJPEGRepresentation(image,1-A);
-    if (data.length > 70000) {
-        [self zoomImaData:image];
-    }
-}
+
 @end

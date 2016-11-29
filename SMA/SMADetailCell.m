@@ -37,10 +37,13 @@
     [self.contentView.layer addSublayer:_oval];
     
     
-   _botLine = [CALayer layer];
+    _botLine = [CALayer layer];
     _botLine.frame = CGRectMake(25+7, CGRectGetMaxY(_oval.frame) + 0.5, 1, (44.0 - 15)/2 );
     _botLine.backgroundColor =  [UIColor colorWithRed:137/255.0 green: 228/255.0 blue:247/255.0 alpha:1].CGColor;
+    
     [self.contentView.layer addSublayer:_botLine];
+    self.contentView.layer.shouldRasterize = YES;
+    self.contentView.layer.rasterizationScale =  [UIScreen mainScreen].scale;
 }
 
 - (UIBezierPath*)ovalPath{

@@ -26,21 +26,33 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+   
     [self updateUI];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 //判断是否允许跳转
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if ([identifier isEqualToString:@"pairDevice"]) {
-        if (!self.userInfo.watchUUID.UUIDString || [self.userInfo.watchUUID.UUIDString isEqualToString:@""]) {
+        if (!self.userInfo.watchUUID || [self.userInfo.watchUUID isEqualToString:@""]) {
             return YES;
         }
         else{
+            //跳转到解除绑定界面
+            [self performSegueWithIdentifier:@"unPairDevice" sender:nil];
             return NO;
         }
     }
     return [SmaBleMgr checkBLConnectState];
 }
+
 
 - (void)initializeMethod{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -60,18 +72,24 @@
     _HRSetLab.text = SMALocalizedString(@"setting_heart");
     _vibrationLab.text = SMALocalizedString(@"setting_vibration");
     _backlightLab.text = SMALocalizedString(@"setting_backlight");
-    _backlightCell.hidden = NO;
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
-        _backlightCell.hidden = YES;
-    }
+//    _backlightCell.hidden = NO;
+//    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
+//        _backlightCell.hidden = YES;
+//    }
     [self updateUI];
 }
 
 - (void)updateUI{
+    
+    _backlightCell.hidden = NO;
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
+        _backlightCell.hidden = YES;
+    }
+    
     SmaBleMgr.BLdelegate = self;
 
     _userInfo = [SMAAccountTool userInfo];
-    if (!self.userInfo.watchUUID.UUIDString || [self.userInfo.watchUUID.UUIDString isEqualToString:@""]) {
+    if (!self.userInfo.watchUUID || [self.userInfo.watchUUID isEqualToString:@""]) {
         _deviceLab.text = SMALocalizedString(@"setting_conDevice");
         _deviceIma.image = [UIImage imageNamed:@"add_watch"];
         _bleIma.hidden = YES;
@@ -156,7 +174,7 @@
         if ([SmaBleMgr checkBLConnectState]) {
             UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_vibration") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             for ( int i = 0; i <= 6; i ++) {
-                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_times")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_sedentary_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_times")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     if (i != 6) {
                         [SMADefaultinfos putInt:VIBRATIONSET andValue:i*2];
                     }
@@ -178,7 +196,7 @@
         if ([SmaBleMgr checkBLConnectState]) {
             UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_backlight") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             for ( int i = 0; i <= 6; i ++) {
-                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_seconds")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_sedentary_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_seconds")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     if (i != 6) {
                         [SMADefaultinfos putInt:BACKLIGHTSET andValue:i*2];
                     }

@@ -5,13 +5,13 @@
   Created by 有限公司 深圳市 on 16/8/17.
   Copyright © 2016年 SMA. All rights reserved.
 */
+//主页
 
 //登录注册页
 "login_smaTit" = "开启智能生活";
 "login_login" = "登录";
 "login_regis" = "注册";
 "login_resetpass" = "忘记密码？";
-"login_accplace" = "请输入手机或邮箱";
 "login_passplace" = "请输入密码";
 "login_choose_cou" = "国家选择";
 "login_hirdParty" = "第三方登录";
@@ -23,13 +23,15 @@
 "login_findPass" = "修改密码";
 "login_findSucc" = "修改密码成功";
 "login_findFail" = "修改密码失败";
+"login_noInstal" = "未安装此应用";
 
 "register_accplace" = "请输入手机号";
 "register_emalplace" = "请输入邮箱帐号";
 "register_code" = "请输入验证码";
 "register_getcode" = "获取验证码";
+"register_getagain" = "重新发送";
 "register_email" = "邮箱注册";
-"register_protocol1" = "我已阅读并同意";
+"register_protocol1" = "点击注册即表示你同意";
 "register_protocol2" = "《SMA 用户使用协议》";
 "register_enterphone"="请输入手机号，手机号码不能为空";
 "register_enteremail"="请输入邮箱号，邮箱号码不能为空";
@@ -37,7 +39,7 @@
 "register_regcode"="请输入验证码，验证码不能为空";
 "register_sending" = "正在发送...";
 "register_accexist"="该账号已存在，请登录！";
-"register_sendsucc" = "发送成功!";
+"register_sendsucc" = "验证码已发送";
 "register_sendfail" = "发送失败";
 "register_beingreg"="正在注册...";
 "register_failurereg"="注册失败";
@@ -67,6 +69,7 @@
 "device_SP_km" = "km";
 "device_SP_mile" = "mile";
 "device_SP_cal" = "cal";
+"device_SP_calorie" = "卡路里";
 "device_SP_syncWait" = "数据未完成同步，请稍候!";
 "device_SP_day" = "日";
 "device_SP_week" = "周";
@@ -76,6 +79,13 @@
 "device_SP_avgStep" = "日均步数";
 "device_SP_sumDista" = "里程";
 "device_SP_avgCal" = "日均消耗";
+"device_RU_distance" = "路程";
+"device_RU_per" = "时速";
+"device_RU_pace" = "配速";
+"device_RU_per_meUnit" = "km/h";
+"device_RU_per_brUnit" = "km/h(英制)";
+"device_RU_pace_meUnit" = "min/km";
+"device_RU_pace_brUnit" = "min/mile";
 "device_HR_monitor" = "心率监测";
 "device_HR_typeF" = "正常";
 "device_HR_typeS" = "偏低";
@@ -104,6 +114,7 @@
 "device_SL_avgDeep" = "平均深睡";
 "device_SL_avgLight" = "平均浅睡";
 "device_SL_thisWeek" = "本周";
+"device_SL_thisMonth" = "本月";
 "device_pullSync" = "下拉可以刷新";
 "device_loosenSync" = "松开马上刷新";
 "device_lastTime" = "最后更新:";
@@ -129,7 +140,6 @@
 "setting_times" = "次";
 "setting_seconds" = "秒";
 "setting_turnOff" = "关闭";
-"setting_cancel" = "取消";
 "setting_band_title" = "绑定设备";
 "setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
 "setting_band_buywatch" = "购买SMA-WATCH";
@@ -160,6 +170,7 @@
 "setting_sedentary_time" = "时间";
 "setting_sedentary_timeout" = "久坐时长";
 "setting_sedentary_minute" = "分钟";
+"setting_sedentary_hour" = "小时";
 "setting_sedentary_remind" = "*久坐时间段通用一个重复与久坐时长";
 "setting_sedentary_star" = "开始时间";
 "setting_sedentary_end" = "结束时间";
@@ -197,13 +208,13 @@
 "me_perso_cm" = "cm";
 "me_perso_inch" = "in";
 "me_perso_ft" = "ft";
-"sme_perso_kg" = "kg";
+"me_perso_kg" = "kg";
 "me_perso_lbs" = "lbs";
 "me_perso_language" = "语言";
 "me_perso_zh" = "中文";
 "me_perso_en" = "英文";
 "me_goal_title" = "运动目标";
-"me_goal_walk" = "步行";
-"me_goal_run" = "跑步";
 "me_goal_approximate" = "约等于";
 
+"aler_conFirst" = "请先连接手表";
+"aler_bandDevice" = "未绑定设备,请绑定设备";

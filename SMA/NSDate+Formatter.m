@@ -140,6 +140,9 @@
 }
 
 - (NSDate *)yesterday{
+    NSTimeZone *timeZone = [NSTimeZone defaultTimeZone];
+    NSTimeInterval interval = [timeZone secondsFromGMT];
+    NSDate *GMTDate = [self dateByAddingTimeInterval:-interval];
     return  [NSDate dateWithTimeInterval:-(24*60*60)sinceDate:self];
 }
 
@@ -223,8 +226,7 @@
 - (id)firstDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class{
     NSDate *now = self;
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay
-                                         fromDate:now];
+    NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay  fromDate:now];
     // 得到星期几
     // 2(星期天) 3(星期二) 4(星期三) 5(星期四) 6(星期五) 7(星期六) 1(星期天)
     NSInteger weekDay = [comp weekday];
@@ -233,30 +235,82 @@
     // 计算当前日期和这周的星期一和星期天差的天数
     long firstDiff,lastDiff;
     if (weekDay == 1) {
-        firstDiff = 1;
-        lastDiff = 0;
+        firstDiff = 0;
+        lastDiff = 6;
     }else{
         firstDiff = [calendar firstWeekday] - weekDay;
-        lastDiff = 9 - weekDay;
+        lastDiff = 7 - weekDay;
     }
     // 在当前日期(去掉了时分秒)基础上加上差的天数
     NSDateComponents *firstDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
     [firstDayComp setDay:day + firstDiff];
-    NSDate *firstDayOfWeek= [calendar dateFromComponents:firstDayComp];
+     NSDate *firstDayOfWeek= [calendar dateFromComponents:firstDayComp];
     
     NSDateComponents *lastDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
     [lastDayComp setDay:day + lastDiff];
-    NSDate *lastDayOfWeek= [calendar dateFromComponents:lastDayComp];
     
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+//    NSTimeZone *zone = [NSTimeZone defaultTimeZone];
+//    [formater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:zone.secondsFromGMT/3600]];
     [formater setDateFormat:format];
-//    NSLog(@"星期一开始 %@",[formater stringFromDate:firstDayOfWeek]);
+//    NSLog(@"星期天开始 %@",[formater stringFromDate:firstDayOfWeek]);
 //    NSLog(@"当前 %@",[formater stringFromDate:now]);
-//    NSLog(@"星期天结束 %@",[formater stringFromDate:lastDayOfWeek]);
+//    NSLog(@"星期六结束00 %@",[formater stringFromDate:lastDayOfWeek]);
     if ([Class isSubclassOfClass:[NSDate class]]) {
         return firstDayOfWeek;
     }
     return [formater stringFromDate:firstDayOfWeek];
+}
+
+- (id)lastDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class{
+    NSDate *now = self;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay fromDate:now];
+    // 得到星期几
+    // 2(星期一) 3(星期二) 4(星期三) 5(星期四) 6(星期五) 7(星期六) 1(星期天)
+    NSInteger weekDay = [comp weekday];
+    // 得到几号
+    NSInteger day = [comp day];
+    // 计算当前日期和这周的星期一和星期天差的天数
+    long firstDiff,lastDiff;
+    if (weekDay == 1) {
+        firstDiff = 0;
+        lastDiff = 6;
+    }else{
+        firstDiff = [calendar firstWeekday] - weekDay;
+        lastDiff = 7 - weekDay;
+    }
+
+//    if (weekDay == 2) {
+//        firstDiff = 1;
+//        lastDiff = 7;
+//    }else{
+//        firstDiff = [calendar firstWeekday] - weekDay + 1;
+//        lastDiff = 7 - weekDay + 1;
+//    }
+//    NSLog(@"ef-e----%lu  %lu",(unsigned long)[calendar firstWeekday],weekDay);
+    
+    // 在当前日期(去掉了时分秒)基础上加上差的天数
+    NSDateComponents *firstDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
+    [firstDayComp setDay:day + firstDiff];
+
+//    NSDate *firstDayOfWeek= [calendar dateFromComponents:firstDayComp];
+    
+    NSDateComponents *lastDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
+    [lastDayComp setDay:day + lastDiff];
+    NSDate *lastDayOfWeek= [calendar dateFromComponents:lastDayComp];
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+//    NSTimeZone *zone = [NSTimeZone defaultTimeZone];
+//    [formater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:zone.secondsFromGMT/3600]];
+    [formater setDateFormat:format];
+//        NSLog(@"星期一开始 %@",[formater stringFromDate:firstDayOfWeek]);
+//        NSLog(@"星期一开始 %@",[formater stringFromDate:[calendar dateFromComponents:lastDayComp]]);
+//        NSLog(@"当前 %@",[formater stringFromDate:now]);
+//        NSLog(@"星期天结束 %@",[formater stringFromDate:lastDayOfWeek]);
+    if ([Class isSubclassOfClass:[NSDate class]]) {
+        return lastDayOfWeek;
+    }
+    return [formater stringFromDate:lastDayOfWeek];
 }
 
 - (NSDate *)dayOfMonthToDateIndex:(int)index{
@@ -275,7 +329,7 @@
     if (index < 0) {
         return (NSDate *)[dayModelArray firstObject];
     }
-    else if (index > 42){
+    else if (index > 31){
         return (NSDate *)[dayModelArray lastObject];
     }
     return (NSDate *)[dayModelArray objectAtIndex:index];
@@ -315,5 +369,12 @@
                                fromDate:self];
     comps.day = day;
     return [greCalendar dateFromComponents:comps];
+}
+
+- (NSUInteger)numberOfDaysInMonth{
+    NSDate *date = self;
+    NSCalendar *greCalendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    [greCalendar setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    return [greCalendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:date].length;
 }
 @end

@@ -11,7 +11,6 @@
 "login_login" = "Accesso";
 "login_regis" = "Registra";
 "login_resetpass" = "Trova la password?";
-"login_accplace" = "Telefono / E-mail";
 "login_passplace" = "Password";
 "login_choose_cou" = "Scegli il paese";
 "login_hirdParty" = "第三方登录";
@@ -23,13 +22,15 @@
 "login_findPass" = "Modifica la password";
 "login_findSucc" = "Modifica effettuata con successo";
 "login_findFail" = "Modifica non riuscita";
+"login_noInstal" = "未安装此应用";
 
 "register_accplace" = "Telefono";
 "register_emalplace" = "E-mail";
 "register_code" = "验证码";
 "register_getcode" = "codice di verifica";
+"register_getagain" = "重新发送";
 "register_email" = "邮箱注册";
-"register_protocol1" = "我已阅读并同意";
+"register_protocol1" = "点击注册即表示你同意";
 "register_protocol2" = "《SMA 用户使用协议》";
 "register_enterphone"="Il numero di cellulare non può essere vuoto";
 "register_enteremail"="邮箱号码不能为空";
@@ -67,6 +68,7 @@
 "device_SP_km" = "km";
 "device_SP_mile" = "miglio";
 "device_SP_cal" = "Cal.";
+"device_SP_calorie" = "Cal.";
 "device_SP_syncWait" = "La sincronizzazione dei dati del telefono non è ancora completa, attendi";
 "device_SP_day" = "Giorno";
 "device_SP_week" = "Settimana";
@@ -76,6 +78,13 @@
 "device_SP_avgStep" = "日均步数";
 "device_SP_sumDista" = "里程";
 "device_SP_avgCal" = "日均消耗";
+"device_RU_distance" = "Distanza";
+"device_RU_per" = "时速";
+"device_RU_pace" = "配速";
+"device_RU_per_meUnit" = "km/h";
+"device_RU_per_brUnit" = "km/h(英制)";
+"device_RU_pace_meUnit" = "m/km";
+"device_RU_pace_brUnit" = "m/mile";
 "device_HR_monitor" = "Pulso";
 "device_HR_typeF" = "Normal";
 "device_HR_typeS" = "Ligero";
@@ -104,6 +113,7 @@
 "device_SL_avgDeep" = "平均深睡";
 "device_SL_avgLight" = "平均浅睡";
 "device_SL_thisWeek" = "本周";
+"device_SL_thisMonth" = "本月";
 "daevice_pullSync" = "Scendi giù per aggiornare";
 "device_loosenSync" = "Rilascia immediatamente per l'aggiornamento";
 "device_lastTime" = "ultimo aggiornamento:";
@@ -129,7 +139,6 @@
 "setting_times" = "volte";
 "setting_seconds" = "secondi";
 "setting_turnOff" = "OFF";
-"setting_cancel" = "Annulla";
 "setting_band_title" = "绑定设备";
 "setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
 "setting_band_buywatch" = "Acquista SMA-WATCH";
@@ -160,6 +169,7 @@
 "setting_sedentary_time" = "Ora";
 "setting_sedentary_timeout" = "Tempo di sedentarietà";
 "setting_sedentary_minute" = "M";
+"setting_sedentary_hour" = "小时";
 "setting_sedentary_remind" = "*久坐时间段通用一个重复与久坐时长";
 "setting_sedentary_star" = "Inizio";
 "setting_sedentary_end" = "Fine";
@@ -203,7 +213,7 @@
 "me_perso_zh" = "中文";
 "me_perso_en" = "英文";
 "me_goal_title" = "运动目标";
-"me_goal_walk" = "步行";
-"me_goal_run" = "跑步";
 "me_goal_approximate" = "约等于";
 
+"aler_conFirst" = "Collega l'orologio prima";
+"aler_bandDevice" = "Dispositivo scollegato, connetti il dispositivo";
