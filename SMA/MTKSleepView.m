@@ -140,16 +140,16 @@
              [self.layer addSublayer:layer];
             UIColor *fillColor;
             if ([dic1[@"QUALITY"] intValue] == 1) {
-               fillColor = [UIColor colorWithRed:231/255.0 green:250/255.0 blue:255/255.0 alpha:1.0f];
-                fillColor = [UIColor greenColor];
+               fillColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0f];
+//             fillColor = [UIColor greenColor];
             }
             else if([dic1[@"QUALITY"] intValue] == 2){
-                fillColor = [UIColor colorWithRed:231/255.0 green:250/255.0 blue:255/255.0 alpha:0.6];
-                 fillColor = [UIColor whiteColor];
+                fillColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.7];
+//              fillColor = [UIColor whiteColor];
             }
             else{
-                fillColor = [UIColor colorWithRed:231/255.0 green:250/255.0 blue:255/255.0 alpha:0.3];
-                 fillColor = [UIColor blueColor];
+                fillColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.3];
+//              fillColor = [UIColor blueColor];
             }
         layer.backgroundColor = fillColor.CGColor;
     }

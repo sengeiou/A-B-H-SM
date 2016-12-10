@@ -20,9 +20,7 @@
     
     CGContextSetLineWidth(ctx, 10);
     CGContextSetLineCap(ctx, kCGLineCapRound);
-    if (self.progress >= 1 ) {
-        self.progress = 0.99;
-    }
+
     CGFloat to = - M_PI * 0.5 + 0.1 + self.progress * M_PI * 2 ;
     CGFloat radius = MIN(rect.size.width, rect.size.height) * 0.5 - SDProgressViewItemMargin;
     CGContextAddArc(ctx, xCenter, yCenter, radius, - M_PI * 0.5 + 0.1, to, 0);

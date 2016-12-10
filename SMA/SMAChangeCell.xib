@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham-Light_0.otf">
+            <string>Gotham-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SMAChangeCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原密码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUt-5n-5VG">
+                        <rect key="frame" x="12" y="1" width="56" height="42"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="56" id="IFy-Re-HTd"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入原始密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G01-Nh-c0t">
+                        <rect key="frame" x="76" y="0.0" width="236" height="43"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="G01-Nh-c0t" firstAttribute="leading" secondItem="bUt-5n-5VG" secondAttribute="trailing" constant="8" id="6tj-hS-V0u"/>
+                    <constraint firstItem="bUt-5n-5VG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="L4p-jp-YYa"/>
+                    <constraint firstItem="G01-Nh-c0t" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="efm-ng-AiR"/>
+                    <constraint firstAttribute="bottom" secondItem="G01-Nh-c0t" secondAttribute="bottom" id="jGV-bc-dBp"/>
+                    <constraint firstAttribute="trailing" secondItem="G01-Nh-c0t" secondAttribute="trailing" constant="8" id="kMI-AK-53H"/>
+                    <constraint firstItem="bUt-5n-5VG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="l7D-GK-Ur7"/>
+                    <constraint firstAttribute="bottom" secondItem="bUt-5n-5VG" secondAttribute="bottom" id="lDd-Su-UHr"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="passField" destination="G01-Nh-c0t" id="U6h-yX-2Cc"/>
+                <outlet property="passTitLab" destination="bUt-5n-5VG" id="KC4-Jr-uEf"/>
+                <outlet property="passW" destination="IFy-Re-HTd" id="cQr-YH-Efo"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

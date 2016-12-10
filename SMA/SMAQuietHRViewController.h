@@ -11,7 +11,7 @@
 #import "NSDate+Formatter.h"
 #import "AppDelegate.h"
 @interface SMAQuietHRViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,smaQuietViewDelegate>
-@property (nonatomic, weak) IBOutlet UILabel *remindLab, *dateLab, *quietLab;
+@property (nonatomic, weak) IBOutlet UILabel *remindLab, *dateLab, *quietLab, *hisDateLab, *hisQuietLab, *nowDateLab, *nowQuietLab;
 @property (nonatomic, weak) IBOutlet UITableView *quietTBView;
 @property (nonatomic, weak) IBOutlet UIButton *addBut;
 @property (nonatomic, strong) NSDate *date;

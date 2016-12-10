@@ -37,7 +37,10 @@
     endTarr = [NSMutableArray array];
     for (int i = 0; i < 24; i++) {
         [starTarr addObject:[NSString stringWithFormat:@"%d:00",i]];
-        [endTarr addObject:[NSString stringWithFormat:@"%d:59",i]];
+//        [endTarr addObject:[NSString stringWithFormat:@"%d:59",i]];
+    }
+    for (int j = 0; j < 100; j++) {
+        [endTarr addObjectsFromArray:starTarr];
     }
     HRInfo = [SMAAccountTool HRHisInfo];
     if (!HRInfo) {
@@ -66,10 +69,16 @@
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _pickView.delegate = self;
     _pickView.dataSource = self;
-    [_pickView selectRow:[HRInfo.beginhour0 integerValue] inComponent:0 animated:NO];
-    [_pickView selectRow:[HRInfo.endhour0 integerValue] inComponent:1 animated:NO];
+    [_pickView selectRow:50 * 24 + [HRInfo.beginhour0 integerValue] inComponent:0 animated:NO];
+    [_pickView selectRow:50 * 24 + [HRInfo.endhour0 integerValue] inComponent:1 animated:NO];
     _openSwitch.on = HRInfo.isopen0.intValue;
 
+    _startDesLab.text = SMALocalizedString(@"setting_today");
+    _stopDesLab.text = SMALocalizedString(@"setting_today");
+    if ([HRInfo.beginhour0 integerValue] >= [HRInfo.endhour0 integerValue]) {
+     _stopDesLab.text = SMALocalizedString(@"setting_tomorrow");
+    }
+    
     _hrMonitorLab.text = SMALocalizedString(@"setting_heart_monitor");
     _gapLab.text = SMALocalizedString(@"setting_heart_gap");
     _timeLab.text = [NSString stringWithFormat:@"%@%@",HRInfo.tagname,SMALocalizedString(@"setting_sedentary_minute")];
@@ -84,9 +93,9 @@
         [SmaBleSend setHRWithHR:HRInfo];
         for (int i = 1; i < 5; i ++ ) {
             UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:i]];
-                [UIView animateWithDuration:0.5 animations:^{
+            [UIView animateWithDuration:0.5 animations:^{
                     cell.alpha = sender.on;
-                }];
+            }];
         }
     }
     else{
@@ -141,9 +150,17 @@
                     [aler addAction:action];
                 }
             }
-        [self presentViewController:aler animated:YES completion:^{
-            
+//        [self presentViewController:aler animated:YES completion:^{
+//            
+//        }];
+        NSArray *timeArr1 = @[[NSString stringWithFormat:@"15%@",SMALocalizedString(@"setting_sedentary_minute")],[NSString stringWithFormat:@"30%@",SMALocalizedString(@"setting_sedentary_minute")],[NSString stringWithFormat:@"1%@",SMALocalizedString(@"setting_sedentary_hour")],[NSString stringWithFormat:@"2%@",SMALocalizedString(@"setting_sedentary_hour")]];
+        SMACenterTabView *timeTab = [[SMACenterTabView alloc] initWithMessages:timeArr1 selectMessage:timeArr1[[self selectIndexWithMinute:HRInfo.tagname]] selName:@"icon_selected_xiinlv"];
+        [timeTab tabViewDidSelectRow:^(NSIndexPath *indexPath) {
+            HRInfo.tagname = timeArr[indexPath.row];
+            _timeLab.text = timeArr1[indexPath.row];
         }];
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [app.window addSubview:timeTab];
     }
 }
 
@@ -153,10 +170,7 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    if (component == 0) {
-        return starTarr.count;
-    }
-     return endTarr.count;
+    return  endTarr.count;
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component{
@@ -168,7 +182,7 @@
     if (component == 0) {
         timeLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width/2, 50)];
         timeLab.font = FontGothamLight(20);
-        timeLab.text = starTarr[row];
+        timeLab.text = endTarr[row];
     }
     else{
         timeLab = [[UILabel alloc] initWithFrame:CGRectMake(MainScreen.size.width/2, 0, MainScreen.size.width/2, 50)];
@@ -178,17 +192,43 @@
     timeLab.textAlignment = NSTextAlignmentCenter;
 //    是设置pickview的上下两条线的颜色，或者隐藏他
 //    ((UIView *)[self.pickView.subviews objectAtIndex:1]).backgroundColor = [YSColor(255, 255, 255) colorWithAlphaComponent:0.5];
-//    
 //    ((UIView *)[self.pickView.subviews objectAtIndex:2]).backgroundColor = [YSColor(255, 255, 255) colorWithAlphaComponent:0.5];
     return timeLab;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (component == 0) {
-        HRInfo.beginhour0 = [NSString stringWithFormat:@"%ld",row];
+        HRInfo.beginhour0 = [NSString stringWithFormat:@"%ld",row%24];
     }
     else{
-        HRInfo.endhour0 = [NSString stringWithFormat:@"%ld",row];
+        HRInfo.endhour0 = [NSString stringWithFormat:@"%ld",row%24];
     }
+    if ([HRInfo.beginhour0 integerValue] >= [HRInfo.endhour0 integerValue]) {
+        _stopDesLab.text = SMALocalizedString(@"setting_tomorrow");
+    }
+    else{
+        _stopDesLab.text = SMALocalizedString(@"setting_today");
+    }
+}
+
+- (int)selectIndexWithMinute:(NSString *)minute{
+    int select = 0;
+    switch (HRInfo.tagname.intValue) {
+        case 15:
+            select = 0;
+            break;
+        case 30:
+            select = 1;
+            break;
+        case 60:
+            select = 2;
+            break;
+        case 120:
+            select = 3;
+            break;
+        default:
+            break;
+    }
+    return select;
 }
 @end

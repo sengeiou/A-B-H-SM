@@ -25,10 +25,13 @@
 + (float)convertToMile:(float)km;
 // 英里转千米
 + (float)convertToKm:(float)mile;
+// 英寸转英尺英寸
++ (NSString *)convertToFt:(int)feet;
 //计算距离
 + (float)countKMWithHeigh:(float)hight step:(int) step;
 //计算卡路里
 + (float)countCalWithSex:(NSString *)sex userWeight:(float)weight step:(int)step;
 //保证保留小数四舍不入
 + (NSString *)notRounding:(float)price afterPoint:(int)position;
++ (CGFloat)heightForLableWithText:(NSString *)text Font:(UIFont*)font AndlableWidth:(CGFloat)lableWidth;
 @end

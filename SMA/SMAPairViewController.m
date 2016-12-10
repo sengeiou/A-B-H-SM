@@ -13,6 +13,7 @@
     NSTimer *timer;
     SMABindRemindView *remindView;
     CALayer *searchImalayer;
+    SMABottomAlerView *nofondAler, *bondFailAler;
 }
 @end
 
@@ -45,11 +46,11 @@
     [SmaBleMgr disconnectBl];
     [SmaBleMgr stopSearch];
     SmaBleMgr.sortedArray = nil;//清除设备信息
-//     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+    //     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)updateUI{
-     SmaBleMgr.BLdelegate = self;
+    SmaBleMgr.BLdelegate = self;
 }
 
 - (void)createUI{
@@ -67,8 +68,8 @@
     _ignoreLab.text = SMALocalizedString(@"setting_band_remind07");
     _nearLab.text = SMALocalizedString(@"setting_band_attention");
     
-     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
- 
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
+    
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.borderWidth = 0;
     _gradientLayer.frame = CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height*0.6);
@@ -83,9 +84,9 @@
     searchImalayer.contents = (__bridge id _Nullable)([UIImage imageNamed:@"icon-xuanzhuan"].CGImage);
     searchImalayer.frame       = _searchBut.bounds;
     [_searchBut.layer addSublayer:searchImalayer];
-
+    
     [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
-   
+    
     SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
     [SmaBleMgr scanBL:12];
 }
@@ -125,7 +126,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SMADeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DEVICECELL"];
     if (!cell) {
-      cell = [[[NSBundle mainBundle] loadNibNamed:@"SMADeviceCell" owner:self options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"SMADeviceCell" owner:self options:nil] lastObject];
     }
     if (SmaBleMgr.sortedArray && SmaBleMgr.sortedArray.count > 0 && indexPath.row < SmaBleMgr.sortedArray.count) {
         ScannedPeripheral *peripheral = [SmaBleMgr.sortedArray objectAtIndex:indexPath.row];
@@ -145,6 +146,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (SmaBleMgr.sortedArray && SmaBleMgr.sortedArray.count > 0 && indexPath.row < SmaBleMgr.sortedArray.count) {
         [SmaBleMgr stopSearch];
+        [searchImalayer removeAllAnimations];
         _searchBut.selected = NO;
         [self dismissViewControllerAnimated:YES completion:nil];
         [MBProgressHUD showMessage:SMALocalizedString(@"setting_band_connecting")];
@@ -164,7 +166,15 @@
 }
 
 - (void)searchTimeOut{
+    _searchBut.selected = NO;
+    [remindView removeFromSuperview];
     [searchImalayer removeAllAnimations];
+    if (SmaBleMgr.sortedArray.count == 0) {
+        nofondAler = [[SMABottomAlerView alloc] initWithMessage:SMALocalizedString(@"setting_band_noDevice") leftMess:SMALocalizedString(@"setting_band_unPair") rightMess:SMALocalizedString(@"setting_band_tryAgain")];
+        nofondAler.delegate = self;
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [app.window addSubview:nofondAler];
+    }
     NSLog(@"搜索超时");
 }
 
@@ -176,27 +186,31 @@
         }
         [MBProgressHUD hideHUD];
         [SmaBleMgr stopSearch];
+        [remindView removeFromSuperview];
         [searchImalayer removeAllAnimations];
-        UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"连接失败") message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"暂不绑定") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self.navigationController popViewControllerAnimated:YES];
-        }];
-        UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"重试") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
-            SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
-            [SmaBleMgr scanBL:12];
-        }];
-        [aler addAction:canAction];
-        [aler addAction:confAction];
-        [self presentViewController:aler animated:YES completion:^{
-           
-        }];
-
+        //        UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_band_connectfail") message:nil preferredStyle:UIAlertControllerStyleAlert];
+        //        UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_band_unPair") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        //            [self.navigationController popViewControllerAnimated:YES];
+        //        }];
+        //        UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_band_tryAgain") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //            [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+        //            SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+        //            [SmaBleMgr scanBL:12];
+        //        }];
+        //        [aler addAction:canAction];
+        //        [aler addAction:confAction];
+        //        [self presentViewController:aler animated:YES completion:^{
+        //
+        //        }];
+        
         if ([error isEqualToString:@"蓝牙关闭"]) {
-//            [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectfail")];
+            //[MBProgressHUD showError:SMALocalizedString(@"setting_band_connectfail")];
         }
         else{
-//        [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectfail")];
+            bondFailAler = [[SMABottomAlerView alloc] initWithMessage:SMALocalizedString(@"setting_band_failRemind") leftMess:SMALocalizedString(@"setting_band_unPair") rightMess:SMALocalizedString(@"setting_band_tryAgain")];
+            bondFailAler.delegate = self;
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [app.window addSubview:bondFailAler];
         }
     }
 }
@@ -205,9 +219,9 @@
     NSLog(@"bleBindState");
     if (state == 0) {
         [MBProgressHUD hideHUD];
-        [MBProgressHUD showMessage:SMALocalizedString(@"setting_band_binding")];
-         remindView = [[SMABindRemindView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height)];
-         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//        [MBProgressHUD showMessage:SMALocalizedString(@"setting_band_binding")];
+        remindView = [[SMABindRemindView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height)];
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [app.window addSubview:remindView];
     }
     else if (state == 1){
@@ -221,7 +235,16 @@
         [SmaBleMgr reunitonPeripheral:YES];//开启重连机制
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSLog(@"绑定成功===%@",[[SMAAccountTool userInfo] watchUUID]);
-           [self.navigationController popToRootViewControllerAnimated:YES];
+            //           [self.navigationController popToRootViewControllerAnimated:YES];
+            SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+            controller.isLogin = YES;
+            NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+            NSArray *arrControllers = controller.viewControllers;
+            for (int i = 0; i < arrControllers.count; i ++) {
+                SMANavViewController *nav = [arrControllers objectAtIndex:i];
+                nav.tabBarItem.title = itemArr[i];
+            }
+            [UIApplication sharedApplication].keyWindow.rootViewController=controller;
         });
     }
     else if (state == 2){
@@ -230,27 +253,32 @@
             timer = nil;
         }
         [remindView removeFromSuperview];
-//        [MBProgressHUD hideHUD];
-//        [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindfail")];
+        //        [MBProgressHUD hideHUD];
+        //        [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindfail")];
         
         [MBProgressHUD hideHUD];
         [SmaBleMgr disconnectBl];
-//        [SmaBleMgr stopSearch];
+        //        [SmaBleMgr stopSearch];
         [searchImalayer removeAllAnimations];
         UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_band_bindfail") message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"暂不绑定") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_band_unPair") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"重试") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_band_tryAgain") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+            _searchBut.selected = YES;
             SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
             [SmaBleMgr scanBL:12];
         }];
         [aler addAction:canAction];
         [aler addAction:confAction];
-        [self presentViewController:aler animated:YES completion:^{
-           
-        }];
+        //        [self presentViewController:aler animated:YES completion:^{
+        //
+        //        }];
+        bondFailAler = [[SMABottomAlerView alloc] initWithMessage:SMALocalizedString(@"setting_band_failRemind") leftMess:SMALocalizedString(@"setting_band_unPair") rightMess:SMALocalizedString(@"setting_band_tryAgain")];
+        bondFailAler.delegate = self;
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [app.window addSubview:bondFailAler];
     }
 }
 
@@ -259,27 +287,31 @@
         [timer invalidate];
         timer = nil;
     }
-//    [MBProgressHUD hideHUD];
-//    [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectTimeOut")];
+    //    [MBProgressHUD hideHUD];
+    //    [MBProgressHUD showError:SMALocalizedString(@"setting_band_connectTimeOut")];
     [SmaBleMgr disconnectBl];
     [MBProgressHUD hideHUD];
-//    [SmaBleMgr stopSearch];
+    //    [SmaBleMgr stopSearch];
     [searchImalayer removeAllAnimations];
-    UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_band_connectTimeOut") message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"暂不绑定") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }];
-    UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"重试") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
-        SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
-        [SmaBleMgr scanBL:12];
-
-    }];
-    [aler addAction:canAction];
-    [aler addAction:confAction];
-    [self presentViewController:aler animated:YES completion:^{
-        
-    }];
+    //    UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_band_connectTimeOut") message:nil preferredStyle:UIAlertControllerStyleAlert];
+    //    UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_band_unPair") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    //        [self.navigationController popViewControllerAnimated:YES];
+    //    }];
+    //    UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_band_tryAgain") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    //        [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+    //        SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+    //        [SmaBleMgr scanBL:12];
+    //
+    //    }];
+    //    [aler addAction:canAction];
+    //    [aler addAction:confAction];
+    //    [self presentViewController:aler animated:YES completion:^{
+    //
+    //    }];
+    nofondAler = [[SMABottomAlerView alloc] initWithMessage:SMALocalizedString(@"setting_band_connectTimeOut") leftMess:SMALocalizedString(@"setting_band_unPair") rightMess:SMALocalizedString(@"setting_band_tryAgain")];
+    nofondAler.delegate = self;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app.window addSubview:nofondAler];
 }
 
 - (UIImage *)rrsiImageWithRrsi:(int)rrsi{
@@ -287,10 +319,10 @@
     if (rrsi > -50) {
         image = [UIImage imageWithName:@"icon_xinhao_1"];
     }
-    else if (rrsi < -50 && rrsi > -70){
+    else if (rrsi <= -50 && rrsi > -70){
         image = [UIImage imageWithName:@"icon_xinhao_2"];
     }
-    else if (rrsi < -70 && rrsi > -90){
+    else if (rrsi <= -70 && rrsi > -90){
         image = [UIImage imageWithName:@"icon_xinhao_3"];
     }
     else{
@@ -298,14 +330,42 @@
     }
     return image;
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark ***********tapAlerButDelegate
+- (void)bottomAlerView:(SMABottomAlerView *)alerView didAlerBut:(UIButton *)button{
+    if (button.tag == 101) {
+        [remindView removeFromSuperview];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [remindView removeFromSuperview];
+        [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+        SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+        [SmaBleMgr scanBL:12];
+    }
+    //    if (alerView == nofondAler) {
+    //        if (button.tag == 101) {
+    //             [self.navigationController popViewControllerAnimated:YES];
+    //        }
+    //        else{
+    //            [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
+    //            SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+    //            [SmaBleMgr scanBL:12];
+    //        }
+    //    }
+    //    else{
+    //
+    //    }
 }
-*/
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

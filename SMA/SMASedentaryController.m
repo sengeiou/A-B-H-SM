@@ -54,15 +54,30 @@
 - (void)createUI{
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.tableView.showsVerticalScrollIndicator = NO;
     self.title  = SMALocalizedString(@"setting_sedentary");
-    _firTimeLab.text = [NSString stringWithFormat:@"%@:00 ~ %@:59",seat.beginTime0,seat.endTime0];
-    _secTimeLab.text = [NSString stringWithFormat:@"%@:00 ~ %@:59",seat.beginTime1,seat.endTime1];
+    
+    _firBeginLab.text = [NSString stringWithFormat:@"%@%@:00",seat.beginTime0.intValue < 10 ? @"0":@"",seat.beginTime0];
+    _firEndLab.text = [NSString stringWithFormat:@"%@%@:00",seat.endTime0.intValue < 10 ? @"0":@"",seat.endTime0];
+    _secBeginLab.text = [NSString stringWithFormat:@"%@%@:00",seat.beginTime1.intValue < 10 ? @"0":@"",seat.beginTime1];
+    _secEndnLab.text = [NSString stringWithFormat:@"%@%@:00",seat.endTime1.intValue < 10 ? @"0":@"",seat.endTime1];
+    
+    _firBeDescLab.text = SMALocalizedString(@"setting_today");
+    _secBeDescLab.text = SMALocalizedString(@"setting_today");
+    _firEndDescLab.text = SMALocalizedString(@"setting_today");
+    _secEndDescLab.text = SMALocalizedString(@"setting_today");
+//    if (seat.endTime0.intValue < 8) {
+//        _firEndDescLab.text = SMALocalizedString(@"setting_tomorrow");
+//    }
+    if (seat.endTime1.intValue <= seat.endTime0.intValue) {
+        _secEndDescLab.text = SMALocalizedString(@"setting_tomorrow");
+    }
     _firSwitch.on = seat.isOpen0.intValue;
     _secSwitch.on = seat.isOpen1.intValue;
     [self weekStrConvert:seat.repeatWeek];
     _repeatLab.text = SMALocalizedString(@"setting_sedentary_repeat");
     _sedentaryTimeLab.text = SMALocalizedString(@"setting_sedentary_timeout");
-    _timeLab.text = [NSString stringWithFormat:@"%@%@",seat.seatValue,SMALocalizedString(@"setting_sedentary_minute")];
+    _timeLab.text = [NSString stringWithFormat:@"%@%@",[seat.seatValue intValue] >= 60 ? [NSString stringWithFormat:@"%d",[seat.seatValue intValue]/60]:seat.seatValue,[seat.seatValue intValue] >= 60 ? SMALocalizedString(@"setting_sedentary_hour"):SMALocalizedString(@"setting_sedentary_minute")];
     [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
 }
 
@@ -96,43 +111,145 @@
     if (cell == _firTimeCell) {
         _firTimeIma.transform = CGAffineTransformMakeRotation(M_PI_2);
         selectIndex = 0;
-        SMATimePickView *pickView = [[SMATimePickView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height) startTime:seat.beginTime0 endTime:seat.endTime0];
-        pickView.pickDelegate = self;
+        //        SMATimePickView *pickView = [[SMATimePickView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height) startTime:seat.beginTime0 endTime:seat.endTime0];
+        //        pickView.pickDelegate = self;
+        NSMutableArray *starArr = [NSMutableArray array];
+        for (int i = 0; i < 24; i ++) {
+            [starArr addObject:[NSString stringWithFormat:@"%@%d:00",i < 10 ? @"0":@"",i]];
+        }
+        NSMutableArray *messageArr = [NSMutableArray array];
+        for (int j = 0; j < 100; j ++) {
+            [messageArr addObjectsFromArray:starArr];
+        }
+        
+        __block NSInteger beginRow = seat.beginTime0.integerValue;
+        __block NSInteger endRow = seat.endTime0.integerValue;
+        SMABottomPickView *pickView = [[SMABottomPickView alloc]initWithTitles:@[SMALocalizedString(@"setting_sedentary_star"),SMALocalizedString(@"setting_sedentary_end")] describes:@[SMALocalizedString(@"setting_today"),beginRow >= endRow ? SMALocalizedString(@"setting_tomorrow"):SMALocalizedString(@"setting_today")] buttonTitles:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_sedentary_confirm")] pickerMessage:@[messageArr,messageArr]];
+        [pickView.pickView selectRow:50 * 24 + seat.beginTime0.intValue inComponent:0 animated:NO];
+        [pickView.pickView selectRow:50 * 24 + seat.endTime0.intValue inComponent:1 animated:NO];
+        [pickView selectConfirm:^(UIButton *confiBut) {
+            _firTimeIma.transform = CGAffineTransformIdentity;
+            if (confiBut.tag == 102) {
+//                if (beginRow != endRow) {
+                    seat.beginTime0 = [NSString stringWithFormat:@"%ld",beginRow];
+                    seat.endTime0 = [NSString stringWithFormat:@"%ld",endRow];
+//                }
+//                else{
+//                    [MBProgressHUD showError:SMALocalizedString(@"setting_timeRemind")];
+//                }
+            }
+            _secBeginLab.text = [NSString stringWithFormat:@"%@%@:00",seat.beginTime1.intValue < 10 ? @"0":@"",seat.beginTime1];
+            _secEndnLab.text = [NSString stringWithFormat:@"%@%@:00",seat.endTime1.intValue < 10 ? @"0":@"",seat.endTime1];
+        }];
+        [pickView pickSelectCallBack:^(NSInteger row, NSInteger component) {
+            if (component == 0) {
+                beginRow = row%24;
+                _firBeginLab.text = [NSString stringWithFormat:@"%@%ld:00",row%24 < 10 ? @"0":@"",row%24];
+            }
+            else{
+                endRow = row%24;
+                
+                _firEndLab.text =  [NSString stringWithFormat:@"%@%ld:00",row%24 < 10 ? @"0":@"",row%24];
+                if (beginRow >= row%24) {
+                    _firEndDescLab.text = SMALocalizedString(@"setting_tomorrow");
+                }
+                else{
+                    _firEndDescLab.text = SMALocalizedString(@"setting_today");
+                }
+            }
+        }];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [app.window addSubview:pickView];
     }
     else if (cell == _secTimeCell){
         _secTimeIma.transform = CGAffineTransformMakeRotation(M_PI_2);
         selectIndex = 1;
-        SMATimePickView *pickView = [[SMATimePickView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height) startTime:seat.beginTime1 endTime:seat.endTime1];
-        pickView.pickDelegate = self;
+        //        SMATimePickView *pickView = [[SMATimePickView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height) startTime:seat.beginTime1 endTime:seat.endTime1];
+        //        pickView.pickDelegate = self;
+        //        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        //        [app.window addSubview:pickView];
+        
+        NSMutableArray *starArr = [NSMutableArray array];
+        for (int i = 0; i < 24; i ++) {
+            [starArr addObject:[NSString stringWithFormat:@"%@%d:00",i < 10 ? @"0":@"",i]];
+        }
+        NSMutableArray *messageArr = [NSMutableArray array];
+        for (int j = 0; j < 100; j ++) {
+            [messageArr addObjectsFromArray:starArr];
+        }
+        __block NSInteger beginRow = seat.beginTime1.integerValue;
+        __block NSInteger endRow = seat.endTime1.integerValue;
+        SMABottomPickView *pickView = [[SMABottomPickView alloc]initWithTitles:@[SMALocalizedString(@"setting_sedentary_star"),SMALocalizedString(@"setting_sedentary_end")] describes:@[SMALocalizedString(@"setting_today"),beginRow >= endRow ? SMALocalizedString(@"setting_tomorrow"):SMALocalizedString(@"setting_today")] buttonTitles:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_sedentary_confirm")] pickerMessage:@[messageArr,messageArr]];
+        [pickView.pickView selectRow:50 * 24 + seat.beginTime1.intValue inComponent:0 animated:NO];
+        [pickView.pickView selectRow:50 * 24 + seat.endTime1.intValue inComponent:1 animated:NO];
+        [pickView selectConfirm:^(UIButton *confiBut) {
+            _secTimeIma.transform = CGAffineTransformIdentity;
+            if (confiBut.tag == 102) {
+//                if (beginRow != endRow) {
+                    seat.beginTime1 = [NSString stringWithFormat:@"%ld",beginRow];
+                    seat.endTime1 = [NSString stringWithFormat:@"%ld",endRow];
+//                }
+//                else{
+//                     [MBProgressHUD showError:SMALocalizedString(@"setting_timeRemind")];
+//                }
+            }
+            _secBeginLab.text = [NSString stringWithFormat:@"%@%@:00",seat.beginTime1.intValue < 10 ? @"0":@"",seat.beginTime1];
+            _secEndnLab.text = [NSString stringWithFormat:@"%@%@:00",seat.endTime1.intValue < 10 ? @"0":@"",seat.endTime1];
+        }];
+        [pickView pickSelectCallBack:^(NSInteger row, NSInteger component) {
+            if (component == 0) {
+                beginRow = row%24;
+                _secBeginLab.text =  [NSString stringWithFormat:@"%@%ld:00",row%24 < 10 ? @"0":@"",row%24];
+            }
+            else{
+                endRow = row%24;
+                _secEndnLab.text =  [NSString stringWithFormat:@"%@%ld:00",row%24 < 10 ? @"0":@"",row%24];
+                if (beginRow >= row%24 ) {
+                    _secEndDescLab.text = SMALocalizedString(@"setting_tomorrow");
+                }
+                else{
+                    _secEndDescLab.text = SMALocalizedString(@"setting_today");
+                }
+            }
+        }];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [app.window addSubview:pickView];
     }
     else if (cell == _sedentaryCell){
-        if (!aler) {
-            aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_sedentary_timeout") message:SMALocalizedString(@"") preferredStyle:UIAlertControllerStyleActionSheet];
-            NSArray *timeArr = @[@"30",@"60",@"120",@"240"];
-            for ( int i = 0; i < 5; i ++) {
-                if (i < 4) {
-                    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ %@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        seat.seatValue = timeArr[i];
-//                        seat.seatValue = @"1";
-                        _timeLab.text = [NSString stringWithFormat:@"%@%@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")];
-                    }];
-                    [aler addAction:action];
-                }
-                else{
-                    UIAlertAction *action = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                        
-                    }];
-                    [aler addAction:action];
-                }
-            }
-        }
-        [self presentViewController:aler animated:YES completion:^{
-            
+        NSArray *timeArr = @[@"30",@"60",@"120",@"240"];
+        NSArray *timeArr1 = @[[NSString stringWithFormat:@"30%@",SMALocalizedString(@"setting_sedentary_minute")],[NSString stringWithFormat:@"1%@",SMALocalizedString(@"setting_sedentary_hour")],[NSString stringWithFormat:@"2%@",SMALocalizedString(@"setting_sedentary_hour")],[NSString stringWithFormat:@"4%@",SMALocalizedString(@"setting_sedentary_hour")]];
+        
+//        if (!aler) {
+//            aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_sedentary_timeout") message:SMALocalizedString(@"") preferredStyle:UIAlertControllerStyleActionSheet];
+//
+//            
+//            for ( int i = 0; i < 5; i ++) {
+//                if (i < 4) {
+//                    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ %@",timeArr[i],SMALocalizedString(@"setting_sedentary_minute")] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                        seat.seatValue = timeArr[i];
+//                        //                        seat.seatValue = @"1";
+//                        _timeLab.text = [NSString stringWithFormat:@"%@%@",[timeArr[i] intValue] >= 60 ? [NSString stringWithFormat:@"%d",[timeArr[i] intValue]/60]:timeArr[i],[timeArr[i] intValue] >= 60 ? SMALocalizedString(@"setting_sedentary_hour"):SMALocalizedString(@"setting_sedentary_minute")];
+//                    }];
+//                    [aler addAction:action];
+//                }
+//                else{
+//                    UIAlertAction *action = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//                        
+//                    }];
+//                    [aler addAction:action];
+//                }
+//            }
+//        }
+//        [self presentViewController:aler animated:YES completion:^{
+//            
+//        }];
+        SMACenterTabView *timeTab = [[SMACenterTabView alloc] initWithMessages:timeArr1 selectMessage:timeArr1[[self selectIndexWithMinute:seat.seatValue]] selName:@"icon_selected"];
+        [timeTab tabViewDidSelectRow:^(NSIndexPath *indexPath) {
+             seat.seatValue = timeArr[indexPath.row];
+            _timeLab.text = timeArr1[indexPath.row];
         }];
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [app.window addSubview:timeTab];
     }
 }
 
@@ -172,6 +289,7 @@
 
 - (IBAction)saveSelector:(id)sender{
     if ([SmaBleMgr checkBLConnectState]) {
+        seat.stepValue = @"30";
         [SMAAccountTool saveSeat:seat];
         [SmaBleSend seatLongTimeInfoV2:seat];
         [MBProgressHUD showSuccess:SMALocalizedString(@"setting_setSuccess")];
@@ -216,6 +334,27 @@
     return weekStr;
 }
 
+- (int)selectIndexWithMinute:(NSString *)minute{
+    int select = 0;
+    switch (seat.seatValue.intValue) {
+        case 30:
+            select = 0;
+            break;
+        case 60:
+            select = 1;
+            break;
+        case 120:
+            select = 2;
+            break;
+        case 240:
+            select = 3;
+            break;
+        default:
+            break;
+    }
+    return select;
+}
+
 #pragma mark ******timePickDelegate
 - (void)didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if ( selectIndex == 0) {
@@ -225,7 +364,7 @@
         else{
             seat.endTime0 = [NSString stringWithFormat:@"%ld",row + 8];
         }
-         _firTimeLab.text = [NSString stringWithFormat:@"%@:00 ~ %@:59",seat.beginTime0,seat.endTime0];
+        //         _firTimeLab.text = [NSString stringWithFormat:@"%@:00 ~ %@:59",seat.beginTime0,seat.endTime0];
     }
     else{
         if (component == 0) {
@@ -234,7 +373,7 @@
         else{
             seat.endTime1 = [NSString stringWithFormat:@"%ld",row + 8];
         }
-        _secTimeLab.text = [NSString stringWithFormat:@"%@:00 ~ %@:59",seat.beginTime1,seat.endTime1];
+        //        _secTimeLab.text = [NSString stringWithFormat:@"%@:00 ~ %@:59",seat.beginTime1,seat.endTime1];
     }
 }
 

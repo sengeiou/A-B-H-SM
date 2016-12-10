@@ -5,6 +5,8 @@
   Created by 有限公司 深圳市 on 16/8/17.
   Copyright © 2016年 SMA. All rights reserved.
 */
+//主页
+"firstLun_taste" = "开始体验";
 
 //登录注册页
 "login_smaTit" = "开启智能生活";
@@ -98,6 +100,12 @@
 "device_HR_avgMax" = "平均最大";
 "device_HR_avgMonitor" = "平均监测";
 "device_HR_quietRemind" = "Veuillez tester le rythme cardiaque au repos à jeun en tant que valeur du rythme cardiaque au repose, c’est important pour vos références de santé.";
+"device_HR_quietNowData" = "当天数值";
+"device_HR_quietHisData" = "历史数值";
+"device_HR_quietAdd" = "添加";
+"device_HR_addQuiet" = "添加静息心率";
+"device_HR_chanQuiet" = "修改静息心率";
+"device_HR_importQuiet" = "请输入静息心率";
 "device_SL_qualith" = "Qualité de sommeil";
 "device_SL_typeF" = "Très mauvais";
 "device_SL_typeS" = "Confortable";
@@ -142,6 +150,8 @@
 "setting_band_title" = "绑定设备";
 "setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
 "setting_band_buywatch" = "Acheter une SMA-WATCH";
+"setting_band_unPair" = "Connecter plus tard";
+"setting_band_tryAgain" = "重试";
 "setting_band_attention" = "(Assurez-vous que la batterie de la montre est suffisamment chargée, et que la montre est près du téléphone)";
 "setting_band_remind07" = "Si vous ne trouvez pas le signal bluetooth de la SMA WATCH, rendez-vous sur iphone Setting-bluetooth-forget the device (SM07).";
 "setting_band_search" = "开始搜索";
@@ -153,6 +163,14 @@
 "setting_band_bindsuccess" = "Connexion établie";
 "setting_band_bindfail" = "绑定失败";
 "setting_band_remind" = "请长按手环中间按键";
+"setting_band_noDevice" = "未发现设备，请保持设备有电并且贴近手机，再重新尝试";
+"setting_band_failRemind" = "抱歉，设备绑定失败";
+"setting_unband_title" = "设备管理";
+"setting_unband_remove" = "解除绑定";
+"setting_unband_dfuUpdate" = "固件升级";
+"setting_unband_remind" = "是否解除设备绑定?";
+"setting_unband" = "解绑";
+"setting_unband_success" = "解绑成功";
 "setting_sedentary_am" = "AM";
 "setting_sedentary_pm" = "PM";
 "setting_sedentary_repeat" = "Répéter";
@@ -186,6 +204,20 @@
 "setting_heart_title" = "Paramètres rythme card.";
 "setting_heart_monitor" = "Rythme cardiaque";
 "setting_heart_gap" ="Intervalle de détection";
+"setting_today" = "首日";
+"setting_tomorrow" = "次日";
+"setting_timeRemind" = "开始时间不能等于结束时间";
+"setting_watchface_title" = "更换表盘";
+"setting_watchface_info" = "表盘信息";
+"setting_watchface_name" = "名称";
+"setting_watchface_author" = "作者";
+"setting_watchface_select" = "Select the one you want";
+"setting_watchface_loading" = "Switching...";
+"setting_watchface_recommending" = "recommending";
+"setting_watchface_dynamic" = "dynamic";
+"setting_watchface_pointer" = "pointer";
+"setting_watchface_number" = "number";
+"setting_watchface_other" = "other";
 
 //我的页面
 "me_title" = "我的";
@@ -199,7 +231,11 @@
 "me_userHelp" = "使用帮助";
 "me_signOut" = "退出登录";
 "me_signOut_remind" = "确定退出登录？";
+"me_signOut_confirm" = "退出";
 "me_perso_name" = "Surnom";
+"me_perso_nameRemi" = "请输入昵称";
+"me_perso_setPho" = "设置个人头像";
+"me_perso_chanPho" = "修改头像";
 "me_perso_gender" = "Sexe";
 "me_perso_unit" = "Unité";
 "me_perso_metric" = "Métrique";
@@ -214,6 +250,21 @@
 "me_perso_en" = "英文";
 "me_goal_title" = "运动目标";
 "me_goal_approximate" = "约等于";
+"me_goal_suggest" = "专家建议：\n每天运动10000步是积极的健康生活方式";
+"me_set_version" = "Version";
+"me_set_feedback" = "意见反馈";
+"me_set_about" = "关于我们";
+"me_chanPass_oldPass" = "原密码";
+"me_chanPass_newPass" = "新密码";
+"me_chanPass_affirmPass" = "确认密码";
+"me_chanPass_putOldPass" = "输入原始密码";
+"me_chanPass_putNewPass" = "输入新密码";
+"me_chanPass_putAffPass" = "再次输入新密码";
+"me_chanPass_affirm" = "确认修改";
+"me_chanPass_passFail" = "旧密码不正确";
+"me_chanPass_newPasFail" = "新密码不一致，请重新输入";
+"me_chanPass_chanSucc" = "修改成功";
+"me_chanPass_chanFail" = "修改失败";
 
 "aler_conFirst" = "Connecter d’abord la montre";
 "aler_bandDevice" = "Appareil déconnecté, veuillez connecter l’appareil";

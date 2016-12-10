@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SMACenterTabView.h"
 @interface SMAHeartViewController : UITableViewController<UIPickerViewDelegate,UIPickerViewDataSource>
-@property (nonatomic, weak) IBOutlet UILabel *hrMonitorLab, *startLab, *stopLab, *gapLab, *timeLab;
+@property (nonatomic, weak) IBOutlet UILabel *hrMonitorLab, *startLab, *startDesLab, *stopLab, *stopDesLab, *gapLab, *timeLab;
 @property (nonatomic, weak) IBOutlet UISwitch *openSwitch;
 @property (nonatomic, weak) IBOutlet UIPickerView *pickView;
 @property (nonatomic, weak) IBOutlet UIButton *saveBut;

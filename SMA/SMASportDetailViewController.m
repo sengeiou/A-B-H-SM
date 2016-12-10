@@ -25,6 +25,8 @@
     NSMutableArray *aggregateData;
     int oldDirection ;
     int aggregateIndex;
+    CGFloat tableHeight;
+    UIView *tabBarView;
 }
 @property (nonatomic, strong) SMADatabase *dal;
 
@@ -87,7 +89,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     mainScroll.delegate = self;
     [self.view addSubview:mainScroll];
     
-    UIView *tabBarView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(mainScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
+    tabBarView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(mainScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
     tabBarView.backgroundColor = [UIColor whiteColor];
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 1)];
     lineView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:1];
@@ -154,7 +156,11 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [detailBackView addSubview:WYLocalScrollView];
     [WYLocalScrollView setMaxImageCount];
     
+     [self setViewTop:0 preference:YES];
+    // 促使视图切换时候保证图像不变化
+    [mainScroll setContentOffset:CGPointMake(0, 0)];
     if (selectTag == 101) {
+        mainScroll.scrollEnabled = NO;
         UIView *stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
         stateView.backgroundColor = [UIColor whiteColor];
         UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, self.tabBarController.tabBar.frame.size.height)];
@@ -170,17 +176,22 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         [stateView addSubview:stateLab];
         [mainScroll addSubview:stateView];
         
-        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, 600 - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
+//        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
+        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
+
         detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
         detailTabView.backgroundColor = [UIColor whiteColor];
         detailTabView.delegate = self;
         detailTabView.dataSource = self;
         detailTabView.tableFooterView = [[UIView alloc] init];
-        detailTabView.scrollEnabled = NO;
+//        detailTabView.scrollEnabled = NO;
         [mainScroll addSubview:detailTabView];
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
+//        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
+        tableHeight = (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame);
+       
     }
     else{
+        mainScroll.scrollEnabled = YES;
         NSInteger selectIndex;
         selectIndex = [[aggregateData[1] objectAtIndex:4] integerValue];
         self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
@@ -289,6 +300,27 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
 }
 
+- (void)setViewTop:(CGFloat)viewTop preference:(BOOL)presfer{
+    CGFloat drawHeight = ([[[aggregateData objectAtIndex:1] objectAtIndex:3]  count] * 44 - tableHeight)/2;//由于tableview上滑会隐藏cell导致产生量，大概偏差为CELL的一半
+    if (drawHeight > 100) {
+        drawHeight = 100;
+    }
+    if (viewTop <= - drawHeight) {
+        viewTop = - drawHeight;
+    }
+    if (viewTop >= 0) {
+        viewTop = 0;
+    }
+    CGFloat height = [[[aggregateData objectAtIndex:1] objectAtIndex:3]  count] * 44;
+    if (height < tableHeight && !presfer) {
+        return;
+    }
+    self.view.frame = CGRectMake(0, 64 + viewTop, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - viewTop);
+    mainScroll.frame = CGRectMake(mainScroll.frame.origin.x, mainScroll.frame.origin.y, mainScroll.frame.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - viewTop);
+    tabBarView.frame = CGRectMake(tabBarView.frame.origin.x,CGRectGetMaxY(mainScroll.frame), tabBarView.frame.size.width, tabBarView.frame.size.height);
+    detailTabView.frame = CGRectMake(0, detailTabView.frame.origin.y, detailTabView.frame.size.width, tableHeight - viewTop);
+}
+
 #pragma mark ******UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [[[aggregateData objectAtIndex:1] objectAtIndex:3]  count];
@@ -307,22 +339,29 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         cell.botLine.hidden = YES;
     }
     cell.timeLab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"TIME"];
-    cell.statelab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"MODE"];
-    cell.distanceLab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"DURATION"];
+    cell.statelab.text = @"";
+    cell.stateIma.image = [UIImage imageNamed:[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"MODE"]];
+    cell.distanceLab.text = [NSString stringWithFormat:@"%@%@",[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"DURATION"],[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"DURATION"] intValue] > 1 ? SMALocalizedString(@"device_SP_steps"):SMALocalizedString(@"device_SP_step")];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 #pragma mark *******UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView == mainScroll && scrollView.contentOffset.y < 145 && cycle == 0) {
-        detailTabView.scrollEnabled = NO;
-        [detailTabView setContentOffset:CGPointMake(0.0, 0) animated:NO];
-    }
-    if (scrollView.contentOffset.y >= 145 && scrollView == mainScroll && cycle == 0) {
-        scrollView.contentOffset = CGPointMake(0, 145);
-        detailTabView.scrollEnabled = YES;
-        return;
+//    if (scrollView == mainScroll && scrollView.contentOffset.y < 145 && cycle == 0) {
+//        detailTabView.scrollEnabled = NO;
+//        [detailTabView setContentOffset:CGPointMake(0.0, 0) animated:NO];
+//    }
+//    if (scrollView.contentOffset.y >= 145 && scrollView == mainScroll && cycle == 0) {
+//        scrollView.contentOffset = CGPointMake(0, 145);
+//        detailTabView.scrollEnabled = YES;
+//        return;
+//    }
+    
+    if (cycle == 0 && scrollView == detailTabView) {
+        CGFloat y = scrollView.contentOffset.y;
+        CGFloat viewTop =  0 - y;
+        [self setViewTop:viewTop preference:NO];
     }
 }
 
@@ -516,7 +555,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         else{
             scrollView.banRightSlide = NO;
         }
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? 600:CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
     }
     else if (selectTag == 102){
         if (oldDirection == -1) {
@@ -679,6 +718,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSString * prevMode;//上一类型
     NSString *prevTime;//上一时间点
     int atTypeTime = 0;//相同状态下起始时间
+    int atTypeStep = 0;//相同状态下起始步数
     int prevTypeTime=0;//运动状态下持续时长
     /* 	16-17 静坐开始到步行开始---静坐时间
      *  16-18 静坐开始到跑步开始---静坐时间
@@ -710,28 +750,31 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                             }
                             prevTypeTime = prevTypeTime + amount;
                             if (i == detail.count - 1) {
-                                //                        prevTypeTime = prevTypeTime + amount;
-                                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",atTypeTime]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",prevTypeTime/60] intValue], @"h",[NSString stringWithFormat:@"%@%d",prevTypeTime%60 < 10 ? @"0":@"",prevTypeTime%60],@"m"],@"DURATION", nil];
-                                [detailArr addObject:dic];
+                                //                        prevTypeTime = prevTypeTime + amount; [NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",prevTypeTime/60] intValue], @"h",[NSString stringWithFormat:@"%@%d",prevTypeTime%60 < 10 ? @"0":@"",prevTypeTime%60],@"m"]
+                                NSDictionary *spDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",atTypeTime]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d",[dic[@"STEP"] intValue] - atTypeStep],@"DURATION", nil];
+                                [detailArr addObject:spDic];
                             }
                         }
                         else{
                             if (prevTypeTime != 0) {
                                 prevTypeTime = prevTypeTime + amount;
-                                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",atTypeTime]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",prevTypeTime/60] intValue], @"h",[NSString stringWithFormat:@"%@%d",prevTypeTime%60 < 10 ? @"0":@"",prevTypeTime%60],@"m"],@"DURATION", nil];
-                                [detailArr addObject:dic];
+                                NSDictionary *spDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",atTypeTime]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d",[dic[@"STEP"] intValue] - atTypeStep],@"DURATION", nil];
+                                [detailArr addObject:spDic];
                             }
                             else{
                                 prevTypeTime =  amount;
-                                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",prevTypeTime/60] intValue], @"h",[NSString stringWithFormat:@"%@%d",prevTypeTime%60 < 10 ? @"0":@"",prevTypeTime%60],@"m"],@"DURATION", nil];
-                                [detailArr addObject:dic];
+                                NSDictionary *spDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:atTime]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d",[dic[@"STEP"] intValue] - atTypeStep],@"DURATION", nil];
+                                [detailArr addObject:spDic];
                             }
                         }
                         if (![prevMode isEqualToString:atMode]) {
+                            atTypeStep = [dic[@"STEP"] intValue];
                             prevTypeTime = 0;
                         }
                     }
-                    
+                    if (!prevMode) {
+                        atTypeStep = [dic[@"STEP"] intValue] ;
+                    }
                     prevMode = dic[@"MODE"];
                     prevTime = dic[@"TIME"] ;
                 }
@@ -740,7 +783,8 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         if (prevMode.intValue != 0 && prevTime.intValue != [[SMADateDaultionfos minuteFormDate:[[NSDate date] yyyyMMddHHmmSSNoLineWithDate]] intValue] && [[[spDatas lastObject] objectForKey:@"DATE"] isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
             NSString *nowMinute = [SMADateDaultionfos minuteFormDate:[[NSDate date] yyyyMMddHHmmSSNoLineWithDate]];
             int sustainTime = nowMinute.intValue - prevTime.intValue;
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:nowMinute]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",sustainTime /60] intValue], @"h",[NSString stringWithFormat:@"%@%d",sustainTime%60 < 10 ? @"0":@"",sustainTime%60],@"m"],@"DURATION", nil];
+             int sustainStep = [[[detail lastObject] objectForKey:@"STEP"] intValue] - atTypeStep;
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:nowMinute]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d",sustainStep],@"DURATION", nil];
             [detailArr addObject:dic];
         }
     }
@@ -800,10 +844,11 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         }
         [yBaesValues addObject:@"0"];
     }
+    NSArray *invertedArr = [[detailArr reverseObjectEnumerator] allObjects];
     [dayAlldata addObject:xText];       //图像底部坐标
     [dayAlldata addObject:yBaesValues]; //图像底部起始点（柱状图）
     [dayAlldata addObject:yValue];      //图像每个轴高度
-    [dayAlldata addObject:detailArr];   //运动数据详情（用于显示cell）
+    [dayAlldata addObject:invertedArr];   //运动数据详情（用于显示cell）
     return dayAlldata;
 }
 
@@ -873,13 +918,16 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSString *modeStr;
     switch (mode) {
         case 16:
-            modeStr = SMALocalizedString(@"device_SP_sit");
+//            modeStr = SMALocalizedString(@"device_SP_sit");
+             modeStr = SMALocalizedString(@"icon_jingzuo");
             break;
         case 17:
-            modeStr = SMALocalizedString(@"device_SP_walking");
+//            modeStr = SMALocalizedString(@"device_SP_walking");
+            modeStr = SMALocalizedString(@"icon_buxing");
             break;
         default:
-            modeStr = SMALocalizedString(@"device_SP_running");
+//            modeStr = SMALocalizedString(@"device_SP_running");
+             modeStr = SMALocalizedString(@"icon_paobu");
             break;
     }
     return modeStr;

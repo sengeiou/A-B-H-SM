@@ -110,7 +110,7 @@
      NSString *unitStr = nil;
     if (user.unit) {
         int minute = time/[SMACalculate convertToMile:distance];
-        paceStr = [NSString stringWithFormat:@"%d’%@%d‘’",minute/60,minute/60 < 10 ? @"0":@"",minute%60];
+        paceStr = [NSString stringWithFormat:@"%d’%@%d‘’",minute/60,minute%60 < 10 ? @"0":@"",minute%60];
         if (time == 0 || distance == 0) {
             paceStr = @"0’00’’";
         }
@@ -119,7 +119,7 @@
     }
     else{
         int minute = time/distance;
-        paceStr = [NSString stringWithFormat:@"%d’%@%d’’",minute/60,minute/60 < 10 ? @"0":@"",minute%60];
+        paceStr = [NSString stringWithFormat:@"%d’%@%d’’",minute/60,minute%60 < 10 ? @"0":@"",minute%60];
         if (time == 0 || distance == 0) {
             paceStr = @"0’00’’";
         }
@@ -137,7 +137,7 @@
 - (NSMutableAttributedString *)putHrWithReat:(NSString *)hr {
     NSDictionary *disDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:FontGothamLight(19)};
     NSDictionary *unitDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:FontGothamLight(14)};
-    NSMutableAttributedString *perAttStr = [[NSMutableAttributedString alloc] initWithString:hr attributes:disDic];
+    NSMutableAttributedString *perAttStr = [[NSMutableAttributedString alloc] initWithString:hr ? hr:@"0" attributes:disDic];
     NSAttributedString *unitAtt = [[NSAttributedString alloc] initWithString:@"bpm" attributes:unitDic];
     [perAttStr appendAttributedString:unitAtt];
     return perAttStr;

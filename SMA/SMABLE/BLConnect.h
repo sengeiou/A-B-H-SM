@@ -21,10 +21,13 @@
 - (void)bleDidUpdateValue:(CBCharacteristic *)characteristic;
 - (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data;
 - (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode;
+//更新进度（表盘）
+- (void)bleUpdateProgress:(float)pregress;
+- (void)bleUpdateProgressEnd:(BOOL)success;
 @end
 
 
-@interface BLConnect : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate,SamCoreBlueToolDelegate>
+@interface BLConnect : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate,SmaCoreBlueToolDelegate>
 /* 中心管理者*/
 @property (nonatomic, strong) CBCentralManager *mgr;
 /*连接的那个蓝牙设备*/

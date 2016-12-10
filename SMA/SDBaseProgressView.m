@@ -23,9 +23,11 @@
 - (void)setProgress:(CGFloat)progress
 {
     _progress = progress;
-    
+    if (_progress >= 1 ) {
+        _progress = 0.99;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (progress >= 1.0) {
+        if (_progress >= 1.0) {
             [self removeFromSuperview];
         } else {
             [self setNeedsDisplay];

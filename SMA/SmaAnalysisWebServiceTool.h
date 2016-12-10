@@ -11,8 +11,14 @@
 #import "SMAAccountTool.h"
 #import "SMAWebDataHandleInfo.h"
 
-@interface SmaAnalysisWebServiceTool : NSObject
+#define watchface_recommending @"smav2_watchface_recommending"//（推荐）
+#define watchface_dynamic @"smav2_watchface_dynamic"//动态
+#define watchface_pointer @"smav2_watchface_pointer"//指针
+#define watchface_number @"smav2_watchface_number"//数字
+#define watchface_other @"smav2_watchface_other"//其他
 
+@interface SmaAnalysisWebServiceTool : NSObject
+@property (nonatomic, strong) NSString *chaImageName;
 //登陆
 -(void)getWebServiceLogin:(NSString *)userName userPwd:(NSString *)userPwd clientId:(NSString *)clientId success:(void (^)(id json))success failure:(void (^)(NSError *error))failure;
 //第三方登录
@@ -50,6 +56,7 @@
 - (void)acloudRegisterWithPhone:(NSString *)phone email:(NSString *)email password:(NSString *)password verifyCode:(NSString *)verifiy success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //修改密码
 - (void)acloudResetPasswordWithAccount:(NSString *)account verifyCode:(NSString *)verifyCode password:(NSString *)password success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+- (void)acloudChangePasswordWithOld:(NSString *)old new:(NSString *)newPassword callback:(void (^)(NSString *uid, NSError *error))callback;
 //发送照片
 - (void)acloudHeadUrlSuccess:(void (^)(id result))success failure:(void (^)(NSError *error))failure;
 //下载头像照片
@@ -92,4 +99,10 @@
 //下载文件
 - (void)acloudDownFileWithsession:(NSString *)url callBack:(void(^)(float progress,NSError * error))callback
                  CompleteCallback:(void (^)(NSString *filePath))completeCallback;
+
+//下载表盘文件
+- (void)acloudDownLoadWatchInfos:(NSString *)faceStr offset:(int)offset callBack:(void (^)(NSArray *finish,NSError *error))callback;
+
+//根据表盘id获取缩略图
+- (void)acloudDownLoadImageWithOffset:(int)offset callBack:(void (^)(id finish))callback;
 @end

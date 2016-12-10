@@ -19,4 +19,5 @@
 @property (nonatomic, strong) UIButton *cancleBut, *confirmBut;
 @property (nonatomic, weak) id<smaQuietViewDelegate> delegate;
 - (void)createUI;
+- (void)createUIWithAndiord;
 @end

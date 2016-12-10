@@ -9,7 +9,9 @@
 #import "SMADieviceDataCell.h"
 
 @implementation SMADieviceDataCell
-
+{
+    imaBlock tapBlock;
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -33,8 +35,8 @@
     _backgrouView.layer.shadowOffset = CGSizeMake(0,3);//shadowOffset阴影偏移,x向右偏移4，y向下偏移4，默认(0, -3),这个跟shadowRadius配合使用 
     _backgrouView.layer.shadowOpacity = 0.8;//阴影透明度，默认0
     _backgrouView.layer.shadowRadius = 3;//阴影半径，默认3
-    
-/*******防止卡顿 二
+//    [self reoundAddRecognizer];
+    /*******防止卡顿 二
     _backgrouView.layer.shadowColor = [UIColor blackColor].CGColor;
     _backgrouView.layer.shadowOpacity = 0.8; //此参数默认为0，即阴影不显示
     _backgrouView.layer.shadowRadius = 2.0; //给阴影加上圆角，对性能无明显影响
@@ -52,7 +54,26 @@
 //    _roundLab3.layer.masksToBounds = YES;
 //    _roundLab3.layer.cornerRadius = 3.5;
 
-    
 }
 
+- (void)reoundAddRecognizer{
+   UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+        [_roundView1 addGestureRecognizer:tapGR];
+    UITapGestureRecognizer *tapGR1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    [_roundView2 addGestureRecognizer:tapGR1];
+    UITapGestureRecognizer *tapGR2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    [_roundView3 addGestureRecognizer:tapGR2];
+}
+
+- (void)tapRoundView:(imaBlock)callBlock{
+    tapBlock = callBlock;
+}
+
+- (void)tapAction:(UITapGestureRecognizer *)tap{
+//    tapBlock((UIImageView *)tap.view);
+}
+
+- (IBAction)tapSelector:(UIButton *)sender{
+    tapBlock(sender,_goalView);
+}
 @end

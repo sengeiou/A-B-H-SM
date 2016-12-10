@@ -24,35 +24,44 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24:54~23:20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Uz-ur-7B4">
-                        <rect key="frame" x="45" y="2" width="90" height="41.5"/>
+                        <rect key="frame" x="45" y="2" width="87" height="41.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="90" id="7zG-6L-VOf"/>
+                            <constraint firstAttribute="width" constant="87" id="7zG-6L-VOf"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99.9km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igi-hI-e18">
-                        <rect key="frame" x="240" y="2" width="65" height="41.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00000steps" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igi-hI-e18">
+                        <rect key="frame" x="222" y="2" width="90" height="41.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="65" id="oEz-g3-3Ui"/>
+                            <constraint firstAttribute="width" constant="90" id="oEz-g3-3Ui"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="跑步" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSt-aP-Zvz">
-                        <rect key="frame" x="143" y="2" width="89" height="41.5"/>
+                        <rect key="frame" x="140" y="2" width="74" height="41.5"/>
                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0dX-OC-SZO">
+                        <rect key="frame" x="184" y="8" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="3DG-cf-BXz"/>
+                            <constraint firstAttribute="height" constant="30" id="nQa-aX-tiI"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="CSt-aP-Zvz" firstAttribute="leading" secondItem="4Uz-ur-7B4" secondAttribute="trailing" constant="8" id="WBW-RP-zim"/>
                     <constraint firstAttribute="bottom" secondItem="4Uz-ur-7B4" secondAttribute="bottom" id="XC8-VT-LBd"/>
+                    <constraint firstItem="igi-hI-e18" firstAttribute="leading" secondItem="0dX-OC-SZO" secondAttribute="trailing" constant="8" id="b7M-5C-Ff1"/>
                     <constraint firstItem="igi-hI-e18" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="eU1-Wc-Frv"/>
-                    <constraint firstAttribute="trailing" secondItem="igi-hI-e18" secondAttribute="trailing" constant="15" id="g3n-C8-Srm"/>
+                    <constraint firstAttribute="trailing" secondItem="igi-hI-e18" secondAttribute="trailing" constant="8" id="g3n-C8-Srm"/>
+                    <constraint firstItem="igi-hI-e18" firstAttribute="centerY" secondItem="0dX-OC-SZO" secondAttribute="centerY" id="ify-Zp-ldD"/>
                     <constraint firstItem="4Uz-ur-7B4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="45" id="nWr-a9-KZb"/>
                     <constraint firstAttribute="bottom" secondItem="CSt-aP-Zvz" secondAttribute="bottom" id="nWv-HU-1JR"/>
                     <constraint firstItem="4Uz-ur-7B4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="oi6-cJ-uyW"/>
@@ -63,6 +72,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="distanceLab" destination="igi-hI-e18" id="nex-0B-DLd"/>
+                <outlet property="stateIma" destination="0dX-OC-SZO" id="9sA-gS-b00"/>
                 <outlet property="statelab" destination="CSt-aP-Zvz" id="JAA-W5-9aA"/>
                 <outlet property="timeLab" destination="4Uz-ur-7B4" id="vbo-Aq-tFn"/>
             </connections>

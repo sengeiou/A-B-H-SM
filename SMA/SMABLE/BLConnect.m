@@ -131,6 +131,10 @@ static id _instace;
                     NSLog(@"重连系统设备");
                     [self connectBl:obj];
                 }
+                else{
+                    [self stopSearch];
+                    [self scanBL:0];
+                }
             }];
         }
         else{
@@ -231,7 +235,7 @@ static id _instace;
 
 //发现周边蓝牙设备
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
-    NSLog(@"搜索设备UUID：%@  记录UUID：%@",peripheral.identifier.UUIDString,self.user.watchUUID);
+    NSLog(@"搜索设备UUID：%@  记录UUID：%@  scanName: %@",peripheral.identifier.UUIDString,self.user.watchUUID,self.scanName);
     if (self.user.watchUUID) {
         if ([self.user.watchUUID isEqualToString:peripheral.identifier.UUIDString]) {
             [self connectBl:peripheral];
@@ -402,6 +406,7 @@ static id _instace;
         case LOGIN:
             if([array[0] intValue])//登录成功，
             {
+                _syncing = NO;
                 [self firstSet];
             }
             else{
@@ -430,8 +435,10 @@ static id _instace;
              运动模式结束 2F
              *****/
             if (![[[array firstObject] objectForKey:@"NODATA"] isEqualToString:@"NODATA"]) {
+//                SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
+//                [webTool acloudSetScore:[[[array lastObject] objectForKey:@"STEP"] intValue]];
                 [dal insertSportDataArr: [self clearUpSportData:array] finish:^(id finish) {
-                    
+//
                 }];
             }
             [SmaBleSend requestCuffHRData];
@@ -483,6 +490,17 @@ static id _instace;
     }
 }
 
+- (void)updateProgress:(float)pregress{
+    if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleUpdateProgress:)]){
+        [self.BLdelegate bleUpdateProgress:pregress];
+    }
+}
+- (void)updateProgressEnd:(BOOL)success{
+    if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleUpdateProgressEnd:)]){
+        [self.BLdelegate bleUpdateProgressEnd:success];
+    }
+}
+
 - (void)firstSet{
     [SmaBleSend setSystemTime];
     [SmaBleSend setDefendLose:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]];
@@ -494,7 +512,7 @@ static id _instace;
     SmaNoDisInfo *disInfo = [[SmaNoDisInfo alloc] init];
     disInfo.isOpen = [NSString stringWithFormat:@"%d",[[SMADefaultinfos getValueforKey:NODISTRUBSET] intValue]];
     disInfo.beginTime1 = @"0";
-    disInfo.endTime1 = @"24";
+    disInfo.endTime1 = @"1439";
     disInfo.isOpen1 = @"1";
     [SmaBleSend setNoDisInfo:disInfo];
     
@@ -534,6 +552,13 @@ static id _instace;
             [SmaBleSend setLanguage:NO];
         }
     }
+    
+    SMADatabase *smaDal = [[SMADatabase alloc] init];
+    NSMutableArray *alarmArr = [smaDal selectClockList];
+    if (alarmArr.count > 0) {
+        [SmaBleSend setClockInfoV2:alarmArr];
+    }
+   
     [SmaBleSend getElectric];
     [SmaBleSend getBLVersion];
     [SmaBleSend getBLmac];
@@ -580,8 +605,6 @@ static bool ishrMode;
         [hrDic setObject:SmaBleMgr.peripheral.name forKey:@"INDEX"];
         [hrDic setObject:@"0" forKey:@"WEB"];
         [hrDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
-        //        [hrDic setObject:@"0" forKey:@"HRMODE"];
-        //        [hrDic setObject:@"0" forKey:@"QUIET"];
         double nowInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:[hrDic objectForKey:@"DATE"] timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 
         [hr_arr addObject:hrDic];

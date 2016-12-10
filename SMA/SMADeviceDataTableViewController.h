@@ -15,6 +15,7 @@
 #import "SMAHRDetailViewController.h"
 #import "SMASleepDetailViewController.h"
 #import "SMADatabase.h"
+#import "SMARemindView.h"
 @interface SMADeviceDataTableViewController : UITableViewController<UITableViewDelegate,UITableViewDataSource,BLConnectDelegate,calenderDelegate>
 
 @end

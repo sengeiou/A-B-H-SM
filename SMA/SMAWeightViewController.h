@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "SMADialMainView.h"
+#import "SMAPickerView.h"
 #import "SMANavViewController.h"
+#import "SMASpGoalViewController.h"
 @interface SMAWeightViewController : UIViewController<smaDialViewDelegate>
-@property (nonatomic, weak) IBOutlet UIButton *skipBut, *nextBut, *backBut;
+@property (nonatomic, weak) IBOutlet UIButton *nextBut;
 @property (nonatomic, weak) IBOutlet UIImageView *genderIma;
 @property (nonatomic, weak) IBOutlet UILabel *weightTitLab, *weightLab;
 @end

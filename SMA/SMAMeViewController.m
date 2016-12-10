@@ -35,6 +35,7 @@
 }
 
 - (void)createUI{
+    SmaBleMgr.BLdelegate = self;
     self.title = SMALocalizedString(@"me_title");
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
     NSString *uniquePath=[[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userID]];
@@ -52,51 +53,96 @@
 
 - (IBAction)photoSelector:(id)sender{
     __block UIImagePickerControllerSourceType sourceType ;
-    UIAlertController *photoAler = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *photographAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_photograph") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        sourceType = UIImagePickerControllerSourceTypeCamera;
-        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
-            if (!picker) {
-                picker = [[UIImagePickerController alloc] init];//初始化
-                picker.delegate = self;
-                picker.allowsEditing = YES;//设置可编辑
+//    UIAlertController *photoAler = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//    UIAlertAction *photographAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_photograph") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        sourceType = UIImagePickerControllerSourceTypeCamera;
+//        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+//             [SmaBleSend setBLcomera:YES];
+//            if (!picker) {
+//                picker = [[UIImagePickerController alloc] init];//初始化
+//                picker.delegate = self;
+//                picker.allowsEditing = YES;//设置可编辑
+//            }
+//            picker.sourceType = sourceType;
+//            [self presentViewController:picker animated:YES completion:^{
+//                
+//            }];
+//        }
+//        else{
+//            [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
+//        }
+//    }];
+//    UIAlertAction *albumAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_photoAlbum") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypePhotoLibrary]) {
+//           
+//            if (!picker) {
+//                picker = [[UIImagePickerController alloc] init];//初始化
+//                picker.delegate = self;
+//                picker.allowsEditing = YES;//设置可编辑
+//            }
+//            picker.sourceType = sourceType;
+//            [self presentViewController:picker animated:YES completion:^{
+//                
+//            }];
+//        }
+//        else{
+//            [MBProgressHUD showError:SMALocalizedString(@"me_no_photoAlbum")];
+//        }
+//        
+//    }];
+//    UIAlertAction *cancelhAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        
+//    }];
+//    [photoAler addAction:photographAction];
+//    [photoAler addAction:albumAction];
+//    [photoAler addAction:cancelhAction];
+//    [self presentViewController:photoAler animated:YES completion:^{
+//        
+//    }];
+    
+    
+    SMAPhotoSelectView *photoView = [[SMAPhotoSelectView alloc] initWithButtonTitles:@[SMALocalizedString(@"me_photograph"),SMALocalizedString(@"me_photoAlbum")]];
+    [photoView didPhotoSelect:^(UIButton *button) {
+        if (button.tag == 101) {
+            sourceType = UIImagePickerControllerSourceTypeCamera;
+            if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+                [SmaBleSend setBLcomera:YES];
+                if (!picker) {
+                    picker = [[UIImagePickerController alloc] init];//初始化
+                    picker.delegate = self;
+                    picker.allowsEditing = YES;//设置可编辑
+                }
+                picker.sourceType = sourceType;
+                [self presentViewController:picker animated:YES completion:^{
+                    
+                }];
             }
-            picker.sourceType = sourceType;
-            [self presentViewController:picker animated:YES completion:^{
-                
-            }];
+            else{
+                [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
+            }
         }
         else{
-            [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
-        }
-    }];
-    UIAlertAction *albumAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_photoAlbum") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypePhotoLibrary]) {
-            if (!picker) {
-                picker = [[UIImagePickerController alloc] init];//初始化
-                picker.delegate = self;
-                picker.allowsEditing = YES;//设置可编辑
-            }
-            picker.sourceType = sourceType;
-            [self presentViewController:picker animated:YES completion:^{
+            sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypePhotoLibrary]) {
                 
-            }];
+                if (!picker) {
+                    picker = [[UIImagePickerController alloc] init];//初始化
+                    picker.delegate = self;
+                    picker.allowsEditing = YES;//设置可编辑
+                }
+                picker.sourceType = sourceType;
+                [self presentViewController:picker animated:YES completion:^{
+                    
+                }];
+            }
+            else{
+                [MBProgressHUD showError:SMALocalizedString(@"me_no_photoAlbum")];
+            }
         }
-        else{
-            [MBProgressHUD showError:SMALocalizedString(@"me_no_photoAlbum")];
-        }
-        
     }];
-    UIAlertAction *cancelhAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [photoAler addAction:photographAction];
-    [photoAler addAction:albumAction];
-    [photoAler addAction:cancelhAction];
-    [self presentViewController:photoAler animated:YES completion:^{
-        
-    }];
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app.window addSubview:photoView];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -128,34 +174,59 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 3) {
-        UIAlertController *aler = [UIAlertController alertControllerWithTitle:nil message:SMALocalizedString(@"me_signOut_remind") preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *confimAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
-            SMAUserInfo *user = [SMAAccountTool userInfo];
-            if (indexPath.section == 3) {
-                [webservice acloudSyncAllDataWithAccount:user.userID callBack:^(id finish) {
-                    
-                }];
-                [webservice logOutSuccess:^(bool result) {
-                    
-                }];
-                user.userID = @"";
-                user.watchUUID = nil;
-                [SMAAccountTool saveUser:user];
-                UINavigationController *loginNav = [MainStoryBoard instantiateViewControllerWithIdentifier:@"ViewController"];
-                [UIApplication sharedApplication].keyWindow.rootViewController=loginNav;
-            }
+//        UIAlertController *aler = [UIAlertController alertControllerWithTitle:nil message:SMALocalizedString(@"me_signOut_remind") preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *confimAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
+//            SMAUserInfo *user = [SMAAccountTool userInfo];
+//            if (indexPath.section == 3) {
+//                [webservice acloudSyncAllDataWithAccount:user.userID callBack:^(id finish) {
+//                    
+//                }];
+//                [webservice logOutSuccess:^(bool result) {
+//                    
+//                }];
+//                user.userID = @"";
+//                user.watchUUID = nil;
+//                [SMAAccountTool saveUser:user];
+//                UINavigationController *loginNav = [MainStoryBoard instantiateViewControllerWithIdentifier:@"ViewController"];
+//                [UIApplication sharedApplication].keyWindow.rootViewController=loginNav;
+//            }
+//            
+//        }];
+//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//            cell.selected = NO;
+//        }];
+//        [aler addAction:cancelAction];
+//        [aler addAction:confimAction];
+//        [self presentViewController:aler animated:YES completion:^{
+//            
+//        }];
+        
+        SMACenterAlerView *cenAler = [[SMACenterAlerView alloc] initWithMessage: SMALocalizedString(@"me_signOut_remind") buttons:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"me_signOut_confirm")]];
+        cenAler.delegate = self;
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [app.window addSubview:cenAler];
+
+    }
+}
+
+#pragma mark ***********cenAlerButDelegate
+- (void)centerAlerView:(SMACenterAlerView *)alerView didAlerBut:(UIButton *)button{
+    if (button.tag == 102) {
+        SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
+        SMAUserInfo *user = [SMAAccountTool userInfo];
+        [webservice acloudSyncAllDataWithAccount:user.userID callBack:^(id finish) {
             
         }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            cell.selected = NO;
-        }];
-        [aler addAction:cancelAction];
-        [aler addAction:confimAction];
-        [self presentViewController:aler animated:YES completion:^{
+        [webservice logOutSuccess:^(bool result) {
             
         }];
+        user.userID = @"";
+        user.watchUUID = nil;
+        [SMAAccountTool saveUser:user];
+        UINavigationController *loginNav = [MainStoryBoard instantiateViewControllerWithIdentifier:@"ViewController"];
+        [UIApplication sharedApplication].keyWindow.rootViewController=loginNav;
     }
 }
 
@@ -167,10 +238,11 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     __block UIImage* image;
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString*)kUTTypeImage]) {
-        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        image = [info objectForKey:UIImagePickerControllerEditedImage];
+        NSLog(@"fwgwgg-----%@",NSStringFromCGSize(image.size));
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userID]];
-        image = [UIImage imageUserToCompressForSizeImage:image newSize:CGSizeMake(100, 100)];
+        image = [UIImage image:image fortargetSize:CGSizeMake(200, 200)];
         BOOL result = [UIImageJPEGRepresentation(image, 1) writeToFile: filePath  atomically:YES];
         if(result)
         {
@@ -185,6 +257,7 @@
         }
     }
     [self dismissViewControllerAnimated:YES completion:^{
+        [SmaBleSend setBLcomera:NO];
         [_photoBut setBackgroundImage:image forState:UIControlStateNormal];
     }];
 }
@@ -197,6 +270,35 @@
     }
 }
 
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [SmaBleSend setBLcomera:NO];
+    [self dismissViewControllerAnimated:YES completion:^{
+    
+    }];
+    NSLog(@"fw2fgwrgrg===");
+}
 
+#pragma mark ******bledidDispose
+- (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{
+    switch (mode) {
+        case BOTTONSTYPE:
+        {
+            if ([[data firstObject] intValue] == 1) {
+                [picker takePicture];
+            }
+            else if([[data firstObject] intValue] == 2){
+                 [SmaBleSend setBLcomera:NO];
+                [self dismissViewControllerAnimated:YES completion:^{
+                    
+                }];
+            }
 
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
+}
 @end

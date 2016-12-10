@@ -12,4 +12,5 @@
 @property (nonatomic, strong) CALayer *topLine, *botLine;
 @property (nonatomic, strong) CAShapeLayer *oval;
 @property (nonatomic, weak) IBOutlet UILabel *timeLab, *statelab, *distanceLab;
+@property (nonatomic, weak) IBOutlet UIImageView *stateIma;
 @end

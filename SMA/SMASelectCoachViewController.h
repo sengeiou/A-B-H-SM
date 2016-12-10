@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SMASelectCell.h"
 @interface SMASelectCoachViewController : UITableViewController
 
 @end

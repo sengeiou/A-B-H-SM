@@ -35,4 +35,6 @@ typedef enum  {
 + (UIImage *)compressImage:(UIImage *)image newWidth:(CGFloat)newImageWidth;
 + (NSData *)zipImageWithImage:(UIImage *)imag;
 + (UIImage *)imageUserToCompressForSizeImage:(UIImage *)image newSize:(CGSize)size;//等比例压缩图片
++ (UIImage *)image:(UIImage*)image fortargetSize: (CGSize)targetSize;
++ (UIImage *)imageCompressed:(UIImage *)sourceImage targetWidth:(CGFloat)defineWidth;
 @end

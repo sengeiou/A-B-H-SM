@@ -27,8 +27,11 @@
     [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
    
     NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
-    
-    if ([SMAAccountTool userInfo].userID && ![[SMAAccountTool userInfo].userID isEqualToString:@""]) {
+    if (![SMADefaultinfos getValueforKey:FIRSTLUN]) {
+        SMAFirstLunViewController *firstLunVC = [[SMAFirstLunViewController alloc] init];
+        self.window.rootViewController = firstLunVC;
+    }
+    else if ([SMAAccountTool userInfo].userID && ![[SMAAccountTool userInfo].userID isEqualToString:@""]) {
         
         SMATabbarController* controller = [MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
         controller.isLogin = YES;
@@ -51,13 +54,27 @@
     if (![SMADefaultinfos getValueforKey:FIRSTLUN]) {
         [SMADefaultinfos putKey:FIRSTLUN andValue:FIRSTLUN];
         [SMADefaultinfos putInt:SLEEPMONSET andValue:1];
-        [SMADefaultinfos putInt:CALLSET andValue:1];
-        [SMADefaultinfos putInt:SMSSET andValue:1];
-        [SMADefaultinfos putInt:SCREENSET andValue:1];
+        [SMADefaultinfos putInt:CALLSET andValue:0];
+        [SMADefaultinfos putInt:SMSSET andValue:0];
+        [SMADefaultinfos putInt:SCREENSET andValue:0];
+        [SMADefaultinfos putInt:ANTILOSTSET andValue:0];
         [SMADefaultinfos putInt:VIBRATIONSET andValue:2];
         [SMADefaultinfos putInt:BACKLIGHTSET andValue:2];
     }
+    [SMADefaultinfos putKey:UPDATEDATE andValue:[NSDate date].yyyyMMddNoLineWithDate];
+    //         真机测试时保存日志
+    if ([[[UIDevice currentDevice] model] rangeOfString:@"simulator"].location) {
+//        [self redirectNSLogToDocumentFolder];
+    }
     return YES;
+}
+
+- (void)redirectNSLogToDocumentFolder{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *fileName =[NSString stringWithFormat:@"%@.log",[NSDate date]];
+    NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

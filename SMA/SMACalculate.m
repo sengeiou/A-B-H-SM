@@ -83,6 +83,10 @@
     return mile*1.609344;
 }
 
++ (NSString *)convertToFt:(int)feet{
+    return [NSString stringWithFormat:@"%@'%d\"",feet/12 > 0 ? [NSString stringWithFormat:@"%d",feet/12]:@"",feet%12  ];
+}
+
 //计算距离
 + (float)countKMWithHeigh:(float)hight step:(int) step{
     return 45 * hight * step /10000000;
@@ -107,4 +111,14 @@
     roundedOunces = [ouncesDecimal decimalNumberByRoundingAccordingToBehavior:roundingBehavior];
     return  [NSString stringWithFormat: @"%@" ,roundedOunces];
 }
+
++ (CGFloat)heightForLableWithText:(NSString *)text Font:(UIFont*)font AndlableWidth:(CGFloat)lableWidth
+{
+    CGSize textSize = CGSizeMake(lableWidth, CGFLOAT_MAX);
+    //计算高度
+    CGSize sizeWithFont = [text boundingRectWithSize:textSize options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName:font} context:nil].size;
+    return ceil(sizeWithFont.height);
+    
+}
+
 @end

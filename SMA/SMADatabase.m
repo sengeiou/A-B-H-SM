@@ -221,7 +221,7 @@
 - (NSMutableArray *)readSportDetailDataWithDate:(NSString *)date toDate:(NSString *)todate{
     NSMutableArray *spArr = [NSMutableArray array];
     [self.queue inDatabase:^(FMDatabase *db) {
-        NSString *sql = [NSString stringWithFormat:@"select *from tb_CuffSport where step > 0 and date >=\'%@\' and date <=\'%@\' and sp_mode != 32 and sp_mode != 33 and sp_mode != 47 and user_id = \'%@\' group by time",date,todate,[SMAAccountTool userInfo].userID];
+        NSString *sql = [NSString stringWithFormat:@"select *from tb_CuffSport where date >=\'%@\' and date <=\'%@\' and sp_mode != 32 and sp_mode != 33 and sp_mode != 47 and user_id = \'%@\' group by time",date,todate,[SMAAccountTool userInfo].userID];
         FMResultSet *rs = [db executeQuery:sql];
         NSString *sportT;
         NSString *sportD;
@@ -237,6 +237,24 @@
         }
     }];
     return spArr;
+}
+
+//查找当天是否有运动数据
+- (BOOL)selectSportDataWithDate:(NSString *)date{
+    __block NSString *sportD;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        NSString *sql = [NSString stringWithFormat:@"select *from tb_CuffSport where date=\'%@\' and user_id=\'%@\'",date,[SMAAccountTool userInfo].userID];
+        FMResultSet *rs = [db executeQuery:sql];
+        while (rs.next) {
+            sportD = [rs stringForColumn:@"date"];
+        }
+    }];
+    if (sportD) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
 }
 
 - (NSMutableArray *)readRunSportDetailDataWithDate:(NSString *)date{
@@ -586,6 +604,24 @@
     return sleepData;
 }
 
+//查找当天是否有睡眠数据
+- (BOOL)selectSleepDataWithDate:(NSString *)date{
+    __block NSString *sleepD;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        NSString *sql = [NSString stringWithFormat:@"select *from tb_sleep where sleep_date=\'%@\' and user_id=\'%@\'",date,[SMAAccountTool userInfo].userID];
+        FMResultSet *rs = [db executeQuery:sql];
+        while (rs.next) {
+            sleepD = [rs stringForColumn:@"sleep_date"];
+        }
+    }];
+    if (sleepD) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
 //获取所需要上传睡眠数据
 - (NSMutableArray *)readNeedUploadSLData{
     NSMutableArray *slArr = [NSMutableArray array];
@@ -640,6 +676,57 @@
     }];
 }
 
+//查找当天是否有睡眠数据
+- (BOOL)selectHRDataWithDate:(NSString *)date{
+    __block NSString *HRD;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        NSString *sql = [NSString stringWithFormat:@"select *from tb_HRate where HR_date=\'%@\' and user_id=\'%@\'",date,[SMAAccountTool userInfo].userID];
+        FMResultSet *rs = [db executeQuery:sql];
+        while (rs.next) {
+            HRD = [rs stringForColumn:@"HR_date"];
+        }
+    }];
+    if (HRD) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
+//插入静息心率数据
+- (void)insertQuietHRDataArr:(NSMutableArray *)HRarr finish:(void (^)(id finish)) success{
+    [self.queue inDatabase:^(FMDatabase *db) {
+        [db beginTransaction];
+        __block BOOL result = false;
+        for (int i = 0; i < HRarr.count; i ++) {
+            NSMutableDictionary *hrDic=(NSMutableDictionary *)HRarr[i];
+            NSString *hrID = [NSString stringWithFormat:@"%.0f",[SMADateDaultionfos msecIntervalSince1970Withdate:[hrDic objectForKey:@"DATE"] timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]]];
+            NSString *date = [hrDic objectForKey:@"DATE"];
+            NSString *YTD = [date substringToIndex:8];
+            NSString *moment = [SMADateDaultionfos minuteFormDate:date];
+            NSString *mode;
+            NSString *HR_id;
+            FMResultSet *rs = [db executeQuery:@"select * from tb_HRate where HR_date =? and hr_mode=? and user_id=?",YTD,[hrDic objectForKey:@"HRMODE"],[hrDic objectForKey:@"USERID"]];
+            while ([rs next]) {
+                mode = [rs stringForColumn:@"hr_mode"];
+                HR_id = [rs stringForColumn:@"HR_id"];
+            }
+            
+            if (HR_id && ![HR_id isEqualToString:@""]) {
+                result = [db executeUpdate:@"update tb_HRate set HR_id=?, HR_real=?,hr_mode=?,HR_web=? and HR_time=? where HR_date =? and user_id=?",hrID,[hrDic objectForKey:@"HEART"],[hrDic objectForKey:@"HRMODE"],[hrDic objectForKey:@"WEB"],moment,YTD,[hrDic objectForKey:@"USERID"]];
+                NSLog(@"更新静息心率数据 %d ",result);
+            }
+            else{
+                result = [db executeUpdate:@"insert into tb_HRate(user_id,HR_id,HR_date,HR_time,HR_real,hr_mode,HR_ident,HR_web) values(?,?,?,?,?,?,?,?)",[hrDic objectForKey:@"USERID"],hrID,YTD,moment,[hrDic objectForKey:@"HEART"],[hrDic objectForKey:@"HRMODE"],[hrDic objectForKey:@"INDEX"],[hrDic objectForKey:@"WEB"]];
+                NSLog(@"插入静息心率数据 %d",result);
+            }
+        }
+        [db commit];
+        success ([NSString stringWithFormat:@"%d",result]);
+    }];
+}
+
 //读取心率数据
 - (NSMutableArray *)readHearReatDataWithDate:(NSString *)date toDate:(NSString *)toDate detailData:(BOOL)detail{
     NSMutableArray *hrArr = [NSMutableArray array];
@@ -647,6 +734,7 @@
         FMResultSet *rsChart =nil;
         if (!detail) {
             rsChart = [db executeQuery:@"select *from tb_HRate where HR_date>=? and HR_date<=? and hr_mode=0 and user_id=? group by HR_date",date,toDate,[SMAAccountTool userInfo].userID];
+            
             while (rsChart.next) {
                 NSDictionary *dict;
                 NSString *date = [rsChart stringForColumn:@"HR_date"];
@@ -756,9 +844,26 @@
     return hrArr;
 }
 
+//读取每天静息心率数据
+- (NSMutableArray *)readQuietHearReatDataWithDate:(NSString *)date toDate:(NSString *)toDate{
+     NSMutableArray *hrArr = [NSMutableArray array];
+    [self.queue inDatabase:^(FMDatabase *db) {
+       FMResultSet *rsChart = [db executeQuery:@"select *from tb_HRate where HR_date>=? and HR_date<=? and hr_mode=1 and user_id=? group by HR_date order by HR_date DESC",date,toDate,[SMAAccountTool userInfo].userID];
+        while (rsChart.next) {
+            NSDictionary *dict;
+            NSString *date = [rsChart stringForColumn:@"HR_date"];
+            NSString *time = [rsChart stringForColumn:@"HR_time"];
+            NSString *HR_real = [rsChart stringForColumn:@"HR_real"];
+            NSString *HR_id = [rsChart stringForColumn:@"HR_id"];
+            dict = [[NSDictionary alloc]initWithObjectsAndKeys:date,@"DATE",time,@"TIME",HR_real,@"HEART",HR_id,@"ID", nil];
+            [hrArr addObject:dict];
+        }
+    }];
+    return hrArr;
+}
+
 //删除指定静息心率数据
 - (void)deleteQuietHearReatDataWithDate:(NSString *)date time:(NSString *)time{
-    
     [self.queue inDatabase:^(FMDatabase *db) {
         [db beginTransaction];
         NSString *updatesql=[NSString stringWithFormat:@"delete from tb_HRate where HR_date=\'%@\' and HR_time =%d and user_id=\'%@\' and hr_mode=1",date,time.intValue,[SMAAccountTool userInfo].userID];

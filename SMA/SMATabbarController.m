@@ -35,14 +35,13 @@
     //预加载数据（暂定睡眠,运动）
     [[SMADeviceAggregate deviceAggregateTool] initilizeWithWeek];
     if (!_isLogin) {
-        
             SmaAnalysisWebServiceTool *webService = [[SmaAnalysisWebServiceTool alloc] init];
-            [webService acloudDownLDataWithAccount:[SMAAccountTool userInfo].userID callBack:^(id finish) {
-                if ([finish isEqualToString:@"finish"]) {
-                    NSNotification *updateNot = [NSNotification notificationWithName:@"updateData" object:@{@"UPDATE":@"updateUI"}];
-                    [SmaNotificationCenter postNotification:updateNot];
-                }
-            }];
+//            [webService acloudDownLDataWithAccount:[SMAAccountTool userInfo].userID callBack:^(id finish) {
+//                if ([finish isEqualToString:@"finish"]) {
+//                    NSNotification *updateNot = [NSNotification notificationWithName:@"updateData" object:@{@"UPDATE":@"updateUI"}];
+//                    [SmaNotificationCenter postNotification:updateNot];
+//                }
+//            }];
 //        });
     }
 }

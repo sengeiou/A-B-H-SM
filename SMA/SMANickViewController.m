@@ -28,6 +28,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [self.view endEditing:YES];
+    SMAUserInfo *user = [SMAAccountTool userInfo];
+    if (_nameFie.text) {
+        user.userName = _nameFie.text;
+        [SMAAccountTool saveUser:user];
+    }
     //    [self.navigationController setNavigationBarHidden:YES];
 }
 
@@ -36,15 +41,16 @@
 }
 
 - (void)createUI{
-    _setPhoLab.text = SMALocalizedString(@"设置个人头像");
-    _nickLab.text = SMALocalizedString(@"昵称");
+    self.title = SMALocalizedString(@"user_title");
+    _setPhoLab.text = SMALocalizedString(@"me_perso_setPho");
+    _nickLab.text = SMALocalizedString(@"me_perso_name");
     [_nameFie setValue:FontGothamLight(17) forKeyPath:@"_placeholderLabel.font"];
-    _nameFie.placeholder = SMALocalizedString(@"请输入昵称");
+    _nameFie.placeholder = SMALocalizedString(@"me_perso_nameRemi");
     [_nextBut setTitle:SMALocalizedString(@"user_nextStep") forState:UIControlStateNormal];
 }
 
 - (IBAction)photoSelector:(id)sender{
-    SMABottomSelView *selView = [[SMABottomSelView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height) title:SMALocalizedString(@"修改头像") message:@[SMALocalizedString(@"me_photograph"),SMALocalizedString(@"me_photoAlbum")]];
+    SMABottomSelView *selView = [[SMABottomSelView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height) title:SMALocalizedString(@"me_perso_chanPho") message:@[SMALocalizedString(@"me_photograph"),SMALocalizedString(@"me_photoAlbum")]];
     selView.delegate = self;
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app.window addSubview:selView];
@@ -52,7 +58,6 @@
 
 #pragma mark *************tapSelectCellDelegate
 - (void)didSelectCell:(UIButton *)butCell{
-
 
     UIImagePickerControllerSourceType sourceType;
     if (butCell.tag == 101) {

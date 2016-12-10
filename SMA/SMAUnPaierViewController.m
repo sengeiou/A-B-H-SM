@@ -43,11 +43,11 @@
 
     
     SMAUserInfo *user = [SMAAccountTool userInfo];
-    self.title = SMALocalizedString(@"设备管理");
+    self.title = SMALocalizedString(@"setting_unband_title");
     _updateIma.hidden = YES;
     _unPairBut.titleLabel.numberOfLines = 2;
-    [_unPairBut setTitle:SMALocalizedString(@"解除绑定") forState:UIControlStateNormal];
-    _dfuVerLab.text = SMALocalizedString(@"固件升级");
+    [_unPairBut setTitle:SMALocalizedString(@"setting_unband_remove") forState:UIControlStateNormal];
+    _dfuVerLab.text = SMALocalizedString(@"setting_unband_dfuUpdate");
     _verLab.text = [NSString stringWithFormat:@"V%@",user.watchVersion];
     
     
@@ -59,12 +59,13 @@
         
     }];
     UIAlertAction *confAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [MBProgressHUD showSuccess:SMALocalizedString(@"解绑成功")];
+        [MBProgressHUD showSuccess:SMALocalizedString(@"setting_unband_success")];
         SMAUserInfo *user = [SMAAccountTool userInfo];
         user.watchUUID = nil;
         [SMAAccountTool saveUser:user];
-        [SmaBleMgr disconnectBl];
         [SmaBleSend relieveWatchBound];
+//        [SmaBleSend BLrestoration];
+        [SmaBleMgr disconnectBl];
         [SmaBleMgr reunitonPeripheral:NO];//关闭重连机制
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController popViewControllerAnimated:YES];
@@ -72,14 +73,35 @@
     }];
     [aler addAction:canAction];
     [aler addAction:confAction];
-    [self presentViewController:aler animated:YES completion:^{
-        
-    }];
+//    [self presentViewController:aler animated:YES completion:^{
+//        
+//    }];
+    SMACenterAlerView *cenAler = [[SMACenterAlerView alloc] initWithMessage: SMALocalizedString(@"setting_unband_remind") buttons:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_unband")]];
+    cenAler.delegate = self;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app.window addSubview:cenAler];
 }
 
 - (IBAction)dfuSelector:(id)sender{
     NSLog(@"dfu升级");
 }
+
+#pragma mark ***********cenAlerButDelegate
+- (void)centerAlerView:(SMACenterAlerView *)alerView didAlerBut:(UIButton *)button{
+    if (button.tag == 102) {
+        [MBProgressHUD showSuccess:SMALocalizedString(@"setting_unband_success")];
+        SMAUserInfo *user = [SMAAccountTool userInfo];
+        user.watchUUID = nil;
+        [SMAAccountTool saveUser:user];
+        [SmaBleSend relieveWatchBound];
+        [SmaBleMgr reunitonPeripheral:NO];//关闭重连机制
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//             [SmaBleMgr disconnectBl];
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    }
+}
+
 /*
 #pragma mark - Navigation
 

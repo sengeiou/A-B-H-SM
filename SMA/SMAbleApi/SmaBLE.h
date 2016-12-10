@@ -20,8 +20,7 @@ typedef enum {
     ELECTRIC,     //电量
     VERSION,      //系统版本
     OTA,          //是否进入OTA
-    BOTTONUP,     //上按键
-    BOTTONDOWN,   //下按键
+    BOTTONSTYPE,     //按键返回
     MAC,          //MAC返回
     WATHEARTDATA, //手表心率返回
     CUFFSPORTDATA,  //07运动数据
@@ -56,8 +55,7 @@ typedef enum {
  @param OTA             反馈进入OTA状态信息，反馈数组若为1，进入成功，
                         当数组同时反馈@[0,PowerIsNormal]，进入OTA失败，无错误信息，
                         若反馈@[0,PowerIsTooLow]，进入OTA失败，电量过低
- @param BOTTONUP        反馈设备按键，反馈数组为UP代表点击上键
- @param BOTTONDOWN      反馈设备按键，反馈数组为DOWN代表点击下键
+ @param BOTTONSTYPE     反馈设备按键，反馈数组为键类型 1:确定键（02系列上键） 2:返回键  17:(02系列下键)
  @param MAC             反馈设备MAC地址，反馈数组为--:--:--:--:--:--,若出现04:03:00:00:00:00,为错误地址，建议重启设备
  @param WATHEARTDATA    反馈05手表最后一次监测的心率数据
  @param CUFFSPORTDATA   反馈07手环运动数据，数据一次最多返回20组，若仍有运动数据，需要重新请求
@@ -74,7 +72,7 @@ typedef enum {
  
  */
 
-@protocol SamCoreBlueToolDelegate <NSObject>
+@protocol SmaCoreBlueToolDelegate <NSObject>
 
 @optional
 /*发送指令序号标识，用于识别应答数据指令序号
@@ -94,7 +92,7 @@ typedef enum {
  */
 - (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode;
 //更新进度（表盘）
-- (void)updateProgress:(NSString *)pregress;
+- (void)updateProgress:(float)pregress;
 - (void)updateProgressEnd:(BOOL)success;
 @end
 
@@ -102,7 +100,7 @@ typedef enum {
 @property (nonatomic, assign, readonly) NSInteger serialNum;//发送指令序号标识
 @property (nonatomic,strong)  CBPeripheral*p;//连接的设备
 @property (nonatomic,strong)  CBCharacteristic*Write;//连接的设备的写特征
-@property (nonatomic, weak) id<SamCoreBlueToolDelegate> delegate;
+@property (nonatomic, weak) id<SmaCoreBlueToolDelegate> delegate;
 + (instancetype)sharedCoreBlue; //创建对象
 
 /*处理设备反馈数据
@@ -151,6 +149,11 @@ typedef enum {
    @param bol   YES:开启；NO:关闭
  */
 -(void)setDefendLose:(BOOL)bol;
+
+/** 相机开关
+ *  @param bol   YES:开启；NO:关闭
+ */
+- (void)setBLcomera:(BOOL)bol;
 
 /*手机来电
   @param bol YES:开启；NO:关闭
@@ -381,4 +384,6 @@ typedef enum {
  @parmar number 需要替换表盘的位置（1，2，3）
  */
 - (void)analySwitchs:(NSString *)name replace:(int )number;
+
+- (void)analySwitchsWithdata:(NSData *)data replace:(int)number;
 @end

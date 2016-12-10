@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "UIImage+CKQ.h"
-@interface SMAMeViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+#import "SMAPhotoSelectView.h"
+#import "SMACenterAlerView.h"
+@interface SMAMeViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,BLConnectDelegate,cenAlerButDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *personalLab, *goalLab, *moreLab, *helpLab, *signOutLab;
 @property (nonatomic, weak) IBOutlet UIButton *photoBut;
+@property (nonatomic, weak) IBOutlet UIImageView *photoIma;
 @end

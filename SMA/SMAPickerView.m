@@ -11,9 +11,10 @@
 @implementation SMAPickerView
 {
     NSArray *pickContent;
-    UIPickerView *pickView;
+    
     NSInteger selectComponent;
 }
+@synthesize pickView;
 
 - (id)initWithFrame:(CGRect)frame ButtonTitles:(NSArray *)titles ickerMessage:(NSArray *)mesArr{
     self = [super initWithFrame:frame];
@@ -25,27 +26,27 @@
 }
 
 - (void)createUImesage:(NSArray *)mes ButtonTitles:(NSArray *)titles{
-    pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 200)];
+    pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, self.frame.size.height)];
     selectComponent = 33;
     pickContent = mes;
     pickView.delegate = self;
     pickView.dataSource = self;
     [self addSubview:pickView];
     
-    for (int i = 0; i < 2; i++) {
-        UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
-        but.frame = CGRectMake(0+(MainScreen.size.width/2 * i), CGRectGetMaxY(pickView.frame), MainScreen.size.width/2, 40);
-        but.backgroundColor = [SmaColor colorWithHexString:@"#5891F9" alpha:1];
-        [but setTitle:titles[i] forState:UIControlStateNormal];
-        if (i == 0) {
-            but.backgroundColor = [SmaColor colorWithHexString:@"#999999" alpha:1];
-        }
-        but.tag = 101 + i;
-        but.titleLabel.font = FontGothamLight(17);
-        [but addTarget:self action:@selector(butSelector:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:but];
-    }
-        [pickView selectRow:selectComponent inComponent:0 animated:NO];
+//    for (int i = 0; i < 2; i++) {
+//        UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
+//        but.frame = CGRectMake(0+(MainScreen.size.width/2 * i), CGRectGetMaxY(pickView.frame), MainScreen.size.width/2, 40);
+//        but.backgroundColor = [SmaColor colorWithHexString:@"#5891F9" alpha:1];
+//        [but setTitle:titles[i] forState:UIControlStateNormal];
+//        if (i == 0) {
+//            but.backgroundColor = [SmaColor colorWithHexString:@"#999999" alpha:1];
+//        }
+//        but.tag = 101 + i;
+//        but.titleLabel.font = FontGothamLight(17);
+//        [but addTarget:self action:@selector(butSelector:) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:but];
+//    }
+//        [pickView selectRow:selectComponent inComponent:0 animated:NO];
 }
 
 - (void)butSelector:(UIButton *)but{
@@ -58,11 +59,12 @@
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 1;
+    return pickContent.count;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-   return pickContent.count;
+
+   return [pickContent[component] count];
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component{
@@ -79,20 +81,20 @@
         label = [[UILabel alloc] init];
     }
     label.font = FontGothamLight(17);
-    if (component == 0) {
-        
-        NSString *dataTime = [pickContent objectAtIndex:row];
+//    if (component == 0) {
+    
+        NSString *dataTime = [pickContent[component] objectAtIndex:row];
         
         label.text = dataTime;
         label.textAlignment=NSTextAlignmentCenter;
-        label.bounds = CGRectMake(0, 0,MainScreen.size.width, 40);
-    }
+        label.bounds = CGRectMake(0, 0,MainScreen.size.width, 30);
+//    }
     return label;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     selectComponent = row;
-    _row(row);
+    _row(row,component);
 }
 /*
 // Only override drawRect: if you perform custom drawing.

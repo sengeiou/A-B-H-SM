@@ -15,6 +15,7 @@
     BOOL firstCreate;
     float oldPoint;
     float EndDragPoin;
+    int hiddenScale;//该隐藏的刻度数
 }
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -30,7 +31,7 @@
         [self commonInit];
     }
     return self;
-}
+} 
 
 - (void)commonInit {
     self.backgroundColor = [SmaColor colorWithHexString:@"#86BFFA" alpha:1];
@@ -44,10 +45,11 @@
 - (void)layoutSubviews{
     if (shouldUpdateSubviews) {
         self.delegate = self;
-        _clockRuler = [[SMAClockRulerView alloc] initWithFrame:CGRectMake(0, 0, _clearance * (_stopTick - _starTick + 6) , (self.frame.size.width>self.frame.size.height?self.frame.size.height:self.frame.size.width))];
+        hiddenScale = MainScreen.size.width > 380 ? 5:MainScreen.size.width > 330 ? 4 : 3;
+        _clockRuler = [[SMAClockRulerView alloc] initWithFrame:CGRectMake(0, 0, _clearance * (_stopTick - _starTick + hiddenScale) , (self.frame.size.width>self.frame.size.height?self.frame.size.height:self.frame.size.width))];
         _clockRuler.startTick = _starTick;
         _clockRuler.stopTick = _stopTick;
-        _clockRuler.scaleHiden = 3;
+        _clockRuler.scaleHiden = hiddenScale;
         _clockRuler.multiple = _multiple;
         _clockRuler.textStyleDict = _textStyleDict;
         _clockRuler.delegate = self;
@@ -95,8 +97,8 @@
             rulerPoin = [NSString stringWithFormat:@"%d",_starTick];
         }
         else{
-            self.contentOffset = [self scrollviewContentOffset:[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + 6))].intValue];
-            rulerPoin = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + 6))].intValue + _starTick];
+            self.contentOffset = [self scrollviewContentOffset:[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + hiddenScale * 2))].intValue];
+            rulerPoin = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + hiddenScale * 2))].intValue + _starTick];
         }
     } completion:^(BOOL finished) {
         if (self.alarmDelegate && [self.alarmDelegate respondsToSelector:@selector(scrollDidEndDecelerating:scrollView:)]) {
@@ -126,8 +128,9 @@
             rulerPoin = [NSString stringWithFormat:@"%d",_starTick];
         }
         else{
-            self.contentOffset = [self scrollviewContentOffset:[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + 6))].intValue];
-            rulerPoin = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + 6))].intValue + _starTick];
+            NSLog(@"wgrgth===%f",self.frame.size.width);
+            self.contentOffset = [self scrollviewContentOffset:[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width>self.frame.size.height?self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + hiddenScale * 2))].intValue];
+            rulerPoin = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%0.f",(EndDragPoin + (self.frame.size.width > self.frame.size.height ? self.frame.size.width/2:self.frame.size.height/2) - [[_clockRuler.cmArray firstObject] floatValue])/((_clockRuler.frame.size.width)/(_stopTick - _starTick + hiddenScale * 2))].intValue + _starTick];
         }
     } completion:^(BOOL finished) {
                 if (self.alarmDelegate && [self.alarmDelegate respondsToSelector:@selector(scrollDidEndDecelerating:scrollView:)]) {
@@ -151,8 +154,8 @@
 #pragma mark *****smaAlarmRulerViewDelegate
 - (void)drawViewFinish:(NSMutableArray *)cmArr{
     //根据确定的开始位置得出指示线的位置
-    indicateIma.frame = CGRectMake([cmArr[_showTick] floatValue] - 1, 0, indicateIma.frame.size.width, indicateIma.frame.size.height);
-    self.contentOffset = [self scrollviewContentOffset:_showTick];
+    indicateIma.frame = CGRectMake([cmArr[0] floatValue] - 1, 0, indicateIma.frame.size.width, indicateIma.frame.size.height);
+    self.contentOffset = [self scrollviewContentOffset:0];
     
 }
 

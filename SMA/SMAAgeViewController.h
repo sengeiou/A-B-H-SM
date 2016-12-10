@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SMAPickerView.h"
 #import "SMAHighViewController.h"
-@interface SMAAgeViewController : UIViewController
+#import "SMABottomSelView.h"
+
+@interface SMAAgeViewController : UIViewController<tapSelectCellDelegate>
 @property (nonatomic, strong) IBOutlet UILabel *ageTileLab, *ageLab;
 @property (nonatomic, weak) IBOutlet UIButton *nextBut;
 @property (nonatomic, strong) IBOutlet UIImageView *genderImage;

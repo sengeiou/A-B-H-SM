@@ -190,12 +190,12 @@ static int second = 60;
         user.userSex = @"1";
         user.userAge = @"25";
         user.userName = @"Welcome";
-        user.userGoal = @"5000";
+        user.userGoal = @"10000";
         [SMAAccountTool saveUser:user];
         [MBProgressHUD hideHUD];
         [MBProgressHUD showSuccess:SMALocalizedString(@"register_regsucceed")];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAGenderViewController"];
+             SMANavViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMANickViewController"];
             controller.leftItemHidden = YES;
 //            [self presentViewController:controller animated:YES completion:nil];
              [UIApplication sharedApplication].keyWindow.rootViewController=controller;

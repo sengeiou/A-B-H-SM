@@ -10,7 +10,10 @@
 #import "SMADeviceCell.h"
 #import "AppDelegate.h"
 #import "SMABindRemindView.h"
-@interface SMAPairViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,BLConnectDelegate>
+#import "SMABottomAlerView.h"
+#import "SMATabbarController.h"
+#import "SMANavViewController.h"
+@interface SMAPairViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,BLConnectDelegate,tapAlerButDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *ignoreLab, *nearLab;
 @property (nonatomic, weak) IBOutlet UIView *searchView;
 @property (nonatomic, weak) IBOutlet UIButton *searchBut;

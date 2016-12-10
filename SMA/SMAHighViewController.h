@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "SMARulerScrollView.h"
+#import "SMAPickerView.h"
+#import "SMAWeightViewController.h"
 @interface SMAHighViewController : UIViewController<smaRulerScrollDelegate>
 @property (nonatomic, weak) IBOutlet UIImageView *genderIma;
 @property (nonatomic, weak) IBOutlet UILabel *highTitLab, *highLab;
-@property (nonatomic, weak) IBOutlet UIButton *skipBut, *nextBut, *backBut;
+@property (nonatomic, weak) IBOutlet UIButton *nextBut, *backBut;
 @end

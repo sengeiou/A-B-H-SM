@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface SMAUnPaierViewController : UIViewController
+#import "SMACenterAlerView.h"
+@interface SMAUnPaierViewController : UIViewController<cenAlerButDelegate>
 @property (nonatomic, weak) IBOutlet UIButton *unPairBut, *dfuBut;
 @property (nonatomic, weak) IBOutlet UILabel *dfuVerLab, *verLab;
 @property (nonatomic, weak) IBOutlet UIImageView *updateIma;

@@ -28,11 +28,14 @@
 }
 
 - (void)initializeMethod{
-    deviceArr = @[@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail")],@[@"SMA-07B",SMALocalizedString(@"setting_band_07detail")],SMALocalizedString(@"setting_band_buywatch")];
+    deviceArr = @[@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail")],@[@"SMA-07B",SMALocalizedString(@"setting_band_07detail")],@[@"SMA-07B",SMALocalizedString(@"setting_band_07detail")],SMALocalizedString(@"setting_band_buywatch")];
 }
 
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_band_title");
+    self.tableView = [[UITableView alloc] initWithFrame:
+                      CGRectMake(0, 64, MainScreen.size.width, MainScreen.size.height - 64)  style:UITableViewStyleGrouped];
+    self.tableView.backgroundColor = [SmaColor colorWithHexString:@"#F7F7F7" alpha:1];
 }
 
 #pragma mark - Table view data source
@@ -44,49 +47,29 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return deviceArr.count;
+    return deviceArr.count - 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row < deviceArr.count - 1) {
+//    if (indexPath.row < deviceArr.count - 1) {
         return 170;
-    }
-    return 50;
+//    }
+//    return 100;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < deviceArr.count - 1) {
-          SMASelectViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SELECTCELL"];
+//    if (indexPath.row < deviceArr.count - 1) {
+        SMASelectCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SELECTCELL"];
+    if (!cell) {
+        cell = (SMASelectCell *) [[[NSBundle mainBundle] loadNibNamed:@"SMASelectCell" owner:nil options:nil] lastObject];
+    }
         cell.coachLab.text = [[deviceArr objectAtIndex:indexPath.row] objectAtIndex:0];
         cell.detailLab.text = [[deviceArr objectAtIndex:indexPath.row] objectAtIndex:1];
         UIImageView *backgroundIma = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170)];
         backgroundIma.image = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#FFFFFF" alpha:1],[SmaColor colorWithHexString:@"#F7F7F7" alpha:1]] ByGradientType:0 size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 170)];
         cell.backgroundView = backgroundIma;
         return cell;
-    }
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BUYCELL"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BUYCELL"];
-        UIButton *buyBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        buyBut.frame = CGRectMake(0, 0, 300, 40);
-        buyBut.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, 22);
-        UIImageView *backGroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
-        backGroundView.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, 22);
-        backGroundView.image = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#75A7F7" alpha:1],[SmaColor colorWithHexString:@"#5781F9" alpha:1]] ByGradientType:leftToRight size:CGSizeMake(300, 40)];
-        backGroundView.layer.cornerRadius = 20;
-        backGroundView.layer.masksToBounds = YES;
-        [cell addSubview:backGroundView];
-        
-        UILabel *buyLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
-        buyLab.center  = CGPointMake([UIScreen mainScreen].bounds.size.width/2, 22);
-        buyLab.font = FontGothamLight(16);
-        buyLab.textColor = [UIColor whiteColor];
-        buyLab.textAlignment = NSTextAlignmentCenter;
-        buyLab.text = [deviceArr lastObject];
-        [cell addSubview:buyLab];
-    }
-     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -96,10 +79,19 @@
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
     }
     else if (indexPath.row == 1){
-        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"up01"];
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-Q2"];
     }
-    if (indexPath.row == deviceArr.count - 1) {
-         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/Store"]];
+//    if (indexPath.row == deviceArr.count - 1) {
+//         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/Store"]];
+//    }
+}
+
+- (void)butAction:(UIButton *)sender{
+    if (sender.tag == 1001) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/Store"]];
+    }
+    else{
+        
     }
 }
 /*

@@ -38,6 +38,8 @@
     NSTimer *aggregateTimer; //预加载定时器
     BOOL aggregate; //允许预加载
     BOOL tapWeek; //允许点击周按钮
+    UIView *tabBarView;
+     CGFloat tableHeight;
 }
 
 @property (nonatomic, strong) SMADatabase *dal;
@@ -102,7 +104,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     mainScroll.delegate = self;
     [self.view addSubview:mainScroll];
     
-    UIView *tabBarView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(mainScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
+    tabBarView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(mainScroll.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
     tabBarView.backgroundColor = [UIColor whiteColor];
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 1)];
     lineView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:1];
@@ -174,7 +176,11 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [detailBackView addSubview:WYLocalScrollView];
     [WYLocalScrollView setMaxImageCount];
     
+    // 促使视图切换时候保证图像不变化
+    [mainScroll setContentOffset:CGPointMake(0, 0)];
+    [self setViewTop:0 preference:YES];
     if (cycle == 0) {
+        mainScroll.scrollEnabled = NO;
         NSArray *array = @[SMALocalizedString(@"device_SL_fallTime"),SMALocalizedString(@"device_SL_wakeTime"),SMALocalizedString(@"device_SL_sleepTime")];
         NSArray *titleArr = [[aggregateData[1] objectAtIndex:1] count] > 0? @[[[[aggregateData[1] objectAtIndex:1] lastObject] objectForKey:@"TIME"],[[[aggregateData[1] objectAtIndex:1] firstObject] objectForKey:@"TIME"],[self sleepTimeWithFall:[[[aggregateData[1] objectAtIndex:1] lastObject] objectForKey:@"TIME"] wakeUp:[[[aggregateData[1] objectAtIndex:1] firstObject] objectForKey:@"TIME"]]]:@[SMALocalizedString(@"device_SL_none"),SMALocalizedString(@"device_SL_none"),[[NSAttributedString alloc] initWithString:@"0h"]];
         stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(detailBackView.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height*2)];
@@ -201,19 +207,22 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         
         [mainScroll addSubview:stateView];
         
-        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, 600 - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
+//        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
+        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame) + 1, MainScreen.size.width,MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - 1) style:UITableViewStylePlain];
         detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
         detailTabView.delegate = self;
         detailTabView.dataSource = self;
         detailTabView.tableFooterView = [[UIView alloc] init];
-        detailTabView.scrollEnabled = NO;
-        [mainScroll addSubview:detailTabView];
+//        detailTabView.scrollEnabled = NO;
+        [self.view addSubview:detailTabView];
         
-        float contentHigh = CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateView.frame)+ [aggregateData[1][1] count] * 44.0;
-        float standardHigh = MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height*2;
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, contentHigh >= standardHigh ? 600 : contentHigh);
+        tableHeight = MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - 1;
+//        float contentHigh = CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateView.frame)+ [aggregateData[1][1] count] * 44.0;
+//        float standardHigh = MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height*2;
+//        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, contentHigh >= standardHigh ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145) : contentHigh);
     }
     else{
+        mainScroll.scrollEnabled = YES;
         NSInteger selectIndex;
         selectIndex = [[aggregateData[1] objectAtIndex:4] integerValue];
         self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];
@@ -308,6 +317,29 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
 }
 
+- (void)setViewTop:(CGFloat)viewTop preference:(BOOL)presfer{
+    CGFloat drawHeight = ([[aggregateData[1] objectAtIndex:1]  count] * 44 - tableHeight)/2;//由于tableview上滑会隐藏cell导致产生量，大概偏差为CELL的一半
+    if (drawHeight > 100) {
+        drawHeight = 100;
+    }
+    if (viewTop <= - drawHeight) {
+        viewTop = - drawHeight;
+         NSLog(@"fwgggggggg000000===%f",viewTop);
+    }
+    if (viewTop >= 0) {
+        viewTop = 0;
+    }
+    CGFloat height = [[aggregateData[1] objectAtIndex:1]  count] * 44;
+    if (height < tableHeight && !presfer) {
+        return;
+    }
+    self.view.frame = CGRectMake(0, 64 + viewTop, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - viewTop);
+    mainScroll.frame = CGRectMake(mainScroll.frame.origin.x, mainScroll.frame.origin.y, mainScroll.frame.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - viewTop);
+    tabBarView.frame = CGRectMake(tabBarView.frame.origin.x,CGRectGetMaxY(mainScroll.frame), tabBarView.frame.size.width, tabBarView.frame.size.height);
+    detailTabView.frame = CGRectMake(0, detailTabView.frame.origin.y, detailTabView.frame.size.width, tableHeight - viewTop);
+      NSLog(@"fwgggggggg=22222==%@  %@  %f  %@",NSStringFromCGRect(self.view.frame),NSStringFromCGRect(detailTabView.frame),drawHeight,NSStringFromCGSize(detailColView.contentSize));
+}
+
 #pragma mark ******UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [[aggregateData[1] objectAtIndex:1]  count];
@@ -341,14 +373,20 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 #pragma mark *******UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView == mainScroll && scrollView.contentOffset.y < 145 && cycle == 0) {
-        detailTabView.scrollEnabled = NO;
-        [detailTabView setContentOffset:CGPointMake(0.0, 0) animated:NO];
-    }
-    if (scrollView.contentOffset.y >= 145 && scrollView == mainScroll && cycle == 0) {
-        scrollView.contentOffset = CGPointMake(0, 145);
-        detailTabView.scrollEnabled = YES;
-        return;
+//    if (scrollView == mainScroll && scrollView.contentOffset.y < 145 && cycle == 0) {
+//        detailTabView.scrollEnabled = NO;
+//        [detailTabView setContentOffset:CGPointMake(0.0, 0) animated:NO];
+//    }
+//    if (scrollView.contentOffset.y >= 145 && scrollView == mainScroll && cycle == 0) {
+//        scrollView.contentOffset = CGPointMake(0, 145);
+//        detailTabView.scrollEnabled = YES;
+//        return;
+//    }
+     NSLog(@"gwgg==%f  %@",scrollView.contentOffset.y,NSStringFromCGSize(mainScroll.contentSize));
+    if (cycle == 0 && scrollView == detailTabView) {
+        CGFloat y = scrollView.contentOffset.y;
+        CGFloat viewTop =  0 - y;
+        [self setViewTop:viewTop preference:NO];
     }
 }
 
@@ -462,7 +500,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         else{
             scrollView.banRightSlide = NO;
         }
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height*2) ? 600:CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0);
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height*2) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0);
         [self setSleepStateViewSubviews];
     }
     else if (selectTag == 102){

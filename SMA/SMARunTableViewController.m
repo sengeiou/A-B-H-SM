@@ -181,7 +181,7 @@
 - (NSMutableAttributedString *)putHrWithReat:(NSString *)hr {
     NSDictionary *disDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(19)};
     NSDictionary *unitDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(14)};
-    NSMutableAttributedString *perAttStr = [[NSMutableAttributedString alloc] initWithString:hr attributes:disDic];
+    NSMutableAttributedString *perAttStr = [[NSMutableAttributedString alloc] initWithString:hr ? hr:@"0" attributes:disDic];
     NSAttributedString *unitAtt = [[NSAttributedString alloc] initWithString:@"bpm" attributes:unitDic];
     [perAttStr appendAttributedString:unitAtt];
     return perAttStr;

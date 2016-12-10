@@ -13,6 +13,7 @@
 #import "SMARepeatCell.h"
 #import "SmaAlarmInfo.h"
 #import "SMADateDaultionfos.h"
+#import "SMACenterLabView.h"
 @protocol alarmEditDelegate <NSObject>
 - (void)didEditAlarmInfo:(SmaAlarmInfo *)alarmInfo;
 

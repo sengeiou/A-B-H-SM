@@ -47,31 +47,9 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             
             [self acloudGetUserifnfoSuccess:^(NSMutableDictionary *userDict) {
                 if (userDict) {
-                    //                    [self acloudGetFriendWithAccount:account success:^(id userInfo) {
-                    //                        [self acloudDownLDataWithAccount:account success:^(id result) {
-                    //                            [self acloudCIDSuccess:^(id result) {
-                    
                     if (success) {
                         success(userInfoDic);
                     }
-                    //                            } failure:^(NSError *error) {
-                    //                                if (failure) {
-                    //                                    failure(error);
-                    //                                }
-                    //
-                    //                            }];
-                    //                        } failure:^(NSError *error) {
-                    //                            if (failure) {
-                    //                                failure(error);
-                    //                            }
-                    //
-                    //                        }];
-                    
-                    //                    } failure:^(NSError *error) {
-                    //                        if (failure) {
-                    //                            failure(error);
-                    //                        }
-                    //                    }];
                 }
                 else{
                     if (failure) {
@@ -203,7 +181,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     }];
 }
 
-//修改密码
+//重置密码
 - (void)acloudResetPasswordWithAccount:(NSString *)account verifyCode:(NSString *)verifyCode password:(NSString *)password success:(void (^)(id))success failure:(void (^)(NSError *))failure{
     [ACAccountManager resetPasswordWithAccount:account verifyCode:verifyCode password:password callback:^(NSString *uid, NSError *error) {
         if (!error) {
@@ -216,6 +194,13 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                 failure(error);
             }
         }
+    }];
+}
+
+//修改密码
+- (void)acloudChangePasswordWithOld:(NSString *)old new:(NSString *)newPassword callback:(void (^)(NSString *uid, NSError *error))callback{
+    [ACAccountManager changePasswordWithOld:old new:newPassword callback:^(NSString *uid, NSError *error) {
+        callback(uid,error);
     }];
 }
 
@@ -365,17 +350,30 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                  CompleteCallback:(void (^)(NSString *filePath))completeCallback{
     ACFileManager *upManager = [[ACFileManager alloc] init];
     [upManager downFileWithsession:url checkSum:0 callBack:^(float progress, NSError *error) {
-//        NSLog(@"callBack==%f   error==%@  %@",progress,error,url);
+        //        NSLog(@"callBack==%f   error==%@  %@",progress,error,url);
         if (error) {
             if (callback) {
                 callback(progress,error);
             }
         }
     } CompleteCallback:^(NSString *filePath) {
-//        NSLog(@"filePath==%@",filePath);
+        NSLog(@"filePath==%@",filePath);
         if (filePath) {
+            NSString *toPath;
+            if (_chaImageName) {
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+                NSFileManager *fm = [NSFileManager defaultManager];
+                toPath = [NSString stringWithFormat:@"%@/%@",[paths objectAtIndex:0],_chaImageName];
+                [fm createDirectoryAtPath:[toPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
+                NSError *error;
+                BOOL isSuccess;
+                isSuccess = [fm moveItemAtPath:filePath toPath:toPath error:&error];
+            }
+            else{
+                toPath = filePath;
+            }
             if (completeCallback) {
-                completeCallback(filePath);
+                completeCallback(toPath);
             }
         }
     }];
@@ -391,8 +389,10 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                 success(userInfoDic);
             }
         }
-        if (failure) {
-            failure(error);
+        else{
+            if (failure) {
+                failure(error);
+            }
         }
     }];
 }
@@ -561,20 +561,20 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             callBack(error);
             return ;
         }
-       
-            [SMAWebDataHandleInfo updateSPData:spArr finish:^(id finish) {
-                
-            }];
-            [SMAWebDataHandleInfo updateSLData:slArr finish:^(id finish) {
-                
-            }];
-            [SMAWebDataHandleInfo updateHRData:rhArr finish:^(id finish) {
-                
-            }];
-            [SMAWebDataHandleInfo updateALData:alArr finish:^(id finish) {
-                
-            }];
-       
+        
+        [SMAWebDataHandleInfo updateSPData:spArr finish:^(id finish) {
+            
+        }];
+        [SMAWebDataHandleInfo updateSLData:slArr finish:^(id finish) {
+            
+        }];
+        [SMAWebDataHandleInfo updateHRData:rhArr finish:^(id finish) {
+            
+        }];
+        [SMAWebDataHandleInfo updateALData:alArr finish:^(id finish) {
+            
+        }];
+        
     }];
 }
 
@@ -647,6 +647,30 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     }];
 }
 
+//下载表盘文件
+- (void)acloudDownLoadWatchInfos:(NSString *)faceStr offset:(int)offset callBack:(void (^)(NSArray *finish,NSError *error))callback{
+    ACMsg *msg = [[ACMsg alloc] init];
+    msg.name  = @"get_watch_faces";
+    [msg put:@"data" value:faceStr];
+    [msg putInteger:@"offset" value:offset];
+    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+        NSArray *array = [responseMsg getArray:@"data"];
+        callback(array,error);
+    }];
+}
+
+//根据表盘id获取缩略图
+- (void)acloudDownLoadImageWithOffset:(int)offset callBack:(void (^)(id finish))callback{
+    ACMsg *msg = [[ACMsg alloc] init];
+    msg.name = @"get_watch_face_thumbnail";
+    [msg putInteger:@"offset" value:offset];
+    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+        if (!error) {
+            NSDictionary *diction = [[responseMsg getArray:@"data"] firstObject];
+            callback (diction);
+        }
+    }];
+}
 //上传数据
 //- (void)acloudSyncAllDataWithAccount:(NSString *)account sportDic:(NSMutableArray *)sport sleepDic:(NSMutableArray *)sleep clockDic:(NSMutableArray *)clock HRDic:(NSMutableArray *)hr success:(void (^)(id))success failure:(void (^)(NSError *))failure{
 //    __block int i = 0;
@@ -863,6 +887,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 
 - (void)acloudSetScore:(int)score{
     [ACRankingManager setScore:score forName:@"china" withTimestamp:0 callback:^(NSError *error) {
+        NSLog(@"上传排行榜  %@",error);
         if (error) {
             //插入失败
             return;
@@ -895,6 +920,8 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         callback(listArr,nil);
     }];
 }
+
+//
 //整理接收用户信息
 - (NSMutableDictionary *)userDataWithACmsg:(ACObject *)responseMsg{
     if (![responseMsg isEqual:@"none"]) {
@@ -911,7 +938,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_age]] forKey:user_age];
         [userInfoDic setValue:[NSString stringWithFormat:@"%@",[responseMsg getString:user_he]] forKey:user_he];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]] forKey:user_aim];
-                [userInfoDic setObject:quietDaArr forKey:@"user_rate"];
+        [userInfoDic setObject:quietDaArr forKey:@"user_rate"];
         //        if ([NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]].intValue/1000==0) {
         //            [SMADefaultinfos removeValueForKey:@"stepPlan"];
         //        }

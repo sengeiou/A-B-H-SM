@@ -111,7 +111,8 @@
             [smaDal deleteClockInfo:info.aid callback:^(BOOL result) {
             NSInteger row = [alarmArr indexOfObject:info];
             [alarmArr removeObjectAtIndex:row];
-                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            [SmaBleSend setClockInfoV2:alarmArr];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
             }];
         }
     }];
