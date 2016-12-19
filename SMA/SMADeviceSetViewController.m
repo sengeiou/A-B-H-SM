@@ -11,6 +11,7 @@
 @interface SMADeviceSetViewController ()
 {
     BOOL createUI;
+    BOOL unpair;
     SMASwitchScrollView *switchView;
     UIImagePickerController *picker;
 }
@@ -20,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     [self initializeMethod];
+    [self initializeMethod];
     [self createUI];
 }
 
@@ -37,21 +38,28 @@
 - (void)viewWillLayoutSubviews{
     if (!createUI) {
         createUI = YES;
-        NSArray *switchArr = @[@[@"remind_lost_pre",@"remind_disturb_pre",@"remind_call_pre",@"remind_message_pre"/*,@"remind_screen_pre"*/],@[@"remind_lost",@"remind_disturb",@"remind_call",@"remind_message"/*,@"remind_screen"*/]];
-       switchView = [[SMASwitchScrollView alloc] initWithSwitchs:switchArr];
+        NSArray *switchArr;
+        if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
+             switchArr = @[@[@"remind_lost_pre",@"remind_disturb_pre",@"remind_call_pre",@"remind_message_pre",@"remind_screen_pre"],@[@"remind_lost",@"remind_disturb",@"remind_call",@"remind_message",@"remind_screen"]];
+        }
+        else{
+            switchArr = @[@[@"remind_lost_pre",@"remind_disturb_pre",@"remind_call_pre",@"remind_message_pre"],@[@"remind_lost",@"remind_disturb",@"remind_call",@"remind_message"]];
+        }
+        switchView = [[SMASwitchScrollView alloc] initWithSwitchs:switchArr];
         [_switchCell.contentView addSubview:switchView];
       __block UIPageControl *pageControl;
-        if ([[switchArr firstObject] count] > 4) {
-            pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(50, _switchCell.frame.size.height - 30, _switchCell.frame.size.width - 100, 30)];
+//        if ([[switchArr firstObject] count] > 4) {
+            pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(0, _switchCell.frame.size.height - 29, _switchCell.frame.size.width, 29)];
             pageControl.center = CGPointMake(_switchCell.frame.size.width/2, pageControl.center.y);
-            pageControl.numberOfPages = 2;
+            pageControl.numberOfPages = [[switchArr firstObject] count] > 4 ? 2:1;
+            pageControl.backgroundColor = [UIColor whiteColor];
             pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-            pageControl.currentPageIndicatorTintColor=[SmaColor colorWithHexString:@"#7EBFF9" alpha:1];
+            pageControl.currentPageIndicatorTintColor=[SmaColor colorWithHexString:@"#5891f9" alpha:1];
             [_switchCell.contentView addSubview:pageControl];
             [switchView didEndDecelerating:^(CGPoint Offset) {
                 pageControl.currentPage=(int)fabs(Offset.x/320);
             }];
-        }
+//        }
     }
 }
 
@@ -71,13 +79,12 @@
         }
         else{
             //跳转到解除绑定界面
-            [self performSegueWithIdentifier:@"unPairDevice" sender:nil];
+//            [self performSegueWithIdentifier:@"unPairDevice" sender:nil];
             return NO;
         }
     }
     return [SmaBleMgr checkBLConnectState];
 }
-
 
 - (void)initializeMethod{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -94,12 +101,13 @@
     _sleepMonLab.text = SMALocalizedString(@"setting_sleepMon");
     _sedentaryLab.text = SMALocalizedString(@"setting_sedentary");
     _alarmLab.text = SMALocalizedString(@"setting_alarm");
-    _HRSetLab.text = SMALocalizedString(@"setting_heart");
+    _HRSetLab.text = SMALocalizedString(@"setting_heart_monitor");
     _vibrationLab.text = SMALocalizedString(@"setting_vibration");
     _backlightLab.text = SMALocalizedString(@"setting_backlight");
-    _photoLab.text = SMALocalizedString(@"智能拍照");
+    _photoLab.text = SMALocalizedString(@"setting_photograph");
     _watchLab.text = SMALocalizedString(@"setting_watchface_title");
-    
+    _dfuUpdateLab.text = SMALocalizedString(@"setting_unband_dfuUpdate");
+    _unPairLab.text = SMALocalizedString(@"setting_unband_remove");
 //    _backlightCell.hidden = NO;
 //    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
 //        _backlightCell.hidden = YES;
@@ -110,8 +118,10 @@
 - (void)updateUI{
     
     _backlightCell.hidden = NO;
+    _watchChangeCell.hidden = NO;
     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
         _backlightCell.hidden = YES;
+        _watchChangeCell.hidden = YES;
     }
     
     SmaBleMgr.BLdelegate = self;
@@ -123,34 +133,48 @@
         _bleIma.hidden = YES;
         _batteryIma.hidden = YES;
         _deviceCell.editing = YES;
+        CGSize deviceSize = [_deviceLab.text sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(17)}];
+        _deviceLead.constant = MainScreen.size.width/2 - deviceSize.width/2 - 25;
+        _deviceW.constant = 20;
+        _deviceH.constant = 20;
     }
     else{
         _deviceLab.text = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
-        _deviceIma.image = [UIImage imageNamed:@"img_shoubiao"];
+        _deviceIma.image = [UIImage imageNamed:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] ? @"SMA_07":@"SMA_10B"];
         _bleIma.hidden = NO;
         _batteryIma.hidden = NO;
+        _deviceLead.constant = 15;
+        _deviceW.constant = 40;
+        _deviceH.constant = 40;
     }
-    if (![SmaBleMgr checkBLConnectState]) {
-
+    if (![SmaBleMgr checkBLConnectState] && !unpair) {
         _bleIma.image = [UIImage imageNamed:@"buletooth_unconnected"];
         _batteryIma.image = [UIImage imageNamed:@"Battery_0"];
     }
     else{
         _bleIma.image = [UIImage imageNamed:@"buletooth_connected"];
-        [SmaBleSend getElectric];
+        if (!unpair) {
+             [SmaBleSend getElectric];
+        }
     }
-    _antiLostIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]?@"remind_lost_pre":@"remind_lost"];
-    _noDistrubIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]?@"remind_disturb_pre":@"remind_disturb"];
-    _callIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:CALLSET]?@"remind_call_pre":@"remind_call"];
-    _smsIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:SMSSET]?@"remind_message_pre":@"remind_message"];
-    _screenIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:SCREENSET]?@"remind_screen_pre":@"remind_screen"];
-    _sleepMonIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:SLEEPMONSET]?@"remind_heart_pre":@"remind_heart"];
+    if (unpair) {
+        unpair = NO;
+        _bleIma.image = [UIImage imageNamed:@"buletooth_unconnected"];
+        _batteryIma.image = [UIImage imageNamed:@"Battery_0"];
+    }
+    _antiLostIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:ANTILOSTSET] ? @"remind_lost_pre":@"remind_lost"];
+    _noDistrubIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:NODISTRUBSET] ? @"remind_disturb_pre":@"remind_disturb"];
+    _callIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:CALLSET] ? @"remind_call_pre":@"remind_call"];
+    _smsIma.image = [UIImage imageNamed:![SMADefaultinfos getIntValueforKey:SMSSET] ? @"remind_message_pre":@"remind_message"];
+//    NSLog(@"fwegrgrhg---%d",[SMADefaultinfos getIntValueforKey:SCREENSET]);
+    _screenIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:SCREENSET] ? @"remind_screen_pre":@"remind_screen"];
+    _sleepMonIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:SLEEPMONSET] ? @"remind_heart_pre":@"remind_heart"];
     
     _antiLostBut.selected = [SMADefaultinfos getIntValueforKey:ANTILOSTSET];
     _noDistrubBut.selected = [SMADefaultinfos getIntValueforKey:NODISTRUBSET];
     _callBut.selected = [SMADefaultinfos getIntValueforKey:CALLSET];
     _smsBut.selected = [SMADefaultinfos getIntValueforKey:SMSSET];
-    _screenBut.selected = [SMADefaultinfos getIntValueforKey:SCREENSET];
+    _screenBut.selected = ![SMADefaultinfos getIntValueforKey:SCREENSET];
     _sleepMonBut.selected = [SMADefaultinfos getIntValueforKey:SLEEPMONSET];
     
     NSString *detailText = [SMADefaultinfos getIntValueforKey:VIBRATIONSET]?[NSString stringWithFormat:@"%d %@",[SMADefaultinfos getIntValueforKey:VIBRATIONSET],SMALocalizedString(@"setting_times")]:SMALocalizedString(@"setting_turnOff");
@@ -178,7 +202,30 @@
     if (section == 0) {
         return 0.001;
     }
+    if (section == 1 || section == 2) {
+        return 30;
+    }
     return 15;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.001;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] && indexPath.section == 3 && indexPath.row == 0 ) {
+        return 0;
+    }
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] && indexPath.section == 4 && indexPath.row == 0) {
+        return 0;
+    }
+    if (indexPath.section == 1) {
+        return 222;
+    }
+    if (indexPath.section == 0) {
+        return 60;
+    }
+    return 44;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -186,7 +233,7 @@
     lab.font = FontGothamLight(14);
     lab.textColor = [SmaColor colorWithHexString:@"#AAABAD" alpha:1];
     
-    if (section != 0) {
+    if (section == 1 || section == 2) {
         lab.text = @[SMALocalizedString(@"setting_title"),SMALocalizedString(@"setting_other")][section - 1];
     }
     return lab;
@@ -288,6 +335,17 @@
                 [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
             }
     }
+    else if (cell == _unPairCell){
+        SMAUserInfo *user = [SMAAccountTool userInfo];
+        if (!user.watchUUID) {
+            [MBProgressHUD showError:SMALocalizedString(@"aler_bandDevice")];
+            return;
+        }
+        SMACenterAlerView *cenAler = [[SMACenterAlerView alloc] initWithMessage: SMALocalizedString(@"setting_unband_remind") buttons:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_unband")]];
+        cenAler.delegate = self;
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [app.window addSubview:cenAler];
+    }
 //}
 }
 
@@ -335,7 +393,7 @@
 - (IBAction)screenSelector:(UIButton *)sender{
     if ([SmaBleMgr checkBLConnectState]) {
         sender.selected = !sender.selected;
-        [SMADefaultinfos putInt:SCREENSET andValue:sender.selected];
+        [SMADefaultinfos putInt:SCREENSET andValue:!sender.selected];
         [SmaBleSend setVertical:[SMADefaultinfos getIntValueforKey:SCREENSET]];
         [self updateUI];
     }
@@ -427,58 +485,24 @@
     }];
 }
 
-/*
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
- UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
- 
- // Configure the cell...
- 
- return cell;
- }
- */
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+#pragma mark ***********cenAlerButDelegate
+- (void)centerAlerView:(SMACenterAlerView *)alerView didAlerBut:(UIButton *)button{
+    if (button.tag == 102) {
+        [MBProgressHUD showSuccess:SMALocalizedString(@"setting_unband_success")];
+        SMAUserInfo *user = [SMAAccountTool userInfo];
+        user.watchUUID = nil;
+        [SMAAccountTool saveUser:user];
+        [SmaBleSend relieveWatchBound];
+        [SmaBleMgr reunitonPeripheral:NO];//关闭重连机制
+//        unpair = YES;
+       
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self updateUI];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+//            //             [SmaBleMgr disconnectBl];
+//            [self.navigationController popViewControllerAnimated:YES];
+        });
+    }
+}
 
 @end

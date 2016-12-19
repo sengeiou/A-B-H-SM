@@ -92,7 +92,11 @@ static int nowDay;
                
             }
             if ([dayDate.yyyyMMddByLineWithDate isEqualToString:[NSDate date].yyyyMMddByLineWithDate]) {
+                mon.isGreaterNowDay = YES;
                  nowDay = day;
+            }
+            if (dayDate.yyyyMMddNoLineWithDate.intValue <= [NSDate date].yyyyMMddNoLineWithDate.intValue) {
+                mon.isGreaterData = [self selectDataWithDate:dayDate.yyyyMMddNoLineWithDate];
             }
             if (day > nowDay && nowDay != 0 && [[date.mmddByLineWithDate substringToIndex:2] isEqualToString:[[NSDate date].mmddByLineWithDate substringToIndex:2]]) {
                 mon.isGreaterThanNowDay = YES;
@@ -111,6 +115,17 @@ static int nowDay;
         but.enabled = YES;
     }
     [self.collectionView reloadData];
+}
+
+- (BOOL)selectDataWithDate:(NSString *)date{
+    SMADatabase *sqlBase = [[SMADatabase alloc] init];
+    BOOL spResult = [sqlBase selectSportDataWithDate:date];
+    BOOL slResult = [sqlBase selectSleepDataWithDate:date];
+    BOOL hrResult = [sqlBase selectHRDataWithDate:date];
+    if (spResult || slResult || hrResult) {
+        return  YES;
+    }
+    return NO;
 }
 
 - (void)tap:(UIButton *)sender{
@@ -139,13 +154,16 @@ static int nowDay;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CalendarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
-    cell.dayLabel.backgroundColor = [UIColor whiteColor];
+//    cell.dayLabel.backgroundColor = [UIColor whiteColor];
     cell.dayLabel.textColor = [UIColor blackColor];
     id mon = _dayModelArray[indexPath.row];
     if ([mon isKindOfClass:[MonthModel class]]) {
         cell.monthModel = (MonthModel *)mon;
     }else{
         cell.dayLabel.text = @"";
+        cell.selectDayIma.image = nil;
+        cell.nowDayIma.image = nil;
+        cell.dataIma.image = nil;
     }
     return cell;
 }
@@ -180,9 +198,11 @@ static int nowDay;
             }
             else{
                 cell.dayLabel.text = @"";
+                cell.selectDayIma.image = nil;
+                cell.nowDayIma.image = nil;
+                cell.dataIma.image = nil;
             }
         }
-
          [self removeFromSuperview];
     }
 }
@@ -306,30 +326,54 @@ static int nowDay;
     if (self = [super initWithFrame:frame]) {
         CGFloat width = self.contentView.frame.size.width*0.6;
         CGFloat height = self.contentView.frame.size.height*0.6;
+        UIImageView *selectView = [[UIImageView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width*0.6-width*0.5,  self.contentView.frame.size.height*0.6-height*0.5 - 1, width, height )];
+        [self.contentView addSubview:selectView];
+        
+        UIImageView *nowdayView = [[UIImageView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width*0.6-width*0.5,  self.contentView.frame.size.height*0.6-height*0.5 - 1, width, height )];
+        [self.contentView addSubview:nowdayView];
+        
+        UIImageView *dataView = [[UIImageView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width*0.6-width*0.5,  self.contentView.frame.size.height*0.6-height*0.5 - 1, width, height )];
+        [self.contentView addSubview:dataView];
+        
         UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width*0.6-width*0.5,  self.contentView.frame.size.height*0.6-height*0.5, width, height )];
         dayLabel.textAlignment = NSTextAlignmentCenter;
-        dayLabel.layer.masksToBounds = YES;
-        dayLabel.layer.cornerRadius = height * 0.5;
+//        dayLabel.layer.masksToBounds = YES;
+//        dayLabel.layer.cornerRadius = height * 0.5;
         dayLabel.font = FontGothamLight(17);
         [self.contentView addSubview:dayLabel];
         self.dayLabel = dayLabel;
+        self.selectDayIma = selectView;
+        self.nowDayIma = nowdayView;
+        self.dataIma = dataView;
     }
     return self;
 }
 
 - (void)setMonthModel:(MonthModel *)monthModel{
     _monthModel = monthModel;
-    self.dayLabel.text = [NSString stringWithFormat:@"%02ld",(long)monthModel.dayValue];
+    self.dayLabel.text = [NSString stringWithFormat:@"%ld",(long)monthModel.dayValue];
+//    UIImage *ima = [UIImage imageNamed:@"date_choose_selected"];
+//    self.dayIma.image = [UIImage imageNamed:@"date_choose_selected"];
+    self.selectDayIma.image = nil;
+    self.nowDayIma.image = nil;
+    self.dataIma.image = nil;
     if (monthModel.isSelectedDay) {
-        self.dayLabel.backgroundColor = [UIColor redColor];
-        self.dayLabel.textColor = [UIColor whiteColor];
+//        self.dayIma.backgroundColor = [UIColor redColor];
+        self.selectDayIma.image = [UIImage imageNamed:@"date_choose_selected"];
+        self.dayLabel.textColor = [UIColor blackColor];
     }
     else{
-        self.dayLabel.backgroundColor = [UIColor whiteColor];
         self.dayLabel.textColor = [UIColor blackColor];
     }
     if (monthModel.isGreaterThanNowDay) {
         self.dayLabel.textColor = [UIColor grayColor];
+    }
+    if (monthModel.isGreaterNowDay) {
+        self.nowDayIma.image = [UIImage imageNamed:@"nowdate_choose"];
+        self.dayLabel.textColor = [UIColor whiteColor];
+    }
+    if (monthModel.isGreaterData) {
+        self.dataIma.image = [UIImage imageNamed:@"date_choose_hover"];
     }
 }
 @end

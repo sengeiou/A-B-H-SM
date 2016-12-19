@@ -260,7 +260,7 @@
 }
 
 - (MTKSleepView *)addSleepOneDateWithData:(NSMutableArray *)data{
-    MTKSleepView *sleepView = [[MTKSleepView alloc] initWithFrame:CGRectMake(0, 10,MainScreen.size.width ,ScrollHeight - 10)];
+    MTKSleepView *sleepView = [[MTKSleepView alloc] initWithFrame:CGRectMake(0, 0,MainScreen.size.width ,ScrollHeight - 10)];
     sleepView.xTexts = @[@"22:00",@"2:00",@"6:00",@"10:00"];
     sleepView.backgroundColor = [UIColor clearColor];
     sleepView.xValues = [data copy];

@@ -54,7 +54,7 @@
 }
 
 - (IBAction)unPaierSelector:(id)sender{
-    UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"解除绑定") message: SMALocalizedString(@"是否解除绑定") preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_unband_remove") message: SMALocalizedString(@"setting_unband_remind") preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];

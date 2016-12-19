@@ -46,7 +46,7 @@
     if (shouldUpdateSubviews) {
         self.delegate = self;
         hiddenScale = MainScreen.size.width > 380 ? 5:MainScreen.size.width > 330 ? 4 : 3;
-        _clockRuler = [[SMAClockRulerView alloc] initWithFrame:CGRectMake(0, 0, _clearance * (_stopTick - _starTick + hiddenScale) , (self.frame.size.width>self.frame.size.height?self.frame.size.height:self.frame.size.width))];
+        _clockRuler = [[SMAClockRulerView alloc] initWithFrame:CGRectMake(0, 0, _clearance * (_stopTick - _starTick + hiddenScale * 2) , (self.frame.size.width>self.frame.size.height?self.frame.size.height:self.frame.size.width))];
         _clockRuler.startTick = _starTick;
         _clockRuler.stopTick = _stopTick;
         _clockRuler.scaleHiden = hiddenScale;
@@ -154,8 +154,8 @@
 #pragma mark *****smaAlarmRulerViewDelegate
 - (void)drawViewFinish:(NSMutableArray *)cmArr{
     //根据确定的开始位置得出指示线的位置
-    indicateIma.frame = CGRectMake([cmArr[0] floatValue] - 1, 0, indicateIma.frame.size.width, indicateIma.frame.size.height);
-    self.contentOffset = [self scrollviewContentOffset:0];
+    indicateIma.frame = CGRectMake([cmArr[_showTick] floatValue] - 1, 0, indicateIma.frame.size.width, indicateIma.frame.size.height);
+    self.contentOffset = [self scrollviewContentOffset:_showTick];
     
 }
 

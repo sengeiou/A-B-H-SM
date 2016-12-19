@@ -72,6 +72,7 @@
     _accountField.placeholder = SMALocalizedString(@"register_accplace");
     [_passwordField setValue:FontGothamLight(14) forKeyPath:@"_placeholderLabel.font"];
     _passwordField.placeholder = SMALocalizedString(@"login_passplace");
+    [_emailBut setTitle:SMALocalizedString(@"login_email") forState:UIControlStateNormal];
     _passwordField.secureTextEntry = YES;
     _accountField.delegate = self;
     UIButton *eyesBut = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -137,7 +138,7 @@
             
         } failure:^(NSError *error) {
         }];
-        [webServict acloudDownLDataWithAccount:[SMAAccountTool userInfo].userID callBack:^(id finish) {
+        [webServict acloudDownLDataWithAccount:userAccount callBack:^(id finish) {
 //            dispatch_async(dispatch_get_main_queue(), ^{
             
 //            });
@@ -163,7 +164,7 @@
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
                     controller.isLogin = NO;
-                    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+                    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
                     NSArray *arrControllers = controller.viewControllers;
                     for (int i = 0; i < arrControllers.count; i ++) {
                         SMANavViewController *nav = [arrControllers objectAtIndex:i];
@@ -176,14 +177,43 @@
 //                [SmaNotificationCenter postNotification:updateNot];
             }
             else{
-                [MBProgressHUD showError:SMALocalizedString(@"login_fail")];
+//                [MBProgressHUD hideHUD];
+//                [MBProgressHUD showError:SMALocalizedString(@"login_fail")];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showError:SMALocalizedString(@"login_fail")];
+//                    [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
+                });
+//                SMAUserInfo *user = [[SMAUserInfo alloc] init];
+//                user.userName = [dic objectForKey:@"nickName"];
+//                user.userID = userAccount;
+//                user.userPass = _passwordField.text;
+//                user.userHeight = [[dic objectForKey:@"hight"] intValue] ? [dic objectForKey:@"hight"]:@"170";
+//                user.userWeigh =  [[dic objectForKey:@"weight"] intValue] ? [dic objectForKey:@"weight"]:@"60";
+//                user.userAge = [[dic objectForKey:@"age"] intValue] ? [dic objectForKey:@"age"]:@"26";
+//                user.userSex = [[dic objectForKey:@"sex"] intValue] ? [dic objectForKey:@"sex"]:@"1";
+//                user.userGoal = [[dic objectForKey:@"steps_Aim"] intValue] ? [dic objectForKey:@"steps_Aim"]:@"10000";
+//                user.userHeadUrl = [dic objectForKey:@"_avatar"];
+//                [SMAAccountTool saveUser:user];
+//
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                    SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+//                    controller.isLogin = NO;
+//                    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+//                    NSArray *arrControllers = controller.viewControllers;
+//                    for (int i = 0; i < arrControllers.count; i ++) {
+//                        SMANavViewController *nav = [arrControllers objectAtIndex:i];
+//                        nav.tabBarItem.title = itemArr[i];
+//                    }
+//                    [UIApplication sharedApplication].keyWindow.rootViewController=controller;
+//                });
             }
         }];
 
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         if ([error.userInfo objectForKey:@"errorInfo"]) {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"%ld %@",(long)error.code,SMALocalizedString(@"login_fail")]];
+             [MBProgressHUD showError:[self errorInfoWithSerialNumber:error]];
         }
         else if (error.code == -1001) {
             [MBProgressHUD showError:SMALocalizedString(@"alert_request_timeout")];
@@ -319,7 +349,7 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
                 controller.isLogin = NO;
-                NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+                NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
                 NSArray *arrControllers = controller.viewControllers;
                 for (int i = 0; i < arrControllers.count; i ++) {
                     SMANavViewController *nav = [arrControllers objectAtIndex:i];
@@ -332,7 +362,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUD];
             if ([error.userInfo objectForKey:@"errorInfo"]) {
-                [MBProgressHUD showError:[NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]]];
+                [MBProgressHUD showError:[self errorInfoWithSerialNumber:error]];
             }
             else if (error.code == -1001) {
                 [MBProgressHUD showError:SMALocalizedString(@"login_timeout")];
@@ -470,6 +500,37 @@ static bool passInt;
         _loginBut.enabled = NO;
     }
     return YES;
+}
+
+- (NSString *)errorInfoWithSerialNumber:(NSError *)error{
+    NSString *errStr;
+    switch (error.code) {
+        case 3501:
+            errStr = SMALocalizedString(@"account_error_3501");
+            break;
+        case 3503:
+            errStr = SMALocalizedString(@"account_error_3503");
+            break;
+        case 3505:
+            errStr = SMALocalizedString(@"account_error_3505");
+            break;
+        case 3506:
+            errStr = SMALocalizedString(@"account_error_3506");
+            break;
+        case 3507:
+            errStr = SMALocalizedString(@"account_error_3507");
+            break;
+        case 3508:
+            errStr = SMALocalizedString(@"account_error_3508");
+            break;
+        case 3509:
+            errStr = SMALocalizedString(@"account_error_3509");
+            break;
+        default:
+            errStr = [NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]];
+            break;
+    }
+    return errStr;
 }
 /*
  #pragma mark - Navigation

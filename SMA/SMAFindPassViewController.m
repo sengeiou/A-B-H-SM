@@ -129,7 +129,7 @@
         NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
         SmaAnalysisWebServiceTool *web = [[SmaAnalysisWebServiceTool alloc] init];
   
-                [web acloudSendVerifiyCodeWithAccount:userAccount template:[_accountField.text rangeOfString:@"@"].location?([preferredLang isEqualToString:@"zh"]?4:3):([preferredLang isEqualToString:@"zh"]?1:0) success:^(id result) {
+                [web acloudSendVerifiyCodeWithAccount:userAccount template:_emailFind?([preferredLang isEqualToString:@"zh"]?4:3):([preferredLang isEqualToString:@"zh"]?1:0) success:^(id result) {
                     [MBProgressHUD hideHUD];
                     [MBProgressHUD showSuccess:SMALocalizedString(@"register_sendsucc")];
                     if (codeTimer) {

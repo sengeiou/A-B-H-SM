@@ -34,13 +34,13 @@
     genderArr = @[SMALocalizedString(@"user_boy"),SMALocalizedString(@"user_girl")];
     unitArr = @[SMALocalizedString(@"me_perso_metric"),SMALocalizedString(@"me_perso_british")];
     user = [SMAAccountTool userInfo];
+    [self handleUserInfo];//修改用户信息以防止旧信息影响导致崩溃
 }
 
 - (void)createUI{
-   
     _nameLab.text = SMALocalizedString(@"me_perso_name");
     _nameDetalLab.text = user.userName;
-    _accountLab.text = SMALocalizedString(@"账号");
+    _accountLab.text = SMALocalizedString(@"me_perso_account");
     _accDetailLab.text = user.userID;
     _genderLab.text = SMALocalizedString(@"me_perso_gender");
     _genderDetalLab.text = user.userSex.integerValue == 1 ? SMALocalizedString(@"user_boy"):SMALocalizedString(@"user_girl");
@@ -53,6 +53,28 @@
     _unitLab.text = SMALocalizedString(@"me_perso_unit");
     _unitDetalLab.text = user.unit.intValue?SMALocalizedString(@"me_perso_british"):SMALocalizedString(@"me_perso_metric");
     [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
+}
+
+- (void)handleUserInfo{
+    if (user.userHeight.intValue < 70) {
+        user.userHeight = @"70";
+    }
+    if (user.userHeight.intValue > 230) {
+        user.userHeight = @"230";
+    }
+    if (user.userWeigh.intValue < 30) {
+        user.userWeigh = @"30";
+    }
+    if (user.userWeigh.intValue > 130) {
+        user.userWeigh = @"130";
+    }
+    if (user.userAge.intValue < 0) {
+        user.userAge = @"0";
+    }
+    if (user.userAge.intValue > 60) {
+        user.userAge = @"60";
+    }
+    [SMAAccountTool saveUser:user];
 }
 
 - (IBAction)saveSelector:(id)sender{

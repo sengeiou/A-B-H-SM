@@ -100,7 +100,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     self.view.backgroundColor = [UIColor whiteColor];
     mainScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height)];
     mainScroll.backgroundColor = [SmaColor colorWithHexString:@"#2CCB6F" alpha:1];
-    mainScroll.contentSize = CGSizeMake(MainScreen.size.width, 600);
+//    mainScroll.contentSize = CGSizeMake(MainScreen.size.width, 600);
     mainScroll.delegate = self;
     [self.view addSubview:mainScroll];
     
@@ -177,10 +177,10 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [WYLocalScrollView setMaxImageCount];
     
     // 促使视图切换时候保证图像不变化
-    [mainScroll setContentOffset:CGPointMake(0, 0)];
-    [self setViewTop:0 preference:YES];
+//    [mainScroll setContentOffset:CGPointMake(0, 0)];
+//    [self setViewTop:0 preference:YES];
     if (cycle == 0) {
-        mainScroll.scrollEnabled = NO;
+        mainScroll.scrollEnabled = YES;
         NSArray *array = @[SMALocalizedString(@"device_SL_fallTime"),SMALocalizedString(@"device_SL_wakeTime"),SMALocalizedString(@"device_SL_sleepTime")];
         NSArray *titleArr = [[aggregateData[1] objectAtIndex:1] count] > 0? @[[[[aggregateData[1] objectAtIndex:1] lastObject] objectForKey:@"TIME"],[[[aggregateData[1] objectAtIndex:1] firstObject] objectForKey:@"TIME"],[self sleepTimeWithFall:[[[aggregateData[1] objectAtIndex:1] lastObject] objectForKey:@"TIME"] wakeUp:[[[aggregateData[1] objectAtIndex:1] firstObject] objectForKey:@"TIME"]]]:@[SMALocalizedString(@"device_SL_none"),SMALocalizedString(@"device_SL_none"),[[NSAttributedString alloc] initWithString:@"0h"]];
         stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(detailBackView.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height*2)];
@@ -205,21 +205,21 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             [stateView addSubview:detailLab];
         }
         
-        [mainScroll addSubview:stateView];
+//        [mainScroll addSubview:stateView];
         
 //        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame)) style:UITableViewStylePlain];
-        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame) + 1, MainScreen.size.width,MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - 1) style:UITableViewStylePlain];
-        detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(detailBackView.frame) + 1, MainScreen.size.width, 300) style:UITableViewStylePlain];
+//        detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
         detailTabView.delegate = self;
         detailTabView.dataSource = self;
         detailTabView.tableFooterView = [[UIView alloc] init];
-//        detailTabView.scrollEnabled = NO;
-        [self.view addSubview:detailTabView];
+        detailTabView.scrollEnabled = NO;
+        [mainScroll addSubview:detailTabView];
         
         tableHeight = MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - 1;
-//        float contentHigh = CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateView.frame)+ [aggregateData[1][1] count] * 44.0;
-//        float standardHigh = MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height*2;
-//        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, contentHigh >= standardHigh ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145) : contentHigh);
+        float contentHigh = CGRectGetHeight(WYLocalScrollView.frame) + 300;
+        float standardHigh = MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - contentHigh;
+        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, contentHigh);
     }
     else{
         mainScroll.scrollEnabled = YES;
@@ -247,7 +247,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         mainScroll.contentSize = CGSizeMake(MainScreen.size.width, CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(detailColView.frame));
     }
 }
-
 
 - (void)tapBut:(UIButton *)sender{
     NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
@@ -340,33 +339,69 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
       NSLog(@"fwgggggggg=22222==%@  %@  %f  %@",NSStringFromCGRect(self.view.frame),NSStringFromCGRect(detailTabView.frame),drawHeight,NSStringFromCGSize(detailColView.contentSize));
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 100;
+}
+
 #pragma mark ******UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[aggregateData[1] objectAtIndex:1]  count];
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+//    SMADetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DETAILCELL"];
+//    if (!cell) {
+//        cell = (SMADetailCell *)[[[NSBundle mainBundle] loadNibNamed:@"SMADetailCell" owner:nil options:nil] lastObject];
+//    }
+//    cell.oval.strokeColor = [SmaColor colorWithHexString:@"#F688EB" alpha:1].CGColor;
+//    if (indexPath.row == 0) {
+//        cell.topLine.hidden = YES;
+//        cell.distanceLab.attributedText = [[NSAttributedString alloc] initWithString:@""];
+//    }
+//    else if (indexPath.row == [[aggregateData[1] objectAtIndex:1] count] - 1){
+//        cell.botLine.hidden = YES;
+//        cell.distanceLab.attributedText = [[NSAttributedString alloc] initWithString:@""];
+//    }
+//    else{
+//        cell.distanceLab.attributedText = [[[aggregateData[1] objectAtIndex:1]  objectAtIndex:indexPath.row] objectForKey:@"LAST"];
+//    }
+//    cell.timeLab.text = [[[aggregateData[1] objectAtIndex:1]  objectAtIndex:indexPath.row] objectForKey:@"TIME"];
+//    cell.statelab.text = [[[aggregateData[1] objectAtIndex:1]  objectAtIndex:indexPath.row] objectForKey:@"TYPE"];
+//    //    cell.distanceLab.text = [NSString stringWithFormat:@"%@%@",[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue] ] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")];
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    SMADetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DETAILCELL"];
+    SMASleepDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DETAILCELL"];
     if (!cell) {
-        cell = (SMADetailCell *)[[[NSBundle mainBundle] loadNibNamed:@"SMADetailCell" owner:nil options:nil] lastObject];
+        cell = (SMASleepDetailCell *)[[[NSBundle mainBundle] loadNibNamed:@"SMASleepDetailCell" owner:nil options:nil] lastObject];
     }
-    cell.oval.strokeColor = [SmaColor colorWithHexString:@"#F688EB" alpha:1].CGColor;
     if (indexPath.row == 0) {
-        cell.topLine.hidden = YES;
-        cell.distanceLab.attributedText = [[NSAttributedString alloc] initWithString:@""];
+        NSString *sleepTime = [[[aggregateData[1] objectAtIndex:1] lastObject] objectForKey:@"TIME"] ? [[[aggregateData[1] objectAtIndex:1] lastObject] objectForKey:@"TIME"]:@"00:00";
+        cell.timeLab1.text = sleepTime;
+        cell.titleLab1.text = SMALocalizedString(@"device_SL_fallTime");
+        
+        cell.timeLab2.text = [[[aggregateData[1] objectAtIndex:1] firstObject] objectForKey:@"TIME"] ? [[[aggregateData[1] objectAtIndex:1] firstObject] objectForKey:@"TIME"]:@"00:00";
+        cell.titleLab2.text = SMALocalizedString(@"device_SL_wakeTime");
     }
-    else if (indexPath.row == [[aggregateData[1] objectAtIndex:1] count] - 1){
-        cell.botLine.hidden = YES;
-        cell.distanceLab.attributedText = [[NSAttributedString alloc] initWithString:@""];
+    else if (indexPath.row == 1){
+        
+        NSString *soberTime = [aggregateData[1] objectAtIndex:2][3];
+        NSString *sleepTime = [aggregateData[1] objectAtIndex:2][0];
+        cell.timeLab1.attributedText = [self attributedStringWithArr:soberTime.intValue > 60 ? @[[NSString stringWithFormat:@"%d",soberTime.intValue/60],@"h",[NSString stringWithFormat:@"%d",soberTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")]:@[[NSString stringWithFormat:@"%d",soberTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")] fontArr:@[FontGothamLight(25),FontGothamLight(17)]];
+        cell.titleLab1.text = SMALocalizedString(@"device_SL_soberDuration");
+        
+        cell.timeLab2.attributedText = [self attributedStringWithArr:sleepTime.intValue > 60 ? @[[NSString stringWithFormat:@"%d",sleepTime.intValue/60],@"h",[NSString stringWithFormat:@"%d",sleepTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")]:@[[NSString stringWithFormat:@"%d",sleepTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")] fontArr:@[FontGothamLight(25),FontGothamLight(17)]];
+        cell.titleLab2.text = SMALocalizedString(@"device_SL_sleepTime");
     }
-    else{
-        cell.distanceLab.attributedText = [[[aggregateData[1] objectAtIndex:1]  objectAtIndex:indexPath.row] objectForKey:@"LAST"];
+    else if (indexPath.row == 2){
+        NSString *deepTime = [aggregateData[1] objectAtIndex:2][1];
+        NSString *lightTime = [aggregateData[1] objectAtIndex:2][2];
+        cell.timeLab1.attributedText = [self attributedStringWithArr:deepTime.intValue > 60 ? @[[NSString stringWithFormat:@"%d",deepTime.intValue/60],@"h",[NSString stringWithFormat:@"%d",deepTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")]:@[[NSString stringWithFormat:@"%d",deepTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")] fontArr:@[FontGothamLight(25),FontGothamLight(17)]];
+        cell.titleLab1.text = SMALocalizedString(@"device_SL_deepDuration");
+        
+        cell.timeLab2.attributedText = [self attributedStringWithArr:lightTime.intValue > 60 ? @[[NSString stringWithFormat:@"%d",lightTime.intValue/60],@"h",[NSString stringWithFormat:@"%d",lightTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")]:@[[NSString stringWithFormat:@"%d",lightTime.intValue%60],SMALocalizedString(@"setting_sedentary_deMinute")] fontArr:@[FontGothamLight(25),FontGothamLight(17)]];
+        cell.titleLab2.text = SMALocalizedString(@"device_SL_lightDuration");
     }
-    cell.timeLab.text = [[[aggregateData[1] objectAtIndex:1]  objectAtIndex:indexPath.row] objectForKey:@"TIME"];
-    cell.statelab.text = [[[aggregateData[1] objectAtIndex:1]  objectAtIndex:indexPath.row] objectForKey:@"TYPE"];
-    //    cell.distanceLab.text = [NSString stringWithFormat:@"%@%@",[SMAAccountTool userInfo].unit.intValue?[SMACalculate notRounding:[SMACalculate convertToMile:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue]]] afterPoint:1]:[SMACalculate notRounding:[SMACalculate countKMWithHeigh:[[SMAAccountTool userInfo].userHeight floatValue] step:[[[dataArr objectAtIndex:indexPath.row] objectForKey:@"TIME"] intValue] ] afterPoint:1],[SMAAccountTool userInfo].unit.intValue?SMALocalizedString(@"device_SP_mile"):SMALocalizedString(@"device_SP_km")];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -382,11 +417,11 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 //        detailTabView.scrollEnabled = YES;
 //        return;
 //    }
-     NSLog(@"gwgg==%f  %@",scrollView.contentOffset.y,NSStringFromCGSize(mainScroll.contentSize));
+//     NSLog(@"gwgg==%f  %@",scrollView.contentOffset.y,NSStringFromCGSize(mainScroll.contentSize));
     if (cycle == 0 && scrollView == detailTabView) {
         CGFloat y = scrollView.contentOffset.y;
         CGFloat viewTop =  0 - y;
-        [self setViewTop:viewTop preference:NO];
+//        [self setViewTop:viewTop preference:NO];
     }
 }
 
@@ -401,7 +436,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
 
     if (indexPath.row == 0) {
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] objectForKey:@"soberSleep"] intValue]/60],@"h",[NSString stringWithFormat:@"%d",[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] objectForKey:@"soberSleep"] intValue]%60],@"m"] fontArr:@[FontGothamLight(35),FontGothamLight(15)]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] objectForKey:@"sleepHour"] intValue]/60],@"h",[NSString stringWithFormat:@"%d",[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] objectForKey:@"sleepHour"] intValue]%60],@"m"] fontArr:@[FontGothamLight(35),FontGothamLight(15)]];
     }
     else if (indexPath.row == 1){
         cell.detailLab.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] objectForKey:@"deepSleep"] intValue]/60],@"h",[NSString stringWithFormat:@"%d",[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:showDataIndex] objectForKey:@"deepSleep"] intValue]%60],@"m"] fontArr:@[FontGothamLight(35),FontGothamLight(15)]];
@@ -500,7 +535,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         else{
             scrollView.banRightSlide = NO;
         }
-        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height*2) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0);
+//        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height*2) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height*2 + [aggregateData[1][1] count] * 44.0);
         [self setSleepStateViewSubviews];
     }
     else if (selectTag == 102){
@@ -691,7 +726,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         sleepState = SMALocalizedString(@"device_SL_typeT");
     }
     else if (sleepTime/60 >= 6 && sleepTime/60 <= 8 && deepTime/60 >= 4){
-        sleepState = SMALocalizedString(@"device_SL_typeS");
+        sleepState = SMALocalizedString(@"device_SL_typeG");
     }
     else if (sleepTime/60 >= 6 && sleepTime/60 <= 8 && deepTime/60 >= 3 && deepTime/60 < 4){
         sleepState = SMALocalizedString(@"device_SL_typeS");

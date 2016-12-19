@@ -26,7 +26,7 @@
 }
 
 - (void)createUI{
-    self.title = SMALocalizedString(@"me_goal_title");
+    self.title = SMALocalizedString(@"device_SP_goal");
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[SmaColor colorWithHexString:@"#5790F9" alpha:1] size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     _rulerBackView.backgroundColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];
     self.tableView.scrollEnabled = NO;

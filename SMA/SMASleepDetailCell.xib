@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham-Light_0.otf">
+            <string>Gotham-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="KGk-i7-Jjw" customClass="SMASleepDetailCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eZ-cp-FC9">
+                        <rect key="frame" x="0.0" y="8" width="160" height="50"/>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="25"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGe-lZ-BrE">
+                        <rect key="frame" x="160" y="8" width="160" height="50"/>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="25"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="入睡时间" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uig-od-hyu">
+                        <rect key="frame" x="0.0" y="49" width="160" height="50"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="醒来时间" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ku-m9-E1J">
+                        <rect key="frame" x="160" y="49" width="160" height="50"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="0eZ-cp-FC9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="1fq-70-evL"/>
+                    <constraint firstItem="Uig-od-hyu" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1/2" id="6eu-QE-fgg"/>
+                    <constraint firstAttribute="bottom" secondItem="Uig-od-hyu" secondAttribute="bottom" id="8fb-QS-IDF"/>
+                    <constraint firstItem="Uig-od-hyu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="AIb-B0-EcI"/>
+                    <constraint firstItem="rGe-lZ-BrE" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1/2" id="DAg-xr-7RP"/>
+                    <constraint firstAttribute="trailing" secondItem="rGe-lZ-BrE" secondAttribute="trailing" id="Gq8-jG-jJu"/>
+                    <constraint firstAttribute="bottom" secondItem="3Ku-m9-E1J" secondAttribute="bottom" id="HtZ-MY-v9H"/>
+                    <constraint firstItem="Uig-od-hyu" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="1/2" id="Lff-Fc-rZv"/>
+                    <constraint firstItem="0eZ-cp-FC9" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="1/2" id="ZZ5-UD-3Y1"/>
+                    <constraint firstAttribute="trailing" secondItem="3Ku-m9-E1J" secondAttribute="trailing" id="ZgE-GM-ei5"/>
+                    <constraint firstItem="0eZ-cp-FC9" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1/2" id="awz-Ph-dTE"/>
+                    <constraint firstItem="3Ku-m9-E1J" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="1/2" id="c8C-J9-H62"/>
+                    <constraint firstItem="3Ku-m9-E1J" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1/2" id="dq1-6S-a2e"/>
+                    <constraint firstItem="0eZ-cp-FC9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="ibi-Zb-II0"/>
+                    <constraint firstItem="rGe-lZ-BrE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="sTQ-Se-Oc7"/>
+                    <constraint firstItem="rGe-lZ-BrE" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="1/2" id="zQV-3H-86v"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="timeLab1" destination="0eZ-cp-FC9" id="61d-TR-N6u"/>
+                <outlet property="timeLab2" destination="rGe-lZ-BrE" id="xgH-xA-OL4"/>
+                <outlet property="titleLab1" destination="Uig-od-hyu" id="c23-eJ-uCq"/>
+                <outlet property="titleLab2" destination="3Ku-m9-E1J" id="Eov-o6-SXa"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

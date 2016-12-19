@@ -29,13 +29,14 @@
 
 - (void)initializeMethod{
     goalArr = [NSMutableArray array];
-    for (int i = 1; i <= 20; i ++) {
+    for (int i = 1; i <= 100; i ++) {
         [goalArr addObject:[NSString stringWithFormat:@"%d",i * 1000]];
     }
     user = [SMAAccountTool userInfo];
 }
 
 - (void)createUI{
+    self.title = SMALocalizedString(@"me_sport_goal");
     _goalPick.delegate = self;
     _goalPick.dataSource = self;
     _suggestLab.text = SMALocalizedString(@"me_goal_suggest");
@@ -44,8 +45,8 @@
     _calUnitLab.text = SMALocalizedString(@"device_SP_cal");
     [_nextBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
     [_goalPick selectRow:user.userGoal.intValue/1000 - 1 inComponent:0 animated:NO];
-    _kmLab.text = [self putDisStringWithHeight:user.userHeight.floatValue setp:10000];
-    _calLab.text = [self putCalStringWithSex:user.userSex userWeight:user.userWeigh.floatValue step:10000];
+    _kmLab.text = [self putDisStringWithHeight:user.userHeight.floatValue setp:user.userGoal.intValue];
+    _calLab.text = [self putCalStringWithSex:user.userSex userWeight:user.userWeigh.floatValue step:user.userGoal.intValue];
 }
 
 #pragma mark ******UIPickerViewDelegate
@@ -92,23 +93,36 @@
 }
 
 - (IBAction)accomplishSelector:(id)sender{
-    [SMAAccountTool saveUser:user];
-    SmaAnalysisWebServiceTool *webser=[[SmaAnalysisWebServiceTool alloc]init];
-    [webser acloudPutUserifnfo:user success:^(NSString *result) {
-        
-    } failure:^(NSError *erro) {
-        
-    }];
+    
+
     if (_isSelect) {
         self.navigationController.leftItemHidden = YES;
         SMASelectDeviceController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMASelectDeviceController"];
         controller.isSelect = YES;
+        [SMAAccountTool saveUser:user];
+        SmaAnalysisWebServiceTool *webser=[[SmaAnalysisWebServiceTool alloc]init];
+        [webser acloudPutUserifnfo:user success:^(NSString *result) {
+            
+        } failure:^(NSError *erro) {
+            
+        }];
         [self.navigationController pushViewController:controller animated:YES];
 //        controller.leftItemHidden = YES;
 //        [UIApplication sharedApplication].keyWindow.rootViewController=controller;
     }
     else{
-        [self.navigationController popViewControllerAnimated:YES];
+        if ([SmaBleMgr checkBLConnectState]) {
+            [SMAAccountTool saveUser:user];
+            SmaAnalysisWebServiceTool *webser=[[SmaAnalysisWebServiceTool alloc]init];
+            [webser acloudPutUserifnfo:user success:^(NSString *result) {
+                
+            } failure:^(NSError *erro) {
+                
+            }];
+            [SmaBleSend setStepNumber:user.userGoal.intValue];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
     }
 //    UITabBarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
 //    [self presentViewController:controller animated:YES completion:nil];

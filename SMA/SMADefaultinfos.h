@@ -23,6 +23,8 @@
 #define BANDDEVELIVE @"BANDDEVELIVE" //所绑定的设备名
 #define THIRDLOGIN @"THIRDLOGIN" //第三方登录
 #define UPDATEDATE @"UPDATEDATE" //保存当天日期，以便判断跨天刷新数据判断
+#define BRITISHSYSTEM @"BRITISHSYSTEM" //公英制设置
+#define DEVICEMAC @"DEVICEMAC"//mac地址
 @interface SMADefaultinfos : NSObject
 +(void)putKey:(NSString *)key andValue:(NSObject *)value;
 +(void)putInt:(NSString *)key andValue:(int)value;

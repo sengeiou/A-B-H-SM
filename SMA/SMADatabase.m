@@ -30,7 +30,7 @@
             
             //睡眠
             result = [db executeUpdate:@"create table if not exists tb_sleep ( id INTEGER PRIMARY KEY ASC AUTOINCREMENT ,user_id varchar(50),sleep_id varchar(30),sleep_date varchar(30),sleep_time integer,sleep_mode integer,softly_action integer,strong_action integer,sleep_ident TEXT,sleep_waer integer,sleep_web integer);"];
-            NSLog(@"创表 %d",result);
+//            NSLog(@"创表 %d",result);
         }];
     }
     return queue;

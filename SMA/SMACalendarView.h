@@ -35,6 +35,9 @@
 //UICollectionViewCell
 @interface CalendarCell : UICollectionViewCell
 @property (weak, nonatomic) UILabel *dayLabel;
+@property (weak, nonatomic) UIImageView *selectDayIma;
+@property (weak, nonatomic) UIImageView *nowDayIma;
+@property (weak, nonatomic) UIImageView *dataIma;
 @property (strong, nonatomic) NSMutableArray *dayLabelArr;
 @property (strong, nonatomic) MonthModel *monthModel;
 @end
@@ -45,4 +48,6 @@
 @property (strong, nonatomic) NSDate *dateValue;
 @property (assign, nonatomic) BOOL isSelectedDay;
 @property (assign, nonatomic) BOOL isGreaterThanNowDay;
+@property (assign, nonatomic) BOOL isGreaterNowDay;
+@property (assign, nonatomic) BOOL isGreaterData;
 @end

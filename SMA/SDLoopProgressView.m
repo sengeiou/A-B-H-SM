@@ -42,7 +42,6 @@
             CGContextStrokePath(ctx1);
     }
 
-    
     // 进度数字
 //    NSString *progressStr = [NSString stringWithFormat:@"%.0f", self.progress * 100];
 //    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];

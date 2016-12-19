@@ -34,7 +34,7 @@
 @property (nonatomic,strong) CBPeripheral *peripheral;
 @property (strong, nonatomic) NSMutableArray *peripherals;
 @property (strong, nonatomic) NSMutableArray *characteristics;
-@property (strong, nonatomic)  NSArray *sortedArray;
+@property (strong, nonatomic) NSArray *sortedArray;
 @property (strong, nonatomic) NSString *scanName;
 @property (strong, nonatomic) NSTimer *reloadTimer;
 @property (strong, nonatomic) NSTimer *scanTimer;

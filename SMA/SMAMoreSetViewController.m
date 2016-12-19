@@ -85,6 +85,8 @@
         SMACenterTabView *timeTab = [[SMACenterTabView alloc] initWithMessages:unitArr selectMessage:unitArr[selectRow] selName:@"icon_selected"];
         [timeTab tabViewDidSelectRow:^(NSIndexPath *indexPath) {
             user.unit = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+            [SMADefaultinfos putInt:BRITISHSYSTEM andValue:user.unit.intValue];
+            [SmaBleSend setBritishSystem:[SMADefaultinfos getIntValueforKey:BRITISHSYSTEM]];
             cell.detailTextLabel.text = unitArr[indexPath.row];
             [SMAAccountTool saveUser:user];
         }];
@@ -94,6 +96,12 @@
     
     if (indexPath.section == 1 && indexPath.row == 1 && ![SMADefaultinfos getIntValueforKey:THIRDLOGIN]){
         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAChangePassViewController"] animated:YES];
+    }
+    else if (indexPath.section == 1 && indexPath.row == 2){
+         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAOpinion_ViewController"] animated:YES];
+    }
+    else if (indexPath.section == 2){
+        [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAAboutUsViewController"] animated:YES];
     }
 }
 

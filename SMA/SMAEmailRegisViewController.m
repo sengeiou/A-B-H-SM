@@ -205,7 +205,7 @@ static int second = 60;
         NSLog(@"====error==%@",[erro.userInfo objectForKey:@"errorInfo"]);
         [MBProgressHUD hideHUD];
         if ([erro.userInfo objectForKey:@"errorInfo"]) {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"code:%ld %@",(long)erro.code,[erro.userInfo objectForKey:@"errorInfo"]]];
+            [MBProgressHUD showError:[self errorInfoWithSerialNumber:erro]];
         }
         else if (erro.code == -1001) {
             [MBProgressHUD showError:SMALocalizedString(@"login_timeout")];
@@ -229,6 +229,37 @@ static int second = 60;
         [_verCodeField resignFirstResponder];
     }
     return YES;
+}
+
+- (NSString *)errorInfoWithSerialNumber:(NSError *)error{
+    NSString *errStr;
+    switch (error.code) {
+        case 3501:
+            errStr = SMALocalizedString(@"account_error_3501");
+            break;
+        case 3503:
+            errStr = SMALocalizedString(@"account_error_3503");
+            break;
+        case 3505:
+            errStr = SMALocalizedString(@"account_error_3505");
+            break;
+        case 3506:
+            errStr = SMALocalizedString(@"account_error_3506");
+            break;
+        case 3507:
+            errStr = SMALocalizedString(@"account_error_3507");
+            break;
+        case 3508:
+            errStr = SMALocalizedString(@"account_error_3508");
+            break;
+        case 3509:
+            errStr = SMALocalizedString(@"account_error_3509");
+            break;
+        default:
+            errStr = [NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]];
+            break;
+    }
+    return errStr;
 }
 /*
 #pragma mark - Navigation

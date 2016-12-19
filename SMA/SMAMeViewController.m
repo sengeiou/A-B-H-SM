@@ -31,6 +31,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
+//    [webTool acloudSetScore:20013];
     [self createUI];
 }
 
@@ -209,6 +211,9 @@
         [app.window addSubview:cenAler];
 
     }
+    if (indexPath.section == 2 && indexPath.row == 1) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/page263"]];
+    }
 }
 
 #pragma mark ***********cenAlerButDelegate
@@ -243,6 +248,7 @@
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[SMAAccountTool userInfo].userID]];
         image = [UIImage image:image fortargetSize:CGSizeMake(200, 200)];
+        NSLog(@"rgerh==%d",UIImageJPEGRepresentation(image, 1).length);
         BOOL result = [UIImageJPEGRepresentation(image, 1) writeToFile: filePath  atomically:YES];
         if(result)
         {

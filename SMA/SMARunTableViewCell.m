@@ -19,7 +19,7 @@
 - (void)createUIWithData:(NSMutableDictionary *)dataDic{
     _beginLab.text = SMALocalizedString(@"setting_sedentary_star");
     _endLab.text = SMALocalizedString(@"setting_sedentary_end");
-    _disLab.text = SMALocalizedString(@"device_RU_distance");
+    _disLab.text = SMALocalizedString(@"device_SP_sumDista");
     _perLab.text = SMALocalizedString(@"device_RU_per");
     _beginDeLab.text = dataDic[@"STARTTIME"];
     _endDeLab.text = dataDic[@"ENDTIME"];

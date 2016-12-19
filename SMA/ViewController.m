@@ -42,7 +42,7 @@
     
     self.navigationController.navigationBar.translucent = true;
     self.extendedLayoutIncludesOpaqueBars = YES;
-    titLabArr = @[SMALocalizedString(@"属于你的 SMA 智能生活"),SMALocalizedString(@"记录你的健康数据"),SMALocalizedString(@"分享你的汗水与努力")];
+    titLabArr = @[SMALocalizedString(@"login_smaTit"),SMALocalizedString(@"login_smaTitS"),SMALocalizedString(@"login_smaTitT")];
     _titLab.text = SMALocalizedString(@"login_smaTit");
     [_loginBut setTitle:SMALocalizedString(@"login_login") forState:UIControlStateNormal];
     [_regisBut setTitle:SMALocalizedString(@"login_regis") forState:UIControlStateNormal];

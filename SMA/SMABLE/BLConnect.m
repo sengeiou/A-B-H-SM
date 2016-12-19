@@ -123,25 +123,30 @@ static id _instace;
 - (void)reunionTimer:(id)sender{
     NSLog(@"fwefwefwergrg====");
     if (self.peripheral.state != CBPeripheralStateConnected) {
-        NSArray *SystemArr = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
-        NSLog(@"重连系统连接设备====%@  %@",SystemArr,self.user.watchUUID);
-        if (SystemArr.count > 0) {
-            [SystemArr enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL *stop) {
-                if ([obj.identifier.UUIDString isEqual:self.user.watchUUID]) {
-                    NSLog(@"重连系统设备");
-                    [self connectBl:obj];
-                }
-                else{
-                    [self stopSearch];
-                    [self scanBL:0];
-                }
-            }];
+        if (self.user.watchUUID && ![self.user.watchUUID isEqualToString:@""]) {
+            NSArray *allPer = [SmaBleMgr.mgr retrievePeripheralsWithIdentifiers:@[[[NSUUID alloc] initWithUUIDString:self.user.watchUUID]]];
+            NSLog(@"2222222222wgrgg---==%@  %@",allPer, _user.watchUUID);
+              [self connectBl:[allPer firstObject]];
         }
-        else{
-            NSLog(@"外部搜索设备");
-            [self stopSearch];
-            [self scanBL:0];
-        }
+//        NSArray *SystemArr = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
+//        NSLog(@"重连系统连接设备====%@  %@",SystemArr,self.user.watchUUID);
+//        if (SystemArr.count > 0) {
+//            [SystemArr enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL *stop) {
+//                if ([obj.identifier.UUIDString isEqual:self.user.watchUUID]) {
+//                    NSLog(@"重连系统设备");
+//                    [self connectBl:obj];
+//                }
+//                else{
+//                    [self stopSearch];
+//                    [self scanBL:0];
+//                }
+//            }];
+//        }
+//        else{
+//            NSLog(@"外部搜索设备");
+//            [self stopSearch];
+//            [self scanBL:0];
+//        }
     }
 }
 
@@ -199,33 +204,43 @@ static id _instace;
         case CBCentralManagerStatePoweredOn:
         {
             NSLog( @"蓝牙已经成功开启，正在扫描蓝牙接口……");
-            NSArray *SystemArr = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
-            NSLog(@"扫描系统连接设备====%@",SystemArr);
-            __block int blNum = 0;
-            if (SystemArr.count > 0) {
-                [SystemArr enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL *stop) {
-                    blNum ++;
-                    if ([obj.identifier.UUIDString isEqual:self.user.watchUUID]) {
-                        NSLog(@"重连系统设备");
-                        [self connectBl:obj];
-                        blNum --;
-                    }
-                    else{
-                        NSLog(@"搜索外部设备 = %d",blNum);
-                        if (blNum == SystemArr.count) {
-                            [self.peripherals removeAllObjects];
-                            self.peripherals = nil;
-                            [self.mgr scanForPeripheralsWithServices:nil options:nil];
-                        }
-                    }
-                }];
+            if (self.user.watchUUID && ![self.user.watchUUID isEqualToString:@""]) {
+                NSArray *allPer = [SmaBleMgr.mgr retrievePeripheralsWithIdentifiers:@[[[NSUUID alloc] initWithUUIDString:self.user.watchUUID]]];
+                 NSLog(@"222221111222222222wgrgg---==%@  %@",allPer, _user.watchUUID);
+                 [self connectBl:[allPer firstObject]];
             }
             else{
-                NSLog(@"扫描外部搜索设备");
                 [self.peripherals removeAllObjects];
                 self.peripherals = nil;
                 [self.mgr scanForPeripheralsWithServices:nil options:nil];
             }
+//            NSArray *SystemArr = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
+//            NSLog(@"扫描系统连接设备====%@",SystemArr);
+//            __block int blNum = 0;
+//            if (SystemArr.count > 0) {
+//                [SystemArr enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL *stop) {
+//                    blNum ++;
+//                    if ([obj.identifier.UUIDString isEqual:self.user.watchUUID]) {
+//                        NSLog(@"重连系统设备");
+//                        [self connectBl:obj];
+//                        blNum --;
+//                    }
+//                    else{
+//                        NSLog(@"搜索外部设备 = %d",blNum);
+//                        if (blNum == SystemArr.count) {
+//                            [self.peripherals removeAllObjects];
+//                            self.peripherals = nil;
+//                            [self.mgr scanForPeripheralsWithServices:nil options:nil];
+//                        }
+//                    }
+//                }];
+//            }
+//            else{
+//                NSLog(@"扫描外部搜索设备");
+//                [self.peripherals removeAllObjects];
+//                self.peripherals = nil;
+//                [self.mgr scanForPeripheralsWithServices:nil options:nil];
+//            }
         }
             break;
         default:
@@ -414,7 +429,15 @@ static id _instace;
             }
             break;
         case MAC:
-            
+        {
+            [SMADefaultinfos putKey:DEVICEMAC andValue:[array firstObject]];
+            SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
+            if ([SMADefaultinfos getValueforKey:DEVICEMAC] && ![[SMADefaultinfos getValueforKey:DEVICEMAC] isEqualToString:@""] && ![[SMADefaultinfos getValueforKey:DEVICEMAC] isEqualToString:@"04:03:00:00:00:00"] && ![[SMADefaultinfos getValueforKey:DEVICEMAC] isEqualToString:@"4:3:0:0:0:0"] && ![[SMADefaultinfos getValueforKey:DEVICEMAC]isEqualToString:@"00:00:00:00:00:00"] && ![[SMADefaultinfos getValueforKey:DEVICEMAC] isEqualToString:@"0:0:0:0:0:0"] && ![[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM02"] && ![[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM04"]) {
+                [webservice acloudCheckMACtoWeChat:[SMADefaultinfos getValueforKey:DEVICEMAC] callBack:^(NSString *mac,NSError *error) {
+                    NSLog(@"%@ claaback==%@",mac,error);
+                }];
+            }
+        }
             break;
         case ELECTRIC:
             break;
@@ -551,13 +574,19 @@ static id _instace;
         else{
             [SmaBleSend setLanguage:NO];
         }
+        
+        //获取系统是24小时制或者12小时制
+        NSString *formatStringForHours = [NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]];
+        NSRange containsA = [formatStringForHours rangeOfString:@"a"];
+        BOOL hasAMPM = containsA.location != NSNotFound;
+        [SmaBleSend setHourly:hasAMPM];
     }
+    
+    [SmaBleSend setBritishSystem:[SMADefaultinfos getIntValueforKey:BRITISHSYSTEM]];
     
     SMADatabase *smaDal = [[SMADatabase alloc] init];
     NSMutableArray *alarmArr = [smaDal selectClockList];
-    if (alarmArr.count > 0) {
         [SmaBleSend setClockInfoV2:alarmArr];
-    }
    
     [SmaBleSend getElectric];
     [SmaBleSend getBLVersion];

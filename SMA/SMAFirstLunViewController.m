@@ -24,7 +24,13 @@
     scrollview.delegate = self;
     scrollview.pagingEnabled = YES;
     [self.view addSubview:scrollview];
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
+    NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
     NSArray *array = @[@"img_zhuye",@"img_yundong",@"img_xinlv",@"img_shuimian"];
+    if (![preferredLang isEqualToString:@"zh"]){
+        array = @[@"img_zhuye_en",@"img_yundong_en",@"img_xinlv_en",@"img_shuimian_en"];
+    }
     scrollview.contentSize = CGSizeMake(MainScreen.size.width * array.count, MainScreen.size.height);
     for (int i = 0; i < array.count; i ++) {
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0 + MainScreen.size.width * i, 0, MainScreen.size.width, MainScreen.size.height)];
@@ -56,9 +62,11 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;{
-    if (!timer) {
-        timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(schedule) userInfo:nil repeats:NO];
-    }
+//    if (scrollView.contentOffset.x >= MainScreen.size.width * 3) {
+//        if (!timer) {
+            timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(schedule) userInfo:nil repeats:NO];
+//        }
+//    }
 }
 
 - (void)schedule{

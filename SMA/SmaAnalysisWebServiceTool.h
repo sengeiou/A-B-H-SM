@@ -10,7 +10,8 @@
 #import "SMAUserInfo.h"
 #import "SMAAccountTool.h"
 #import "SMAWebDataHandleInfo.h"
-
+#import "ACFeedBack.h"
+#import "ACFeedBackManager.h"
 #define watchface_recommending @"smav2_watchface_recommending"//（推荐）
 #define watchface_dynamic @"smav2_watchface_dynamic"//动态
 #define watchface_pointer @"smav2_watchface_pointer"//指针
@@ -105,4 +106,7 @@
 
 //根据表盘id获取缩略图
 - (void)acloudDownLoadImageWithOffset:(int)offset callBack:(void (^)(id finish))callback;
+
+//意见反馈
+- (void)acloudFeedbackContact:(NSString *)contact content:(NSString *)content callBack:(void (^)(BOOL isSuccess, NSError *error))callback;
 @end

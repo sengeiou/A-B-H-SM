@@ -47,7 +47,7 @@
             [weightArr addObject:[NSString stringWithFormat:@"%f",size.width]];
         }
         imtemWidth =[[weightArr valueForKeyPath:@"@max.floatValue"] floatValue];
-        self.menuItemWidth = imtemWidth + 2;
+        self.menuItemWidth = imtemWidth + 3;
         self.titleSizeSelected = 15.0;
         self.titleSizeNormal = 14.0;
         self.titleFontName = @"Gotham-Light";

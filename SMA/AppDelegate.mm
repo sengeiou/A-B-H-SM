@@ -22,11 +22,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [ACloudLib setMode:ACLoudLibModeTest Region:ACLoudLibRegionChina];
+    [ACloudLib setMode:ACLoudLibModeRouter Region:ACLoudLibRegionChina];
     [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:375]; //282
     [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
-   
-    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
+    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
     if (![SMADefaultinfos getValueforKey:FIRSTLUN]) {
         SMAFirstLunViewController *firstLunVC = [[SMAFirstLunViewController alloc] init];
         self.window.rootViewController = firstLunVC;
@@ -64,7 +65,7 @@
     [SMADefaultinfos putKey:UPDATEDATE andValue:[NSDate date].yyyyMMddNoLineWithDate];
     //         真机测试时保存日志
     if ([[[UIDevice currentDevice] model] rangeOfString:@"simulator"].location) {
-//        [self redirectNSLogToDocumentFolder];
+//       [self redirectNSLogToDocumentFolder];
     }
     return YES;
 }

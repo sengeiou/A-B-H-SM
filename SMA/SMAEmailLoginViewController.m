@@ -108,7 +108,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
             controller.isLogin = NO;
-            NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+            NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
             NSArray *arrControllers = controller.viewControllers;
             for (int i = 0; i < arrControllers.count; i ++) {
                 SMANavViewController *nav = [arrControllers objectAtIndex:i];
@@ -122,7 +122,7 @@
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         if ([error.userInfo objectForKey:@"errorInfo"]) {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"%ld %@",(long)error.code,SMALocalizedString(@"login_fail")]];
+           [MBProgressHUD showError:[self errorInfoWithSerialNumber:error]];
         }
         else if (error.code == -1001) {
             [MBProgressHUD showError:SMALocalizedString(@"alert_request_timeout")];
@@ -202,6 +202,37 @@ static bool passInt;
         _loginBut.enabled = NO;
     }
     return YES;
+}
+
+- (NSString *)errorInfoWithSerialNumber:(NSError *)error{
+    NSString *errStr;
+    switch (error.code) {
+        case 3501:
+            errStr = SMALocalizedString(@"account_error_3501");
+            break;
+        case 3503:
+            errStr = SMALocalizedString(@"account_error_3503");
+            break;
+        case 3505:
+            errStr = SMALocalizedString(@"account_error_3505");
+            break;
+        case 3506:
+            errStr = SMALocalizedString(@"account_error_3506");
+            break;
+        case 3507:
+            errStr = SMALocalizedString(@"account_error_3507");
+            break;
+        case 3508:
+            errStr = SMALocalizedString(@"account_error_3508");
+            break;
+        case 3509:
+            errStr = SMALocalizedString(@"account_error_3509");
+            break;
+        default:
+            errStr = [NSString stringWithFormat:@"code:%ld %@",(long)error.code,[error.userInfo objectForKey:@"errorInfo"]];
+            break;
+    }
+    return errStr;
 }
 /*
 #pragma mark - Navigation

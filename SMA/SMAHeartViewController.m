@@ -72,7 +72,9 @@
     [_pickView selectRow:50 * 24 + [HRInfo.beginhour0 integerValue] inComponent:0 animated:NO];
     [_pickView selectRow:50 * 24 + [HRInfo.endhour0 integerValue] inComponent:1 animated:NO];
     _openSwitch.on = HRInfo.isopen0.intValue;
-
+ 
+    _startLab.text = SMALocalizedString(@"setting_sedentary_star");
+    _stopLab.text = SMALocalizedString(@"setting_sedentary_end");
     _startDesLab.text = SMALocalizedString(@"setting_today");
     _stopDesLab.text = SMALocalizedString(@"setting_today");
     if ([HRInfo.beginhour0 integerValue] >= [HRInfo.endhour0 integerValue]) {

@@ -14,6 +14,7 @@
 #import "ZXRollView.h"
 #import "MTKSleepView.h"
 #import "WYScrollView.h"
+#import "SMASleepDetailCell.h"
 @interface SMASleepDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,corePlotViewDelegate,ZXRollViewDelegate,WYScrollViewLocalDelegate>
 @property (nonatomic, strong) NSDate *date;
 @end

@@ -81,7 +81,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 - (void)createUI{
     self.title = [self dateWithYMDWithDate:self.date];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithIcon:@"跑步" highIcon:@"跑步" frame:CGRectMake(0, 0, 45, 30) target:self action:@selector(runButton) transfrom:0];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithIcon:@"icon-yundong" highIcon:@"icon-yundong" frame:CGRectMake(0, 0, 45, 30) target:self action:@selector(runButton) transfrom:0];
     self.view.backgroundColor = [UIColor whiteColor];
     mainScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height)];
     mainScroll.backgroundColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];

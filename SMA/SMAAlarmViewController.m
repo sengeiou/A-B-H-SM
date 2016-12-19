@@ -120,10 +120,11 @@
     [cell tapSwitchBlock:^(UISwitch *openSwitch, SmaAlarmInfo *alarminfo) {
         if ([SmaBleMgr checkBLConnectState]) {
             SMADatabase *smaDal = [[SMADatabase alloc] init];
+            [alarmArr insertObject:alarminfo atIndex:indexPath.row];
             [smaDal insertClockInfo:alarminfo callback:^(BOOL result) {
                 [self initializeMethod];
                 [SmaBleSend setClockInfoV2:alarmArr];
-                NSLog(@"----%d",openSwitch.on);
+                NSLog(@"----%d  %d",openSwitch.on,indexPath.row);
             }];
         }
     }];

@@ -98,7 +98,7 @@
     authorLab.text = dicInof[@"extendAttrs"][@"objectData"][@"author"];
     [watchDetailView addSubview:authorLab];
     
-    NSArray *buttons = @[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_sedentary_confirm")];
+    NSArray *buttons = @[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_watchfact_sync")];
     bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(watchCase.frame) + 8, CGRectGetWidth(backView.frame), 59)];
 //    bottomView.backgroundColor = [UIColor redColor];
     [backView addSubview:bottomView];
@@ -337,6 +337,10 @@ static float i = 0.0;
     if (mode == CUFFSWITCHS) {
         _olSwitchArr = data;
     }
+}
+
+- (void)bleDisconnected:(NSString *)error{
+        [self setSwitchFail];
 }
 
 #pragma mark ***********SmaCoreBlueToolDelegate

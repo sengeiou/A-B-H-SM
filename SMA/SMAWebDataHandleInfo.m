@@ -74,7 +74,7 @@
         [slDic setObject:[SMADefaultinfos getValueforKey:BANDDEVELIVE] ? [SMADefaultinfos getValueforKey:BANDDEVELIVE]:@"SM07" forKey:@"INDEX"];
         [slDic setObject:@"1" forKey:@"WEB"];
         [slDic setObject:@"1" forKey:@"WEAR"];
-        [slDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
+        [slDic setObject:[[slList objectAtIndex:i] objectForKey:@"account"] forKey:@"USERID"];
         [slArr addObject:slDic];
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -96,7 +96,7 @@
         [spDic setObject:[dic objectForKey:@"step"] forKey:@"STEP"];
         [spDic setObject:[SMADefaultinfos getValueforKey:BANDDEVELIVE] ? [SMADefaultinfos getValueforKey:BANDDEVELIVE]:@"SM07" forKey:@"INDEX"];
         [spDic setObject:@"1" forKey:@"WEB"];
-        [spDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
+        [spDic setObject:[[spList objectAtIndex:i] objectForKey:@"account"] forKey:@"USERID"];
         [spArr addObject:spDic];
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -119,7 +119,7 @@
         //        [hrDic setObject:@"0" forKey:@"HRMODE"];
         [hrDic setObject:[SMADefaultinfos getValueforKey:BANDDEVELIVE] ? [SMADefaultinfos getValueforKey:BANDDEVELIVE]:@"SM07" forKey:@"INDEX"];
         [hrDic setObject:@"1" forKey:@"WEB"];
-        [hrDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
+        [hrDic setObject:[[hrList objectAtIndex:i] objectForKey:@"account"] forKey:@"USERID"];
         [hrArr addObject:hrDic];
     }
     SMADatabase *dal = [[SMADatabase alloc] init];

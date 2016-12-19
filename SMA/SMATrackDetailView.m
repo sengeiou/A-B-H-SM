@@ -79,7 +79,7 @@
     UILabel *disTitLab = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(disIma.frame) + 8, CGRectGetMaxY(disLab.frame) , CGRectGetWidth(disView.frame) - CGRectGetMaxX(disIma.frame) - 16, 26)];
     disTitLab.textAlignment = NSTextAlignmentCenter;
     disTitLab.font = FontGothamLight(14);
-    disTitLab.text = SMALocalizedString(@"device_RU_distance");
+    disTitLab.text = SMALocalizedString(@"device_SP_sumDista");
     disTitLab.textColor = [SmaColor colorWithHexString:@"#596877" alpha:1];
 //    disTitLab.backgroundColor = [UIColor blueColor];
     [disView addSubview:disIma];

@@ -58,7 +58,7 @@
     _timeLab.text = [NSString stringWithFormat:@"%@:%@",alarmInfo.hour,alarmInfo.minute];
     _titleLab.text = [NSString stringWithFormat:@"%@,",alarmInfo.tagname];
     _weakLab.text=[self weekStrConvert:alarmInfo.dayFlags];
-    _alarmSwitch.on = alarmInfo.isOpen;
+    _alarmSwitch.on = [alarmInfo.isOpen intValue];
     [self createUI];
 }
 

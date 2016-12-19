@@ -95,6 +95,7 @@
     UILabel *headerLab;
     headerLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 320, 20)];
     headerLab.font = FontGothamLight(14);
+    headerLab.numberOfLines = 2;
     headerLab.text = headerArr[section];
     headerLab.textColor = [SmaColor colorWithHexString:@"#AAABAD" alpha:1];
     if (section == 2) {
@@ -290,6 +291,10 @@
 - (IBAction)saveSelector:(id)sender{
     if ([SmaBleMgr checkBLConnectState]) {
         seat.stepValue = @"30";
+        if (seat.repeatWeek.intValue == 0) {
+            [MBProgressHUD showError:SMALocalizedString(@"setting_alarm_repeat")];
+            return;
+        }
         [SMAAccountTool saveSeat:seat];
         [SmaBleSend seatLongTimeInfoV2:seat];
         [MBProgressHUD showSuccess:SMALocalizedString(@"setting_setSuccess")];

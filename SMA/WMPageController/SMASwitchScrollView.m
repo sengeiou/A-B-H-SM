@@ -15,8 +15,9 @@
     endDeceBlock drceleraBlock;
 }
 - (instancetype)initWithSwitchs:(NSArray *)switchs{
-    self = [[SMASwitchScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 222)];
+    self = [[SMASwitchScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 192)];
     self.backgroundColor = [SmaColor colorWithHexString:@"#ECECEC" alpha:1];
+    self.showsHorizontalScrollIndicator = NO;
     self.pagingEnabled = YES;
     self.delegate = self;
     [self createUIWithSwitchs:switchs];
@@ -28,7 +29,7 @@
     int divisor = (int)[[switchs firstObject] count]/4;
    titleArr = @[SMALocalizedString(@"setting_antiLost"),SMALocalizedString(@"setting_noDistrub"),SMALocalizedString(@"setting_callNot"),SMALocalizedString(@"setting_smsNot"),SMALocalizedString(@"setting_screen")];
     imageArr = switchs;
-    NSArray *stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SCREENSET]]];
+    NSArray *stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:![SMADefaultinfos getIntValueforKey:SCREENSET]]];
     for (int i = 0; i < [[switchs firstObject] count]; i ++) {
         UIView *butView = [[UIView alloc] init];
         butView.backgroundColor = [UIColor whiteColor];
@@ -37,13 +38,13 @@
         int odd1 = i/4;
         int odd2 = (i/2)%2; //计算所在第一列还是第二列
         CGFloat originX = 0 + ((MainScreen.size.width - 1)/2 + 1) * odd + MainScreen.size.width * odd1;
-        CGFloat originY = 0 + ((222 - 1)/2 + 1) * odd2;
-        butView.frame = CGRectMake(originX, originY, (MainScreen.size.width - 1)/2, (222 - 1)/2);
+        CGFloat originY = 0 + ((self.frame.size.height - 1)/2 + 1) * odd2;
+        butView.frame = CGRectMake(originX, originY, (MainScreen.size.width - 1)/2, (self.frame.size.height - 1)/2);
         [self addSubButSubview:butView switchs:[stateArr[i] intValue] ? [switchs firstObject][i]:[switchs lastObject][i] title:titleArr[i]state:[stateArr[i] intValue]];
         [self addSubview:butView];
     }
     int page = remainder ? (divisor + 1):divisor;
-    self.contentSize = CGSizeMake(MainScreen.size.width * page, 222);
+    self.contentSize = CGSizeMake(MainScreen.size.width * page, self.frame.size.height);
 }
 
 - (void)addSubButSubview:(UIView *)view switchs:(NSString *)name title:(NSString *)title state:(int)state{
@@ -54,12 +55,12 @@
     [but addTarget:self action:@selector(butSelector:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:but];
     
-    UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 40, 40)];
+    UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 40, 40)];
     backImage.image = [UIImage imageNamed:name];
     backImage.center = CGPointMake(view.frame.size.width/2, backImage.center.y);
     [view addSubview:backImage];
     
-    UILabel *titlab = [[UILabel alloc] initWithFrame:CGRectMake(8, CGRectGetMaxY(backImage.frame) + 8, view.frame.size.width - 16, view.frame.size.height - 76)];
+    UILabel *titlab = [[UILabel alloc] initWithFrame:CGRectMake(8, CGRectGetMaxY(backImage.frame) + 8, view.frame.size.width - 16, view.frame.size.height - 64)];
     titlab.textAlignment = NSTextAlignmentCenter;
     titlab.font = FontGothamLight(12);
     titlab.text = title;
@@ -105,7 +106,7 @@
                 [SmaBleSend setSmspark:[SMADefaultinfos getIntValueforKey:SMSSET]];
                 break;
             case 1050:
-                [SMADefaultinfos putInt:SCREENSET andValue:sender.selected];
+                [SMADefaultinfos putInt:SCREENSET andValue:!sender.selected];
                 [SmaBleSend setVertical:[SMADefaultinfos getIntValueforKey:SCREENSET]];
                 break;
                 

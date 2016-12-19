@@ -40,7 +40,7 @@
 }
 
 - (void)initializeMethod{
-    deviceArr = @[/*@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail")],*/@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail")]];
+    deviceArr = @[@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"SMA_07"]];
 }
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_band_title");
@@ -58,7 +58,7 @@
 - (IBAction)unPairSelector:(id)sender{
     SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
     controller.isLogin = NO;
-    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"排行"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
     NSArray *arrControllers = controller.viewControllers;
     for (int i = 0; i < arrControllers.count; i ++) {
     SMANavViewController *nav = [arrControllers objectAtIndex:i];
@@ -86,6 +86,7 @@
     if (!cell) {
         cell = (SMASelectCell *) [[[NSBundle mainBundle] loadNibNamed:@"SMASelectCell" owner:nil options:nil] lastObject];
     }
+    cell.coachIma.image = [UIImage imageNamed:[[deviceArr objectAtIndex:indexPath.row] objectAtIndex:2]];
     cell.coachLab.text = [[deviceArr objectAtIndex:indexPath.row] objectAtIndex:0];
     cell.detailLab.text = [[deviceArr objectAtIndex:indexPath.row] objectAtIndex:1];
     UIImageView *backgroundIma = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170)];
@@ -97,12 +98,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (indexPath.row == 0) {
-//        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
-//    }
     if (indexPath.row == 0){
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-Q2"];
     }
+    if (indexPath.row == 1) {
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
+    }
+
     self.navigationController.leftItemHidden = NO;
     [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAPairViewController"] animated:YES];
 }

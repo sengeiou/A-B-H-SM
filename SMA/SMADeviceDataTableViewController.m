@@ -305,7 +305,7 @@
                 cell.pulldownView.hidden = YES;
                 cell.roundView.progressViewClass = [SDRotationLoopProgressView class];
                 cell.roundView.progressView.progress = [[[HRArr firstObject] objectForKey:@"REAT"] intValue]/200.0;
-                cell.titLab.text = SMALocalizedString(@"device_HR_monitor");
+                cell.titLab.text = SMALocalizedString(@"setting_heart_monitor");
                 cell.dialLab.text = [self hrMode:[[[HRArr firstObject] objectForKey:@"REAT"] intValue]];
                 cell.stypeLab.text = @"";
 //                cell.detailsTitLab1.text = SMALocalizedString(@"device_HR_rest");
@@ -324,7 +324,7 @@
                 CGSize remindSize;
                 NSString *remindStr;
                 if (button.tag == 101) {
-                    remindStr = SMALocalizedString(@"device_HR_rest");
+                    remindStr = SMALocalizedString(@"device_HR_quiet");
                 }
                 else if(button.tag == 102){
                     remindStr = SMALocalizedString(@"device_HR_mean");
@@ -663,7 +663,7 @@
         sleepState = SMALocalizedString(@"device_SL_typeT");
     }
     else if (sleepHour/60 >= 6 && sleepHour/60 <= 8 && deepAmount >= 4){
-        sleepState = SMALocalizedString(@"device_SL_typeS");
+        sleepState = SMALocalizedString(@"device_SL_typeG");
     }
     else if (sleepHour/60 >= 6 && sleepHour/60 <= 8 && deepAmount >= 3 && deepAmount < 4){
         sleepState = SMALocalizedString(@"device_SL_typeS");
@@ -672,7 +672,7 @@
         sleepState = SMALocalizedString(@"device_SL_typeF");
     }
     NSMutableArray *sleep = [NSMutableArray array];
-    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",sleepHour/60],@"h",[NSString stringWithFormat:@"%d",sleepHour%60],@"m"] fontArr:@[FontGothamLight(20),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];
+    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",sleepHour/60],@"h",[NSString stringWithFormat:@"%@%d",sleepHour%60 < 60 ? @"0":@"",sleepHour%60],@"m"] fontArr:@[FontGothamLight(20),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];
     [sleep addObject:sleepState];
     [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",deepSleepAmount/60],@"h",[NSString stringWithFormat:@"%@%d",deepSleepAmount%60 < 10 ? @"0": @"",deepSleepAmount%60],@"m"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];
     [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",simpleSleepAmount/60],@"h",[NSString stringWithFormat:@"%@%d",simpleSleepAmount%60 < 10 ? @"0":@"",simpleSleepAmount%60],@"m"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];

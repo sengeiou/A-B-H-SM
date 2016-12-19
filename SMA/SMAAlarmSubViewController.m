@@ -95,7 +95,11 @@
 - (IBAction)saveSelector:(id)sender{
     if ([SmaBleMgr checkBLConnectState]) {
         if ([_alarmInfo.tagname dataUsingEncoding:NSUTF8StringEncoding].length > 17) {
-            [MBProgressHUD showError:SMALocalizedString(@"标签过长")];
+            [MBProgressHUD showError:SMALocalizedString(@"setting_alarm_itileLong")];
+            return;
+        }
+        if (_alarmInfo.dayFlags.intValue == 0) {
+            [MBProgressHUD showError:SMALocalizedString(@"setting_alarm_repeat")];
             return;
         }
         SMADatabase *smaDal = [[SMADatabase alloc] init];
@@ -200,13 +204,13 @@
 }
 
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+/*- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if ([aString dataUsingEncoding:NSUTF8StringEncoding].length > 18) {
+    if ([aString dataUsingEncoding:NSUTF8StringEncoding].length > 17) {
         return NO;
     }
     return YES;
-}
+}*/
 /*
  #pragma mark - Navigation
  

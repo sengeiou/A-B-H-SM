@@ -41,6 +41,7 @@
 }
 
 - (void)createUI{
+    self.title = SMALocalizedString(@"device_RU_title");
     self.tableView = [[UITableView alloc] initWithFrame:
                       CGRectMake(0, 64, MainScreen.size.width, MainScreen.size.height - 64)  style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [SmaColor colorWithHexString:@"#F7F7F7" alpha:1];
@@ -89,7 +90,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SMATrackViewController *trackVC = [[SMATrackViewController alloc] init];
     trackVC.runDic = (NSMutableDictionary *)runDetailArr[indexPath.row];
-    [self.navigationController pushViewController:trackVC animated:YES];
+//    [self.navigationController pushViewController:trackVC animated:YES];
 }
 
 - (NSMutableArray *)getRunFullWithData:(NSMutableArray *)runData{

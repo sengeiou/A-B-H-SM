@@ -276,6 +276,11 @@ typedef enum {
  */
 - (void)setHourly:(BOOL) hourly;
 
+/*公英制设置
+ @parmar british  YES 英制，NO 公制
+ */
+- (void)setBritishSystem:(BOOL)british;
+
 /*高速模式
  @parmar open  YES开启，NO关闭
  */

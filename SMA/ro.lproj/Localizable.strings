@@ -9,7 +9,9 @@
 "firstLun_taste" = "开始体验";
 
 //登录注册页
-"login_smaTit" = "开启智能生活";
+"login_smaTit" = "属于你的 SMA 智能生活";
+"login_smaTitS" = "记录你的健康数据";
+"login_smaTitT" = "分享你的汗水与努力";
 "login_login" = "Conectare";
 "login_regis" = "Înregistrare";
 "login_resetpass" = "Căutare parolă?";
@@ -116,6 +118,9 @@
 "device_SL_fallTime" = "Somn";
 "device_SL_wakeTime" = "Oră trezire";
 "device_SL_sleepTime" = "Timp pentru somn";
+"device_SL_soberDuration" = "Oră trezire";
+"device_SL_deepDuration" = "Somn profund";
+"device_SL_lightDuration" = "Somn superficial";
 "device_SL_none" = "无";
 "device_SL_avgAwake" = "平均清醒";
 "device_SL_avgDeep" = "平均深睡";
@@ -148,7 +153,7 @@
 "setting_seconds" = "secunde";
 "setting_turnOff" = "OFF";
 "setting_band_title" = "绑定设备";
-"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。续航15天。";
+"setting_band_07detail" = "实时心率监测，同步电话、短信，运动拍照功能。";
 "setting_band_buywatch" = "Cumpără SMA-WATCH";
 "setting_band_unPair" = "Conectare ulterioară";
 "setting_band_tryAgain" = "重试";
@@ -187,7 +192,8 @@
 "setting_sedentary_time" = "Interval";
 "setting_sedentary_timeout" = "Timp de inactivitate";
 "setting_sedentary_minute" = "M";
-"setting_sedentary_hour" = "小时";
+"setting_sedentary_deMinute" = "min";
+"setting_sedentary_hour" = "Oră";
 "setting_sedentary_remind" = "*久坐时间段通用一个重复与久坐时长";
 "setting_sedentary_star" = "Start";
 "setting_sedentary_end" = "Sfârşit";
@@ -218,6 +224,12 @@
 "setting_watchface_pointer" = "pointer";
 "setting_watchface_number" = "number";
 "setting_watchface_other" = "other";
+"setting_photograph" = "智能拍照";
+"setting_dfu_update" = "点击升级";
+"setting_dfu_newest" = "Software-ul dvs. este actualizat.";
+"setting_dfu_remind" = "升级前请确保电量大于50%";
+"setting_dfu_nowVer" = "当前固件版本...";
+"setting_dfu_newsetVer" = "最新固件版本";
 
 //我的页面
 "me_title" = "我的";
@@ -253,7 +265,14 @@
 "me_goal_suggest" = "专家建议：\n每天运动10000步是积极的健康生活方式";
 "me_set_version" = "Versiune";
 "me_set_feedback" = "意见反馈";
-"me_set_about" = "关于我们";
+"me_set_feedback_problem" = "问题详情";
+"me_set_feedback_relation" = "联系方式";
+"me_set_feedback_content" = "请输入联系方式";
+"me_set_feeback_contact" = "请输入内容";
+"me_set_feeback_subSucc" = "提交成功";
+"me_set_feeback_subFail" = "提交失败";
+"me_set_feeback_submit" = "提交";
+"me_set_about" = "Despre noi";
 "me_chanPass_oldPass" = "原密码";
 "me_chanPass_newPass" = "新密码";
 "me_chanPass_affirmPass" = "确认密码";

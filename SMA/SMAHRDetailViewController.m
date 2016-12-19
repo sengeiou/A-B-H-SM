@@ -405,7 +405,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 #pragma mark *******UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"gwgg==%f  %@",scrollView.contentOffset.y,NSStringFromCGSize(mainScroll.contentSize));
+//    NSLog(@"gwgg==%f  %@",scrollView.contentOffset.y,NSStringFromCGSize(mainScroll.contentSize));
 //    if (scrollView == mainScroll && scrollView.contentOffset.y < 145 && cycle == 0) {
 //        detailTabView.scrollEnabled = NO;
 //        [detailTabView setContentOffset:CGPointMake(0.0, 0) animated:NO];
@@ -713,7 +713,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                         [fullDatas removeLastObject];
                     }
                     time = i;
-                    [fullDatas addObject:dic];
+                    NSMutableDictionary *newDic = [dic mutableCopy];
+                    [newDic setObject:[NSString stringWithFormat:@"%d",i*hrCycle] forKey:@"TIME"];
+                    [fullDatas addObject:newDic];
                     found = YES;
                 }
                 else{
