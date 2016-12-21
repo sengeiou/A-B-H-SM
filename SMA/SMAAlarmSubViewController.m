@@ -121,7 +121,7 @@
         NSTimeInterval timeIntervalSinceNow = [[formatter dateFromString:[NSString stringWithFormat:@"%@%@%@00",[formatter1 stringFromDate:now],_alarmInfo.hour.intValue<10?[NSString stringWithFormat:@"0%@",_alarmInfo.hour]:_alarmInfo.hour,_alarmInfo.minute.intValue < 10?[NSString stringWithFormat:@"0%@",_alarmInfo.minute]:_alarmInfo.minute]] timeIntervalSince1970];
         _alarmInfo.isOpen = @"1";
         _alarmInfo.isWeb = @"0";
-        [smaDal insertClockInfo:_alarmInfo callback:^(BOOL result) {
+        [smaDal insertClockInfo:_alarmInfo account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
             [self.navigationController popViewControllerAnimated:YES];
             if (_delegate && [_delegate respondsToSelector:@selector(didEditAlarmInfo:)]) {
                 [self.delegate didEditAlarmInfo:_alarmInfo];

@@ -31,7 +31,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
+//    SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
 //    [webTool acloudSetScore:20013];
     [self createUI];
 }
@@ -46,6 +46,7 @@
     if (img) {
         [_photoBut setBackgroundImage:img forState:UIControlStateNormal];
     }
+    _nicknameLab.text = [NSString stringWithFormat:@"%@\n%@",[SMAAccountTool userInfo].userName,[SMAAccountTool userInfo].userID];
     _personalLab.text = SMALocalizedString(@"me_perso_title");
     _goalLab.text = SMALocalizedString(@"me_sport_goal");
     _moreLab.text = SMALocalizedString(@"me_more_set");

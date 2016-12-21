@@ -283,8 +283,6 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     fileInfo.filePath = uniquePath;
     fileInfo.acl = [[ACACL alloc] init];
     ACFileManager *upManager = [[ACFileManager alloc] init];
-//    NSData *data = [NSData dataWithContentsOfFile:uniquePath];
-//    UIImage *img = [[UIImage alloc] initWithData:data];
     [upManager uploadFileWithfileInfo:fileInfo progressCallback:^(float progress) {
     } voidCallback:^(ACMsg *responseObject, NSError *error) {
         NSLog(@"error %@",error);

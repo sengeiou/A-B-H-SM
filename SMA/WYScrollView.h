@@ -68,9 +68,9 @@
 /*指定绘图类别 0 运动 1 睡眠 2心率*/
 @property (nonatomic, assign) int categorymode;
 
-@property (nonatomic, strong)NSArray *identifiers; //每组数据的标识字符串，一般用于阐明改组数据的属性
+@property (nonatomic, strong) NSArray *identifiers; //每组数据的标识字符串，一般用于阐明改组数据的属性
 
-@property (nonatomic, strong)NSArray *lineColors;  //曲线颜色。长度与yValues相等，包含的元素为CPTColor类
+@property (nonatomic, strong) NSArray *lineColors;  //曲线颜色。长度与yValues相等，包含的元素为CPTColor类
 
 @property (nonatomic, assign) BOOL sleepDayDraw;  //绘制睡眠当天图像
 
@@ -79,6 +79,8 @@
 
 /*是否隐藏最后一条数据*/
 @property (nonatomic, assign) BOOL yValueHiden;
+
+@property (nonatomic, assign) BOOL yDraw; //是否画坐标虚线
 
 @property (nonatomic, assign) BOOL showBarGoap;//是否显示柱状图上下圆点
 
@@ -94,6 +96,10 @@
 @property (nonatomic, assign) CGFloat barOffset;
 
 @property (nonatomic, strong) NSMutableArray *imageArray;
+
+@property (nonatomic, strong) NSString *coordsLab; //坐标名字（虚线）
+
+@property (nonatomic, assign) CGFloat coordsPlace; //坐标位置（虚线）
 /**
  *  本地图片
  *

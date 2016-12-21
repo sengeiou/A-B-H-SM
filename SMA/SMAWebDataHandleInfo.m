@@ -150,7 +150,7 @@
         info.isOpen = [NSString stringWithFormat:@"%d",[[dic objectForKey:@"isopen"] intValue]];
         info.isWeb = @"1";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            [dal insertClockInfo:info callback:^(BOOL result) {
+            [dal insertClockInfo:info account:[[alList objectAtIndex:i] objectForKey:@"account"] callback:^(BOOL result) {
                 saveAccount ++;
                 if (saveAccount == alList.count) {
                     callBack([NSString stringWithFormat:@"%d",result]);

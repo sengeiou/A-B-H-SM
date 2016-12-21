@@ -118,6 +118,7 @@
 
 - (void)createScrollView
 {
+    self.backgroundColor = [UIColor clearColor];
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
     [self addSubview:scrollView];
     scrollView.backgroundColor = [UIColor clearColor];
@@ -482,13 +483,38 @@
 //        _scrollView.scrollEnabled = YES;
 //    }
 }
-/*
+
+
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    // Drawing code
+    
+    if (_yDraw) {
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:_coordsLab attributes:@{NSFontAttributeName : FontGothamLight(13),NSForegroundColorAttributeName : [UIColor whiteColor]}];
+        CGSize strSize = [_coordsLab sizeWithAttributes:@{NSFontAttributeName : FontGothamLight(13)}];
+        
+        CGFloat strX = 0 ;
+        CGFloat strY = _coordsPlace - strSize.height * 0.5;
+        [attrStr drawAtPoint:CGPointMake(strX, strY)];
+        
+        CGContextRef currentContext = UIGraphicsGetCurrentContext();
+        //设置虚线颜色
+        CGContextSetStrokeColorWithColor(currentContext, [UIColor whiteColor].CGColor);
+        //设置虚线宽度
+        CGContextSetLineWidth(currentContext, 0.5);
+        //设置虚线绘制起点
+        CGContextMoveToPoint(currentContext, 5 + strSize.width, _coordsPlace);
+        //设置虚线绘制终点
+        CGContextAddLineToPoint(currentContext, self.frame.origin.x + self.frame.size.width, _coordsPlace);
+        //设置虚线排列的宽度间隔:下面的arr中的数字表示先绘制3个点再绘制1个点
+        CGFloat arr[] = {3, 1};
+        //下面最后一个参数“2”代表排列的个数。
+        CGContextSetLineDash(currentContext, 0, arr, 2);
+        //画线
+        CGContextDrawPath(currentContext, kCGPathStroke);
+    }
 }
-*/
+
 
 @end
 // 版权属于原作者

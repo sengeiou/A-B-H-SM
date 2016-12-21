@@ -52,13 +52,17 @@
         changeBgTimer = nil;
     }
     index = 0;
-    changeBgTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeSubview) userInfo:nil repeats:YES];
+    changeBgTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(changeSubview) userInfo:nil repeats:YES];
 }
 
 - (void)changeSubview{
-    int random = [self getRandomNumber:1 to:3];
-    _titLab.text = titLabArr[random - 1];
-    _backIma.image = [UIImage imageWithName:[NSString stringWithFormat:@"new_feature_%d",random]];
+//    int random = [self getRandomNumber:1 to:3];
+    index ++;
+    _titLab.text = titLabArr[index - 1];
+    _backIma.image = [UIImage imageWithName:[NSString stringWithFormat:@"new_feature_%d",index]];
+    if (index == 3) {
+        index = 0;
+    }
 }
 
 //获取一个随机整数，范围在[from,to），包括from，包括to

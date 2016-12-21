@@ -38,6 +38,7 @@
 }
 
 - (void)createUI{
+    self.title = SMALocalizedString(@"rank_title");
     //    self.tableView.delegate = self;
     //    self.tableView.dataSource = self;
 }

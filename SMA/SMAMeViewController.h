@@ -11,7 +11,7 @@
 #import "SMAPhotoSelectView.h"
 #import "SMACenterAlerView.h"
 @interface SMAMeViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,BLConnectDelegate,cenAlerButDelegate>
-@property (nonatomic, weak) IBOutlet UILabel *personalLab, *goalLab, *moreLab, *helpLab, *signOutLab;
+@property (nonatomic, weak) IBOutlet UILabel *nicknameLab, *personalLab, *goalLab, *moreLab, *helpLab, *signOutLab;
 @property (nonatomic, weak) IBOutlet UIButton *photoBut;
 @property (nonatomic, weak) IBOutlet UIImageView *photoIma;
 @end

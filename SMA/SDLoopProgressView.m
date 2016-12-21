@@ -26,7 +26,7 @@
     CGContextAddArc(ctx, xCenter, yCenter, radius, - M_PI * 0.5 + 0.1, to, 0);
     CGContextStrokePath(ctx);
     
-    [[UIColor blackColor] set];
+    [SDColorMaker(68, 68, 68, 1) set];
     CGContextRef ctx1 = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(ctx1, 2);
     CGContextSetLineCap(ctx1, kCGLineCapRound);
@@ -48,7 +48,7 @@
 //    attributes[NSFontAttributeName] = FontGothamLight(25 * SDProgressViewFontScale);
 //    attributes[NSForegroundColorAttributeName] = [UIColor lightGrayColor];
     
-    [self setCenterProgressText:self.titleLab uintText:self.titleLab.intValue > 1? SMALocalizedString(@"device_SP_steps"):SMALocalizedString(@"device_SP_step") textFont:self.titleLab.intValue>100000?FontGothamLight(17 * SDProgressViewFontScale):FontGothamLight(20 * SDProgressViewFontScale) uintFont:FontGothamLight(15 * SDProgressViewFontScale)];
+    [self setCenterProgressText:self.titleLab uintText:self.titleLab.intValue > 1? SMALocalizedString(@"device_SP_steps"):SMALocalizedString(@"device_SP_step") textFont:self.titleLab.intValue>100000?FontGothamLight(17 * SDProgressViewFontScale):FontGothamLight(20 * SDProgressViewFontScale) uintFont:FontGothamLight(13 * SDProgressViewFontScale)];
 }
 
 @end

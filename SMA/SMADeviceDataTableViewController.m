@@ -259,6 +259,7 @@
             cell.roundView.progressView.progress = [[spArr lastObject] count] > 0 ? [[[[spArr lastObject] lastObject] objectForKey:@"STEP"] floatValue]/([SMAAccountTool userInfo].userGoal.intValue == 0 ? 1.000:[SMAAccountTool userInfo].userGoal.floatValue):0.0;
             cell.roundView.progressView.titleLab = [[spArr lastObject] count] > 0 ? [[[spArr lastObject] lastObject] objectForKey:@"STEP"]:@"0";
             cell.titLab.text = SMALocalizedString(@"device_SP_goal");
+            cell.titLab.textColor = [UIColor colorWithRed:31/255.0 green:144/255.0 blue:234/255.0 alpha:1];
             cell.dialLab.text = [SMAAccountTool userInfo].userGoal;
             cell.stypeLab.text = [SMAAccountTool userInfo].userGoal.intValue < 2? SMALocalizedString(@"device_SP_step"):SMALocalizedString(@"device_SP_steps");
 
@@ -306,6 +307,7 @@
                 cell.roundView.progressViewClass = [SDRotationLoopProgressView class];
                 cell.roundView.progressView.progress = [[[HRArr firstObject] objectForKey:@"REAT"] intValue]/200.0;
                 cell.titLab.text = SMALocalizedString(@"setting_heart_monitor");
+                cell.titLab.textColor = [UIColor colorWithRed:234/255.0 green:31/255.0 blue:117/255.0 alpha:1];
                 cell.dialLab.text = [self hrMode:[[[HRArr firstObject] objectForKey:@"REAT"] intValue]];
                 cell.stypeLab.text = @"";
 //                cell.detailsTitLab1.text = SMALocalizedString(@"device_HR_rest");
@@ -350,6 +352,7 @@
                 cell.roundView.progressView.startTime = [[sleepArr objectAtIndex:5] floatValue];
                 cell.roundView.progressView.endTime = [[sleepArr objectAtIndex:6] floatValue];
                 cell.titLab.text = [sleepArr objectAtIndex:1];
+                cell.titLab.textColor = [UIColor colorWithRed:44/255.0 green:203/255.0 blue:111/255.0 alpha:1];
                 cell.stypeLab.text = @"";
                 cell.stypeLab.font = FontGothamLight(18);
                 cell.stypeLab.textColor = [SmaColor colorWithHexString:@"#2CCB6F" alpha:1];

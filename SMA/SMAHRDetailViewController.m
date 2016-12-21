@@ -135,7 +135,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     for (UIView *view in mainScroll.subviews) {
         [view removeFromSuperview];
     }
-    UIView *detailBackView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, 260)];
+    UIView *detailBackView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, MainScreen.size.height * 0.372)];
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.borderWidth = 0;
     _gradientLayer.frame = detailBackView.bounds;
@@ -148,7 +148,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     
     [mainScroll addSubview:detailBackView];
     /** 设置本地scrollView的Frame及所需图片*/
-    WYLocalScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 260) WithLocalImages:aggregateData];
+    WYLocalScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height * 0.372) WithLocalImages:aggregateData];
     /** 设置滚动延时*/
     WYLocalScrollView.AutoScrollDelay = 0;
     WYLocalScrollView.selectColor = selectTag == 101 ? YES : NO;
@@ -168,12 +168,18 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     /** 添加到当前View上*/
     [detailBackView addSubview:WYLocalScrollView];
     [WYLocalScrollView setMaxImageCount];
-    
+    WYLocalScrollView.yDraw = NO;
     // 促使视图切换时候保证图像不变化
     [mainScroll setContentOffset:CGPointMake(0, 0)];
     [self setViewTop:0 preference:YES];
     if (cycle == 0) {
         mainScroll.scrollEnabled = NO;
+//        WYLocalScrollView.yDraw = YES;
+//         NSMutableArray *HRArr = [aggregateData[1][2] mutableCopy];
+//        NSInteger max = [[HRArr valueForKeyPath:@"@max.intValue"] integerValue];
+//        WYLocalScrollView.coordsLab = [NSString stringWithFormat:@"%lD",max/2];
+//        WYLocalScrollView.coordsPlace = CGRectGetHeight(WYLocalScrollView.frame)/2;
+        
         UIView *quietView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame), MainScreen.size.width,44)];
         quietView.backgroundColor = [SmaColor colorWithHexString:@"#EA1F75" alpha:1];
         UIButton *quietBut = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -58,26 +58,55 @@
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    NSString *aString = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    NSLog(@"FWGGH==%@",aString);
-    if (aString.length > 400) {
+    
+    NSString *realTextViewText = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    UITextRange *selectedRange = [textView markedTextRange];
+    UITextPosition *pos = [textView positionFromPosition:selectedRange.start offset:0];
+    //如果有高亮
+    if (selectedRange&&pos) {
+        return YES;
+    }
+    _wordsNum.text = [NSString stringWithFormat:@"%lu/400",400 - realTextViewText.length];
+    if (realTextViewText.length > 400) {
+        NSInteger length = text.length + 400 - realTextViewText.length;
+        NSRange rg = {0,MAX(length,0)};
+        if (rg.length > 0) {
+            NSString *s = [text substringWithRange:rg];
+            [textView setText:[textView.text stringByReplacingCharactersInRange:range withString:s]];
+        }
         return NO;
     }
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-       [textView resignFirstResponder];
+        [textView resignFirstResponder];
     }
     return YES;
 }
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSString *aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-   if (aString.length > 100) {
+    NSString *realTextViewText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    UITextRange *selectedRange = [textField markedTextRange];
+    UITextPosition *pos = [textField positionFromPosition:selectedRange.start offset:0];
+    if ([string isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        [textField resignFirstResponder];
+    }
+    //如果有高亮
+    if (selectedRange&&pos) {
+        return YES;
+    }
+    if (realTextViewText.length > 100) {
+        NSInteger length = string.length + 100 - realTextViewText.length;
+        NSRange rg = {0,MAX(length,0)};
+        if (rg.length>0) {
+            NSString *s = [string substringWithRange:rg];
+            [textField setText:[textField.text stringByReplacingCharactersInRange:range withString:s]];
+        }
         return NO;
     }
-
-    return YES;
-}
+    if ([string isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        [textField resignFirstResponder];
+    }
+    return YES;}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
      [textField resignFirstResponder];

@@ -16,8 +16,8 @@
 }
 
 - (void)createUI{
-    _rankIma.layer.shouldRasterize = YES;
-    _rankIma.layer.rasterizationScale =  [UIScreen mainScreen].scale;
+//    _rankIma.layer.shouldRasterize = YES;
+//    _rankIma.layer.rasterizationScale =  [UIScreen mainScreen].scale;
     _rankIma.layer.masksToBounds = YES;
     _rankIma.layer.cornerRadius = 18.0f;
 }

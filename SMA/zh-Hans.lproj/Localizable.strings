@@ -81,6 +81,7 @@
 "device_SP_avgStep" = "日均步数";
 "device_SP_sumDista" = "里程";
 "device_SP_avgCal" = "日均消耗";
+"device_SP_heat" = "热量";
 "device_RU_per" = "时速";
 "device_RU_title" = "运动记录";
 "device_RU_pace" = "配速";
@@ -276,7 +277,18 @@
 "me_set_feeback_subFail" = "提交失败";
 "me_set_feeback_submit" = "提交";
 "me_set_about" = "关于我们";
-"me_set_about_content" = "       深圳市爱保护科技有限公司是一家专注于智能穿戴产品、方案开发设计生产的国家高新技术企业。\n       公司拥有智能穿戴行业所需的硬件软件开发、ID、MD设计、APP开发、服务器运营、系统集成、生产总装等完整的技术人才团队，致力于在运动、健康、儿童老人关爱、移动支付、居家互联等领域提供智能穿戴产品及解决方案。主要产品有智能手表、智能手环、儿童定位安全手表、老人智慧看护手表等4大系列十几个型号的产品，在移动支付、居家互联方面提供智能解决方案。\n公司于2009年在香港注册成立，随后在深圳创立国内总部，以产品、方案、定制、协作等多样灵活的合作方式与世界各地广大的渠道商、经销商、合作伙伴携手前行、共赢发展。目前，公司产品出口欧洲、北美、东南亚、阿拉伯等地区，业务遍布全国30个省市自治区直辖市。\n       爱保护科技，让爱永远保护您！\n\n联系方式\n\n官方网站：www.smawatch.com\n\n官方微博：http://weibo.com/u/5424997974/home?wvr=5&lf=reg\n\n公司邮箱：sales@smawatch.com\nhelen@smawatch.com\n\n售后热线：0755-27915058\n\n客服QQ：1678017731";
+"me_set_about_content1" = "       深圳市爱保护科技有限公司是一家专注于智能穿戴产品、方案开发设计生产的国家高新技术企业。";
+"me_set_about_content2" = "       公司拥有智能穿戴行业所需的硬件软件开发、ID、MD设计、APP开发、服务器运营、系统集成、生产总装等完整的技术人才团队，致力于在运动、健康、儿童老人关爱、移动支付、居家互联等领域提供智能穿戴产品及解决方案。主要产品有智能手表、智能手环、儿童定位安全手表、老人智慧看护手表等4大系列十几个型号的产品，在移动支付、居家互联方面提供智能解决方案。";
+"me_set_about_content3" = "       公司于2009年在香港注册成立，随后在深圳创立国内总部，以产品、方案、定制、协作等多样灵活的合作方式与世界各地广大的渠道商、经销商、合作伙伴携手前行、共赢发展。目前，公司产品出口欧洲、北美、东南亚、阿拉伯等地区，业务遍布全国30个省市自治区直辖市。";
+"me_set_about_content4" = "       爱保护科技，让爱永远保护您！\n";
+"me_set_about_content5" = "联系方式";
+"me_set_about_content6" = "官方网站：";
+"me_set_about_content7" = "官方微博：";
+"me_set_about_content8" = "公司邮箱：";
+"me_set_about_content9" = "售后热线：";
+"me_set_about_content10" = "客服QQ：";
+"me_set_about_public" = "SMA 订阅号";
+"me_set_about_service" = "SMA 服务号";
 "me_chanPass_oldPass" = "原密码";
 "me_chanPass_newPass" = "新密码";
 "me_chanPass_affirmPass" = "确认密码";

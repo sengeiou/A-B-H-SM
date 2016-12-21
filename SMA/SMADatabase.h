@@ -13,7 +13,7 @@
 @interface SMADatabase : NSObject
 @property (nonatomic, strong) FMDatabaseQueue *queue;
 //插入闹钟
-- (void)insertClockInfo:(SmaAlarmInfo *)clockInfo callback:(void (^)(BOOL result))callBack;
+- (void)insertClockInfo:(SmaAlarmInfo *)clockInfo account:(NSString *)account callback:(void (^)(BOOL result))callBack;
 //获取闹钟列表
 -(NSMutableArray *)selectClockList;
 //删除闹钟

@@ -97,13 +97,13 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
         [self.unitText removeFromSuperlayer];
         [self.imageLayer removeFromSuperlayer];//由于同时修改frame及transform导致图像旋转变形，因此移除再新建，原因不明
     CGPoint center = CGPointMake(rect.size.width/2.0f, rect.size.height/2.0f);
-    CGSize fontsize = [textStr sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(15 * SDProgressViewFontScale)}];
+    CGSize fontsize = [textStr sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(17 * SDProgressViewFontScale)}];
     CGFloat X = center.x -fontsize.width/2;
     CGFloat Y = center.y - fontsize.height/2;
     self.text = [CATextLayer layer];
     self.text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
     self.text.contentsScale   = [[UIScreen mainScreen] scale];
-    self.text.string          =[[NSAttributedString alloc] initWithString:textStr attributes:@{NSFontAttributeName : FontGothamLight(15 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor blackColor]}];
+    self.text.string          =[[NSAttributedString alloc] initWithString:textStr attributes:@{NSFontAttributeName : FontGothamLight(17 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.text.alignmentMode   = kCAAlignmentCenter;
     [self.layer addSublayer:self.text];
     
@@ -115,7 +115,7 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     self.unitText = [CATextLayer layer];
     self.unitText.frame           = CGRectMake(X1, Y1, unitFontsize.width, unitFontsize.height);
     self.unitText.contentsScale   = [[UIScreen mainScreen] scale];
-   self.unitText.string          =[[NSAttributedString alloc] initWithString:@"bpm" attributes:@{NSFontAttributeName : FontGothamLight(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+   self.unitText.string          =[[NSAttributedString alloc] initWithString:@"bpm" attributes:@{NSFontAttributeName : FontGothamLight(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
     self.unitText.alignmentMode   = kCAAlignmentCenter;
     [self.layer addSublayer:self.unitText];
 

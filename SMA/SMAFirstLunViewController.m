@@ -41,6 +41,8 @@
             but = [UIButton buttonWithType:UIButtonTypeCustom];
             but.frame = CGRectMake(0, MainScreen.size.height + 10, MainScreen.size.width - 120, 40);
             but.titleLabel.font = FontGothamLight(17);
+            but.layer.masksToBounds = YES;
+            but.layer.cornerRadius = 20.0;
             but.backgroundColor = [SmaColor colorWithHexString:@"#7EBFF9" alpha:1];
             but.center = CGPointMake(MainScreen.size.width/2, but.center.y);
             [but setTitle:SMALocalizedString(@"firstLun_taste") forState:UIControlStateNormal];

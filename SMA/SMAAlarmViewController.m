@@ -121,7 +121,7 @@
         if ([SmaBleMgr checkBLConnectState]) {
             SMADatabase *smaDal = [[SMADatabase alloc] init];
             [alarmArr insertObject:alarminfo atIndex:indexPath.row];
-            [smaDal insertClockInfo:alarminfo callback:^(BOOL result) {
+            [smaDal insertClockInfo:alarminfo account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
                 [self initializeMethod];
                 [SmaBleSend setClockInfoV2:alarmArr];
                 NSLog(@"----%d  %d",openSwitch.on,indexPath.row);

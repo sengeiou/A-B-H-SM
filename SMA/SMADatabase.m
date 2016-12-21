@@ -47,7 +47,7 @@
 }
 
 //插入闹钟
-- (void)insertClockInfo:(SmaAlarmInfo *)clockInfo callback:(void (^)(BOOL result))callBack{
+- (void)insertClockInfo:(SmaAlarmInfo *)clockInfo account:(NSString *)account callback:(void (^)(BOOL result))callBack{
     [self.queue inDatabase:^(FMDatabase *db) {
         [db beginTransaction];
         SmaAlarmInfo *info=clockInfo;
@@ -57,7 +57,7 @@
             date = [NSString stringWithFormat:@"%@%@%@%@%@00",info.year,info.mounth,info.day,info.hour,info.minute];
             NSTimeInterval timeInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:date timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
             
-            NSString *updatesql=[NSString stringWithFormat:@"update tb_clock set dayFlags='%@',aid=%d,timeInterval='%@',isopen=%d,tagname='%@',clock_web=%d where user_id=\'%@\' and clock_id=%d",info.dayFlags,[info.aid intValue],[NSString stringWithFormat:@"%f",timeInterval],[info.isOpen intValue],info.tagname,[info.isWeb intValue],[SMAAccountTool userInfo].userID,info.aid.intValue];
+            NSString *updatesql=[NSString stringWithFormat:@"update tb_clock set dayFlags='%@',aid=%d,timeInterval='%@',isopen=%d,tagname='%@',clock_web=%d where user_id=\'%@\' and clock_id=%d",info.dayFlags,[info.aid intValue],[NSString stringWithFormat:@"%f",timeInterval],[info.isOpen intValue],info.tagname,[info.isWeb intValue],account,info.aid.intValue];
             result = [db executeUpdate:updatesql];
             NSLog(@"修改闹钟 == %d",result);
         }
@@ -65,7 +65,7 @@
             
             date = [NSString stringWithFormat:@"%@%@%@%@%@00",info.year,info.mounth,info.day,info.hour,info.minute];
             NSTimeInterval timeInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:date timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-            result = [db executeUpdate:@"INSERT INTO tb_clock (user_id,dayFlags,aid,timeInterval,isopen,tagname,clock_web) VALUES (?,?,?,?,?,?,?);",[SMAAccountTool userInfo].userID,info.dayFlags,info.aid,[NSString stringWithFormat:@"%f",timeInterval],info.isOpen,info.tagname,info.isWeb];
+            result = [db executeUpdate:@"INSERT INTO tb_clock (user_id,dayFlags,aid,timeInterval,isopen,tagname,clock_web) VALUES (?,?,?,?,?,?,?);",account,info.dayFlags,info.aid,[NSString stringWithFormat:@"%f",timeInterval],info.isOpen,info.tagname,info.isWeb];
             NSLog(@"插入闹钟 == %d",result);
         }
         [db commit];
@@ -168,7 +168,7 @@
                 NSLog(@"步数更新  %d  步数  %@  模式  %@  时间 %@",result,[spDic objectForKey:@"STEP"],[spDic objectForKey:@"MODE"],moment);
             }
             else{
-                result =   [db executeUpdate:@"insert into tb_CuffSport (user_id,Cuff_id,date,time,step,ident,sp_mode,sp_web) values(?,?,?,?,?,?,?,?)",[SMAAccountTool userInfo].userID,spID,YTD,moment,[spDic objectForKey:@"STEP"],[spDic objectForKey:@"INDEX"],[spDic objectForKey:@"MODE"],[spDic objectForKey:@"WEB"]];
+                result =   [db executeUpdate:@"insert into tb_CuffSport (user_id,Cuff_id,date,time,step,ident,sp_mode,sp_web) values(?,?,?,?,?,?,?,?)",[spDic objectForKey:@"USERID"],spID,YTD,moment,[spDic objectForKey:@"STEP"],[spDic objectForKey:@"INDEX"],[spDic objectForKey:@"MODE"],[spDic objectForKey:@"WEB"]];
                 NSLog(@"步数插入  %d  步数  %@ 模式  %@ 时间 %@",result,[spDic objectForKey:@"STEP"],[spDic objectForKey:@"MODE"],moment);
             }
         }

@@ -27,6 +27,8 @@
     int aggregateIndex;
     CGFloat tableHeight;
     UIView *tabBarView;
+    int dateStep;
+    UILabel *disLab; UILabel *calLab;
 }
 @property (nonatomic, strong) SMADatabase *dal;
 
@@ -125,7 +127,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     for (UIView *view in mainScroll.subviews) {
         [view removeFromSuperview];
     }
-    UIView *detailBackView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, 260)];
+    UIView *detailBackView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,  MainScreen.size.width, MainScreen.size.height * 0.372)];
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.borderWidth = 0;
     _gradientLayer.frame = detailBackView.bounds;
@@ -138,7 +140,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     
     [mainScroll addSubview:detailBackView];
     /** 设置本地scrollView的Frame及所需图片*/
-    WYLocalScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 260) WithLocalImages:aggregateData];
+    WYLocalScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height * 0.372) WithLocalImages:aggregateData];
     /** 设置滚动延时*/
     WYLocalScrollView.AutoScrollDelay = 0;
     WYLocalScrollView.selectColor = selectTag == 101 ? YES : NO;
@@ -155,13 +157,62 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     /** 添加到当前View上*/
     [detailBackView addSubview:WYLocalScrollView];
     [WYLocalScrollView setMaxImageCount];
+    WYLocalScrollView.yDraw = NO;
+    [self setViewTop:0 preference:YES];
     
-     [self setViewTop:0 preference:YES];
     // 促使视图切换时候保证图像不变化
     [mainScroll setContentOffset:CGPointMake(0, 0)];
     if (selectTag == 101) {
+        WYLocalScrollView.yDraw = YES;
+        NSMutableArray *stepArr = [aggregateData[1][2] mutableCopy];
+        [stepArr removeObjectIdenticalTo:@"0"];
+        WYLocalScrollView.coordsLab = [SMAAccountTool userInfo].userGoal;
+        NSInteger max = [[stepArr valueForKeyPath:@"@max.intValue"] integerValue];
+        if (max <= [SMAAccountTool userInfo].userGoal.integerValue) {
+            max = [SMAAccountTool userInfo].userGoal.integerValue;
+        }
+        WYLocalScrollView.coordsPlace = 10 + (CGRectGetHeight(WYLocalScrollView.frame) - 10) * 0.86 * (1 - [SMAAccountTool userInfo].userGoal.floatValue/max);
+       
+        UIView *calView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
+        calView.backgroundColor =[UIColor colorWithRed:128/255.0 green:193/255.0 blue:249/255.0 alpha:1];
+        UIView *calTitView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(calView.frame)/2 - 0.5, CGRectGetHeight(calView.frame)/3 + 5)];
+        calTitView.backgroundColor = [SmaColor colorWithHexString:@"#5A94F9" alpha:1];
+        [calView addSubview:calTitView];
+        UILabel *calTitLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(calView.frame)/2 - 0.5, CGRectGetHeight(calTitView.frame))];
+        calTitLab.textAlignment = NSTextAlignmentCenter;
+        calTitLab.textColor = [UIColor whiteColor];
+        calTitLab.text = SMALocalizedString(@"device_SP_heat");
+        calTitLab.font = FontGothamLight(12);
+        
+        UIView *disTitView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(calView.frame)/2 + 1, 0, CGRectGetWidth(calView.frame)/2 - 0.5, CGRectGetHeight(calView.frame)/3 + 5)];
+        disTitView.backgroundColor = [SmaColor colorWithHexString:@"#5A94F9" alpha:1];
+        [calView addSubview:disTitView];
+        
+        UILabel *disTitLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(calView.frame)/2 - 0.5, CGRectGetHeight(disTitView.frame))];
+        disTitLab.textAlignment = NSTextAlignmentCenter;
+        disTitLab.text = SMALocalizedString(@"device_SP_sumDista");
+        disTitLab.font = FontGothamLight(12);
+        disTitLab.textColor = [UIColor whiteColor];
+        [calTitView addSubview:calTitLab];
+        [disTitView addSubview:disTitLab];
+        
+        calLab = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(calTitView.frame), CGRectGetWidth(calView.frame)/2 - 0.5, CGRectGetHeight(calView.frame)/3 * 2)];
+        calLab.textAlignment = NSTextAlignmentCenter;
+        calLab.textColor = [UIColor whiteColor];
+        calLab.backgroundColor = [SmaColor colorWithHexString:@"#5A94F9" alpha:1];
+        calLab.attributedText = [self putCalWithStep:[[stepArr lastObject] intValue]];
+        
+        disLab = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth(calView.frame)/2 + 1, CGRectGetMaxY(disTitView.frame), CGRectGetWidth(calView.frame)/2 - 0.5, CGRectGetHeight(calView.frame)/3 * 2)];
+        disLab.textAlignment = NSTextAlignmentCenter;
+        disLab.textColor = [UIColor whiteColor];
+        disLab.backgroundColor = [SmaColor colorWithHexString:@"#5A94F9" alpha:1];
+        disLab.attributedText = [self putDistanceWithStep:[[stepArr lastObject] intValue]];
+        [calView addSubview:calLab];
+        [calView addSubview:disLab];
+        [mainScroll addSubview:calView];
+        
         mainScroll.scrollEnabled = NO;
-        UIView *stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
+        UIView *stateView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(calView.frame), MainScreen.size.width, self.tabBarController.tabBar.frame.size.height)];
         stateView.backgroundColor = [UIColor whiteColor];
         UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, self.tabBarController.tabBar.frame.size.height)];
         timeLab.textAlignment = NSTextAlignmentCenter;
@@ -206,7 +257,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         layout.itemSize = CGSizeMake(([UIScreen mainScreen].bounds.size.width-1)/2, ([UIScreen mainScreen].bounds.size.width-1)/2);
         
         //创建collectionView 通过一个布局策略layout来创建
-        detailColView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 260 + 1, MainScreen.size.width, [UIScreen mainScreen].bounds.size.width-1) collectionViewLayout:layout];
+        detailColView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame) + 1, MainScreen.size.width, [UIScreen mainScreen].bounds.size.width-1) collectionViewLayout:layout];
         detailColView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:1];
         detailColView.delegate= self;
         detailColView.dataSource = self;
@@ -555,6 +606,20 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         else{
             scrollView.banRightSlide = NO;
         }
+        NSMutableArray *stepArr = [aggregateData[1][2] mutableCopy];
+        [stepArr removeObjectIdenticalTo:@"0"];
+        calLab.attributedText = [self putCalWithStep:[[stepArr lastObject] intValue]];
+        disLab.attributedText = [self putDistanceWithStep:[[stepArr lastObject] intValue]];
+        
+        WYLocalScrollView.yDraw = YES;
+        WYLocalScrollView.coordsLab = [SMAAccountTool userInfo].userGoal;
+        NSInteger max = [[stepArr valueForKeyPath:@"@max.intValue"] integerValue];
+        if (max <= [SMAAccountTool userInfo].userGoal.integerValue) {
+            max = [SMAAccountTool userInfo].userGoal.integerValue;
+        }
+        WYLocalScrollView.coordsPlace = 10 + (CGRectGetHeight(WYLocalScrollView.frame) - 10) * 0.86 * (1 - [SMAAccountTool userInfo].userGoal.floatValue/max);
+        [WYLocalScrollView setNeedsDisplay];
+        
         mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + self.tabBarController.tabBar.frame.size.height + [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
     }
     else if (selectTag == 102){
@@ -727,6 +792,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
      *  18-16 跑步开始到静坐开始---跑步时间
      *  18-17 跑步开始到步行开始---跑步时间
      */
+    dateStep = [[spDatas lastObject][@"STEP"] intValue];
     if (spDatas.count > 0) {
         NSMutableArray *detail = spDatas;
         for (int i = 0; i < detail.count; i ++) {
@@ -933,4 +999,44 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     return modeStr;
 }
 
+- (NSMutableAttributedString *)putDistanceWithStep:(int)step{
+    SMAUserInfo *user = [SMAAccountTool userInfo];
+    float distance = [SMACalculate countKMWithHeigh:user.userHeight.intValue step:step];
+    NSString *disStr = nil;
+    NSString *unitStr = nil;
+    if (user.unit) {
+        disStr = [SMACalculate notRounding:[SMACalculate convertToMile:distance] afterPoint:1];
+        unitStr = SMALocalizedString(@"device_SP_mile");
+    }
+    else{
+        disStr = [SMACalculate notRounding:distance afterPoint:1];
+        unitStr = SMALocalizedString(@"device_SP_km");
+    }
+    NSDictionary *disDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(22)};
+    NSDictionary *unitDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(14)};
+    NSAttributedString *disAtt = [[NSAttributedString alloc] initWithString:disStr attributes:disDic];
+    NSAttributedString *unitAtt = [[NSAttributedString alloc] initWithString:unitStr attributes:unitDic];
+    NSMutableAttributedString *disAttStr = [[NSMutableAttributedString alloc] init];
+    [disAttStr appendAttributedString:disAtt];
+    [disAttStr appendAttributedString:unitAtt];
+    return disAttStr;
+}
+
+- (NSMutableAttributedString *)putCalWithStep:(int)step{
+    SMAUserInfo *user = [SMAAccountTool userInfo];
+    float cal = [SMACalculate countCalWithSex:user.userSex userWeight:user.userWeigh.intValue step:step];
+    NSString *calStr = nil;
+    NSString *unitStr = nil;
+    
+    calStr = [SMACalculate notRounding:cal afterPoint:1];
+    unitStr = SMALocalizedString(@"device_SP_cal");
+    NSDictionary *disDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(22)};
+    NSDictionary *unitDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FontGothamLight(14)};
+    NSAttributedString *disAtt = [[NSAttributedString alloc] initWithString:calStr attributes:disDic];
+    NSAttributedString *unitAtt = [[NSAttributedString alloc] initWithString:unitStr attributes:unitDic];
+    NSMutableAttributedString *disAttStr = [[NSMutableAttributedString alloc] init];
+    [disAttStr appendAttributedString:disAtt];
+    [disAttStr appendAttributedString:unitAtt];
+    return disAttStr;
+}
 @end

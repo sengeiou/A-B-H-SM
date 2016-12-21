@@ -81,6 +81,7 @@
 "device_SP_avgStep" = "Avg steps";
 "device_SP_sumDista" = "Distance";
 "device_SP_avgCal" = "Avg calories";
+"device_SP_heat" = "Calories";
 "device_RU_per" = "Speed";
 "device_RU_title" = "Exercise record";
 "device_RU_pace" = "Pace";
@@ -276,7 +277,19 @@
 "me_set_feeback_subFail" = "Submit failed";
 "me_set_feeback_submit" = "Submit";
 "me_set_about" = "About us";
-"me_set_about_content" = "       Shenzhen Smart Care Technology Limited is a national high-tech enterprise that specialized in smart device, project development, design & production.        \n  We have a technical team for hardware, software, ID&MD design,  APP (IOS&Android) development, server operations, systems integration and production assembly. Engaging in offering Fitness/Health, Kids and Elder people care, Mobile pay, Smart home product solution and finished products. We have more 10 series products including smart watch, fitness tracker band, Kids GPS location watch and Elder people smart watch, offering hardware & software solution for Mobile pay and smart home. \n Smart Care was registered in Hong Kong in 2009, and later founded in domestic headquarters in Shenzhen. With flexible cooperation methods of products, solutions & customization, we are win-win development with channel vendors, distributors and partners of all over the world.At present, Smart Care business nearly 30 provinces, cities and autonomous regions in China, At the same time, we maintain business transaction with United States, Europe, South East Asia, Arab area etc.. \n Smart Care, care for you forever.！\n\n Contact \n\n Website：www.smawatch.com\n\n Facebook：https://www.facebook.com/smawatch520 \n\n Email：sales@smawatch.com \n helen@smawatch.com\n\n Hotline：0755-27915058\n\n QQ：1678017731";
+"me_set_about_content1" = "    Shenzhen Smart Care Technology Limited is a national high-tech enterprise that specialized in smart device, project development, design & production.";
+"me_set_about_content2" = "    We have a technical team for hardware, software, ID&MD design,  APP (IOS&Android) development, server operations, systems integration and production assembly. Engaging in offering Fitness/Health, Kids and Elder people care, Mobile pay, Smart home product solution and finished products. We have more 10 series products including smart watch, fitness tracker band, Kids GPS location watch and Elder people smart watch, offering hardware & software solution for Mobile pay and smart home.";
+"me_set_about_content3" = "    Smart Care was registered in Hong Kong in 2009, and later founded in domestic headquarters in Shenzhen. With flexible cooperation methods of products, solutions & customization, we are win-win development with channel vendors, distributors and partners of all over the world.At present, Smart Care business nearly 30 provinces, cities and autonomous regions in China, At the same time, we maintain business transaction with United States, Europe, South East Asia, Arab area etc..";
+"me_set_about_content4" = "    Smart Care, care for you forever！\n";
+"me_set_about_content5" = "Contact";
+"me_set_about_content6" = "Website：";
+"me_set_about_content7" = "Facebook：";
+"me_set_about_content8" = "Email：";
+"me_set_about_content9" = "Hotline：";
+"me_set_about_content10" = "QQ：";
+"me_set_about_public" = "SMA Subscriptions";
+"me_set_about_service" = "SMA Service Number";
+
 "me_chanPass_oldPass" = "Original password";
 "me_chanPass_newPass" = "New password";
 "me_chanPass_affirmPass" = "Confirm password";
