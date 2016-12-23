@@ -32,7 +32,7 @@
 }
 
 - (void)createUI{
-    
+    self.title = SMALocalizedString(@"me_set_about");
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
     NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
@@ -114,6 +114,7 @@
   **************************/
     
     textScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 64)];
+    textScroll.showsVerticalScrollIndicator = NO;
     [self.view addSubview:textScroll];
     
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 40)];
@@ -223,7 +224,7 @@
     [publicView addSubview:publicIma];
     [textScroll addSubview:publicView];
     
-    UIView *serviceView = [[UIView alloc] initWithFrame:CGRectMake(MainScreen.size.width - 146, CGRectGetMaxY(lab11.frame) + 16, 131, 155)];
+    UIView *serviceView = [[UIView alloc] initWithFrame:CGRectMake(MainScreen.size.width - 146, CGRectGetMaxY(lab11.frame) + 8, 131, 155)];
     UILabel *serviceLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 131, 34)];
     serviceLab.textAlignment = NSTextAlignmentCenter;
     serviceLab.numberOfLines = 2;
@@ -236,7 +237,6 @@
     [serviceView addSubview:serviceIma];
     [textScroll addSubview:serviceView];
     textScroll.contentSize = CGSizeMake( MainScreen.size.width,CGRectGetMaxY(serviceView.frame) + 5);
-    NSLog(@"fwgrgwhh---==%@",NSStringFromCGSize(textScroll.contentSize));
 }
 
 - (CGRect)getSize:(NSString *)str strDic:(NSDictionary *)dic{

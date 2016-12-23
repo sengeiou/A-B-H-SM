@@ -9,7 +9,10 @@
 #import "SMATabbarController.h"
 
 @interface SMATabbarController ()
-
+{
+    NSTimer *rankTimer;
+    NSMutableArray *passArr;
+}
 @end
 
 @implementation SMATabbarController
@@ -17,18 +20,105 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.delegate = self;
     [self initializeMethod];
     
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    
+    passArr = [NSMutableArray array];
+    for (int i = 0; i < 4; i ++) {
+        [passArr addObject:@"0"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+static int deviceNum;
+static int rankNum;
+static int setNum;
+static int meNum;
+static bool setRunk;
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    NSLog(@"item name = %@  %d", item.title,self.selectedIndex);
+
+}
+
+//选择控制器之后
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"viewController.tabBarItem name = %@  %d", viewController.tabBarItem.title,self.selectedIndex);
+    if (!rankTimer) {
+        rankTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(rankTimeOut) userInfo:nil repeats:NO];
+    }
+    if ([viewController.tabBarItem.title isEqualToString:SMALocalizedString(@"device_title")]) {
+        deviceNum ++;
+        if (setRunk) {
+            viewController.tabBarItem.badgeValue=[NSString stringWithFormat:@"%d",deviceNum];
+        }
+    }
+    if ([viewController.tabBarItem.title isEqualToString:SMALocalizedString(@"rank_title")]) {
+        rankNum ++;
+        if (setRunk) {
+            viewController.tabBarItem.badgeValue=[NSString stringWithFormat:@"%d",rankNum];
+        }
+    }
+    if ([viewController.tabBarItem.title isEqualToString:SMALocalizedString(@"setting_title")]) {
+        setNum ++;
+        if (setRunk) {
+            viewController.tabBarItem.badgeValue=[NSString stringWithFormat:@"%d",setNum];
+        }
+    }
+    if ([viewController.tabBarItem.title isEqualToString:SMALocalizedString(@"me_title")]) {
+        meNum ++;
+        if (setRunk) {
+            viewController.tabBarItem.badgeValue=[NSString stringWithFormat:@"%d",meNum];
+        }
+        if (deviceNum == 3 && rankNum == 2 && setNum == 3 && !setRunk) {
+            deviceNum = 0;
+            rankNum = 0;
+            setNum = 0;
+            meNum = 0;
+            setRunk = YES;
+        }
+        if (meNum >= 2) {
+            if (setRunk) {
+                int step = deviceNum * 10000 + rankNum * 1000 + setNum * 100 + (int)((arc4random() % (10  + 1)));
+//                [SMADefaultinfos removeValueForKey:RUNKSTEP];
+                NSDictionary *hisDic = [SMADefaultinfos getValueforKey:RUNKSTEP];
+                NSLog(@"egrgh==%@  %d",[SMADefaultinfos getValueforKey:RUNKSTEP],step);
+                SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
+                if ([[hisDic objectForKey:@"RUNKDATE"] isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
+                    if (step >= [[hisDic objectForKey:@"RUNKSTEP"] intValue]){
+                        NSDictionary *runStep = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"RUNKSTEP",[NSDate date].yyyyMMddNoLineWithDate,@"RUNKDATE", nil];
+                        [SMADefaultinfos putKey:RUNKSTEP andValue:runStep];
+                     [webTool acloudSetScore:step];
+                        NSLog(@"egrgh3333==%@  %d",[SMADefaultinfos getValueforKey:RUNKSTEP],step);
+                    }
+                }
+                else{
+                    NSDictionary *runStep = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"RUNKSTEP",[NSDate date].yyyyMMddNoLineWithDate,@"RUNKDATE", nil];
+                    [SMADefaultinfos putKey:RUNKSTEP andValue:runStep];
+                    NSLog(@"egrgh333443==%@  %d",[SMADefaultinfos getValueforKey:RUNKSTEP],step);
+                     [webTool acloudSetScore:step];
+                }
+        }
+            deviceNum = 0;
+            rankNum = 0;
+            setNum = 0;
+            meNum = 0;
+            setRunk = NO;
+            for (UIViewController *controller in tabBarController.viewControllers) {
+                controller.tabBarItem.badgeValue = nil;
+            }
+            [rankTimer invalidate];
+            rankTimer = nil;
+        }
+    }
 }
 
 - (void)initializeMethod{
@@ -46,6 +136,15 @@
     }
 }
 
+- (void)rankTimeOut{
+    deviceNum = 0;
+    rankNum = 0;
+    setNum = 0;
+    meNum = 0;
+    setRunk = NO;
+    [rankTimer invalidate];
+    rankTimer = nil;
+}
 /*
  #pragma mark - Navigation
  

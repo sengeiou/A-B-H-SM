@@ -81,4 +81,10 @@ extern NSString *const ACLinkerNameAPMode;
 - (void)searchAvailableWifiTimeout:(NSTimeInterval)timerout
                           callback:(void(^)(NSArray<ACWifiInfo *> *wifiInfo, NSError *error))callback;
 
+
+/**
+ * 设置配网调试开关
+ */
+- (void)setWifiLinkDebugMode:(BOOL)enabled;
+
 @end

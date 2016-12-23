@@ -41,6 +41,8 @@
     self.title = SMALocalizedString(@"rank_title");
     //    self.tableView.delegate = self;
     //    self.tableView.dataSource = self;
+    SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
+//    [webTool acloudSetScore:13670];
 }
 
 

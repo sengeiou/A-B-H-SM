@@ -481,9 +481,21 @@ static id _instace;
                         //上传运动步数到排行榜
                         SMADatabase *dal = [[SMADatabase alloc] init];
                         NSMutableArray *spArr = [dal readSportDataWithDate:[NSDate date].yyyyMMddNoLineWithDate toDate:[NSDate date].yyyyMMddNoLineWithDate];
-                        NSLog(@"spArr==%@",[spArr firstObject]);
+                        int step = [[[spArr firstObject] objectForKey:@"STEP"] intValue];
                         SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
-                        [webTool acloudSetScore:[[[spArr firstObject] objectForKey:@"STEP"] intValue]];
+                        NSDictionary *hisDic = [SMADefaultinfos getValueforKey:RUNKSTEP];
+                        if ([[hisDic objectForKey:@"RUNKDATE"] isEqualToString:[[spArr firstObject] objectForKey:@"DATE"]]) {
+                            if (step > [[hisDic objectForKey:@"RUNKSTEP"] intValue]){
+                                NSDictionary *runStep = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"RUNKSTEP",[NSDate date].yyyyMMddNoLineWithDate,@"RUNKDATE", nil];
+                                [SMADefaultinfos putKey:RUNKSTEP andValue:runStep];
+                                 [webTool acloudSetScore:step];
+                            }
+                        }
+                        else{
+                            NSDictionary *runStep = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"RUNKSTEP",[NSDate date].yyyyMMddNoLineWithDate,@"RUNKDATE", nil];
+                            [SMADefaultinfos putKey:RUNKSTEP andValue:runStep];
+                             [webTool acloudSetScore:step];
+                        }
                         [webTool acloudSyncAllDataWithAccount:[SMAAccountTool userInfo].userID callBack:^(id finish) {
                         
                         }];
@@ -586,8 +598,18 @@ static id _instace;
     
     SMADatabase *smaDal = [[SMADatabase alloc] init];
     NSMutableArray *alarmArr = [smaDal selectClockList];
-        [SmaBleSend setClockInfoV2:alarmArr];
-   
+    NSMutableArray *colockArry=[NSMutableArray array];
+    int aid=0;
+    for (int i=0; i<alarmArr.count; i++) {
+        SmaAlarmInfo *info=(SmaAlarmInfo *)alarmArr[i];
+        if([info.isOpen intValue]>0)
+        {
+            info.aid=[NSString stringWithFormat:@"%d",aid];
+            [colockArry addObject:info];
+            aid++;
+        }
+    }
+    [SmaBleSend setClockInfoV2:colockArry];
     [SmaBleSend getElectric];
     [SmaBleSend getBLVersion];
     [SmaBleSend getBLmac];

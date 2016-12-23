@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SMATabbarController : UITabBarController
+@interface SMATabbarController : UITabBarController<UITabBarControllerDelegate>
 @property (nonatomic, assign) BOOL isLogin;
 @end

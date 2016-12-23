@@ -15,4 +15,6 @@
 
 + (instancetype)sharedManager;
 
++ (void)clearCache;
+
 @end

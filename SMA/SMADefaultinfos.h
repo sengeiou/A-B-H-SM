@@ -25,6 +25,7 @@
 #define UPDATEDATE @"UPDATEDATE" //保存当天日期，以便判断跨天刷新数据判断
 #define BRITISHSYSTEM @"BRITISHSYSTEM" //公英制设置
 #define DEVICEMAC @"DEVICEMAC"//mac地址
+#define RUNKSTEP @"RUNKSTEP"//排行榜信息
 @interface SMADefaultinfos : NSObject
 +(void)putKey:(NSString *)key andValue:(NSObject *)value;
 +(void)putInt:(NSString *)key andValue:(int)value;

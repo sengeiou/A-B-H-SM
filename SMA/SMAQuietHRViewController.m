@@ -134,7 +134,7 @@
     cell.textLabel.text = text;
     cell.textLabel.font = FontGothamLight(16);
     cell.textLabel.textColor = [SmaColor colorWithHexString:@"#2A3137" alpha:1];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%dbmp",[[[quietDaArr objectAtIndex:indexPath.row + add] objectForKey:@"HEART"] intValue]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%dbpm",[[[quietDaArr objectAtIndex:indexPath.row + add] objectForKey:@"HEART"] intValue]];
     cell.detailTextLabel.font = FontGothamLight(16);
     cell.detailTextLabel.textColor = [SmaColor colorWithHexString:@"#2A3137" alpha:1];
     return cell;

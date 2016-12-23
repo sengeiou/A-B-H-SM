@@ -11,6 +11,14 @@
 #import "ACPushReceive.h"
 #import "AFNetworking.h"
 
+/**
+ * 推送连接状态
+ */
+typedef NS_ENUM(NSInteger, ACPushConnectionStatus) {
+    ACPushConnectionStatusConnected = 1, //推送连接已建立
+    ACPushConnectionStatusDisConnected, //推送连接已断开
+};
+
 @interface ACPushManager : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -28,5 +36,7 @@
 - (void)unWatchAll;
 //断开与服务器的连接
 - (void)disconnect;
+//监听连接状态变更
+- (void)monitorStatusChangeBlock:(void(^)(ACPushConnectionStatus status))callback;
 
 @end

@@ -111,7 +111,19 @@
             [smaDal deleteClockInfo:info.aid callback:^(BOOL result) {
             NSInteger row = [alarmArr indexOfObject:info];
             [alarmArr removeObjectAtIndex:row];
-            [SmaBleSend setClockInfoV2:alarmArr];
+                NSMutableArray *colockArry=[NSMutableArray array];
+                int aid=0;
+                for (int i=0; i<alarmArr.count; i++) {
+                    SmaAlarmInfo *info=(SmaAlarmInfo *)alarmArr[i];
+                    if([info.isOpen intValue]>0)
+                    {
+                        info.aid=[NSString stringWithFormat:@"%d",aid];
+                        [colockArry addObject:info];
+                        aid++;
+                    }
+                }
+
+            [SmaBleSend setClockInfoV2:colockArry];
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
             }];
         }
@@ -123,8 +135,18 @@
             [alarmArr insertObject:alarminfo atIndex:indexPath.row];
             [smaDal insertClockInfo:alarminfo account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
                 [self initializeMethod];
-                [SmaBleSend setClockInfoV2:alarmArr];
-                NSLog(@"----%d  %d",openSwitch.on,indexPath.row);
+                NSMutableArray *colockArry=[NSMutableArray array];
+                int aid=0;
+                for (int i=0; i<alarmArr.count; i++) {
+                    SmaAlarmInfo *info=(SmaAlarmInfo *)alarmArr[i];
+                    if([info.isOpen intValue]>0)
+                    {
+                        info.aid=[NSString stringWithFormat:@"%d",aid];
+                        [colockArry addObject:info];
+                        aid++;
+                    }
+                }
+                [SmaBleSend setClockInfoV2:colockArry];
             }];
         }
     }];
@@ -135,7 +157,18 @@
 #pragma mark *******alarmEditDelegate
 - (void)didEditAlarmInfo:(SmaAlarmInfo *)alarmInfo{
     [self initializeMethod];
-    [SmaBleSend setClockInfoV2:alarmArr];
+    NSMutableArray *colockArry=[NSMutableArray array];
+    int aid=0;
+    for (int i=0; i<alarmArr.count; i++) {
+        SmaAlarmInfo *info=(SmaAlarmInfo *)alarmArr[i];
+        if([info.isOpen intValue]>0)
+        {
+            info.aid=[NSString stringWithFormat:@"%d",aid];
+            [colockArry addObject:info];
+            aid++;
+        }
+    }
+    [SmaBleSend setClockInfoV2:colockArry];
     [_alarmTView reloadData];
 }
 

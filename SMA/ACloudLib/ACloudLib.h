@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "ACLoudLibConst.h"
 
-#define kACloudLibVersion @"1.4.0"
+#define kACloudLibVersion @"1.5.0"
 
 typedef NS_ENUM(NSUInteger, ACLoudLibMode) {
     //测试环境
@@ -38,6 +38,15 @@ typedef NS_ENUM(NSUInteger, ACLoudLibRegion) {
 
 ///  手动修改RouterAddress方法
 + (void)setRouterAddress:(NSString *)router;
+
+/**
+ 设置调试本地UDS服务的局域网服务地址
+ 
+ 例如：192.168.1.101:8080
+ 
+ @param address  本地服务地址
+ */
++ (void)setLocalUDSAddress:(NSString *)address;
 
 /**
   初始化方法, 设置开发环境和地区

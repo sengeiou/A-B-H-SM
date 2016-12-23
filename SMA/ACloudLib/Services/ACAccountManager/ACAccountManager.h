@@ -52,6 +52,11 @@ extern NSString *const ACAccountManagerLoginProviderOther;
                 password:(NSString *)password
                 callback:(void (^)(NSString *uid, NSError *error))callback;
 
+/// 登陆成功之后返回用户的默认属性对象
++ (void)loginWithUserInfo:(NSString *)account
+                 password:(NSString *)password
+                 callback:(void (^)(ACUserInfo *user, NSError *error))callback;
+
 #pragma mark - 第三方账号
 /// 第三方账号登录
 ///
@@ -106,7 +111,7 @@ extern NSString *const ACAccountManagerLoginProviderOther;
 
 /// 设置当前用户的头像
 + (void)setAvatar:(UIImage *)image
-         callback:(void(^)(NSError *error))callback;
+         callback:(void(^)(NSString *avatarUrl, NSError *error))callback;
 
 /// 修改昵称
 + (void)changeNickName:(NSString *)nickName
@@ -149,9 +154,5 @@ extern NSString *const ACAccountManagerLoginProviderOther;
                   verifyCode:(NSString *)verifyCode
                     callback:(void (^)(ACUserInfo *user, NSError *error))callback ACDeprecated("过期");
 
-/// 登陆成功之后返回用户的默认属性对象
-+ (void)loginWithUserInfo:(NSString *)account
-                 password:(NSString *)password
-                 callback:(void (^)(ACUserInfo *user, NSError *error))callback ACDeprecated("过期");
 
 @end

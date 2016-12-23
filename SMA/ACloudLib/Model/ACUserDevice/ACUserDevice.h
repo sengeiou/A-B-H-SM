@@ -30,10 +30,6 @@ typedef NS_ENUM(NSInteger,ACDeviceStatus) {
 @property (nonatomic, strong) NSData *AESkey;
 //设备物理ID
 @property (nonatomic, copy) NSString *physicalDeviceId;
-//设备网关ID
-@property (nonatomic, assign) NSInteger gatewayDeviceId;
-//设备根分组ID
-@property (nonatomic, assign) NSInteger rootId;
 //设备状态
 @property (nonatomic, assign) ACDeviceStatus status;
 

@@ -15,7 +15,7 @@
 
 @optional
 
-- (void)findDevices:(NSArray<ACLocalDevice *> *)devices;
+- (void)ac_findDevices:(NSArray<ACLocalDevice *> *)devices;
 
 @end
 

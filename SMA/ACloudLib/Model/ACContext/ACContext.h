@@ -18,7 +18,6 @@
 @property (nonatomic, unsafe_unretained)NSInteger majorDomainId;//服务器所属主域ID
 @property (nonatomic, copy) NSString *subDomain; // 服务所属子域名
 @property (nonatomic, strong) NSNumber *userId; // 用户id
-@property (nonatomic, copy) NSString *traceId; // 事件id，可用于追查问题
 @property (nonatomic, copy) NSString *traceStartTime; // 起始时间
 @property (nonatomic, copy) NSString *nonce; // 用于签名的随机字符串
 @property (nonatomic, copy) NSString *timeout; // 为防止签名被截获，设置签名的有效超时时间

@@ -51,7 +51,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         quietDate = [NSDate date];
     quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
         dispatch_async(dispatch_get_main_queue(), ^{
-           quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
+           quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
         });
     });
 }
@@ -193,7 +193,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         [quietView addSubview:indexView];
         
         quiethrLab = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(indexView.frame) - 90, 0, 80, CGRectGetHeight(quietView.frame))];
-            quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
+            quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
         quiethrLab.textAlignment = NSTextAlignmentRight;
         [quietView addSubview:quiethrLab];
         
@@ -404,7 +404,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
     cell.timeLab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3]  objectAtIndex:indexPath.row] objectForKey:@"TIME"];
     cell.statelab.text = @"";
-    cell.distanceLab.text = [NSString stringWithFormat:@"%@bmp",[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"REAT"]];
+    cell.distanceLab.text = [NSString stringWithFormat:@"%@bpm",[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"REAT"]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -440,13 +440,13 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     }
     if (indexPath.row == 0) {
         
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
     }
     else if (indexPath.row == 1){
          cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:6] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
     }
     else if (indexPath.row == 2){
-        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[aggregateData objectAtIndex:1] objectAtIndex:2][showDataIndex],@"bmp"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[aggregateData objectAtIndex:1] objectAtIndex:2][showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
     }
     else{
         cell.detailLab.textColor = [SmaColor colorWithHexString:@"#EA1F75" alpha:1];
@@ -675,7 +675,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 //    quietDate = dateNow;
     quietDate = [NSDate date];
     quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
-    quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bmp"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]textColor:[UIColor whiteColor]];
+    quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]textColor:[UIColor whiteColor]];
     NSLog(@"scrollViewDidEndDecelerating = %@",scrollView);
 }
 
