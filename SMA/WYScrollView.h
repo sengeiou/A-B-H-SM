@@ -62,6 +62,9 @@
 /*是否允许到尽头向右滑动*/
 @property (nonatomic, assign) BOOL banRightSlide;
 
+/*是否允许更新UI*/
+@property (nonatomic, assign) BOOL updateUI;
+
 /*绘图方式*/
 @property (nonatomic, assign) CPTGraphMode mode;
 
@@ -122,5 +125,7 @@
 
  /** 设置数量*/
 -(void)setMaxImageCount;
+
+- (void)changeImageLeft:(NSInteger)LeftIndex center:(NSInteger)centerIndex right:(NSInteger)rightIndex;
 @end
 

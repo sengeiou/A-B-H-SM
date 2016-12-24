@@ -60,6 +60,7 @@
     _quietLab.text = SMALocalizedString(@"device_HR_quiet");
     _hisDateLab.text = SMALocalizedString(@"device_HR_quietHisData");
     _hisQuietLab.text = SMALocalizedString(@"device_HR_quiet");
+    _remindLab.text = SMALocalizedString(@"device_HR_quietRemind");
     
     quietView = [[SmaQuietView alloc] initWithFrame:self.view.frame];
     [quietView createUIWithAndiord];

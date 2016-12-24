@@ -253,6 +253,7 @@
 		EEB9F6C11D6443430011AA07 /* Gotham-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = EEB9F6C01D6443430011AA07 /* Gotham-Medium.otf */; };
 		EEBA49641DFC3A0500FF6302 /* SMACalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBA49631DFC3A0500FF6302 /* SMACalendarView.m */; };
 		EEBAB5A61D6D2F8700AAC710 /* SMAthirdPartyLoginTool.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBAB5A51D6D2F8700AAC710 /* SMAthirdPartyLoginTool.m */; };
+		EEBC89861E0E106600793AC1 /* SMAAggregateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBC89851E0E106600793AC1 /* SMAAggregateTool.m */; };
 		EEC3CD141DB0CE320034105B /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EEC3CD041DB0CE320034105B /* MJRefresh.bundle */; };
 		EEC3CD151DB0CE320034105B /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC3CD071DB0CE320034105B /* MJRefreshBaseView.m */; };
 		EEC3CD161DB0CE320034105B /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC3CD091DB0CE320034105B /* MJRefreshConst.m */; };
@@ -942,6 +943,8 @@
 		EEBA49631DFC3A0500FF6302 /* SMACalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMACalendarView.m; sourceTree = "<group>"; };
 		EEBAB5A41D6D2F8700AAC710 /* SMAthirdPartyLoginTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAthirdPartyLoginTool.h; sourceTree = "<group>"; };
 		EEBAB5A51D6D2F8700AAC710 /* SMAthirdPartyLoginTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAthirdPartyLoginTool.m; sourceTree = "<group>"; };
+		EEBC89841E0E106600793AC1 /* SMAAggregateTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAAggregateTool.h; sourceTree = "<group>"; };
+		EEBC89851E0E106600793AC1 /* SMAAggregateTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAggregateTool.m; sourceTree = "<group>"; };
 		EEC3CD041DB0CE320034105B /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		EEC3CD051DB0CE320034105B /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		EEC3CD061DB0CE320034105B /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -1282,6 +1285,8 @@
 			children = (
 				EE486C911DD9DCA200E3E385 /* SMADeviceAggregate.h */,
 				EE486C921DD9DCA200E3E385 /* SMADeviceAggregate.m */,
+				EEBC89841E0E106600793AC1 /* SMAAggregateTool.h */,
+				EEBC89851E0E106600793AC1 /* SMAAggregateTool.m */,
 			);
 			name = MODEL;
 			sourceTree = "<group>";
@@ -3133,6 +3138,7 @@
 				EE83CE4B1DD2AFB20031CF58 /* UIView+WebCacheOperation.m in Sources */,
 				EEBAB5A61D6D2F8700AAC710 /* SMAthirdPartyLoginTool.m in Sources */,
 				EE57A7431E0B5FE10007BCC8 /* ESPTouchResult.m in Sources */,
+				EEBC89861E0E106600793AC1 /* SMAAggregateTool.m in Sources */,
 				EE09ACF21DAA2B2E00CA2EC5 /* FMDatabaseAdditions.m in Sources */,
 				EE8420EF1D93AAC5007DA9C6 /* SMADeviceCell.m in Sources */,
 				EEAF8A661DA9F14B00E1FE83 /* SMARepeatCell.m in Sources */,

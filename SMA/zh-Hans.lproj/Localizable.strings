@@ -269,6 +269,7 @@
 "me_set_version" = "版本";
 "me_set_feedback" = "意见反馈";
 "me_set_feedback_problem" = "问题详情";
+"me_set_feedback_input" = "点击输入";
 "me_set_feedback_relation" = "联系方式";
 "me_set_feedback_content" = "请输入联系方式";
 "me_set_feeback_contact" = "请输入内容";

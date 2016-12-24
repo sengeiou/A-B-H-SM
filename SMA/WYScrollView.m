@@ -41,6 +41,9 @@
     /** 当前显示的是第几个*/
     NSInteger _currentIndex;
     
+    /** 当前滑动方向*/
+    NSInteger _orientationIndex;
+    
     /** 当前显示位置*/
     NSInteger _nowIndex;
     
@@ -109,7 +112,7 @@
     [self createPageControl];
     
     /** 定时器*/
-    [self setUpTimer];
+//    [self setUpTimer];
     
     /** 初始化图片位置*/
 //    [self changeImageLeft:_MaxImageCount-1 center:0 right:1];
@@ -350,11 +353,26 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+    NSLog(@"scrollViewDidEndDragging===");
     [self setUpTimer];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+     NSLog(@"scrollViewDidEndDecelerating**********************===");
+    self.updateUI = YES;
+    if (self.localDelagate && [self.localDelagate respondsToSelector:@selector(WYScrollViewDidEndDecelerating:)]) {
+        [self.localDelagate WYScrollViewDidEndDecelerating:self];
+    }
+    self.updateUI = NO;
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    NSLog(@"scrollViewDidEndScrollingAnimation&&&&&&&&&&&&&&&&&&&===");
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+     NSLog(@"scrollViewWillBeginDragging===");
     [self removeTimer];
 }
 
@@ -382,19 +400,36 @@
 
 - (void)changeImageWithOffset:(CGFloat)offsetX
 {
-//    NSLog(@"f2234==%f",offsetX);
-    if (offsetX > 550) {
+    if (offsetX > MainScreen.size.width && offsetX < MainScreen.size.width + 40 && _orientationIndex == 1) {
+        _orientationIndex = -1;
+        if (self.localDelagate && [self.localDelagate respondsToSelector:@selector(scrollViewWillToBorderAtDirection:)]) {
+            [self.localDelagate scrollViewWillToBorderAtDirection:-1];
+        }
+    }
+    else if(offsetX < MainScreen.size.width && offsetX > MainScreen.size.width - 40 && _orientationIndex == -1){
+        _orientationIndex = 1;
+        if (self.localDelagate && [self.localDelagate respondsToSelector:@selector(scrollViewWillToBorderAtDirection:)]) {
+            [self.localDelagate scrollViewWillToBorderAtDirection:1];
+        }
+    }
+    if (offsetX > MainScreen.size.width * 2 - 90) {
+        _orientationIndex = 1;
         if (self.localDelagate && [self.localDelagate respondsToSelector:@selector(scrollViewWillToBorderAtDirection:)]) {
             [self.localDelagate scrollViewWillToBorderAtDirection:1];
         }
     }
     else if (offsetX < 100){
+        _orientationIndex = -1;
         if (self.localDelagate && [self.localDelagate respondsToSelector:@selector(scrollViewWillToBorderAtDirection:)]) {
             [self.localDelagate scrollViewWillToBorderAtDirection:-1];
         }
     }
+    if (offsetX == MainScreen.size.width) {
+        _orientationIndex = 0;
+    }
    if (offsetX >= ScrollWidth * 2)
       {
+          
         if (self.localDelagate && [self.localDelagate respondsToSelector:@selector(WYScrollViewDidEndDecelerating:)]) {
             [self.localDelagate WYScrollViewDidEndDecelerating:self];
         }

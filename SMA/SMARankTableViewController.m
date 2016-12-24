@@ -39,6 +39,7 @@
 
 - (void)createUI{
     self.title = SMALocalizedString(@"rank_title");
+    self.tableView.tableFooterView = [[UIView alloc] init];
     //    self.tableView.delegate = self;
     //    self.tableView.dataSource = self;
     SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];

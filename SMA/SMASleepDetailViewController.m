@@ -249,10 +249,10 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 }
 
 - (void)tapBut:(UIButton *)sender{
-    NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
-    if (aggregateNowData.count < 3) {
-        return;
-    }
+//    NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
+//    if (aggregateNowData.count < 3) {
+//        return;
+//    }
     for (int i = 0; i < 2; i ++) {
         UIButton *but = (UIButton *)[self.view viewWithTag:101 + i];
         but.selected = NO;
@@ -283,14 +283,22 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                 break;
             case 102:
             {
-               
-               
+                dateNow = [NSDate date];
+                leftDate = [dateNow timeDifferenceWithNumbers:-28];
+                rightDate = [dateNow timeDifferenceWithNumbers:28];
+                NSMutableArray *lDataArr = [SMAAggregateTool getSleepWeekDetalilDataWithNowDate:leftDate month:NO];
+                NSMutableArray *MDataArr = [SMAAggregateTool getSleepWeekDetalilDataWithNowDate:dateNow month:NO];
+                NSMutableArray *RDataArr = [SMAAggregateTool getSleepWeekDetalilDataWithNowDate:rightDate month:NO];
                 aggregateData = [NSMutableArray array];
-                aggregateIndex = 1;
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
-                NSLog(@"aggregateData102== %@ %d",aggregateData,aggregateNowData.count);
+                [aggregateData addObject:lDataArr];
+                [aggregateData addObject:MDataArr];
+                [aggregateData addObject:RDataArr];
+//                aggregateData = [NSMutableArray array];
+//                aggregateIndex = 1;
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+//                NSLog(@"aggregateData102== %@ %d",aggregateData,aggregateNowData.count);
                 [self addSubViewWithCycle:1];
             }
                 break;
@@ -493,23 +501,36 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     else if (selectTag == 102){
         if (oldDirection != direction) {
             if (direction == -1) {
-                aggregateIndex = aggregateIndex + 1;
-                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
-                aggregateData = [NSMutableArray array];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
-                NSLog(@"aggregateData102-1 == %@ %d",aggregateData,aggregateNowData.count);
+                leftDate = [dateNow timeDifferenceWithNumbers:-56];
+                dateNow = [leftDate timeDifferenceWithNumbers:28];
+                rightDate = [dateNow timeDifferenceWithNumbers:28];
+                NSMutableArray *obligateArr = [SMAAggregateTool getSLDetalilObligateDataWithDate:leftDate month:NO];
+                [aggregateData insertObject:obligateArr atIndex:0];
+                [aggregateData removeLastObject];
+//                aggregateIndex = aggregateIndex + 1;
+//                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
+//                aggregateData = [NSMutableArray array];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+//                NSLog(@"aggregateData102-1 == %@ %d",aggregateData,aggregateNowData.count);
                 NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
             }
             else if (direction == 1){
-                aggregateIndex = aggregateIndex - 1;
-                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
-                aggregateData = [NSMutableArray array];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
-                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
-                NSLog(@"aggregateData102+1== %@ %d",aggregateData,aggregateNowData.count);
+                rightDate = [dateNow timeDifferenceWithNumbers:56];
+                dateNow = [rightDate timeDifferenceWithNumbers:-28];
+                leftDate = [dateNow timeDifferenceWithNumbers:-28];
+                NSMutableArray *obligateArr3 = [SMAAggregateTool getSLDetalilObligateDataWithDate:rightDate month:NO];
+                [aggregateData addObject:obligateArr3];
+                [aggregateData removeObjectAtIndex:0];
+                
+//                aggregateIndex = aggregateIndex - 1;
+//                NSMutableArray *aggregateNowData = SmaAggregate.aggregateSlWeekData;
+//                aggregateData = [NSMutableArray array];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 2)]];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - (aggregateIndex + 1)]];
+//                [aggregateData addObject:[aggregateNowData objectAtIndex:aggregateNowData.count - aggregateIndex]];
+//                NSLog(@"aggregateData102+1== %@ %d",aggregateData,aggregateNowData.count);
                 NSLog(@"scrollViewWillToBorderAtDirection = %d",direction);
             }
         }
@@ -539,6 +560,13 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         [self setSleepStateViewSubviews];
     }
     else if (selectTag == 102){
+        __block NSMutableArray *MDataArr;
+        if (scrollView.updateUI) {
+            MDataArr = [SMAAggregateTool getSleepWeekDetalilDataWithNowDate:dateNow month:NO];
+            [aggregateData replaceObjectAtIndex:1 withObject:MDataArr];
+             [scrollView changeImageLeft:0 center:0 right:0];
+
+        }
         NSInteger selectIndex;
         selectIndex = [[aggregateData[1] objectAtIndex:4] integerValue];
         self.title = [[aggregateData[1] objectAtIndex:0] objectAtIndex:selectIndex-1];

@@ -12,6 +12,7 @@
 #import "NSDate+Formatter.h"
 #import "WYScrollView.h"
 #import "UIBarButtonItem+CKQ.h"
+#import "SMAAggregateTool.h"
 #import "SMARunTableViewController.h"
 @interface SMASportDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,WYScrollViewLocalDelegate>
 @property (nonatomic, strong) NSDate *date;

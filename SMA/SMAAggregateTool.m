@@ -1,123 +1,163 @@
 //
-//  SMADeviceAggregate.m
+//  SMAAggregateTool.m
 //  SMA
 //
-//  Created by 有限公司 深圳市 on 2016/11/14.
+//  Created by 有限公司 深圳市 on 2016/12/24.
 //  Copyright © 2016年 SMA. All rights reserved.
 //
 
-#import "SMADeviceAggregate.h"
+#import "SMAAggregateTool.h"
 
-@interface SMADeviceAggregate ()
-@property (nonatomic, assign) BOOL aggregate;
-@property (nonatomic, strong) NSDate *aggWeekDate;
-@property (nonatomic, strong) NSDate *aggMonthDate;
-@property (nonatomic, strong) SMADatabase *dal;
-@end
+@implementation SMAAggregateTool
 
-
-@implementation SMADeviceAggregate
-// 用来保存唯一的单例对象
-static id _instace;
-
-+ (id)allocWithZone:(struct _NSZone *)zone
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instace = [super allocWithZone:zone];
-    });
-    return _instace;
-}
-
-+ (instancetype)deviceAggregateTool
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instace = [[self alloc] init];
-//        [_instace initilizeWithWeek];
-    });
-    return _instace;
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-    return _instace;
-}
-
-- (SMADatabase *)dal{
-    if (!_dal) {
-        _dal = [[SMADatabase alloc] init];
-    }
-    return _dal;
-}
-
-- (void)initilizeWithWeek
-{
-    _aggWeekDate = [[NSDate date] timeDifferenceWithNumbers:28];//由于当天位于视图中央，因此获取数据应从当天的下一周开始
-    NSDate *lastdate = [NSDate date];
-    for (int i = 0; i < 4; i ++ ) {
-        NSDate *nextDate = lastdate;
-        lastdate = [nextDate dayOfMonthToDateIndex:32];
-        lastdate = [lastdate timeDifferenceWithNumbers:1];
-        if (i == 3) {
-            _aggMonthDate = lastdate; //由于当天位于视图中央，因此获取数据应从当天的四个月之后开始
-        }
-    }
-    if (self.aggregateTimer) {
-        [self.aggregateTimer invalidate];
-        self.aggregateTimer = nil;
-    }
-    _aggregateSlWeekData = [NSMutableArray array];
-    _aggregateSpWeekData = [NSMutableArray array];
-    _aggregateSpMonthData = [NSMutableArray array];
-    _aggregate = YES;
-    self.aggregateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(aggregateWeekData) userInfo:nil repeats:YES];
-}
-
-- (void)stopLoading{
-   [self.aggregateTimer setFireDate:[NSDate distantFuture]];
-}
-- (void)startLoading{
-   [self.aggregateTimer setFireDate:[NSDate date]];
-}
-
-- (void)aggregateWeekData{
-//        NSLog(@"W23FGT2T-T35Y54Y45***********************");
-    if (_aggregate) {
-        _aggregate = NO;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            //            NSDateFormatter *formate = [[NSDateFormatter alloc] init];
-            //            [formate setDateFormat:@"yyyyMMdd"];
-            //            NSDate *date= [formate dateFromString:@"20000108"];
-            _aggWeekDate = [_aggWeekDate lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
-            NSMutableArray *SLlDataArr = [self getSleepWeekDetalilDataWithNowDate:_aggWeekDate month:NO];
-            NSMutableArray *SPlDataArr = [self getSPDetalilDataWithNowDate:_aggWeekDate month:NO];
-            _aggWeekDate = [_aggWeekDate timeDifferenceWithNumbers:-28];
-            [_aggregateSlWeekData insertObject:SLlDataArr atIndex:0];
-            [_aggregateSpWeekData insertObject:SPlDataArr atIndex:0];
-            
-            NSMutableArray *SPmDataArr = [self getSPDetalilDataWithNowDate:_aggMonthDate month:YES];
-            NSDate *firstdate = _aggMonthDate;
-            for (int i = 0; i < 4; i ++ ) {
-                NSDate *nextDate = firstdate;
-                firstdate = [nextDate dayOfMonthToDateIndex:0];
-                firstdate = firstdate.yesterday;
-                if (i == 3) {
-                    _aggMonthDate = firstdate; //由于当天位于视图中央，因此获取数据应从当天的四个月之后开始
++ (NSMutableArray *)getSPDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month{
+   SMADatabase *_dal = [[SMADatabase alloc] init];
+    NSDate *firstdate = date;
+    NSMutableArray *weekDate = [NSMutableArray array];
+    NSMutableArray *modeDate = [NSMutableArray array];
+    for (int i = 0; i < 4; i ++) {
+        NSDate *nextDate = firstdate;
+        NSDate *lastdate;
+        int step = 0;
+        int dataNum = 0;
+        int sitTimeNum = 0;
+        if (month) {
+            firstdate = [nextDate dayOfMonthToDateIndex:0];
+            NSUInteger monthNum = [firstdate numberOfDaysInMonth];
+            for (int j = 0; j < monthNum; j ++) {
+                NSDate *detailDate = [firstdate timeDifferenceWithNumbers:j];
+                NSMutableArray *detailArr = [self getSPDatasModeContinueForOneDay:[_dal readSportDetailDataWithDate:detailDate.yyyyMMddNoLineWithDate toDate:detailDate.yyyyMMddNoLineWithDate]];
+                sitTimeNum = sitTimeNum + [[[detailArr firstObject] objectForKey:@"SIT"] intValue];
+                if (j == monthNum - 1) {
+                    [modeDate addObject:[NSNumber numberWithInt:sitTimeNum]];
                 }
             }
-            [_aggregateSpMonthData insertObject:SPmDataArr atIndex:0];
-            _aggregate= YES;
-            if (_aggregateSlWeekData.count > 200) {
-                [self.aggregateTimer invalidate];
-                self.aggregateTimer = nil;
+        }
+        else{
+            firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+            lastdate = [nextDate lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+            for (int j = 0; j < 7; j ++) {
+                NSDate *detailDate = [firstdate timeDifferenceWithNumbers:j];
+                NSMutableArray *detailArr = [self getSPDatasModeContinueForOneDay:[_dal readSportDetailDataWithDate:detailDate.yyyyMMddNoLineWithDate toDate:detailDate.yyyyMMddNoLineWithDate]];
+                sitTimeNum = sitTimeNum + [[[detailArr firstObject] objectForKey:@"SIT"] intValue];
+                if (j == 6) {
+                    [modeDate addObject:[NSNumber numberWithInt:sitTimeNum]];
+                }
             }
-//            NSLog(@"W23FGT2T-T35Y54Y4++++++++++++++++++++++ %d",_aggregateSlWeekData.count);
-        });
+        }
+        NSMutableArray *weekData = [_dal readSportDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate];
+        //        NSString * prevMode;//上一类型
+        //        NSString *prevTime;//上一时间点
+        //        int atTypeTime = 0;//相同状态下起始时间
+        //        int prevTypeTime=0;//运动状态下持续时长
+        if (weekData.count > 0) {
+            for (int i = 0; i < (int)weekData.count; i ++) {
+                dataNum ++;
+                step = [[weekData[i] objectForKey:@"STEP"] intValue] + step;
+                if (i == weekData.count - 1) {
+                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step/dataNum],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],lastdate ? [SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"] : @""],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
+                    [weekDate addObject:dic];
+                }
+            }
+        }
+        else{
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],lastdate?[SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"] : @""],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
+            [weekDate addObject:dic];
+        }
+        firstdate = firstdate.yesterday;
     }
+    NSMutableArray *xText = [NSMutableArray array];
+    NSMutableArray *yValue = [NSMutableArray array];
+    NSMutableArray *yBaesValues = [NSMutableArray array];
+    NSMutableArray *alldataArr = [NSMutableArray array];
+    NSMutableArray *numArr = [NSMutableArray array];
+    NSMutableArray *modeArr = [NSMutableArray array];
+    int showDataIndex = 0;
+    for (int i = 0; i < 5; i ++ ) {
+        if (i == 0) {
+            [yBaesValues addObject:@"0"];
+            [yValue addObject:@"0"];
+            [numArr addObject:@"0"];
+            [modeArr addObject:[NSNumber numberWithInt:0]];
+        }
+        else{
+            [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]:[self getWeekText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]];
+            [yBaesValues addObject:@"0"];
+            [yValue addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"]];
+            if ([[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"] intValue] > 0) {
+                showDataIndex = i;
+            }
+            [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
+            [modeArr addObject:[modeDate objectAtIndex:4 - i]];
+        }
+    }
+    [alldataArr addObject:xText];        //图像底部坐标
+    [alldataArr addObject:yBaesValues];  //图像底部起始点（柱状图）
+    [alldataArr addObject:yValue];       //图像每个轴高度
+    [alldataArr addObject:numArr];       //图像所包含数据量（含多少天数据，用于计算平均值）
+    [alldataArr addObject:[NSString stringWithFormat:@"%lu",(unsigned long)(showDataIndex == 0 ? 4 : showDataIndex)]];  //图像（周）最后一第含有数据的项（若没有，默认为最后一项）
+    [alldataArr addObject:modeArr];
+    showDataIndex = 0;
+    return alldataArr;
 }
 
-- (id)getSPDatasModeContinueForOneDay:(NSMutableArray *)spDatas{
++ (NSMutableArray *)getDetalilObligateDataWithDate:(NSDate *)date month:(BOOL)month{
+//    NSLog(@"FFG==");
+    NSUInteger showDataIndex = 0;
+    NSMutableArray *alldataArr = [NSMutableArray array];
+    NSDate *firstdate = date;
+    NSMutableArray *weekDate = [NSMutableArray array];
+    for (int i = 0; i < 4; i ++) {
+        NSDate *nextDate = firstdate;
+        NSDate *lastdate;
+        int step = 0;
+        int dataNum = 0;
+        if (month) {
+            firstdate = [nextDate dayOfMonthToDateIndex:0];
+        }
+        else{
+            firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+            lastdate = [nextDate lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+        }
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],lastdate?[SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"] : @""],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
+        [weekDate addObject:dic];
+        firstdate = firstdate.yesterday;
+    }
+    NSMutableArray *xText = [NSMutableArray array];
+    NSMutableArray *yValue = [NSMutableArray array];
+    NSMutableArray *yBaesValues = [NSMutableArray array];
+    NSMutableArray *numArr = [NSMutableArray array];
+     NSMutableArray *modeArr = [NSMutableArray array];
+    for (int i = 0; i < 5; i ++ ) {
+        if (i == 0) {
+            [yBaesValues addObject:@"0"];
+            [yValue addObject:@"0"];
+            [numArr addObject:@"0"];
+            [modeArr addObject:[NSNumber numberWithInt:0]];
+        }
+        else{
+            [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]:[self getWeekText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]];
+            [yBaesValues addObject:@"0"];
+            [yValue addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"]];
+            if ([[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"] intValue] > 0) {
+                showDataIndex = i;
+            }
+            [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
+            [modeArr addObject:[NSNumber numberWithInt:0]];
+        }
+    }
+    [alldataArr addObject:xText];        //图像底部坐标
+    [alldataArr addObject:yBaesValues];  //图像底部起始点（柱状图）
+    [alldataArr addObject:yValue];       //图像每个轴高度
+    [alldataArr addObject:numArr];       //图像所包含数据量（含多少天数据，用于计算平均值）
+    [alldataArr addObject:[NSString stringWithFormat:@"%lu",(unsigned long)(showDataIndex == 0 ? 4 : showDataIndex)]];  //图像（周）最后一第含有数据的项（若没有，默认为最后一项）
+    [alldataArr addObject:modeArr];
+//    NSLog(@"FFG==1111");
+    showDataIndex = 0;
+    return alldataArr;
+}
+
++ (id)getSPDatasModeContinueForOneDay:(NSMutableArray *)spDatas{
     NSMutableArray *detailArr = [NSMutableArray array];
     int sitAmount=0;//静坐时长
     int walkAmount=0;//步行时长
@@ -188,65 +228,65 @@ static id _instace;
             }
         }
     }
-  /*********************************补全一天数据（24条）
-//    NSMutableArray *fullDatas = [[NSMutableArray alloc] init];
-//    for (int i = 0; i < 24; i ++) {
-//        BOOL found = NO;
-//        int time = -1 ;
-//        if (spDatas.count > 0) {
-//            for (NSDictionary *dic in [spDatas lastObject]) {
-//                if ([[dic objectForKey:@"TIME"] intValue]/60 == i) {
-//                    if (time == i) {
-//                        [fullDatas removeLastObject];
-//                    }
-//                    time = i;
-//                    [fullDatas addObject:dic];
-//                    found = YES;
-//                }
-//                else{
-//                    if (!found) {
-//                        if (time == i) {
-//                            [fullDatas removeLastObject];
-//                        }
-//                        time = i;
-//                        [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[[spDatas lastObject] lastObject] objectForKey:@"DATE"],@"DATE", nil]];
-//                    }
-//                }
-//            }
-//        }
-//        else{
-//            [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[[spDatas lastObject] lastObject] objectForKey:@"DATE"],@"DATE", nil]];
-//        }
-//    }
-//    
-//    NSMutableArray *xText = [NSMutableArray array];
-//    NSMutableArray *yValue = [NSMutableArray array];
-//    NSMutableArray *yBaesValues = [NSMutableArray array];
-//    for (int i = 0; i < 24; i ++) {
-//        if (i == 0 || i == 12 || i == 23) {
-//            [xText addObject:[NSString stringWithFormat:@"%@%d:00",i<10?@"":@"",i]];
-//        }
-//        else{
-//            [xText addObject:@""];
-//        }
-//    }
-//    for (int i = 0; i < 25; i ++) {
-//        if (i == 0) {
-//            [yValue addObject:@"0"];
-//        }
-//        else if(i == 25){
-//            [yValue addObject:[NSString stringWithFormat:@"%d",[[yValue valueForKeyPath:@"@max.intValue"] intValue] + 10]];
-//        }
-//        else{
-//            NSDictionary *dic = [fullDatas objectAtIndex:i-1];
-//            [yValue addObject:[dic objectForKey:@"STEP"]];
-//        }
-//        [yBaesValues addObject:@"0"];
-//    }
-//    [dayAlldata addObject:xText];       //图像底部坐标
-//    [dayAlldata addObject:yBaesValues]; //图像底部起始点（柱状图）
-//    [dayAlldata addObject:yValue];      //图像每个轴高度
-   *************************************************************/
+    /*********************************补全一天数据（24条）
+     //    NSMutableArray *fullDatas = [[NSMutableArray alloc] init];
+     //    for (int i = 0; i < 24; i ++) {
+     //        BOOL found = NO;
+     //        int time = -1 ;
+     //        if (spDatas.count > 0) {
+     //            for (NSDictionary *dic in [spDatas lastObject]) {
+     //                if ([[dic objectForKey:@"TIME"] intValue]/60 == i) {
+     //                    if (time == i) {
+     //                        [fullDatas removeLastObject];
+     //                    }
+     //                    time = i;
+     //                    [fullDatas addObject:dic];
+     //                    found = YES;
+     //                }
+     //                else{
+     //                    if (!found) {
+     //                        if (time == i) {
+     //                            [fullDatas removeLastObject];
+     //                        }
+     //                        time = i;
+     //                        [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[[spDatas lastObject] lastObject] objectForKey:@"DATE"],@"DATE", nil]];
+     //                    }
+     //                }
+     //            }
+     //        }
+     //        else{
+     //            [fullDatas addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"TIME",@"0",@"STEP",[[[spDatas lastObject] lastObject] objectForKey:@"DATE"],@"DATE", nil]];
+     //        }
+     //    }
+     //
+     //    NSMutableArray *xText = [NSMutableArray array];
+     //    NSMutableArray *yValue = [NSMutableArray array];
+     //    NSMutableArray *yBaesValues = [NSMutableArray array];
+     //    for (int i = 0; i < 24; i ++) {
+     //        if (i == 0 || i == 12 || i == 23) {
+     //            [xText addObject:[NSString stringWithFormat:@"%@%d:00",i<10?@"":@"",i]];
+     //        }
+     //        else{
+     //            [xText addObject:@""];
+     //        }
+     //    }
+     //    for (int i = 0; i < 25; i ++) {
+     //        if (i == 0) {
+     //            [yValue addObject:@"0"];
+     //        }
+     //        else if(i == 25){
+     //            [yValue addObject:[NSString stringWithFormat:@"%d",[[yValue valueForKeyPath:@"@max.intValue"] intValue] + 10]];
+     //        }
+     //        else{
+     //            NSDictionary *dic = [fullDatas objectAtIndex:i-1];
+     //            [yValue addObject:[dic objectForKey:@"STEP"]];
+     //        }
+     //        [yBaesValues addObject:@"0"];
+     //    }
+     //    [dayAlldata addObject:xText];       //图像底部坐标
+     //    [dayAlldata addObject:yBaesValues]; //图像底部起始点（柱状图）
+     //    [dayAlldata addObject:yValue];      //图像每个轴高度
+     *************************************************************/
     NSDictionary *modeDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:sitAmount],@"SIT",[NSNumber numberWithInt:walkAmount],@"WALK",[NSNumber numberWithInt:runAmount],@"RUN", nil];
     NSMutableArray *dayAlldata = [NSMutableArray array];
     [dayAlldata addObject:modeDic];
@@ -254,98 +294,8 @@ static id _instace;
     return dayAlldata;
 }
 
-- (NSMutableArray *)getSPDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month{
-//    NSLog(@"fewfwef==%@",date.yyyyMMddNoLineWithDate);
-    NSDate *firstdate = date;
-    NSMutableArray *weekDate = [NSMutableArray array];
-    NSMutableArray *modeDate = [NSMutableArray array];
-    for (int i = 0; i < 4; i ++) {
-        NSDate *nextDate = firstdate;
-        NSDate *lastdate;
-        int step = 0;
-        int dataNum = 0;
-        int sitTimeNum = 0;
-        if (month) {
-            firstdate = [nextDate dayOfMonthToDateIndex:0];
-            NSUInteger monthNum = [firstdate numberOfDaysInMonth];
-                for (int j = 0; j < monthNum; j ++) {
-                    NSDate *detailDate = [firstdate timeDifferenceWithNumbers:j];
-                    NSMutableArray *detailArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:detailDate.yyyyMMddNoLineWithDate toDate:detailDate.yyyyMMddNoLineWithDate]];
-                    sitTimeNum = sitTimeNum + [[[detailArr firstObject] objectForKey:@"SIT"] intValue];
-                    if (j == monthNum - 1) {
-                        [modeDate addObject:[NSNumber numberWithInt:sitTimeNum]];
-                    }
-                }
-        }
-        else{
-            firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
-            lastdate = [nextDate lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
-            for (int j = 0; j < 7; j ++) {
-                NSDate *detailDate = [firstdate timeDifferenceWithNumbers:j];
-                NSMutableArray *detailArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:detailDate.yyyyMMddNoLineWithDate toDate:detailDate.yyyyMMddNoLineWithDate]];
-                sitTimeNum = sitTimeNum + [[[detailArr firstObject] objectForKey:@"SIT"] intValue];
-                if (j == 6) {
-                    [modeDate addObject:[NSNumber numberWithInt:sitTimeNum]];
-                }
-            }
-        }
-        NSMutableArray *weekData = [self.dal readSportDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate];
-        //        NSString * prevMode;//上一类型
-        //        NSString *prevTime;//上一时间点
-        //        int atTypeTime = 0;//相同状态下起始时间
-        //        int prevTypeTime=0;//运动状态下持续时长
-        if (weekData.count > 0) {
-            for (int i = 0; i < (int)weekData.count; i ++) {
-                dataNum ++;
-                step = [[weekData[i] objectForKey:@"STEP"] intValue] + step;
-                if (i == weekData.count - 1) {
-                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step/dataNum],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],lastdate ? [SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"] : @""],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
-                    [weekDate addObject:dic];
-                }
-            }
-        }
-        else{
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"STEP",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],lastdate?[SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"] : @""],@"DATE",[NSString stringWithFormat:@"%d",dataNum],@"NUM",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
-            [weekDate addObject:dic];
-        }
-        firstdate = firstdate.yesterday;
-    }
-    NSMutableArray *xText = [NSMutableArray array];
-    NSMutableArray *yValue = [NSMutableArray array];
-    NSMutableArray *yBaesValues = [NSMutableArray array];
-    NSMutableArray *alldataArr = [NSMutableArray array];
-    NSMutableArray *numArr = [NSMutableArray array];
-    NSMutableArray *modeArr = [NSMutableArray array];
-    int showDataIndex = 0;
-    for (int i = 0; i < 5; i ++ ) {
-        if (i == 0) {
-            [yBaesValues addObject:@"0"];
-            [yValue addObject:@"0"];
-            [numArr addObject:@"0"];
-            [modeArr addObject:[NSNumber numberWithInt:0]];
-        }
-        else{
-            [xText addObject:month?[self getMonthText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]:[self getWeekText:[[weekDate objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDate objectAtIndex:4 - i] objectForKey:@"YEAR"]]];
-            [yBaesValues addObject:@"0"];
-            [yValue addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"]];
-            if ([[[weekDate objectAtIndex:4 - i] objectForKey:@"STEP"] intValue] > 0) {
-                showDataIndex = i;
-            }
-            [numArr addObject:[[weekDate objectAtIndex:4 - i] objectForKey:@"NUM"]];
-            [modeArr addObject:[modeDate objectAtIndex:4 - i]];
-        }
-    }
-    [alldataArr addObject:xText];        //图像底部坐标
-    [alldataArr addObject:yBaesValues];  //图像底部起始点（柱状图）
-    [alldataArr addObject:yValue];       //图像每个轴高度
-    [alldataArr addObject:numArr];       //图像所包含数据量（含多少天数据，用于计算平均值）
-    [alldataArr addObject:[NSString stringWithFormat:@"%lu",(unsigned long)(showDataIndex == 0 ? 4 : showDataIndex)]];  //图像（周）最后一第含有数据的项（若没有，默认为最后一项）
-    [alldataArr addObject:modeArr];
-    showDataIndex = 0;
-    return alldataArr;
-}
-
-- (NSMutableArray *)getSleepWeekDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month{
++ (NSMutableArray *)getSleepWeekDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month{
+    SMADatabase *_dal = [[SMADatabase alloc] init];
     NSDate *firstdate = date;
     NSMutableArray *weekDataArr = [NSMutableArray array];
     for (int i = 0; i < 4; i ++) {
@@ -365,7 +315,7 @@ static id _instace;
         }
         for (int j = 0; j < 7; j ++) {
             
-            NSMutableArray *weekData =  [self screeningSleepNowData:[self.dal readSleepDataWithDate:[firstdate timeDifferenceWithNumbers:j].yyyyMMddNoLineWithDate]];
+            NSMutableArray *weekData =  [self screeningSleepNowData:[_dal readSleepDataWithDate:[firstdate timeDifferenceWithNumbers:j].yyyyMMddNoLineWithDate]];
             if ([[[weekData lastObject] objectAtIndex:0] intValue] != 0) {
                 account ++;
                 sleepHourSum = [[[weekData lastObject] objectAtIndex:0] intValue] + sleepHourSum;
@@ -417,7 +367,7 @@ static id _instace;
     return alldataArr;
 }
 
-- (NSMutableArray *)screeningSleepNowData:(NSMutableArray *)sleepData{
++ (NSMutableArray *)screeningSleepNowData:(NSMutableArray *)sleepData{
     NSArray * arr = [sleepData sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
         if ([obj1[@"TIME"] intValue]<[obj2[@"TIME"] intValue]) {
             return NSOrderedAscending;
@@ -432,7 +382,7 @@ static id _instace;
             return NSOrderedDescending;
         
     }];
-
+    
     NSMutableArray *sortArr = [arr mutableCopy];
     if (sortArr.count > 2) {//筛选同一状态数据
         for (int i = 0; i< sortArr.count-1; i++) {
@@ -536,7 +486,65 @@ static id _instace;
     return alldataArr;
 }
 
-- (NSString *)getHourAndMin:(NSString *)time{
++ (NSMutableArray *)getSLDetalilObligateDataWithDate:(NSDate *)date month:(BOOL)month{
+    NSDate *firstdate = date;
+    NSMutableArray *weekDataArr = [NSMutableArray array];
+    for (int i = 0; i < 4; i ++) {
+        NSDate *nextDate = firstdate;
+        NSDate *lastdate;
+        int sleepHourSum = 0;
+        int deepSleepAmountSum = 0;
+        int simpleSleepAmountSum = 0;
+        int soberAmountSum = 0;
+        int account = 0;
+        if (month) {
+            firstdate = [nextDate dayOfMonthToDateIndex:0];
+        }
+        else{
+            firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+            lastdate = [nextDate lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+        }
+        NSString *date;
+        if ([firstdate.yyyyMMddNoLineWithDate isEqualToString:[[NSDate date] firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSString class]]]) {
+            date = SMALocalizedString(@"device_SL_thisWeek");
+        }
+        else{
+            date = [NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]];
+        }
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",sleepHourSum/account],@"sleepHour",[NSString stringWithFormat:@"%d",deepSleepAmountSum/account],@"deepSleep",[NSString stringWithFormat:@"%d",simpleSleepAmountSum/account],@"simpleSleep",[NSString stringWithFormat:@"%d",soberAmountSum/account],@"soberSleep",date,@"DATE",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
+        [weekDataArr addObject:dic];
+       firstdate = firstdate.yesterday;
+    }
+    NSMutableArray *xText = [NSMutableArray array];
+    NSMutableArray *yValue = [NSMutableArray array];
+    NSMutableArray *yBaesValues = [NSMutableArray array];
+    NSMutableArray *alldataArr = [NSMutableArray array];
+    int showDataIndex = 0;
+    NSMutableArray * dataArr = [[[weekDataArr reverseObjectEnumerator] allObjects] mutableCopy];
+    for (int i = 0; i < 5; i ++ ) {
+        if (i == 0) {
+            [yBaesValues addObject:@"0"];
+            [yValue addObject:@"0"];
+        }
+        else{
+            [xText addObject:[self getWeekText:[[weekDataArr objectAtIndex:4 - i] objectForKey:@"DATE"] year:[[weekDataArr objectAtIndex:4 - i] objectForKey:@"YEAR"]]];
+            [yBaesValues addObject:@"0"];
+            [yValue addObject:[[weekDataArr objectAtIndex:4 - i] objectForKey:@"sleepHour"]];
+            if ([[[weekDataArr objectAtIndex:4 - i] objectForKey:@"sleepHour"] intValue]) {
+                showDataIndex = i;
+            }
+        }
+    }
+    [alldataArr addObject:xText];
+    [alldataArr addObject:yBaesValues];
+    [alldataArr addObject:yValue];
+    [alldataArr addObject:dataArr];
+    [alldataArr addObject:[NSString stringWithFormat:@"%d",showDataIndex == 0 ? 4 : showDataIndex]];  //图像（周）最后一第含有数据的项（若没有，默认为最后一项）
+    showDataIndex = 0;
+    return alldataArr;
+}
+
++ (NSString *)getHourAndMin:(NSString *)time{
     if (time.intValue > 1440) {
         time = [NSString stringWithFormat:@"%d",time.intValue - 1440];
     }
@@ -545,7 +553,7 @@ static id _instace;
     return [NSString stringWithFormat:@"%@:%@",hour,min];
 }
 
-- (NSMutableAttributedString *)attributedStringWithArr:(NSArray *)strArr fontArr:(NSArray *)fontArr{
++ (NSMutableAttributedString *)attributedStringWithArr:(NSArray *)strArr fontArr:(NSArray *)fontArr{
     NSMutableAttributedString *sportStr = [[NSMutableAttributedString alloc] init];
     for (int i = 0; i < strArr.count; i ++) {
         NSDictionary *textDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:fontArr[0]};
@@ -558,7 +566,7 @@ static id _instace;
     return sportStr;
 }
 
-- (NSString *)sportMode:(int)mode{
++ (NSString *)sportMode:(int)mode{
     NSString *modeStr;
     switch (mode) {
         case 16:
@@ -574,7 +582,7 @@ static id _instace;
     return modeStr;
 }
 
-- (NSString *)sleepType:(int)type{
++ (NSString *)sleepType:(int)type{
     NSString *typeStr;
     switch (type) {
         case 1:
@@ -590,22 +598,21 @@ static id _instace;
     return typeStr;
 }
 
-- (NSMutableAttributedString *)sleepTimeWithFall:(NSString *)fall wakeUp:(NSString *)wake{
++ (NSMutableAttributedString *)sleepTimeWithFall:(NSString *)fall wakeUp:(NSString *)wake{
     int fallTime = [[[fall componentsSeparatedByString:@":"] firstObject] intValue] * 60 + [[[fall componentsSeparatedByString:@":"] lastObject] intValue];
     int wakeTime = [[[wake componentsSeparatedByString:@":"] firstObject] intValue] * 60 + [[[wake componentsSeparatedByString:@":"] lastObject] intValue];
     int sleepTime = wakeTime - fallTime;
     return [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",sleepTime/60],@"h",[NSString stringWithFormat:@"%d",sleepTime%60],@"m"] fontArr:@[FontGothamLight(20),FontGothamLight(15)]];
 }
-
-- (NSString *)getWeekText:(NSString *)str year:(NSString *)year{
++ (NSString *)getWeekText:(NSString *)str year:(NSString *)year{
     NSArray *dayArr = [str componentsSeparatedByString:@"-"];
     NSArray *weekArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
     NSArray *weekArr1 = [[dayArr lastObject] componentsSeparatedByString:@"."];
     NSString *weekStr;
     weekStr = str;
-//    if ([[weekArr firstObject] intValue] == 12 && [[weekArr1 firstObject] intValue] == 1) {
-//        weekStr = [NSString stringWithFormat:@"%@ %@ - %@ %@",year,[dayArr firstObject],[NSString stringWithFormat:@"%d",year.intValue + 1],[dayArr lastObject]];
-//    }
+    //    if ([[weekArr firstObject] intValue] == 12 && [[weekArr1 firstObject] intValue] == 1) {
+    //        weekStr = [NSString stringWithFormat:@"%@ %@ - %@ %@",year,[dayArr firstObject],[NSString stringWithFormat:@"%d",year.intValue + 1],[dayArr lastObject]];
+    //    }
     weekStr = [NSString stringWithFormat:@"%@ %@ - %@",year,[dayArr firstObject],[dayArr lastObject]];
     //本周第一天
     NSString *nowFirstDate = [[NSDate date] firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSString class]];
@@ -617,18 +624,17 @@ static id _instace;
     return weekStr;
 }
 
-- (NSString *)getMonthText:(NSString *)str year:(NSString *)year{
++ (NSString *)getMonthText:(NSString *)str year:(NSString *)year{
     NSArray *dayArr = [str componentsSeparatedByString:@"-"];
     NSArray *monArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
     NSString *monStr;
-//    monStr = [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
-//    if ([[monArr firstObject] intValue] == 1) {
-        monStr = [NSString stringWithFormat:@"%@ %@",year,SMALocalizedString([NSString stringWithFormat:@"month%d",[[monArr firstObject] intValue]])];
-//    }
+    //    monStr = [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    //    if ([[monArr firstObject] intValue] == 1) {
+    monStr = [NSString stringWithFormat:@"%@ %@",year,SMALocalizedString([NSString stringWithFormat:@"month%d",[[monArr firstObject] intValue]])];
+    //    }
     if ([[monArr firstObject] intValue] == [[[[NSDate date] yyyyMMddNoLineWithDate] substringWithRange:NSMakeRange(4, 2)] intValue] && [year isEqualToString:[[[NSDate date] yyyyMMddNoLineWithDate] substringToIndex:4]]) {
         monStr = SMALocalizedString(@"device_SL_thisMonth");
     }
     return monStr;
 }
-
 @end

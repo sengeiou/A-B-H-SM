@@ -17,4 +17,5 @@
 - (void)initilizeWithWeek;
 - (void)stopLoading;
 - (void)startLoading;
+- (NSMutableArray *)getSPDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month;
 @end

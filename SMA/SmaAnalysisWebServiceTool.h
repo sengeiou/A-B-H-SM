@@ -12,6 +12,7 @@
 #import "SMAWebDataHandleInfo.h"
 #import "ACFeedBack.h"
 #import "ACFeedBackManager.h"
+#import <sys/utsname.h>
 #define watchface_recommending @"smav2_watchface_recommending"//（推荐）
 #define watchface_dynamic @"smav2_watchface_dynamic"//动态
 #define watchface_pointer @"smav2_watchface_pointer"//指针

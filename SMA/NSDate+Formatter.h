@@ -52,6 +52,8 @@
 - (id)firstDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class;
 - (id)lastDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class;
 - (NSDate *)dayOfMonthToDateIndex:(int)index;
+//获取前四个月第一天或最后一天
+- (NSDate *)dayOfMonthLastDate:(BOOL)last;
 - (NSUInteger)numberOfDaysInMonth;
 
 @end

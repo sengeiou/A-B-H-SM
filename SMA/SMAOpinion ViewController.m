@@ -27,14 +27,17 @@
 - (void)createUI{
     self.title = SMALocalizedString(@"me_set_feedback");
     _detailsView.delegate = self;
+    _detailsView.text = SMALocalizedString(@"me_set_feedback_input");
+    _detailsView.textColor = [SmaColor colorWithHexString:@"#808080" alpha:0.5];
     _contentField.delegate = self;
+    _contentField.placeholder = SMALocalizedString(@"me_set_feedback_input");
     [_submitBut setTitle:SMALocalizedString(@"me_set_feeback_submit") forState:UIControlStateNormal];
     _problemLab.text = SMALocalizedString(@"me_set_feedback_problem");
     _contentLab.text = SMALocalizedString(@"me_set_feedback_relation");
 }
 
 - (IBAction)selector:(id)sender{
-    if ([_detailsView.text isEqualToString:@""]) {
+    if ([_detailsView.text isEqualToString:@""] || [_detailsView.text isEqualToString:SMALocalizedString(@"me_set_feedback_input")]) {
         [MBProgressHUD showError:SMALocalizedString(@"me_set_feeback_contact")];
         return;
     }
@@ -66,7 +69,12 @@
     if (selectedRange&&pos) {
         return YES;
     }
-    _wordsNum.text = [NSString stringWithFormat:@"%lu/400",400 - realTextViewText.length];
+    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        [textView resignFirstResponder];
+    }
+    else{
+        _wordsNum.text = [NSString stringWithFormat:@"%lu/400",400 - realTextViewText.length];
+    }
     if (realTextViewText.length > 400) {
         NSInteger length = text.length + 400 - realTextViewText.length;
         NSRange rg = {0,MAX(length,0)};
@@ -76,9 +84,7 @@
         }
         return NO;
     }
-    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        [textView resignFirstResponder];
-    }
+
     return YES;
 }
 
@@ -106,7 +112,23 @@
     if ([string isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
         [textField resignFirstResponder];
     }
-    return YES;}
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if ([textView.text isEqualToString:SMALocalizedString(@"me_set_feedback_input")]) {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor];
+    }
+    
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (textView.text.length<1) {
+        textView.text = SMALocalizedString(@"me_set_feedback_input");
+        textView.textColor = [SmaColor colorWithHexString:@"#808080" alpha:0.5];
+    }
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
      [textField resignFirstResponder];

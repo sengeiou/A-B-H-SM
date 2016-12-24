@@ -72,6 +72,7 @@
 + (NSString *)firstDayOfWeekToDate:(NSDate *)date{
     NSDate *now = date;
     NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setFirstWeekday:1];
     NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay
                                          fromDate:now];
     // 得到星期几

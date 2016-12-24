@@ -226,6 +226,7 @@
 - (id)firstDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class{
     NSDate *now = self;
     NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setFirstWeekday:1];
     NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay  fromDate:now];
     // 得到星期几
     // 2(星期天) 3(星期二) 4(星期三) 5(星期四) 6(星期五) 7(星期六) 1(星期天)
@@ -233,6 +234,8 @@
     // 得到几号
     NSInteger day = [comp day];
     // 计算当前日期和这周的星期一和星期天差的天数
+    
+    NSInteger firstDay =  [calendar firstWeekday];
     long firstDiff,lastDiff;
     if (weekDay == 1) {
         firstDiff = 0;
@@ -244,8 +247,8 @@
     // 在当前日期(去掉了时分秒)基础上加上差的天数
     NSDateComponents *firstDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
     [firstDayComp setDay:day + firstDiff];
+//    [firstDayComp setHour:2];
      NSDate *firstDayOfWeek= [calendar dateFromComponents:firstDayComp];
-    
     NSDateComponents *lastDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
     [lastDayComp setDay:day + lastDiff];
     
@@ -265,6 +268,7 @@
 - (id)lastDayOfWeekToDateFormat:(NSString *)format callBackClass:(Class)Class{
     NSDate *now = self;
     NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setFirstWeekday:1];//设置周天为一周开始
     NSDateComponents *comp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitDay fromDate:now];
     // 得到星期几
     // 2(星期一) 3(星期二) 4(星期三) 5(星期四) 6(星期五) 7(星期六) 1(星期天)
@@ -298,6 +302,7 @@
     
     NSDateComponents *lastDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
     [lastDayComp setDay:day + lastDiff];
+//    [lastDayComp setHour:2];
     NSDate *lastDayOfWeek= [calendar dateFromComponents:lastDayComp];
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
 //    NSTimeZone *zone = [NSTimeZone defaultTimeZone];
@@ -333,6 +338,20 @@
         return (NSDate *)[dayModelArray lastObject];
     }
     return (NSDate *)[dayModelArray objectAtIndex:index];
+}
+
+
+//获取前月第一天或最后一天
+- (NSDate *)dayOfMonthLastDate:(BOOL)last{
+    NSUInteger days = [self numberOfDaysInMonth:self];
+//    NSInteger week = [self startDayOfWeek:self];
+//    NSMutableArray *dayModelArray = [[NSMutableArray alloc] initWithCapacity:42];
+    int day = 1;
+    if (last) {
+       return [self dateOfDay:days];
+    }
+    return [self dateOfDay:day];
+//    return [NSDate date];
 }
 
 - (NSUInteger)numberOfDaysInMonth:(NSDate *)date{

@@ -198,7 +198,7 @@
 "setting_sedentary_time" = "Duration";
 "setting_sedentary_timeout" = "Interval";
 "setting_sedentary_minute" = "Min";
-"setting_sedentary_deMinute" = "";
+"setting_sedentary_deMinute" = "min";
 "setting_sedentary_hour" = "H";
 "setting_sedentary_remind" = "Duration apply to \"Repeat\" and \"Sedentary alert interval\"";
 "setting_sedentary_star" = "Start Time";
@@ -269,6 +269,7 @@
 "me_set_version" = "Version";
 "me_set_feedback" = "Feedback";
 "me_set_feedback_problem" = "Details";
+"me_set_feedback_input" = "Click to input";
 "me_set_feedback_relation" = "Contact";
 "me_set_feedback_content" = "Please input your contact information";
 "me_set_feeback_contact" = "Please input content";
