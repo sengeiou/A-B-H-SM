@@ -40,6 +40,16 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［QQ］" forKey:@"LOGINTYPE"]];
 }
 
+- (void)wbLoginFinishWithUserID:(NSString *)userid accessToken:(NSString *)token{
+    if (userid && token) {
+         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［Weibo］" ,@"LOGINTYPE",userid,@"OPENID",token,@"TOKEN", nil]];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［Weibo］" forKey:@"LOGINTYPE"]];
+    }
+
+}
+
 #pragma mark - WXApiDelegate (微信登录反馈)
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {

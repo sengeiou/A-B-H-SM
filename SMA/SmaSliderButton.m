@@ -127,7 +127,6 @@
                 } CompleteCallback:^(NSString *filePath) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSData *data = [NSData dataWithContentsOfFile:filePath];
-                        NSLog(@"fwggeh====%@",filePath);
                         if (data) {
                             [self setBackgroundImage:[[UIImage alloc] initWithData:data] forState:UIControlStateNormal];
                             [self setBackgroundImage:[[UIImage alloc] initWithData:data] forState:UIControlStateHighlighted];

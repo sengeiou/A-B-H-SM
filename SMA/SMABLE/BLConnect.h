@@ -19,6 +19,7 @@
 - (void)bleBindState:(int)state;//0：绑定中；1：绑定成功；2：绑定失败
 - (void)bleLoginComplete;
 - (void)bleDidUpdateValue:(CBCharacteristic *)characteristic;
+- (void)blediDWriteValueForCharacteristicError:(NSError *)error;
 - (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data;
 - (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode;
 //更新进度（表盘）

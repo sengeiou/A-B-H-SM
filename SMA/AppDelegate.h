@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "SMAFirstLunViewController.h"
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "WeiboSDK.h"
+@interface AppDelegate : UIResponder <UIApplicationDelegate,WeiboSDKDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-
+@property (strong, nonatomic) NSString *wbtoken;
+@property (strong, nonatomic) NSString *wbRefreshToken;
+@property (strong, nonatomic) NSString *wbCurrentUserID;
 @end
 

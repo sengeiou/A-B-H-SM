@@ -153,15 +153,51 @@
 - (IBAction)shareselector:(id)sender{
 //    SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
 //    [webSer acloudSyncAllDataWithAccount:[SMAAccountTool userInfo].userID];
-    Byte buf[4];
-    buf[0] = 0x1f + 0x80;
-    buf[1] = 0xc5;
-    buf[2] = 0xea;
-    buf[3] = 0xea;
-    NSLog(@"ff==%@",[NSData dataWithBytes:buf length:4]);
-    if (buf[0] > 0x7f) {
-        buf[0] = buf[0] - 0x8f;
+//    Byte buf[4];
+//    buf[0] = 0x1f + 0x80;
+//    buf[1] = 0xc5;
+//    buf[2] = 0xea;
+//    buf[3] = 0xea;
+//    NSLog(@"ff==%@",[NSData dataWithBytes:buf length:4]);
+//    if (buf[0] > 0x7f) {
+//        buf[0] = buf[0] - 0x8f;
+//    }
+    CGSize imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);//你要的截图的位置
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen]) {
+            CGContextSaveGState(context);
+            CGContextTranslateCTM(context, [window center].x, [window center].y);
+            CGContextConcatCTM(context, [window transform]);
+            CGContextTranslateCTM(context,
+                                  -[window bounds].size.width * [[window layer] anchorPoint].x,
+                                  -[window bounds].size.height * [[window layer] anchorPoint].y);
+            
+            [[window layer] renderInContext:context];
+            CGContextRestoreGState(context);
+        }
     }
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
+    NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
+    NSArray *shareArr;
+    NSArray *shareImaArr;
+    if (![preferredLang isEqualToString:@"zh"]) {
+        shareArr = @[SMALocalizedString(@"twitter")/*,SMALocalizedString(@"tumblr")*/,SMALocalizedString(@"instagram"),SMALocalizedString(@"facebook")];
+        shareImaArr = @[[UIImage imageNamed:@"home_twitter"]/*,[UIImage imageNamed:@"home_tumblr"]*/,[UIImage imageNamed:@"home_instagram"],[UIImage imageNamed:@"home_facebook"]];
+    }
+    else{
+        shareArr = @[SMALocalizedString(@"device_share_wechat"),SMALocalizedString(@"device_share_Timeline"),SMALocalizedString(@"device_share_qq"),SMALocalizedString(@"device_share_Qzone"),SMALocalizedString(@"device_share_webo")];
+        shareImaArr = @[[UIImage imageNamed:@"icon_weixin"],[UIImage imageNamed:@"home_pyq"],[UIImage imageNamed:@"icon_qq"],[UIImage imageNamed:@"home_kongjian"],[UIImage imageNamed:@"icon_weibo"]];
+    }
+    SMAShareView *shareView = [[SMAShareView alloc] initWithButtonTitles:shareArr butImage:shareImaArr shareImage:image];
+    shareView.shareVC = self;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app.window addSubview:shareView];
 }
 
 - (UIImage *)screenshot{
@@ -308,14 +344,16 @@
                 cell.roundView.progressView.progress = [[[HRArr firstObject] objectForKey:@"REAT"] intValue]/200.0;
                 cell.titLab.text = SMALocalizedString(@"setting_heart_monitor");
                 cell.titLab.textColor = [UIColor colorWithRed:234/255.0 green:31/255.0 blue:117/255.0 alpha:1];
+                cell.dialLab.textColor = [UIColor colorWithRed:234/255.0 green:31/255.0 blue:117/255.0 alpha:1];
+                cell.dialLab.font = FontGothamLight(18);
                 cell.dialLab.text = [self hrMode:[[[HRArr firstObject] objectForKey:@"REAT"] intValue]];
                 cell.stypeLab.text = @"";
 //                cell.detailsTitLab1.text = SMALocalizedString(@"device_HR_rest");
 //                cell.detailsTitLab2.text = SMALocalizedString(@"device_HR_mean");
 //                cell.detailsTitLab3.text = SMALocalizedString(@"device_HR_max");
-                cell.detailsLab1.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[quietArr lastObject] objectForKey:@"HEART"] intValue]],@"bpm"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[UIColor blackColor]]];
-                cell.detailsLab2.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[HRArr lastObject] objectForKey:@"avgHR"] intValue]],@"bpm"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[UIColor blackColor]]];
-                cell.detailsLab3.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[HRArr lastObject] objectForKey:@"maxHR"] intValue]],@"bpm"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[UIColor blackColor]]];
+                cell.detailsLab3.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[quietArr lastObject] objectForKey:@"HEART"] intValue]],@"bpm"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[UIColor blackColor]]];
+                cell.detailsLab1.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[HRArr lastObject] objectForKey:@"avgHR"] intValue]],@"bpm"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[UIColor blackColor]]];
+                cell.detailsLab2.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[HRArr lastObject] objectForKey:@"maxHR"] intValue]],@"bpm"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[UIColor blackColor]]];
 //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //                    UIImage *cornerImage = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#F8A3BD" alpha:1],[SmaColor colorWithHexString:@"#F8A3BD" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
 //                    UIImage *cornerImage1 = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#D7B7EF" alpha:1],[SmaColor colorWithHexString:@"#D7B7EF" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
@@ -325,10 +363,10 @@
             [cell tapRoundView:^(UIButton *button,UIView *view) {
                 CGSize remindSize;
                 NSString *remindStr;
-                if (button.tag == 101) {
+                if (button.tag == 103) {
                     remindStr = SMALocalizedString(@"device_HR_quiet");
                 }
-                else if(button.tag == 102){
+                else if(button.tag == 101){
                     remindStr = SMALocalizedString(@"device_HR_mean");
                 }
                 else{
@@ -360,9 +398,9 @@
 //                cell.detailsTitLab1.text = SMALocalizedString(@"device_SL_deep");
 //                cell.detailsTitLab2.text = SMALocalizedString(@"device_SL_light");
 //                cell.detailsTitLab3.text = SMALocalizedString(@"device_SL_awake");
-                cell.detailsLab1.attributedText = [sleepArr objectAtIndex:4];
-                cell.detailsLab2.attributedText = [sleepArr objectAtIndex:3];
-                cell.detailsLab3.attributedText = [sleepArr objectAtIndex:2];
+                cell.detailsLab3.attributedText = [sleepArr objectAtIndex:4];
+                cell.detailsLab1.attributedText = [sleepArr objectAtIndex:3];
+                cell.detailsLab2.attributedText = [sleepArr objectAtIndex:2];
 //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //                    UIImage *cornerImage = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#8DE3BF" alpha:1],[SmaColor colorWithHexString:@"#8DE3BF" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
 //                    UIImage *cornerImage1 = [UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#00C6AE" alpha:1],[SmaColor colorWithHexString:@"#00C6AE" alpha:1]] ByGradientType:0 radius:5 size:CGSizeMake(10, 10)];
@@ -372,10 +410,10 @@
             [cell tapRoundView:^(UIButton *button,UIView *view) {
                 CGSize remindSize;
                 NSString *remindStr;
-                if (button.tag == 101) {
+                if (button.tag == 103) {
                     remindStr = SMALocalizedString(@"device_SL_awake");
                 }
-                else if(button.tag == 102){
+                else if(button.tag == 101){
                     remindStr = SMALocalizedString(@"device_SL_light");
                 }
                 else{

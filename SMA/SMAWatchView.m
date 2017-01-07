@@ -139,11 +139,18 @@
     else{
         if (sender.selected) {
             [self setSwitchBinData];
+            if ([SmaBleMgr checkBLConnectState]) {
+                [SmaBleSend enterXmodem];
+            }
+            else{
+                return;
+            }
             for (UIButton *but in backView.subviews) {
                 if (but.tag > 1100) {
                     but.enabled = NO;
                 }
             }
+
             _sliderBut = [SmaSliderButton buttonWithType:UIButtonTypeCustom];
             _sliderBut.enabled = NO;
             UIButton *but0 = (UIButton *)[bottomView viewWithTag:1001];
@@ -161,7 +168,7 @@
             [selBut setBackgroundImage:selectimage forState:UIControlStateDisabled];
             but1.hidden = YES;
             but0.hidden = YES;
-            [SmaBleSend enterXmodem];
+
             if (_timer) {
                 [_timer invalidate];
                 _timer = nil;
@@ -334,18 +341,21 @@ static float i = 0.0;
 }
 
 - (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{
-    if (mode == CUFFSWITCHS) {
+    if (mode == WATCHFACE) {
         _olSwitchArr = data;
     }
 }
 
 - (void)bleDisconnected:(NSString *)error{
         [self setSwitchFail];
+    SmaBleSend.isUPDateSwitch = NO;
+//    [MBProgressHUD showError:SMALocalizedString(@"device_syncFail")];
 }
 
 #pragma mark ***********SmaCoreBlueToolDelegate
 - (void)bleUpdateProgress:(float)pregress{
     [self setSwitchProgress:pregress];
+
 }
 
 - (void)bleUpdateProgressEnd:(BOOL)success{

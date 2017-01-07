@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <TencentOpenAPI/TencentOAuth.h>
+#import "TencentOpenAPI/QQApiInterface.h"
 #import "WXApi.h"
+#import "WXApiObject.h"
 #import "AFNetworking.h"
 @interface SMAthirdPartyManager : NSObject<TencentSessionDelegate, TencentApiInterfaceDelegate, TCAPIRequestDelegate,WXApiDelegate>
-+(instancetype)sharedManager;
++ (instancetype)sharedManager;
+- (void)wbLoginFinishWithUserID:(NSString *)userid accessToken:(NSString *)token;
 @end

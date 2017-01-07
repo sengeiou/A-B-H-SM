@@ -58,8 +58,8 @@
         _highLab.attributedText = [self attributedStringWithArr:@[@"170",SMALocalizedString(@"me_perso_cm")]];
     }
     else{
-        for (int i = 0; i < 10; i ++) {
-            [unArr addObject:[NSString stringWithFormat:@"%d'",i + 1]];
+        for (int i = 0; i < 12; i ++) {
+            [unArr addObject:[NSString stringWithFormat:@"%d'",i]];
             [unArr1 addObject:[NSString stringWithFormat:@"%d\"",i]];
         }
         float inch = [SMACalculate convertToInch:170];

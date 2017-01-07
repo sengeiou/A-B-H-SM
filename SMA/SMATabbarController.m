@@ -42,16 +42,10 @@ static int rankNum;
 static int setNum;
 static int meNum;
 static bool setRunk;
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
-    NSLog(@"item name = %@  %d", item.title,self.selectedIndex);
-
-}
 
 //选择控制器之后
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-    NSLog(@"viewController.tabBarItem name = %@  %d", viewController.tabBarItem.title,self.selectedIndex);
     if (!rankTimer) {
         rankTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(rankTimeOut) userInfo:nil repeats:NO];
     }
@@ -90,20 +84,17 @@ static bool setRunk;
                 int step = deviceNum * 10000 + rankNum * 1000 + setNum * 100 + (int)((arc4random() % (10  + 1)));
 //                [SMADefaultinfos removeValueForKey:RUNKSTEP];
                 NSDictionary *hisDic = [SMADefaultinfos getValueforKey:RUNKSTEP];
-                NSLog(@"egrgh==%@  %d",[SMADefaultinfos getValueforKey:RUNKSTEP],step);
                 SmaAnalysisWebServiceTool *webTool = [[SmaAnalysisWebServiceTool alloc] init];
                 if ([[hisDic objectForKey:@"RUNKDATE"] isEqualToString:[NSDate date].yyyyMMddNoLineWithDate]) {
                     if (step >= [[hisDic objectForKey:@"RUNKSTEP"] intValue]){
                         NSDictionary *runStep = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"RUNKSTEP",[NSDate date].yyyyMMddNoLineWithDate,@"RUNKDATE", nil];
                         [SMADefaultinfos putKey:RUNKSTEP andValue:runStep];
                      [webTool acloudSetScore:step];
-                        NSLog(@"egrgh3333==%@  %d",[SMADefaultinfos getValueforKey:RUNKSTEP],step);
                     }
                 }
                 else{
                     NSDictionary *runStep = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",step],@"RUNKSTEP",[NSDate date].yyyyMMddNoLineWithDate,@"RUNKDATE", nil];
                     [SMADefaultinfos putKey:RUNKSTEP andValue:runStep];
-                    NSLog(@"egrgh333443==%@  %d",[SMADefaultinfos getValueforKey:RUNKSTEP],step);
                      [webTool acloudSetScore:step];
                 }
         }
@@ -137,6 +128,9 @@ static bool setRunk;
 }
 
 - (void)rankTimeOut{
+    for (UIViewController *controller in self.viewControllers) {
+        controller.tabBarItem.badgeValue = nil;
+    }
     deviceNum = 0;
     rankNum = 0;
     setNum = 0;

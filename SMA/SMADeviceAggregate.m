@@ -255,7 +255,6 @@ static id _instace;
 }
 
 - (NSMutableArray *)getSPDetalilDataWithNowDate:(NSDate *)date month:(BOOL)month{
-//    NSLog(@"fewfwef==%@",date.yyyyMMddNoLineWithDate);
     NSDate *firstdate = date;
     NSMutableArray *weekDate = [NSMutableArray array];
     NSMutableArray *modeDate = [NSMutableArray array];

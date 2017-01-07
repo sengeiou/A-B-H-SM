@@ -40,7 +40,7 @@
 }
 
 - (void)initializeMethod{
-    deviceArr = @[@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"SMA_07"]];
+    deviceArr = @[@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
 }
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_band_title");

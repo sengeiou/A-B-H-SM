@@ -39,6 +39,12 @@
 		EE227CF81D74381C00B9387D /* SMARulerScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CF71D74381C00B9387D /* SMARulerScrollView.m */; };
 		EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */; };
 		EE30F2F31D8E42C000869CF9 /* SMASelectViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2F11D8E42C000869CF9 /* SMASelectViewCell.m */; };
+		EE34EE5B1E1F6C8600A8AABC /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE591E1F6C7000A8AABC /* Zip.framework */; };
+		EE34EE5C1E1F6C8600A8AABC /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE591E1F6C7000A8AABC /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EE34EE5D1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */; };
+		EE34EE5E1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EE34EE601E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip in Resources */ = {isa = PBXBuildFile; fileRef = EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */; };
+		EE34EE641E1F980000A8AABC /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE631E1F980000A8AABC /* libSmaBLE.a */; };
 		EE3A32B71DA8BD060077C813 /* BEMAnalogClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B41DA8BD060077C813 /* BEMAnalogClockView.m */; };
 		EE3A32B81DA8BD060077C813 /* KSMHand.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B61DA8BD060077C813 /* KSMHand.m */; };
 		EE3A32BB1DA8BDB80077C813 /* SMAAlarmSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32BA1DA8BDB80077C813 /* SMAAlarmSubViewController.m */; };
@@ -171,12 +177,15 @@
 		EE63AD9E1DC08ABE00ABA94D /* MTKSleepView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE63AD9D1DC08ABE00ABA94D /* MTKSleepView.m */; };
 		EE648C561DFA88A90090DD02 /* SMASwitchScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE648C551DFA88A90090DD02 /* SMASwitchScrollView.m */; };
 		EE648C5D1DFABE170090DD02 /* SMAPhotoSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE648C5C1DFABE170090DD02 /* SMAPhotoSelectView.m */; };
+		EE6783D81E1DFC0F00B0B6E7 /* DfuUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6783D41E1DFC0F00B0B6E7 /* DfuUpdate.m */; };
+		EE6783DA1E1DFC1000B0B6E7 /* sma10b_firmware_v1.1.8.zip in Resources */ = {isa = PBXBuildFile; fileRef = EE6783D61E1DFC0F00B0B6E7 /* sma10b_firmware_v1.1.8.zip */; };
 		EE733EC81DBDE41B00CF2887 /* SMAQuietHRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE733EC61DBDE41B00CF2887 /* SMAQuietHRViewController.m */; };
 		EE733EC91DBDE41B00CF2887 /* SMAQuietHRViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE733EC71DBDE41B00CF2887 /* SMAQuietHRViewController.xib */; };
 		EE755DDE1DF15774005D340A /* SMACenterLabView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE755DDD1DF15774005D340A /* SMACenterLabView.m */; };
 		EE796C4C1DE6F01100DCA2BA /* SMARunHrViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE796C4B1DE6F01100DCA2BA /* SMARunHrViewController.m */; };
 		EE7A86E91DB08A5F0089BA70 /* SMAGoalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7A86E81DB08A5F0089BA70 /* SMAGoalViewController.m */; };
 		EE7CB58D1DEC539800AB5E7D /* SMAEmailLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7CB58C1DEC539800AB5E7D /* SMAEmailLoginViewController.m */; };
+		EE7E73C41E135DB7002D19BA /* SMAShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7E73C31E135DB7002D19BA /* SMAShareView.m */; };
 		EE80638E1DF66946005D6863 /* SMAChangePassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE80638D1DF66946005D6863 /* SMAChangePassViewController.m */; };
 		EE8063921DF66B90005D6863 /* SMAChangeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8063901DF66B90005D6863 /* SMAChangeCell.m */; };
 		EE8063931DF66B90005D6863 /* SMAChangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE8063911DF66B90005D6863 /* SMAChangeCell.xib */; };
@@ -228,7 +237,6 @@
 		EE9C002A1DA8D52100DF050D /* SMAAlarmRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9C00291DA8D52100DF050D /* SMAAlarmRulerView.m */; };
 		EE9C00331DA8D99000DF050D /* SMARulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9C00321DA8D99000DF050D /* SMARulerView.m */; };
 		EE9C00361DA8DA0800DF050D /* SMAClockRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9C00351DA8DA0800DF050D /* SMAClockRulerView.m */; };
-		EEA6BCC01DFFEA1D009E6943 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA6BCBF1DFFEA1D009E6943 /* libSmaBLE.a */; };
 		EEA834001D96765800AF4CA9 /* SMAFindPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA833FF1D96765800AF4CA9 /* SMAFindPassViewController.m */; };
 		EEA8D9BC1DF577F600DAE4BA /* SMARemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA8D9BB1DF577F600DAE4BA /* SMARemindView.m */; };
 		EEAD86561DE2BF07000D9DB7 /* SMATabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAD86551DE2BF07000D9DB7 /* SMATabbarController.m */; };
@@ -238,6 +246,16 @@
 		EEAF8A661DA9F14B00E1FE83 /* SMARepeatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAF8A641DA9F14B00E1FE83 /* SMARepeatCell.m */; };
 		EEAF8A671DA9F14B00E1FE83 /* SMARepeatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEAF8A651DA9F14B00E1FE83 /* SMARepeatCell.xib */; };
 		EEB09AAF1D79214500E34B9D /* SMADeviceDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB09AAE1D79214500E34B9D /* SMADeviceDataTableViewController.m */; };
+		EEB54D011E14E96D0059F8D0 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D001E14E96D0059F8D0 /* Social.framework */; };
+		EEB54D061E14F8400059F8D0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D021E14F8400059F8D0 /* Bolts.framework */; };
+		EEB54D071E14F8400059F8D0 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D031E14F8400059F8D0 /* FBSDKCoreKit.framework */; };
+		EEB54D081E14F8400059F8D0 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D041E14F8400059F8D0 /* FBSDKLoginKit.framework */; };
+		EEB54D181E151B3B0059F8D0 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D0B1E151B3B0059F8D0 /* libWeiboSDK.a */; };
+		EEB54D191E151B3B0059F8D0 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EEB54D151E151B3B0059F8D0 /* WeiboSDK.bundle */; };
+		EEB54D1B1E151B800059F8D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D1A1E151B800059F8D0 /* QuartzCore.framework */; };
+		EEB54D1D1E151B950059F8D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D1C1E151B950059F8D0 /* ImageIO.framework */; };
+		EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D1E1E151BCF0059F8D0 /* Foundation.framework */; };
+		EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D201E151BFD0059F8D0 /* CoreText.framework */; };
 		EEB643831DEC05C600544FFE /* SMALocatiuonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */; };
 		EEB643851DEC067D00544FFE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB643841DEC067D00544FFE /* CoreLocation.framework */; };
 		EEB9F68E1D64318B0011AA07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F68D1D64318B0011AA07 /* main.m */; };
@@ -303,7 +321,23 @@
 		EEEDD2971D98C93B009D6CA3 /* SMASedentaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2961D98C93B009D6CA3 /* SMASedentaryController.m */; };
 		EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */; };
 		EEEDD29C1D98FFEF009D6CA3 /* SMASedentaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */; };
+		EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D051E14F8400059F8D0 /* FBSDKShareKit.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EE34EE521E1F6AD000A8AABC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EE34EE5E1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Embed Frameworks */,
+				EE34EE5C1E1F6C8600A8AABC /* Zip.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		EE09ACE21DAA2B1000CA2EC5 /* SMADatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADatabase.h; sourceTree = "<group>"; };
@@ -436,6 +470,10 @@
 		EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASelectCoachViewController.m; sourceTree = "<group>"; };
 		EE30F2F01D8E42C000869CF9 /* SMASelectViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASelectViewCell.h; sourceTree = "<group>"; };
 		EE30F2F11D8E42C000869CF9 /* SMASelectViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASelectViewCell.m; sourceTree = "<group>"; };
+		EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iOSDFULibrary.framework; sourceTree = "<group>"; };
+		EE34EE591E1F6C7000A8AABC /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Zip.framework; sourceTree = "<group>"; };
+		EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "sma07_app(pah8002)_v1.1.1.zip"; sourceTree = "<group>"; };
+		EE34EE631E1F980000A8AABC /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE3A32B31DA8BD060077C813 /* BEMAnalogClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAnalogClockView.h; sourceTree = "<group>"; };
 		EE3A32B41DA8BD060077C813 /* BEMAnalogClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAnalogClockView.m; sourceTree = "<group>"; };
 		EE3A32B51DA8BD060077C813 /* KSMHand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSMHand.h; sourceTree = "<group>"; };
@@ -781,6 +819,9 @@
 		EE648C551DFA88A90090DD02 /* SMASwitchScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASwitchScrollView.m; sourceTree = "<group>"; };
 		EE648C5B1DFABE170090DD02 /* SMAPhotoSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPhotoSelectView.h; sourceTree = "<group>"; };
 		EE648C5C1DFABE170090DD02 /* SMAPhotoSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPhotoSelectView.m; sourceTree = "<group>"; };
+		EE6783D31E1DFC0F00B0B6E7 /* DfuUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DfuUpdate.h; sourceTree = "<group>"; };
+		EE6783D41E1DFC0F00B0B6E7 /* DfuUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DfuUpdate.m; sourceTree = "<group>"; };
+		EE6783D61E1DFC0F00B0B6E7 /* sma10b_firmware_v1.1.8.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = sma10b_firmware_v1.1.8.zip; sourceTree = "<group>"; };
 		EE733EC51DBDE41B00CF2887 /* SMAQuietHRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAQuietHRViewController.h; sourceTree = "<group>"; };
 		EE733EC61DBDE41B00CF2887 /* SMAQuietHRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAQuietHRViewController.m; sourceTree = "<group>"; };
 		EE733EC71DBDE41B00CF2887 /* SMAQuietHRViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMAQuietHRViewController.xib; sourceTree = "<group>"; };
@@ -792,6 +833,8 @@
 		EE7A86E81DB08A5F0089BA70 /* SMAGoalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAGoalViewController.m; sourceTree = "<group>"; };
 		EE7CB58B1DEC539800AB5E7D /* SMAEmailLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAEmailLoginViewController.h; sourceTree = "<group>"; };
 		EE7CB58C1DEC539800AB5E7D /* SMAEmailLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAEmailLoginViewController.m; sourceTree = "<group>"; };
+		EE7E73C21E135DB7002D19BA /* SMAShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAShareView.h; sourceTree = "<group>"; };
+		EE7E73C31E135DB7002D19BA /* SMAShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAShareView.m; sourceTree = "<group>"; };
 		EE80638C1DF66946005D6863 /* SMAChangePassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAChangePassViewController.h; sourceTree = "<group>"; };
 		EE80638D1DF66946005D6863 /* SMAChangePassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAChangePassViewController.m; sourceTree = "<group>"; };
 		EE80638F1DF66B90005D6863 /* SMAChangeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAChangeCell.h; sourceTree = "<group>"; };
@@ -894,7 +937,6 @@
 		EE9C00321DA8D99000DF050D /* SMARulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARulerView.m; sourceTree = SOURCE_ROOT; };
 		EE9C00341DA8DA0800DF050D /* SMAClockRulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAClockRulerView.h; sourceTree = "<group>"; };
 		EE9C00351DA8DA0800DF050D /* SMAClockRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAClockRulerView.m; sourceTree = "<group>"; };
-		EEA6BCBF1DFFEA1D009E6943 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EEA833FE1D96765800AF4CA9 /* SMAFindPassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAFindPassViewController.h; sourceTree = "<group>"; };
 		EEA833FF1D96765800AF4CA9 /* SMAFindPassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAFindPassViewController.m; sourceTree = "<group>"; };
 		EEA8D9BA1DF577F600DAE4BA /* SMARemindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARemindView.h; sourceTree = "<group>"; };
@@ -911,6 +953,28 @@
 		EEAF8A651DA9F14B00E1FE83 /* SMARepeatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMARepeatCell.xib; sourceTree = "<group>"; };
 		EEB09AAD1D79214500E34B9D /* SMADeviceDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADeviceDataTableViewController.h; sourceTree = "<group>"; };
 		EEB09AAE1D79214500E34B9D /* SMADeviceDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADeviceDataTableViewController.m; sourceTree = "<group>"; };
+		EEB54D001E14E96D0059F8D0 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		EEB54D021E14F8400059F8D0 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		EEB54D031E14F8400059F8D0 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		EEB54D041E14F8400059F8D0 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		EEB54D051E14F8400059F8D0 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		EEB54D0B1E151B3B0059F8D0 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		EEB54D0C1E151B3B0059F8D0 /* WBHttpRequest+WeiboGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboGame.h"; sourceTree = "<group>"; };
+		EEB54D0D1E151B3B0059F8D0 /* WBHttpRequest+WeiboShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboShare.h"; sourceTree = "<group>"; };
+		EEB54D0E1E151B3B0059F8D0 /* WBHttpRequest+WeiboToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboToken.h"; sourceTree = "<group>"; };
+		EEB54D0F1E151B3B0059F8D0 /* WBHttpRequest+WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboUser.h"; sourceTree = "<group>"; };
+		EEB54D101E151B3B0059F8D0 /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
+		EEB54D111E151B3B0059F8D0 /* WBSDKBasicButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKBasicButton.h; sourceTree = "<group>"; };
+		EEB54D121E151B3B0059F8D0 /* WBSDKCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKCommentButton.h; sourceTree = "<group>"; };
+		EEB54D131E151B3B0059F8D0 /* WBSDKRelationshipButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKRelationshipButton.h; sourceTree = "<group>"; };
+		EEB54D141E151B3B0059F8D0 /* WeiboSDK+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WeiboSDK+Statistics.h"; sourceTree = "<group>"; };
+		EEB54D151E151B3B0059F8D0 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		EEB54D161E151B3B0059F8D0 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		EEB54D171E151B3B0059F8D0 /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
+		EEB54D1A1E151B800059F8D0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		EEB54D1C1E151B950059F8D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		EEB54D1E1E151BCF0059F8D0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EEB54D201E151BFD0059F8D0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		EEB643811DEC05C600544FFE /* SMALocatiuonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMALocatiuonManager.h; sourceTree = "<group>"; };
 		EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMALocatiuonManager.m; sourceTree = "<group>"; };
 		EEB643841DEC067D00544FFE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -1046,14 +1110,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */,
+				EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */,
+				EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */,
+				EEB54D1D1E151B950059F8D0 /* ImageIO.framework in Frameworks */,
+				EEB54D1B1E151B800059F8D0 /* QuartzCore.framework in Frameworks */,
+				EEB54D011E14E96D0059F8D0 /* Social.framework in Frameworks */,
 				EEB643851DEC067D00544FFE /* CoreLocation.framework in Frameworks */,
 				EE10CE831DB5F9E100585B74 /* Accelerate.framework in Frameworks */,
+				EEB54D181E151B3B0059F8D0 /* libWeiboSDK.a in Frameworks */,
 				EE57A7541E0B5FE10007BCC8 /* libiot.a in Frameworks */,
 				EE9AB5C41D6EF6170028F8DA /* libsqlite3.0.tbd in Frameworks */,
-				EEA6BCC01DFFEA1D009E6943 /* libSmaBLE.a in Frameworks */,
 				EE57A74C1E0B5FE10007BCC8 /* libBLEasyConfig.a in Frameworks */,
 				EE4B1DD01D64898700825E2B /* libz.tbd in Frameworks */,
 				EE0E14181D6708590054BE87 /* libstdc++.tbd in Frameworks */,
+				EE34EE641E1F980000A8AABC /* libSmaBLE.a in Frameworks */,
 				EE57A73A1E0B5FE10007BCC8 /* libcrypto.a in Frameworks */,
 				EE0E14161D6708520054BE87 /* CoreTelephony.framework in Frameworks */,
 				EE10CE7A1DB5F7F000585B74 /* libCorePlot-CocoaTouch.a in Frameworks */,
@@ -1064,6 +1135,8 @@
 				EE57A7591E0B5FE10007BCC8 /* libAbleCloudLib.a in Frameworks */,
 				EE0E140E1D6708240054BE87 /* Security.framework in Frameworks */,
 				EE57A7381E0B5FE00007BCC8 /* libFTC_DEBUG_ARM_64.a in Frameworks */,
+				EE34EE5D1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Frameworks */,
+				EEB54D071E14F8400059F8D0 /* FBSDKCoreKit.framework in Frameworks */,
 				EE0E140C1D6708190054BE87 /* libiconv.tbd in Frameworks */,
 				EE57A7391E0B5FE10007BCC8 /* libcooee.a in Frameworks */,
 				EE57A74F1E0B5FE10007BCC8 /* libLibSimpleConfig.a in Frameworks */,
@@ -1075,7 +1148,10 @@
 				EE57A73B1E0B5FE10007BCC8 /* EasyConfig.a in Frameworks */,
 				EE57A73D1E0B5FE10007BCC8 /* libEasyLink.a in Frameworks */,
 				EE57A7561E0B5FE10007BCC8 /* libUMessage_Sdk_1.4.0.a in Frameworks */,
+				EEB54D061E14F8400059F8D0 /* Bolts.framework in Frameworks */,
+				EEB54D081E14F8400059F8D0 /* FBSDKLoginKit.framework in Frameworks */,
 				EE57A7521E0B5FE10007BCC8 /* libConfiguration.a in Frameworks */,
+				EE34EE5B1E1F6C8600A8AABC /* Zip.framework in Frameworks */,
 				EE57A7501E0B5FE10007BCC8 /* libXlwDevice.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1210,6 +1286,15 @@
 		EE10CE811DB5F9E100585B74 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EEB54D201E151BFD0059F8D0 /* CoreText.framework */,
+				EEB54D1E1E151BCF0059F8D0 /* Foundation.framework */,
+				EEB54D1C1E151B950059F8D0 /* ImageIO.framework */,
+				EEB54D1A1E151B800059F8D0 /* QuartzCore.framework */,
+				EEB54D021E14F8400059F8D0 /* Bolts.framework */,
+				EEB54D031E14F8400059F8D0 /* FBSDKCoreKit.framework */,
+				EEB54D041E14F8400059F8D0 /* FBSDKLoginKit.framework */,
+				EEB54D051E14F8400059F8D0 /* FBSDKShareKit.framework */,
+				EEB54D001E14E96D0059F8D0 /* Social.framework */,
 				EEB643841DEC067D00544FFE /* CoreLocation.framework */,
 				EE10CE821DB5F9E100585B74 /* Accelerate.framework */,
 			);
@@ -1238,7 +1323,7 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EEA6BCBF1DFFEA1D009E6943 /* libSmaBLE.a */,
+				EE34EE631E1F980000A8AABC /* libSmaBLE.a */,
 				EE648C4A1DFA58190090DD02 /* SmaAlarmInfo.h */,
 				EE648C4B1DFA58190090DD02 /* SmaBLE.h */,
 				EE648C4C1DFA58190090DD02 /* SmaBusinessTool.h */,
@@ -2250,6 +2335,19 @@
 			path = ACWifiLinkManager;
 			sourceTree = "<group>";
 		};
+		EE6783D21E1DFC0F00B0B6E7 /* DfuUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				EE6783D31E1DFC0F00B0B6E7 /* DfuUpdate.h */,
+				EE6783D41E1DFC0F00B0B6E7 /* DfuUpdate.m */,
+				EE34EE591E1F6C7000A8AABC /* Zip.framework */,
+				EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */,
+				EE6783D61E1DFC0F00B0B6E7 /* sma10b_firmware_v1.1.8.zip */,
+				EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */,
+			);
+			path = DfuUpdate;
+			sourceTree = "<group>";
+		};
 		EE81699A1D8E9E8C003BEDDF /* SMABLE */ = {
 			isa = PBXGroup;
 			children = (
@@ -2459,6 +2557,26 @@
 			name = DeviceData;
 			sourceTree = "<group>";
 		};
+		EEB54D0A1E151B3B0059F8D0 /* libWeiboSDK */ = {
+			isa = PBXGroup;
+			children = (
+				EEB54D0B1E151B3B0059F8D0 /* libWeiboSDK.a */,
+				EEB54D0C1E151B3B0059F8D0 /* WBHttpRequest+WeiboGame.h */,
+				EEB54D0D1E151B3B0059F8D0 /* WBHttpRequest+WeiboShare.h */,
+				EEB54D0E1E151B3B0059F8D0 /* WBHttpRequest+WeiboToken.h */,
+				EEB54D0F1E151B3B0059F8D0 /* WBHttpRequest+WeiboUser.h */,
+				EEB54D101E151B3B0059F8D0 /* WBHttpRequest.h */,
+				EEB54D111E151B3B0059F8D0 /* WBSDKBasicButton.h */,
+				EEB54D121E151B3B0059F8D0 /* WBSDKCommentButton.h */,
+				EEB54D131E151B3B0059F8D0 /* WBSDKRelationshipButton.h */,
+				EEB54D141E151B3B0059F8D0 /* WeiboSDK+Statistics.h */,
+				EEB54D151E151B3B0059F8D0 /* WeiboSDK.bundle */,
+				EEB54D161E151B3B0059F8D0 /* WeiboSDK.h */,
+				EEB54D171E151B3B0059F8D0 /* WeiboUser.h */,
+			);
+			path = libWeiboSDK;
+			sourceTree = "<group>";
+		};
 		EEB643801DEC058600544FFE /* SMASystemMap */ = {
 			isa = PBXGroup;
 			children = (
@@ -2565,6 +2683,8 @@
 		EEB9F6BA1D6443200011AA07 /* other */ = {
 			isa = PBXGroup;
 			children = (
+				EE6783D21E1DFC0F00B0B6E7 /* DfuUpdate */,
+				EEB54D0A1E151B3B0059F8D0 /* libWeiboSDK */,
 				EE57A5A41E0B5FE00007BCC8 /* ACloudLib */,
 				EEB643801DEC058600544FFE /* SMASystemMap */,
 				EE10CE2A1DB5F7F000585B74 /* CorePlotHeaders */,
@@ -2847,6 +2967,8 @@
 				EE755DDD1DF15774005D340A /* SMACenterLabView.m */,
 				EE648C5B1DFABE170090DD02 /* SMAPhotoSelectView.h */,
 				EE648C5C1DFABE170090DD02 /* SMAPhotoSelectView.m */,
+				EE7E73C21E135DB7002D19BA /* SMAShareView.h */,
+				EE7E73C31E135DB7002D19BA /* SMAShareView.m */,
 			);
 			path = AndroidControls;
 			sourceTree = "<group>";
@@ -2861,6 +2983,7 @@
 				EEB9F6851D64318B0011AA07 /* Sources */,
 				EEB9F6861D64318B0011AA07 /* Frameworks */,
 				EEB9F6871D64318B0011AA07 /* Resources */,
+				EE34EE521E1F6AD000A8AABC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2924,6 +3047,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE6783DA1E1DFC1000B0B6E7 /* sma10b_firmware_v1.1.8.zip in Resources */,
 				EEB9F6BD1D6443340011AA07 /* Gotham-Light_0.otf in Resources */,
 				EE12EF2C1D7D6BCB0096F811 /* SMADieviceDataCell.xib in Resources */,
 				EEB9F69C1D64318B0011AA07 /* LaunchScreen.storyboard in Resources */,
@@ -2933,8 +3057,10 @@
 				EEAD8E9B1D9A1997009128BB /* SMASedentEditCell.xib in Resources */,
 				EEE4AA3C1DF81608002644CD /* SMAWatchCollectionCell.xib in Resources */,
 				EEC3CD141DB0CE320034105B /* MJRefresh.bundle in Resources */,
+				EE34EE601E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip in Resources */,
 				EE9AB5C21D6EF5EA0028F8DA /* README.txt in Resources */,
 				EEEDD29C1D98FFEF009D6CA3 /* SMASedentaryCell.xib in Resources */,
+				EEB54D191E151B3B0059F8D0 /* WeiboSDK.bundle in Resources */,
 				EEB9F6A61D6431F30011AA07 /* Localizable.strings in Resources */,
 				EE6061491DEEDECC008A7786 /* SMASelectCell.xib in Resources */,
 				EE4B1C171D646A0500825E2B /* country.plist in Resources */,
@@ -3001,6 +3127,7 @@
 				EEC3CD1B1DB0CE320034105B /* UIView+MJExtension.m in Sources */,
 				EE57A7301E0B5FE00007BCC8 /* QNUserAgent.m in Sources */,
 				EEC582141DED6A2100980DDA /* SMANickViewController.m in Sources */,
+				EE6783D81E1DFC0F00B0B6E7 /* DfuUpdate.m in Sources */,
 				EE9C00361DA8DA0800DF050D /* SMAClockRulerView.m in Sources */,
 				EEA8D9BC1DF577F600DAE4BA /* SMARemindView.m in Sources */,
 				EE57A7161E0B5FE00007BCC8 /* QN_GTM_Base64.m in Sources */,
@@ -3045,6 +3172,7 @@
 				EE57A7101E0B5FE00007BCC8 /* CKCacheContent.m in Sources */,
 				EE8B3F441DFEA8D900500664 /* SMADfuView.m in Sources */,
 				EE755DDE1DF15774005D340A /* SMACenterLabView.m in Sources */,
+				EE7E73C41E135DB7002D19BA /* SMAShareView.m in Sources */,
 				EE227CCF1D7433A900B9387D /* SMAHighViewController.m in Sources */,
 				EED44BAD1D73D40500BF7D07 /* SMAAgeViewController.m in Sources */,
 				EEEC5E8E1DE420290096DAF3 /* SMARunTableViewController.m in Sources */,
@@ -3338,18 +3466,22 @@
 		EEB9F6A11D64318B0011AA07 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Shaohui Liang (AUMJG57LWL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shaohui Liang (AUMJG57LWL)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = VHVLE5FL92;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SMA",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/SMA/DfuUpdate",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
@@ -3377,14 +3509,15 @@
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/SmartConfig/GuBei",
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/UMessage_Sdk_1.3.0",
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/UMessage_Sdk_1.4.0",
+					"$(PROJECT_DIR)/SMA/libWeiboSDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smacare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.coach;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "37294c83-a228-4fee-b7b5-0fa8142e21b5";
+				PROVISIONING_PROFILE = "e7ef197a-dd9f-4072-b7e9-a8a17caeebe7";
 				PROVISIONING_PROFILE_SPECIFIER = All_development_text;
 			};
 			name = Debug;
@@ -3392,16 +3525,20 @@
 		EEB9F6A21D64318B0011AA07 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = UXHZJEX24R;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = VHVLE5FL92;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SMA",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/SMA/DfuUpdate",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
@@ -3429,15 +3566,16 @@
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/SmartConfig/GuBei",
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/UMessage_Sdk_1.3.0",
 					"$(PROJECT_DIR)/SMA/ACloudLib/Ablecloud_Sdk_Extra_Frameworks/UMessage_Sdk_1.4.0",
+					"$(PROJECT_DIR)/SMA/libWeiboSDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smacare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.coach;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ce14ff89-ef90-4e58-a0ac-d52b24427dd5";
-				PROVISIONING_PROFILE_SPECIFIER = liang_dis_smacare_sub;
+				PROVISIONING_PROFILE = "346dc691-b905-4bbf-9e06-c9be3ad5030f";
+				PROVISIONING_PROFILE_SPECIFIER = liang_dis_smacare_text;
 			};
 			name = Release;
 		};

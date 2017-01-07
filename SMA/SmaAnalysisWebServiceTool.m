@@ -22,6 +22,8 @@
 #define sleepDict @"sleepDict"
 #define clockDict @"clockDict"
 
+
+
 @implementation SmaAnalysisWebServiceTool
 {
     NSMutableDictionary *userInfoDic;
@@ -349,7 +351,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
                  CompleteCallback:(void (^)(NSString *filePath))completeCallback{
     ACFileManager *upManager = [[ACFileManager alloc] init];
     [upManager downFileWithsession:url checkSum:0 callBack:^(float progress, NSError *error) {
-        //        NSLog(@"callBack==%f   error==%@  %@",progress,error,url);
+      NSLog(@"callBack==%f   error==%@  %@",progress,error,url);
         if (error) {
             if (callback) {
                 callback(progress,error);
@@ -668,6 +670,19 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     }];
 }
 
+//获取固件版本信息
+- (void)acloudDfuFileWithFirmwareType:(NSString *)type callBack:(void (^)(NSArray *finish,NSError *error))callback{
+    ACMsg *msg = [[ACMsg alloc] init];
+    msg.name  = type;
+//    [msg put:@"data" value:faceStr];
+//    [msg putInteger:@"offset" value:offset];
+    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+        NSArray *array = [responseMsg getArray:@"data"];
+        callback(array,error);
+    }];
+
+}
+
 //根据表盘id获取缩略图
 - (void)acloudDownLoadImageWithOffset:(int)offset callBack:(void (^)(id finish))callback{
     ACMsg *msg = [[ACMsg alloc] init];
@@ -679,6 +694,11 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             callback (diction);
         }
     }];
+}
+
+//获取升级文件数据
+- (void)acloudDownloadDfuWithcallBack:(void (^)(id finish))callback{
+    
 }
 
 //意见反馈

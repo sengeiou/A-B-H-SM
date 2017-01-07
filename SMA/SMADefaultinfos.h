@@ -26,6 +26,7 @@
 #define BRITISHSYSTEM @"BRITISHSYSTEM" //公英制设置
 #define DEVICEMAC @"DEVICEMAC"//mac地址
 #define RUNKSTEP @"RUNKSTEP"//排行榜信息
+#define SMACUSTOM @"SMACUSTOM" //定制项目标志
 @interface SMADefaultinfos : NSObject
 +(void)putKey:(NSString *)key andValue:(NSObject *)value;
 +(void)putInt:(NSString *)key andValue:(int)value;

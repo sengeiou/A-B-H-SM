@@ -20,56 +20,58 @@ typedef enum {
     ELECTRIC,     //电量
     VERSION,      //系统版本
     OTA,          //是否进入OTA
-    BOTTONSTYPE,     //按键返回
+    BOTTONSTYPE,  //按键返回
     MAC,          //MAC返回
     WATHEARTDATA, //手表心率返回
     CUFFSPORTDATA,  //07运动数据
     CUFFHEARTRATE,  //心率数据(05、07)
     CUFFSLEEPDATA,  //07睡眠数据
-    CUFFSWITCHS,     //获取设备表盘（10-A）
+    WATCHFACE,     //获取设备表盘（10-A）
     XMODEM,          //进入XODEM模式（10-A）
-    RUNMODE         //进入运动模式
+    RUNMODE         //运动模式
 }SMA_INFO_MODE;
 /*
  @param BAND            反馈绑定信息，反馈数组内若为1，绑定成功，若为0，绑定失败
  @param LOGIN           反馈登录信息，反馈数组内若为1，登录成功，若为0，登录失败
  @param SPORTDATA       反馈运动数据信息，反馈数组参数
-                        sport_date：运动日期
-                        sport_steps：运动步数，sport_cal：消耗卡路里（单位：cal/10000）
-                        sport_dist：运动距离（单位：m）
-                        sport_time：运动时间（单位：m/15）
-                        sport_actTime：运动时间
+ sport_date：运动日期
+ sport_steps：运动步数，sport_cal：消耗卡路里（单位：cal/10000）
+ sport_dist：运动距离（单位：m）
+ sport_time：运动时间（单位：m/15）
+ sport_actTime：运动时间
  @param SLEEPDATA       反馈睡眠数据，反馈数组参数
-                        sleep_date：睡眠日期
-                        sleep_timeStamp：睡眠反馈时间（从Date 0点开始的分钟数。此值可能会大于 1440(24小时*60分钟=1440分钟),如果大 于1440,则表示为隔天的时间）
-                        sleep_mode：睡眠类型（1：深睡，2：浅睡，3：未进入睡眠）详细描述：1-3深睡到未睡---深睡时间；2-1清醒到深睡---浅睡时间；2-3清醒到未睡---浅睡时间；3-2未睡到清醒---清醒时间
+ sleep_date：睡眠日期
+ sleep_timeStamp：睡眠反馈时间（从Date 0点开始的分钟数。此值可能会大于 1440(24小时*60分钟=1440分钟),如果大 于1440,则表示为隔天的时间）
+ sleep_mode：睡眠类型（1：深睡，2：浅睡，3：未进入睡眠）详细描述：1-3深睡到未睡---深睡时间；2-1清醒到深睡---浅睡时间；2-3清醒到未睡---浅睡时间；3-2未睡到清醒---清醒时间
  @param SLEEPSETDATA    反馈睡眠设定数据，反馈数组参数
-                        sleep_date：睡眠日期
-                        sleep_timeStamp：睡眠设定反馈时间（从Date 0点开始的分钟数。此值可能会大于 1440(24小时*60分钟=1440分钟),如果大 于1440,则表示为隔天的时间）
-                        sleep_mode：睡眠设定类型（1：进入睡眠状态，2：退出睡眠状态）
+ sleep_date：睡眠日期
+ sleep_timeStamp：睡眠设定反馈时间（从Date 0点开始的分钟数。此值可能会大于 1440(24小时*60分钟=1440分钟),如果大 于1440,则表示为隔天的时间）
+ sleep_mode：睡眠设定类型（1：进入睡眠状态，2：退出睡眠状态）
  @param SETSLEEPAIDS    设置是否开启睡眠辅助监测功能，用于更准确判断用户是否戴表睡觉
  @param ALARMCLOCK      反馈闹钟数据，反馈数组参数，闹钟个数最多为8个，数组对象为SmaAlarmInfo
  @param SYSTEMTIME      反馈系统时间，反馈数组日期格式为：yyyyMMddHHmmss
  @param ELECTRIC        反馈设备电池电量，反馈数组为电量百分比
  @param VERSION         反馈设备系统版本
  @param OTA             反馈进入OTA状态信息，反馈数组若为1，进入成功，
-                        当数组同时反馈@[0,PowerIsNormal]，进入OTA失败，无错误信息，
-                        若反馈@[0,PowerIsTooLow]，进入OTA失败，电量过低
- @param BOTTONSTYPE     反馈设备按键，反馈数组为键类型 1:确定键（02系列上键） 2:返回键  17:(02系列下键)
+ 当数组同时反馈@[0,PowerIsNormal]，进入OTA失败，无错误信息，
+ 若反馈@[0,PowerIsTooLow]，进入OTA失败，电量过低
+ @param BOTTONSTYPE        反馈设备按键，反馈数组为键类型 1:确定键（02系列上键） 2:返回键  17:(02系列下键)
  @param MAC             反馈设备MAC地址，反馈数组为--:--:--:--:--:--,若出现04:03:00:00:00:00,为错误地址，建议重启设备
  @param WATHEARTDATA    反馈05手表最后一次监测的心率数据
  @param CUFFSPORTDATA   反馈07手环运动数据，数据一次最多返回20组，若仍有运动数据，需要重新请求
-                        DATE：运动时间
-                        STEP：运动步数
+ DATE：运动时间
+ STEP：运动步数
  @param CUFFHEARTRATE   反馈07手环心率数据，数据一次最多返回20组，若仍有心率数据，需要重新请求
-                        DATE：心率监测时间
-                        HEART：监测到的心率数值
+ DATE：心率监测时间
+ HEART：监测到的心率数值
  @param CUFFSLEEPDATA   反馈07手环睡眠数据，数据一次最多返回20组，若仍有睡眠数据，需要重新请求
-                        DATE：睡眠监测时间
-                        MODE：睡眠类型（若返回17则为进入睡眠时刻数据，34则为退出睡眠时刻数据，1：深睡，2：浅睡，3：未进入睡眠）
-                        SOFTLY：睡眠时轻动响应次数
-                        STRONG：睡眠时剧动响应次数
- 
+ DATE：睡眠监测时间
+ MODE：睡眠类型（若返回17则为进入睡眠时刻数据，34则为退出睡眠时刻数据，1：深睡，2：浅睡，3：未进入睡眠）
+ SOFTLY：睡眠时轻动响应次数
+ STRONG：睡眠时剧动响应次数
+ @param CUFFSWITCHS     反馈10系列手表表盘编号
+ @param XMODEM          10系列进入XMODE模式（用于表盘切换）
+ @param RUNMODE         反馈10系列运动模式下数据 MODE 32：开始 33：运动中  47：结束
  */
 
 @protocol SmaCoreBlueToolDelegate <NSObject>
@@ -101,6 +103,7 @@ typedef enum {
 @property (nonatomic,strong)  CBPeripheral*p;//连接的设备
 @property (nonatomic,strong)  CBCharacteristic*Write;//连接的设备的写特征
 @property (nonatomic, weak) id<SmaCoreBlueToolDelegate> delegate;
+@property (nonatomic, assign) BOOL isUPDateSwitch;
 + (instancetype)sharedCoreBlue; //创建对象
 
 /*处理设备反馈数据
@@ -110,35 +113,35 @@ typedef enum {
 - (void)handleResponseValue:(CBCharacteristic *)characteristic;
 
 /*绑定手表
-  @param userid 目前支持纯数字，如电话号码
-  @discussion   用于向设备注册ID为userid的用户，以达到数据正常传输（运动，睡眠数据）
+ @param userid 目前支持纯数字，如电话号码
+ @discussion   用于向设备注册ID为userid的用户，以达到数据正常传输（运动，睡眠数据）
  */
 -(void)bindUserWithUserID:(NSString *)userid;
 
 /*解除绑定
-  @discussion   解除用户绑定，清除设备内部设定用户数据
+ @discussion   解除用户绑定，清除设备内部设定用户数据
  */
 -(void)relieveWatchBound;
 
 /*登录命令
-  @param userid 目前支持纯数字，如电话号码
-  @discussion   登录用户ID必须为绑定设置的用户ID，否则导致数据无法同步（运动，睡眠数据）
-*/
+ @param userid 目前支持纯数字，如电话号码
+ @discussion   登录用户ID必须为绑定设置的用户ID，否则导致数据无法同步（运动，睡眠数据）
+ */
 -(void)LoginUserWithUserID:(NSString *)userid;
 
 /*退出登录
  @discussion   退出用户登录，可导致设备短时间断开连接
-*/
+ */
 -(void)logOut;
 
 /*设置用户信息
-  @param he    身高（cm）
-  @param we    体重 (kg)
-  @param sex   性别 (0:女，1：男)
-  @param age   年龄 （0~127）
-  @discussion  向设备设置用户身高，体重，性别和年龄信息
+ @param he    身高（cm）精确度为0.5cm
+ @param we    体重 (kg) 精确度为0.5kg
+ @param sex   性别 (0:女，1：男)
+ @param age   年龄 （0~127）
+ @discussion  向设备设置用户身高，体重，性别和年龄信息
  */
--(void)setUserMnerberInfoWithHeight:(int)he weight:(int)we sex:(int)sex age:(int)age;
+-(void)setUserMnerberInfoWithHeight:(float)he weight:(float)we sex:(int)sex age:(int)age;
 
 /*设置系统时间
  @discussion  向设备设置手机当前时间
@@ -146,7 +149,7 @@ typedef enum {
 -(void)setSystemTime;
 
 /*设置防丢
-   @param bol   YES:开启；NO:关闭
+ @param bol   YES:开启；NO:关闭
  */
 -(void)setDefendLose:(BOOL)bol;
 
@@ -156,100 +159,100 @@ typedef enum {
 - (void)setBLcomera:(BOOL)bol;
 
 /*手机来电
-  @param bol YES:开启；NO:关闭
+ @param bol YES:开启；NO:关闭
  */
 -(void)setphonespark:(BOOL)bol;
 
 /*短信
-  @param bol YES:开启；NO:关闭
+ @param bol YES:开启；NO:关闭
  */
 -(void)setSmspark:(BOOL)bol;
 
 /*设置记步目标
-  @param count 步数
+ @param count 步数
  */
 -(void)setStepNumber:(int)count;
 
 /*勿扰设置(05)
-  @param bol YES:开启；NO:关闭
+ @param bol YES:开启；NO:关闭
  */
 - (void)setNoDisturb:(BOOL)bol;
 
-/*背光设置(05)
- @param time 背光时间（1~10s）
+/*背光设置(05、10)
+ @param time 背光时间（0~10s）
  */
 - (void)setBacklight:(int)time;
 
-/*震动设置（05）
- @param freq 震动次数（1~10次）
+/*震动设置（05、10）
+ @param freq 震动次数（0~10次）
  */
 - (void)setVibrationFrequency:(int)freq;
 
-/*震动设置（07）
+/*震动设置（07、10）
  @param info 详见SmaVibrationInfo类
  */
 - (void)setVibration:(SmaVibrationInfo *)info;
 
 /*设置久坐
-   @param week  传入类型如 @"0~127";
-   @param begin 开始时间
-   @param end   结束时间
-   @param seat  久坐时间  如设置5分钟，将在以0分钟开始，每5分钟会检查一次久坐情况并不是从设置久坐后5分钟检查久坐情况
+ @param week  传入类型如 @"0~127" 解析：124 即 1111100 的10进制;//代表周一到周五开启，周六、周日关闭
+ @param begin 开始时间
+ @param end   结束时间
+ @param seat  久坐时间  如设置5分钟，将在以0分钟开始，每5分钟会检查一次久坐情况并不是从设置久坐后5分钟检查久坐情况
  */
 -(void)seatLongTimeWithWeek:(NSString *)week beginTime:(int)begin endTime:(int)end seatTime:(int)seat;
 
 /*关闭久坐
-  */
+ */
 -(void)closeLongTimeInfo;
 
 /*  久坐提醒V2 */
 -(void)seatLongTimeInfoV2:(SmaSeatInfo *)info;
 
 /*设置闹钟
-  @param smaACs 闹钟数组，对象类型为SmaAlarmInfo
-  @discussion   闹钟各属性请参考SmaAlarmInfo描述,闹钟个数最多为八个
+ @param smaACs 闹钟数组，对象类型为SmaAlarmInfo
+ @discussion   闹钟各属性请参考SmaAlarmInfo描述,闹钟个数最多为八个
  */
 -(void)setCalarmClockInfo:(NSMutableArray *)smaACs;
 
-/*设置手环闹钟V2
+/*设置闹钟V2
  @param smaACs 闹钟数组，对象类型为SmaAlarmInfo
  @discussion   闹钟各属性请参考SmaAlarmInfo描述,闹钟个数最多为八个
  */
 -(void)setClockInfoV2:(NSMutableArray *)smaACs;
 
 /*数据同步
-  @param bol YES:开启；NO:关闭
-  @discussion   仅适用于02、04、05设备
+ @param bol YES:开启；NO:关闭
+ @discussion   仅适用于02、04、05设备
  */
 -(void)Syncdata:(BOOL)bol;
 
 /*设置OTA
  @discussion 进入OTA升级指令，用于升级设备软件，请参考IOS-nRF-Toolbox-master.zip，技术支持网站https://developer.nordicsemi.com/nRF51_SDK/nRF51_SDK_v8.x.x/doc/8.0.0/s110/html/a00103.html
-  */
+ */
 -(void)setOTAstate;
 
 /*设置APP数据
-  @param cal    卡路里（cal）
-  @param metre  路程（m）
-  @param step   步数
-  @discussion   向设备设置卡路里，路程，步数数据（仅适用于02，04，05设备）
-  */
+ @param cal    卡路里（cal）
+ @param metre  路程（m）
+ @param step   步数
+ @discussion   向设备设置卡路里，路程，步数数据（仅适用于02，04，05设备）
+ */
 - (void)setAppSportDataWithcal:(float)cal distance:(int)metre stepNnumber:(int)step;
 
-/*设置手环首页中英文（星期）
-  @param open    是否开启，YES为英文，NO为中文
+/*设置中英文(手环仅星期变化)
+ @param lanNumber  0：中文（fit coach韩文）  1：英文 2：土耳其文 3：未定义 4：俄文 5：西班牙文
  */
-- (void)setLanguage:(BOOL)open;
+- (void)setLanguage:(int)lanNumber;
 
 /*设置心率（07）
-  @parmar info  心率设置对像（请参考该对象参数）
+ @parmar info  心率设置对像（请参考该对象参数）
  */
 - (void)setHRWithHR:(SmaHRHisInfo *)info;
 
 /*设置抬手亮（07）
-  @parmar open  YES开启，NO关闭
+ @parmar open  YES开启，NO关闭
  */
- - (void)setLiftBright:(BOOL)open;
+- (void)setLiftBright:(BOOL)open;
 
 /*竖屏设置（07）
  @parmar open   YES开启，NO关闭
@@ -266,8 +269,8 @@ typedef enum {
  */
 - (void)setSleepAIDS:(BOOL)open;
 
-/*BEACON广播设置 
-  @parmar interval(0~225min) time(0~225s)
+/*BEACON广播设置
+ @parmar interval(0~225min) time(0~225s)
  */
 - (void)setRadioInterval:(int)interval Continuous:(int)time;
 
@@ -307,7 +310,7 @@ typedef enum {
 - (void)requestLastHRData;
 
 /*复位手表
-  @discussion 重启手表
+ @discussion 重启手表
  */
 - (void)BLrestoration;
 
@@ -328,8 +331,8 @@ typedef enum {
 - (void)vibrationMotor;
 
 /*获取闹钟列表
-  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
-  */
+ @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ */
 -(void)getCalarmClockList;
 
 /*获取07闹钟列表
@@ -339,27 +342,27 @@ typedef enum {
 
 
 /*请求运动数据
-  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
-  */
+ @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ */
 -(void)requestExerciseData;
 
-/*获取手表时间
-  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
-  */
+/*获取设备时间
+ @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ */
 - (void)getWatchDate;
 
 /*获取电量
-  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
-  */
+ @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ */
 -(void)getElectric;
 
 /*获取蓝牙硬件版本
-  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
-  */
+ @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ */
 - (void)getBLVersion;
 
 /*获取MAC地址
-  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
  */
 - (void)getBLmac;
 
@@ -385,7 +388,7 @@ typedef enum {
 - (float)countCalWithSex:(NSString *)sex userWeight:(NSString *)weight step:(NSString *)step;
 
 /*解析表盘数据包
- @parmar name 解析对应的表盘bin文件 如：watch_000010 不需要添加.bin
+ @parmar data 解析对应的表盘bin文件的16进制数据
  @parmar number 需要替换表盘的位置（1，2，3）
  */
 - (void)analySwitchs:(NSString *)name replace:(int )number;

@@ -29,11 +29,14 @@
 #import "SMADatabase.h"
 #import "SMACalculate.h"
 #import "SMADeviceAggregate.h"
+#import "DfuUpdate.h"
+
 /**** Define
  */
 #define SmaBleMgr [BLConnect sharedCoreBlueTool]
 #define SmaBleSend [SmaBLE sharedCoreBlue]
 #define SmaAggregate [SMADeviceAggregate deviceAggregateTool]
+#define SmaDfuManager [DfuUpdate sharedDfuUpdate]
 #define MainStoryBoard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define MainScreen [UIScreen mainScreen].bounds
 #define SmaNotificationCenter [NSNotificationCenter defaultCenter]

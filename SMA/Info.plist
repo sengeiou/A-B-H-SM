@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -29,7 +29,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tencent1105552981</string>
+				<string>tencent1105916662</string>
 			</array>
 		</dict>
 		<dict>
@@ -50,11 +50,41 @@
 				<string>prefs</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb245927712508764</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb3736959518</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.2</string>
+	<string>1.0.1</string>
+	<key>FacebookAppID</key>
+	<string>245927712508764</string>
+	<key>FacebookDisplayName</key>
+	<string>SMA CARE</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>sinaweibohd</string>
+		<string>sinaweibo</string>
+		<string>weibosdk</string>
+		<string>weibosdk2.5</string>
+		<string>fbauth2</string>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbshareextension</string>
 		<string>weixin</string>
 		<string>mqq</string>
 		<string>mqqapi</string>
@@ -78,6 +108,7 @@
 		<string>mqqopensdkgrouptribeshare</string>
 		<string>tencentapi.qq.reqContent</string>
 		<string>tencentapi.qzone.reqContent</string>
+		<string>instagram</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

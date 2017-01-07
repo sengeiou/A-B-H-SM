@@ -14,6 +14,7 @@
     BOOL unpair;
     SMASwitchScrollView *switchView;
     UIImagePickerController *picker;
+    NSDictionary *webFirmwareDic;
 }
 @end
 
@@ -33,6 +34,9 @@
 - (void)viewWillAppear:(BOOL)animated{
    
     [self updateUI];
+    if (SmaBleMgr.peripheral.state == CBPeripheralStateConnected) {
+        [self chectFirmwareVewsionWithWeb];
+    }
 }
 
 - (void)viewWillLayoutSubviews{
@@ -71,6 +75,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"DFUUPDATE"] ) {
+        SMADfuViewController*subVC = segue.destinationViewController;
+        subVC.dfuInfoDic = webFirmwareDic;
+    }
+}
 //判断是否允许跳转
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if ([identifier isEqualToString:@"SELECTDEVICE"]) {
@@ -108,6 +118,11 @@
     _watchLab.text = SMALocalizedString(@"setting_watchface_title");
     _dfuUpdateLab.text = SMALocalizedString(@"setting_unband_dfuUpdate");
     _unPairLab.text = SMALocalizedString(@"setting_unband_remove");
+    _updateView.layer.masksToBounds = YES;
+    _updateView.layer.cornerRadius = 3.0f;
+    _updateView.layer.shouldRasterize = YES;
+    _updateView.layer.rasterizationScale =  [UIScreen mainScreen].scale;
+    _updateView.hidden = YES;
 //    _backlightCell.hidden = NO;
 //    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
 //        _backlightCell.hidden = YES;
@@ -196,6 +211,46 @@
     _backlightCell.accessoryView = backlightLab;
 }
 
+- (void)chectFirmwareVewsionWithWeb{
+//    NSString *firmwareType = firmware_smav2;
+//     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
+//         if ([[SMADefaultinfos getValueforKey:SMACUSTOM] isEqualToString:@""]) {
+//             
+//         }
+//         firmwareType = firmware_sma07c;
+//     }
+    SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
+    [webSer acloudDfuFileWithFirmwareType:firmware_smav2 callBack:^(NSArray *finish, NSError *error) {
+        for (int i = 0; i < finish.count; i ++) {
+            NSString *filename = [[finish objectAtIndex:i] objectForKey:@"filename"];
+            NSString *fileType = [[filename componentsSeparatedByString:@"_"] firstObject];
+            if ([fileType isEqualToString:[SMADefaultinfos getValueforKey:BANDDEVELIVE]]) {
+                NSString *webFirmwareVer = [[filename substringWithRange:NSMakeRange(filename.length - 9, 5)] stringByReplacingOccurrencesOfString:@"." withString:@""];
+                if ([[SMAAccountTool userInfo].watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue <= webFirmwareVer.intValue) {
+                    _updateView.hidden = NO;
+                    webFirmwareDic = [finish objectAtIndex:i];
+                }
+                else{
+                    _updateView.hidden = YES;
+                    webFirmwareDic = nil;
+                }
+            }
+        }
+//        if (finish.count > 0) {
+//            NSString *filename = [[finish firstObject] objectForKey:@"filename"];
+//            NSString *webFirmwareVer = [[filename substringWithRange:NSMakeRange(filename.length - 9, 5)] stringByReplacingOccurrencesOfString:@"." withString:@""];
+//            if ([[SMAAccountTool userInfo].watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue <= webFirmwareVer.intValue) {
+//                _updateView.hidden = NO;
+//                webFirmwareDic = [finish firstObject];
+//            }
+//            else{
+//                _updateView.hidden = YES;
+//                webFirmwareDic = nil;
+//            }
+//        }
+    }];
+}
+
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -271,7 +326,10 @@
             [timeTab tabViewDidSelectRow:^(NSIndexPath *indexPath) {
                 NSLog(@"indexPath=%@",indexPath);
                 [SMADefaultinfos putInt:VIBRATIONSET andValue:[timeArr[indexPath.row] intValue]];
-                [SmaBleSend setVibrationFrequency:[SMADefaultinfos getIntValueforKey:VIBRATIONSET]];
+                SmaVibrationInfo *vibration = [[SmaVibrationInfo alloc] init];
+                vibration.type = @"5";
+                vibration.freq = [NSString stringWithFormat:@"%d",[SMADefaultinfos getIntValueforKey:VIBRATIONSET]];
+                [SmaBleSend setVibration:vibration];
                 [self updateUI];
             }];
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;

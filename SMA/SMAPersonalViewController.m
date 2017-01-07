@@ -197,8 +197,8 @@
             float inch = [SMACalculate convertToInch:170];
             __block NSInteger selectRow = ((int)roundf(inch))/12;
             __block NSInteger selectRow1 = ((int)roundf(inch))%12;
-            for (int i = 0; i < 10; i ++) {
-                [unArr addObject:[NSString stringWithFormat:@"%d'",i + 1]];
+            for (int i = 0; i < 12; i ++) {
+                [unArr addObject:[NSString stringWithFormat:@"%d'",i]];
                 [unArr1 addObject:[NSString stringWithFormat:@"%d\"",i]];
             }
             SMACenterLabView *pickView = [[SMACenterLabView alloc] initWithPickTitle:SMALocalizedString(@"user_hight") buttonTitles:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_sedentary_confirm")] pickerMessage:@[unArr,unArr1]];
@@ -244,7 +244,6 @@
             [pickView.pickView selectRow:selectRow1 inComponent:1 animated:NO];
             [pickView lableDidSelectRow:^(UIButton *but, NSString *titleStr) {
                 if (but.tag == 102) {
-                    
                     user.userWeigh = [NSString stringWithFormat:@"%@%@",[[messArr objectAtIndex:0] objectAtIndex:selectRow],[[messArr objectAtIndex:1] objectAtIndex:selectRow1]];
                     _weightDetalLab.text = [NSString stringWithFormat:@"%@%@",[NSString stringWithFormat:@"%@%@",[[messArr objectAtIndex:0] objectAtIndex:selectRow],[[messArr objectAtIndex:1] objectAtIndex:selectRow1]],SMALocalizedString(@"me_perso_kg")];
                 }

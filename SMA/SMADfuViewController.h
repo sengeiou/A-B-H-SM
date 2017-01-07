@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "SMADfuButton.h"
 #import "SMADfuView.h"
-@interface SMADfuViewController : UIViewController
+@interface SMADfuViewController : UIViewController<BLConnectDelegate,DfuUpdateDelegate>
 @property (nonatomic, weak) IBOutlet UIButton *dfuBut;
-@property (nonatomic, weak) IBOutlet UILabel *remindLab, *nowVerTitLab, *nowVerLab, *dfuVerTitLab, *dfuVerLab;
-@property (nonatomic, weak) IBOutlet UIView *backView;
+@property (nonatomic, weak) IBOutlet UILabel *remindLab, *nowVerTitLab, *nowVerLab, *dfuVerTitLab, *dfuVerLab, *upDfuVerTitLab, *upDfuVerLab, *dfuLab;
+@property (nonatomic, weak) IBOutlet UIView *backView, *dfu, *upVerView;
 @property (nonatomic, weak) IBOutlet SMADfuView *dfuView;
+@property (nonatomic, strong) NSString *dfuVersion;
+@property (nonatomic, strong) NSDictionary *dfuInfoDic;
 @end

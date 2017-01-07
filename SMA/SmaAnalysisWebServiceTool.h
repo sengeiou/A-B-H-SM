@@ -18,6 +18,8 @@
 #define watchface_pointer @"smav2_watchface_pointer"//指针
 #define watchface_number @"smav2_watchface_number"//数字
 #define watchface_other @"smav2_watchface_other"//其他
+#define firmware_smav2 @"get_versions_smav2"
+#define firmware_sma07c @"get_versions_sma07c"
 
 @interface SmaAnalysisWebServiceTool : NSObject
 @property (nonatomic, strong) NSString *chaImageName;
@@ -104,6 +106,9 @@
 
 //下载表盘文件
 - (void)acloudDownLoadWatchInfos:(NSString *)faceStr offset:(int)offset callBack:(void (^)(NSArray *finish,NSError *error))callback;
+
+//获取固件版本信息
+- (void)acloudDfuFileWithFirmwareType:(NSString *)type callBack:(void (^)(NSArray *finish,NSError *error))callback;
 
 //根据表盘id获取缩略图
 - (void)acloudDownLoadImageWithOffset:(int)offset callBack:(void (^)(id finish))callback;

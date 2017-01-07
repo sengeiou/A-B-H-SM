@@ -88,7 +88,6 @@
     _loginBut.enabled = NO;
     _thiPartyLab.text = SMALocalizedString(@"login_hirdParty");
     
-    NSLog(@"ffg5rg==%d  %d",[[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled],[[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]);
     if (![[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled]) {
         [_QQBut setImage:[UIImage imageNamed:@"icon_qq_2"] forState:UIControlStateNormal];
     }
@@ -241,6 +240,14 @@
         }
         LoginProvider = ACAccountManagerLoginProviderQQ;
         [[SMAthirdPartyLoginTool getinstance] QQlogin];
+    }
+    else{
+        if (![[SMAthirdPartyLoginTool getinstance] isWBAppInstalled]) {
+            [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
+            return;
+        }
+         LoginProvider = ACAccountManagerLoginProviderWeibo;
+         [[SMAthirdPartyLoginTool getinstance] WeiboLogin];
     }
     
 }

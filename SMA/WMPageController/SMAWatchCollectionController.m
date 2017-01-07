@@ -137,7 +137,7 @@ static NSString * const reuseIdentifier = @"Cell";
     SMAWatchCollectionCell *cell = (SMAWatchCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
     if ([SmaBleMgr checkBLConnectState]) {
         if (oldFaces.count < 3) {
-            [MBProgressHUD showError:SMALocalizedString(@"aler_noswitch")];
+            [MBProgressHUD showError:SMALocalizedString(@"setting_noWatch")];
             SmaBleMgr.BLdelegate = self;
             [SmaBleSend getSwitchNumber];
             return;
@@ -154,7 +154,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{
-    if (mode == CUFFSWITCHS) {
+    if (mode == WATCHFACE) {
         NSLog(@"eghehjj---%@",data);
         oldFaces = data;
     }
