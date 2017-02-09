@@ -33,12 +33,6 @@
 - (void)initializeMethod{
     user = [SMAAccountTool userInfo];
     titleArr = @[@[SMALocalizedString(@"me_chanPass_oldPass"),SMALocalizedString(@"me_chanPass_newPass"),SMALocalizedString(@"me_chanPass_affirmPass")],@[SMALocalizedString(@"me_chanPass_putOldPass"),SMALocalizedString(@"me_chanPass_putNewPass"),SMALocalizedString(@"me_chanPass_putAffPass")]];
-    NSMutableArray *weightArr = [NSMutableArray array];
-    for (int i = 0; i < 3; i ++ ) {
-        CGSize size = [[titleArr [0] objectAtIndex:i] sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(16)}];
-        [weightArr addObject:[NSString stringWithFormat:@"%f",size.width]];
-    }
-   maxWeight =[[weightArr valueForKeyPath:@"@max.floatValue"] floatValue];
     [_changeBut setTitle:SMALocalizedString(@"me_chanPass_affirm") forState:UIControlStateNormal];
 }
 
@@ -47,6 +41,10 @@
     _tableview.delegate = self;
     _tableview.dataSource = self;
     _tableview.tableFooterView = [[UIView alloc] init];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 60;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -58,7 +56,6 @@
     if (!cell) {
          cell = (SMAChangeCell *)[[[NSBundle mainBundle] loadNibNamed:@"SMAChangeCell" owner:self options:nil] lastObject];
     }
-    cell.passW.constant = maxWeight + 2;
     cell.passTitLab.text = titleArr[0][indexPath.row];
     cell.passField.placeholder = titleArr[1][indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

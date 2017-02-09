@@ -11,6 +11,7 @@
 #import "SMAPairViewController.h"
 #import "SMANavViewController.h"
 #import "SMATabbarController.h"
+#import "SMAPairViewController.h"
 @interface SMASelectDeviceController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UIButton *buyBut, *unPairBut;
 @property (nonatomic, weak) IBOutlet UITableView *selectTView;

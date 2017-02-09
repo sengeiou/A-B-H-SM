@@ -24,21 +24,21 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     self = [super initWithFrame:frame];
     if (self) {
         firstLun = NO;
-//        self.layer.opaque = YES;
+        //        self.layer.opaque = YES;
     }
     return self;
 }
 
 - (void)createUIRect:(CGRect)rect{
     
-   CAShapeLayer * excircle = [CAShapeLayer layer];
+    CAShapeLayer * excircle = [CAShapeLayer layer];
     excircle.frame                     = CGRectMake(0, 0, rect.size.width, rect.size.height);
     excircle.fillColor                 = nil;
     excircle.strokeColor               = [UIColor colorWithRed:0.158 green: 0.329 blue:0.253 alpha:0].CGColor;
     excircle.path                      = [self ovalPathect:rect].CGPath;
     
     CAGradientLayer* ovalGradient = [CAGradientLayer layer];
-//    ovalGradient.name              = @"gradient";
+    //    ovalGradient.name              = @"gradient";
     CAShapeLayer* ovalMask         = [CAShapeLayer layer];
     ovalMask.path                  = excircle.path;
     ovalGradient.mask              = ovalMask;
@@ -57,7 +57,7 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     shadeOval.strokeColor = [UIColor colorWithRed:0.158 green: 0.329 blue:0.253 alpha:0].CGColor;
     shadeOval.path        = [self ovalPathect:shadeOval.frame].CGPath;
     [self.layer addSublayer:shadeOval];
-
+    
     // 中心圆环
     CAShapeLayer * centreOval1 = [CAShapeLayer layer];
     centreOval1.frame       = CGRectMake(rect.size.width/5 - 1, rect.size.height/5 - 1, rect.size.width-rect.size.width/5*2 + 2, rect.size.height-rect.size.height/5*2 + 2);
@@ -67,7 +67,7 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     centreOval1.path        = [self ovalPathect:centreOval1.frame].CGPath;
     [self.layer addSublayer:centreOval1];
     
-//    // 中心圆
+    //    // 中心圆
     CAShapeLayer * centreOval = [CAShapeLayer layer];
     centreOval.frame       = CGRectMake(rect.size.width/5, rect.size.height/5, rect.size.width-rect.size.width/5*2, rect.size.height-rect.size.height/5*2);
     centreOval.opaque = YES;
@@ -76,9 +76,7 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     centreOval.path        = [self ovalPathect:centreOval.frame].CGPath;
     [self.layer addSublayer:centreOval];
     
-
-
-//    //中心图片
+    //    //中心图片
     CALayer *logoImalayer = [CALayer layer];
     logoImalayer.contents = (__bridge id _Nullable)([UIImage imageNamed:@"main_heart"].CGImage);
     logoImalayer.frame       = CGRectMake(CGRectGetMaxX(centreOval.frame)-rect.size.width/5, CGRectGetMinY(centreOval.frame)+rect.size.height/10, rect.size.width/10, rect.size.height/10);
@@ -88,14 +86,14 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     //旋转图片
     
     iamgeRect      = CGRectMake(CGRectGetMidX(shadeOval.frame) - rect.size.width/28, CGRectGetMinY(centreOval.frame)-rect.size.height/11-1, rect.size.width/14, rect.size.height/11);//初始旋转图片所在位置
-//    [self drawTextLayer:rect pragrassText:@"0"];
+    //    [self drawTextLayer:rect pragrassText:@"0"];
 }
 
 - (void)drawTextLayer:(CGRect)rect pragrassText:(NSString *)textStr{
     
-        [self.text removeFromSuperlayer];
-        [self.unitText removeFromSuperlayer];
-        [self.imageLayer removeFromSuperlayer];//由于同时修改frame及transform导致图像旋转变形，因此移除再新建，原因不明
+    [self.text removeFromSuperlayer];
+    [self.unitText removeFromSuperlayer];
+    [self.imageLayer removeFromSuperlayer];//由于同时修改frame及transform导致图像旋转变形，因此移除再新建，原因不明
     CGPoint center = CGPointMake(rect.size.width/2.0f, rect.size.height/2.0f);
     CGSize fontsize = [textStr sizeWithAttributes:@{NSFontAttributeName:FontGothamLight(17 * SDProgressViewFontScale)}];
     CGFloat X = center.x -fontsize.width/2;
@@ -115,11 +113,11 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     self.unitText = [CATextLayer layer];
     self.unitText.frame           = CGRectMake(X1, Y1, unitFontsize.width, unitFontsize.height);
     self.unitText.contentsScale   = [[UIScreen mainScreen] scale];
-   self.unitText.string          =[[NSAttributedString alloc] initWithString:@"bpm" attributes:@{NSFontAttributeName : FontGothamLight(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+    self.unitText.string          =[[NSAttributedString alloc] initWithString:@"bpm" attributes:@{NSFontAttributeName : FontGothamLight(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
     self.unitText.alignmentMode   = kCAAlignmentCenter;
     [self.layer addSublayer:self.unitText];
-
-     //旋转图片
+    
+    //旋转图片
     self.imageLayer = [CALayer layer];
     self.imageLayer.contents = (__bridge id _Nullable)([UIImage imageNamed:@"main_heart_point"].CGImage);
     self.imageLayer.frame       = iamgeRect;
@@ -130,7 +128,6 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
     
     self.imageLayer.frame = CGRectMake(X2, Y2, self.imageLayer.frame.size.width, self.imageLayer.frame.size.height);
     self.imageLayer.transform =  CATransform3DMakeRotation(M_PI/180*(360.0*self.progress), 0, 0, 1);
-
 }
 
 - (void)changeAngle
@@ -153,13 +150,13 @@ NSString * const SDRotationLoopProgressViewWaitingText = @"LOADING...";
 #pragma mark - Bezier Path
 
 - (UIBezierPath*)ovalPathect:(CGRect)rect{
-//    UIBezierPath*  ovalPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, rect.size.width, rect.size.height)];
-     UIBezierPath *ovalPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width/2, rect.size.height/2) radius:rect.size.width/2 startAngle:0 endAngle:M_PI*2 clockwise:YES];
+    //    UIBezierPath*  ovalPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+    UIBezierPath *ovalPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width/2, rect.size.height/2) radius:rect.size.width/2 startAngle:0 endAngle:M_PI*2 clockwise:YES];
     return ovalPath;
 }
 
 - (UIBezierPath*)shadeOvalPathect:(CGRect)rect{
-//   UIBezierPath *ovalPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width/2, rect.size.height/2) radius:rect.size.width/2-10 startAngle:0 endAngle:M_PI*2 clockwise:YES];
+    //   UIBezierPath *ovalPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width/2, rect.size.height/2) radius:rect.size.width/2-10 startAngle:0 endAngle:M_PI*2 clockwise:YES];
     UIBezierPath*  ovalPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, rect.size.width, rect.size.height)];
     return ovalPath;
 }

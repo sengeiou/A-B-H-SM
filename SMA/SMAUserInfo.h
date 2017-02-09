@@ -12,6 +12,7 @@
 @property (nonatomic, strong) NSString *userGoal;
 @property (nonatomic, strong) NSString *userHeadUrl;
 @property (nonatomic, strong) NSString *scnaName;
+@property (nonatomic, strong) NSArray *scnaNameArr;
 /*当前绑定的手表UID*/
 @property (nonatomic, strong) NSString *watchUUID;
 @property (nonatomic, strong) NSString *watchVersion;

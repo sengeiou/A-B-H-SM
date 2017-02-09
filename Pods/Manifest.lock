@@ -1,0 +1,19 @@
+PODS:
+  - Fabric (1.6.11)
+  - TwitterCore (2.7.0):
+    - Fabric
+  - TwitterKit (2.7.0):
+    - TwitterCore (= 2.7.0)
+
+DEPENDENCIES:
+  - Fabric
+  - TwitterKit
+
+SPEC CHECKSUMS:
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  TwitterCore: fbdbeaf6d2d20cf7c7aa4136fe5173c1c85df2e2
+  TwitterKit: 97e729ceea041d174126235bf6ff67dcf37772d4
+
+PODFILE CHECKSUM: 9045cf71ef54cb955a61b12f80903e751ae525b1
+
+COCOAPODS: 1.2.0.beta.3

@@ -47,14 +47,25 @@
     [self addSubview:backView];
     
     UIImageView *deviceIma = [[UIImageView alloc] initWithFrame:CGRectMake(0, 9, 88, 126)];
-    deviceIma.image = [UIImage imageNamed:@"img_queren"];
+    NSString *imageStr;
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
+        imageStr = @"img_queren";
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
+        imageStr = @"img_queren_shouhuan";
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
+        imageStr = @"img_queren_shouhuan";
+    }
+    deviceIma.image = [UIImage imageNamed:imageStr];
+
     deviceIma.center = CGPointMake(CGRectGetWidth(backView.frame)/2, deviceIma.center.y);
     [backView addSubview:deviceIma];
     
     UILabel *remindLab = [[UILabel alloc] initWithFrame:CGRectMake(18, CGRectGetMaxY(deviceIma.frame), CGRectGetWidth(backView.frame) - 36, 45)];
-    remindLab.text = SMALocalizedString(@"setting_band_remind");
-    remindLab.numberOfLines = 2;
-    remindLab.font = FontGothamLight(16);
+     remindLab.text = [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? SMALocalizedString(@"setting_band_remind"):SMALocalizedString(@"setting_band_remindBand");
+    remindLab.numberOfLines = 3;
+    remindLab.font = FontGothamLight(14);
     remindLab.textAlignment = NSTextAlignmentCenter;
     [backView addSubview:remindLab];
 }

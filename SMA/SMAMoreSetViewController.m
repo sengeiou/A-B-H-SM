@@ -97,8 +97,8 @@
     if (indexPath.section == 1 && indexPath.row == 1 && ![SMADefaultinfos getIntValueforKey:THIRDLOGIN]){
         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAChangePassViewController"] animated:YES];
     }
-    else if (indexPath.section == 1 && indexPath.row == 2){
-         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAOpinion_ViewController"] animated:YES];
+    else if (indexPath.section == 1 && (indexPath.row == [SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? 1:2)){
+        [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAOpinion_ViewController"] animated:YES];
     }
     else if (indexPath.section == 2){
         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAAboutUsViewController"] animated:YES];

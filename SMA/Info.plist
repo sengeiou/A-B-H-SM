@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>SMA CARE</string>
+	<string>SMART-TIME</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -29,7 +29,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tencent1105916662</string>
+				<string>tencent1105946308</string>
 			</array>
 		</dict>
 		<dict>
@@ -39,7 +39,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxdce35a17f98972c9</string>
+				<string>wxd62755cbf90135a2</string>
 			</array>
 		</dict>
 		<dict>
@@ -55,7 +55,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb245927712508764</string>
+				<string>fb389465214723332</string>
 			</array>
 		</dict>
 		<dict>
@@ -63,16 +63,43 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wb3736959518</string>
+				<string>wb812472873</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>QQ41eb66c4</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.1</string>
+	<string>1.0.5</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>dc332542e108134b2d39e529fb4a30d42366608e</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>consumerKey</key>
+					<string>ZzR1nUrb6OgyZjjT8bkY6YShB</string>
+					<key>consumerSecret</key>
+					<string>QH8pSfEnW3031YAs2w9KDUIZ5ttKLc1VWwecIZ6OIMJgQZcdSc</string>
+				</dict>
+				<key>KitName</key>
+				<string>Twitter</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
-	<string>245927712508764</string>
+	<string>389465214723332</string>
 	<key>FacebookDisplayName</key>
-	<string>SMA CARE</string>
+	<string>SMA TIME</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -118,6 +145,13 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>facebook.com</key>
+			<dict>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>gtimg.cn</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

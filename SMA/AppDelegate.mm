@@ -27,7 +27,7 @@
     [ACloudLib setMode:ACLoudLibModeRouter Region:ACLoudLibRegionChina];
     [ACloudLib setMajorDomain:@"lijunhu" majorDomainId:375]; //282
     
-    [WXApi registerApp:@"wxdce35a17f98972c9" withDescription:@"demo 2.0"];
+    [WXApi registerApp:@"wxd62755cbf90135a2" withDescription:@"demo 2.0"];
     
     [FBSDKLikeControl class];
     [FBSDKLoginButton class];
@@ -35,7 +35,10 @@
                              didFinishLaunchingWithOptions:launchOptions];
     
     [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:@"3736959518"];
+    [WeiboSDK registerApp:@"812472873"];
+    
+    //twitter初始化
+    [Fabric with:@[[Twitter class]]];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     
@@ -77,8 +80,11 @@
     [SMADefaultinfos putKey:UPDATEDATE andValue:[NSDate date].yyyyMMddNoLineWithDate];
     //         真机测试时保存日志
     if ([[[UIDevice currentDevice] model] rangeOfString:@"simulator"].location) {
-//     [self redirectNSLogToDocumentFolder];
+     [self redirectNSLogToDocumentFolder];
     }
+    //开机启动延时
+//    [NSThread sleepForTimeInterval:5.0];
+//    [_window makeKeyAndVisible];
     return YES;
 }
 

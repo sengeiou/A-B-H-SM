@@ -28,10 +28,10 @@
     backView = [[UIView alloc] initWithFrame:CGRectMake(0, MainScreen.size.height, MainScreen.size.width, 60 + MainScreen.size.width/buttons.count)];
     backView.backgroundColor = [SmaColor colorWithHexString:@"#ffffff" alpha:1];
     UIButton *canBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    canBut.frame = CGRectMake(MainScreen.size.width - 80, 8, 60, 36);
+    canBut.frame = CGRectMake(MainScreen.size.width - 80, 8, 72, 36);
     [canBut setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [canBut addTarget:self action:@selector(tapAction) forControlEvents:UIControlEventTouchUpInside];
-    canBut.titleLabel.font = FontGothamLight(17);
+    canBut.titleLabel.font = FontGothamLight(16);
     canBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [canBut setTitle:SMALocalizedString(@"setting_sedentary_cancel") forState:UIControlStateNormal];
     [backView addSubview:canBut];

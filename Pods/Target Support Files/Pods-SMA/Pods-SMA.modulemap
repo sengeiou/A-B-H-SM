@@ -1,0 +1,6 @@
+framework module Pods_SMA {
+  umbrella header "Pods-SMA-umbrella.h"
+
+  export *
+  module * { export * }
+}

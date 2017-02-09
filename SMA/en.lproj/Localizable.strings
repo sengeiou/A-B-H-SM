@@ -176,6 +176,7 @@
 "setting_band_bindsuccess" = "Pairing successful";
 "setting_band_bindfail" = "Sorry, pairing failed";
 "setting_band_remind" = "Please long press the device middle button, confirm to pair device";
+"setting_band_remindBand" = "Please long press the watch";
 "setting_band_noDevice" = "Can not find the device,please ensure the watch is fully charged and close to the phone and retry.";
 "setting_band_failRemind" = "Sorry, pair failed";
 "setting_unband_title" = "Device management";
@@ -257,6 +258,12 @@
 "setting_dfu_repair" = "Please use special tooling";
 "setting_dfu_finish" = "Upgrade finished";
 "setting_dfu_fail" = "Upgrade failed";
+"setting_timing_title" = "智能校对";
+"setting_timing_remind" = "当你手表时间不准时，请进行下面操作";
+"setting_timing_hour" = "时";
+"setting_timing_minute" = "分";
+"setting_timing_confirm" = "请确认时间";
+"setting_timing_done" = "确认校对";
 "me_title" = "Me";
 "me_photograph" = "Camera";
 "me_photoAlbum" = "Use albums";

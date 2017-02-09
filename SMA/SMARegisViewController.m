@@ -129,7 +129,7 @@
                 
             }
             else{
-                [web acloudSendVerifiyCodeWithAccount:mobile template:[preferredLang isEqualToString:@"zh"]?1:0 success:^(id result) {
+                [web acloudSendVerifiyCodeWithAccount:mobile template:[preferredLang isEqualToString:@"zh"]?3:2 success:^(id result) {
                     [MBProgressHUD hideHUD];
                     [MBProgressHUD showSuccess:SMALocalizedString(@"register_sendsucc")];
                     if (codeTimer) {
@@ -244,6 +244,7 @@
     [UIView animateWithDuration:duration animations:^{
         self.view.transform = CGAffineTransformMakeTranslation(0, -100);
         _backBut.hidden = YES;// 上移或者导航栏效果不理想，直接隐藏返回键
+        _emailBut.hidden = YES;
     }];
 }
 
@@ -259,6 +260,7 @@
     [UIView animateWithDuration:duration animations:^{
         self.view.transform = CGAffineTransformIdentity;
         _backBut.hidden = NO;
+        _emailBut.hidden = NO;
     }];
     
 }

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -20,15 +23,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日均步数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRS-8V-aE4">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日均步数" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRS-8V-aE4">
+                        <rect key="frame" x="0.0" y="6" width="100" height="38"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="25" id="nwi-Qx-bti"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="38" id="nwi-Qx-bti"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8541" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wI3-zQ-jZJ">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8541" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wI3-zQ-jZJ">
+                        <rect key="frame" x="0.0" y="44" width="100" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="mcM-jz-psj"/>
                         </constraints>
@@ -41,7 +46,7 @@
             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
             <constraints>
                 <constraint firstItem="gRS-8V-aE4" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-25" id="H13-H5-PpK"/>
-                <constraint firstItem="wI3-zQ-jZJ" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="15" id="Qbh-2U-eRU"/>
+                <constraint firstItem="wI3-zQ-jZJ" firstAttribute="top" secondItem="gRS-8V-aE4" secondAttribute="bottom" id="cuj-Qt-qhJ"/>
                 <constraint firstAttribute="trailing" secondItem="gRS-8V-aE4" secondAttribute="trailing" id="hzc-vM-ExO"/>
                 <constraint firstItem="wI3-zQ-jZJ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="khJ-Za-7vC"/>
                 <constraint firstAttribute="trailing" secondItem="wI3-zQ-jZJ" secondAttribute="trailing" id="uND-1c-qJa"/>

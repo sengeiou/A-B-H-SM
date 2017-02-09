@@ -213,7 +213,10 @@
 
     }
     if (indexPath.section == 2 && indexPath.row == 1) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/page263"]];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/page263"]];
+        SMAHelpViewController *helpVC = [[SMAHelpViewController alloc] init];
+        helpVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:helpVC animated:YES];
     }
 }
 

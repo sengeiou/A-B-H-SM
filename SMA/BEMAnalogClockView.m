@@ -171,7 +171,7 @@
         self.secondHand.width = self.secondHandWidth;
         self.secondHand.length = self.secondHandLength;
         self.secondHand.offsetLength = self.secondHandOffsideLength;
-//        [self addSubview:self.secondHand];
+        [self addSubview:self.secondHand];
         
         if (self.enableShadows == NO) {
             self.hourHand.shadowEnabled = NO;

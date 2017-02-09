@@ -525,9 +525,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	totalSize.height += indicatorF.size.height;
 	
 	CGSize labelSize = [label.text sizeWithFont:label.font];
-	labelSize.width = MIN(labelSize.width, maxWidth);
-	totalSize.width = MAX(totalSize.width, labelSize.width);
-	totalSize.height += labelSize.height;
+    labelSize.width = MIN(labelSize.width, maxWidth);
+    CGRect labelRect = [label.text boundingRectWithSize:CGSizeMake(labelSize.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:label.font} context:nil];
+    labelSize = labelRect.size;
+    totalSize.width = MAX(totalSize.width, labelSize.width);
+    totalSize.height += labelSize.height;
 	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
 		totalSize.height += kPadding;
 	}

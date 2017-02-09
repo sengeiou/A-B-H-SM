@@ -54,10 +54,11 @@ static id _instace;
     return _user;
 }
 
-- (void)setScanName:(NSString *)scanName{
-    _scanName = scanName;
+- (void)setScanNameArr:(NSArray *)scanNameArr{
+    _scanNameArr = scanNameArr;
     SMAUserInfo *user = [SMAAccountTool userInfo];
-    user.scnaName = scanName;
+//    user.scnaName = scanName;
+    user.scnaNameArr = scanNameArr;
     [SMAAccountTool saveUser:user];
 }
 
@@ -122,9 +123,8 @@ static id _instace;
 
 - (void)reunionTimer:(id)sender{
     NSLog(@"fwefwefwergrg==== %d  %d",SmaDfuManager.dfuMode,self.peripheral.state);
-   
+   self.mgr.delegate = self;//确保DFU升级后重设代理以确保通讯正常
     if (self.peripheral.state != CBPeripheralStateConnected && !SmaDfuManager.dfuMode) {
-        self.mgr.delegate = self;//确保DFU升级后重设代理以确保通讯正常
         if (self.user.watchUUID && ![self.user.watchUUID isEqualToString:@""] ) {
             NSArray *allPer = [SmaBleMgr.mgr retrievePeripheralsWithIdentifiers:@[[[NSUUID alloc] initWithUUIDString:self.user.watchUUID]]];
             NSLog(@"2222222222wgrgg---==%@  %@",allPer, _user.watchUUID);
@@ -272,7 +272,7 @@ static id _instace;
 
 //发现周边蓝牙设备
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
-    NSLog(@"搜索设备UUID：%@  记录UUID：%@  scanName: %@",peripheral.identifier.UUIDString,self.user.watchUUID,self.scanName);
+    NSLog(@"搜索设备UUID：%@  记录UUID：%@  scanName: %@",peripheral.identifier.UUIDString,self.user.watchUUID,self.scanNameArr);
     if (self.user.watchUUID) {
         if ([self.user.watchUUID isEqualToString:peripheral.identifier.UUIDString]) {
             [self connectBl:peripheral];
@@ -282,7 +282,8 @@ static id _instace;
         }
     }
     else{
-        if ([self.scanName isEqualToString:peripheral.name] && RSSI.intValue < 0) {
+//        if ([self.scanName isEqualToString:peripheral.name] && RSSI.intValue < 0) {
+        if ([self.scanNameArr containsObject:peripheral.name] && RSSI.intValue < 0) {
             NSLog(@"搜索出来的设备  %@  %d",peripheral,RSSI.intValue);
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!peripherals) {
@@ -389,6 +390,9 @@ static id _instace;
         }
 
     }
+    SMAUserInfo *user = [SMAAccountTool userInfo];
+    user.scnaName = peripheral.name;
+    [SMAAccountTool saveUser:user];
     if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleDidConnect)] && !SmaDfuManager.dfuMode){
         [self.BLdelegate bleDidConnect];
     }
@@ -408,6 +412,7 @@ static id _instace;
     if ([characteristic.UUID.UUIDString isEqualToString:@"2A29"]){
         NSData *data = characteristic.value;
         NSString *customStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"customStr :%@",customStr);
         [SMADefaultinfos putKey:SMACUSTOM andValue:customStr];
     }
 

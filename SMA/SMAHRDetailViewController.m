@@ -105,9 +105,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSArray *stateArr = @[SMALocalizedString(@"device_SP_day"),SMALocalizedString(@"device_SP_week"),SMALocalizedString(@"device_SP_month")];
     for (int i = 0; i < 3; i ++) {
         UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
-        float width = (MainScreen.size.width - 100)/3;
-        
-        but.frame = CGRectMake((MainScreen.size.width - width*3 - 50)/2 + (width + 25)*i, (self.tabBarController.tabBar.frame.size.height - 30)/2, width, 30);
+        float width = (MainScreen.size.width - 60)/3;
+        but.frame = CGRectMake(10 + (width + 20) * i, (self.tabBarController.tabBar.frame.size.height - 30)/2, width, 30);
+        but.titleLabel.font = FontGothamLight(17);
         but.layer.masksToBounds = YES;
         but.layer.cornerRadius = 10;
         but.layer.borderColor = [SmaColor colorWithHexString:@"#EA2277" alpha:1].CGColor;
@@ -255,7 +255,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         layout.itemSize = CGSizeMake(([UIScreen mainScreen].bounds.size.width-1)/2, ([UIScreen mainScreen].bounds.size.width-1)/2);
         
         //创建collectionView 通过一个布局策略layout来创建
-        detailColView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 260 + 1, MainScreen.size.width, [UIScreen mainScreen].bounds.size.width-1) collectionViewLayout:layout];
+        detailColView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame) + 1, MainScreen.size.width, [UIScreen mainScreen].bounds.size.width-1) collectionViewLayout:layout];
         detailColView.backgroundColor = [SmaColor colorWithHexString:@"#FFFFFF" alpha:0];
         detailColView.delegate= self;
         detailColView.dataSource = self;
@@ -711,9 +711,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         if (dayArr.count > 0 && [[[dayArr lastObject] objectForKey:@"TIME"] intValue]/(1440/cyTime)>=i) {
             for (NSDictionary *dic in dayArr) {
                 int add = [[dic objectForKey:@"TIME"] intValue]/(1440/cyTime);
-                if ([[dic objectForKey:@"TIME"] intValue]%(1440/cyTime) != 0) {
-                    add ++;
-                }
+//                if ([[dic objectForKey:@"TIME"] intValue]%(1440/cyTime) != 0) {
+//                    add ++;
+//                }
                 if (add == i) {
                     if (time == i) {
                         [fullDatas removeLastObject];

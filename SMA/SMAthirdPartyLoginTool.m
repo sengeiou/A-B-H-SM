@@ -155,6 +155,26 @@ static SMAthirdPartyLoginTool *g_instance = nil;
     return [WeiboSDK sendRequest:request];
 }
 
+- (void)loginToTwitter{
+    Twitter *loginTwitter = [Twitter sharedInstance];
+    [loginTwitter logInWithCompletion:^(TWTRSession * _Nullable session, NSError * _Nullable error) {
+        //        NSLog(@"fwghhhh----%@",session);
+        NSLog(@"twitter登录错误==%@",error);
+        if (!error) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［TW］" ,@"LOGINTYPE",session.userID,@"OPENID",session.authToken,@"TOKEN", nil]];
+        }
+        else{
+            if (error.code == 1) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kLoginCancelled object:self userInfo:[NSDictionary dictionaryWithObject:@"［TW］" forKey:@"LOGINTYPE"]];
+            }
+            else{
+                //                [NSDictionary dictionaryWithObject:@"［TW］" forKey:@"LOGINTYPE"]
+                [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［TW］",@"LOGINTYPE",error,@"ERROR", nil]];
+            }
+        }
+    }];
+}
+
 - (void)shareToTwitterWithShareImage:(UIImage *)image controller:(UIViewController *)vc{
      SLComposeViewController *composeVc = (SLComposeViewController *)[SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
     if (![SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] || !composeVc) {
@@ -176,6 +196,28 @@ static SMAthirdPartyLoginTool *g_instance = nil;
         
     }];
 
+}
+
+- (void)loginToFacebookWithReadPermissions:(NSArray *)array controller:(UIViewController *)vc{
+    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    [login logOut];//这个一定要写，不然会出现换一个帐号就无法获取信息的错误
+    [login logInWithReadPermissions:@[@"public_profile", @"email", @"user_friends"] fromViewController:vc handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        if (error) {
+            NSLog(@"Process error");
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［FB］" forKey:@"LOGINTYPE"]];
+        } else if (result.isCancelled) {
+            NSLog(@"Cancelled");
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginCancelled object:self userInfo:[NSDictionary dictionaryWithObject:@"［FB］" forKey:@"LOGINTYPE"]];
+        }
+        else{
+            NSLog(@"succeed");
+            NSLog(@"%@",[FBSDKAccessToken currentAccessToken].appID);
+            NSLog(@"%@",[FBSDKAccessToken currentAccessToken].userID);
+            NSLog(@"%@",[FBSDKAccessToken currentAccessToken].tokenString);
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［FB］" ,@"LOGINTYPE",[FBSDKAccessToken currentAccessToken].userID,@"OPENID",[FBSDKAccessToken currentAccessToken].tokenString,@"TOKEN", nil]];
+        }
+    }];
+    
 }
 
 - (void)shareToFacebookWithShareImage:(UIImage *)image controller:(UIViewController *)vc{

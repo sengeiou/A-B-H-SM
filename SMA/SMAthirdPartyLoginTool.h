@@ -5,7 +5,7 @@
 //  Created by 有限公司 深圳市 on 16/8/24.
 //  Copyright © 2016年 SMA. All rights reserved.1105309779 1105552981
 //
-#define __TencentDemoAppid_  @"1105916662"
+#define __TencentDemoAppid_  @"1105946308"
 //login
 #define kLoginSuccessed @"loginSuccessed"
 #define kLoginFailed    @"loginFailed"
@@ -22,6 +22,9 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
 #import "WeiboSDK.h"
+#import <Fabric/Fabric.h>
+#import <Twitter/Twitter.h>
+#import <TwitterKit/TwitterKit.h>
 @interface SMAthirdPartyLoginTool : NSObject<FBSDKSharingDelegate>
 @property (nonatomic, strong)  UIDocumentInteractionController *documentInteractionController;
 @property (nonatomic, retain)TencentOAuth *oauth;
@@ -37,8 +40,9 @@
 - (BOOL)isWBAppInstalled;
 - (BOOL)WeiboLogin;
 - (BOOL)shareToWBWithShareImage:(UIImage *)image;
-- (void)shareToTwitterWithShareImage:(UIImage *)image;
+- (void)loginToTwitter;
 - (void)shareToTwitterWithShareImage:(UIImage *)image controller:(UIViewController *)vc;
+- (void)loginToFacebookWithReadPermissions:(NSArray *)array controller:(UIViewController *)vc;
 - (void)shareToFacebookWithShareImage:(UIImage *)image controller:(UIViewController *)vc;
 - (void)shareToInstagramWithShareImage:(UIImage *)image controller:(UIViewController *)vc;
 @end

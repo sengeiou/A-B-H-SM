@@ -65,9 +65,9 @@
     _searchBut.selected = YES;
     [_searchBut setTitle:SMALocalizedString(@"setting_band_search") forState:UIControlStateNormal];
     [_searchBut setTitle:SMALocalizedString(@"setting_band_searching") forState:UIControlStateSelected];
-    _ignoreLab.text = SMALocalizedString(@"setting_band_remind07");
+//    _ignoreLab.text = SMALocalizedString(@"setting_band_remind07");
     _nearLab.text = SMALocalizedString(@"setting_band_attention");
-    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:[SMADefaultinfos getValueforKey:BANDDEVELIVE]];
+    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? [NSString stringWithFormat:@"%@/NW1135",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]:[SMADefaultinfos getValueforKey:BANDDEVELIVE]];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     
@@ -88,7 +88,16 @@
     
     [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
     
-    SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+//    SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
+         SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2"];
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
+        SmaBleMgr.scanNameArr = @[@"SM07"];
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
+         SmaBleMgr.scanNameArr = @[@"SMA-A1"];
+    }
     [SmaBleMgr scanBL:12];
 }
 

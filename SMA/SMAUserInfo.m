@@ -15,6 +15,7 @@
         _userGoal = [decoder decodeObjectForKey:@"_userGoal"];
         _userHeadUrl = [decoder decodeObjectForKey:@"_userHeadUrl"];
         _scnaName = [decoder decodeObjectForKey:@"_scnaName"];
+        _scnaNameArr = [decoder decodeObjectForKey:@"_scnaNameArr"];
         _watchUUID = [decoder decodeObjectForKey:@"_watchUUID"];
         _watchVersion = [decoder decodeObjectForKey:@"_watchVersion"];
         _unit = [decoder decodeObjectForKey:@"_unit"];
@@ -34,6 +35,7 @@
     [encoder encodeObject:_userGoal forKey:@"_userGoal"];
     [encoder encodeObject:_userHeadUrl forKey:@"_userHeadUrl"];
     [encoder encodeObject:_scnaName forKey:@"_scnaName"];
+    [encoder encodeObject:_scnaNameArr forKey:@"_scnaNameArr"];
     [encoder encodeObject:_watchUUID forKey:@"_watchUUID"];
     [encoder encodeObject:_watchVersion forKey:@"_watchVersion"];
     [encoder encodeObject:_unit forKey:@"_unit"];

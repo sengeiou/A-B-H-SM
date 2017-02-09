@@ -60,7 +60,7 @@
             AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
             manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html", @"text/json", @"text/javascript",@"text/plain", nil];
             manager.requestSerializer=[AFJSONRequestSerializer serializer];
-            [manager GET:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxdce35a17f98972c9&secret=ab98e83eef1721bb2ff9be7f333082fe&code=%@&grant_type=authorization_code",authResp.code] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+            [manager GET:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxd62755cbf90135a2&secret=f6c9999482d249e813f9c213e7ca1215&code=%@&grant_type=authorization_code",authResp.code] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
                 
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［WX］" ,@"LOGINTYPE",[responseObject objectForKey:@"openid"],@"OPENID",[responseObject objectForKey:@"access_token"],@"TOKEN", nil]];

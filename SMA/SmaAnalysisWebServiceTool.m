@@ -333,7 +333,6 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             
         } CompleteCallback:^(NSString *filePath) {
             if (filePath) {
-                [userInfoDic setValue:filePath forKey:user_he];
                 if (success) {
                     success(@"1");
                 }

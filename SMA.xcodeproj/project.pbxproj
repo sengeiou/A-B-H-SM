@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF1CD0662AA433CB7CFF3F9C /* Pods_SMA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC25B292843B2BA360D63A22 /* Pods_SMA.framework */; };
 		EE09ACE41DAA2B1000CA2EC5 /* SMADatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = EE09ACE31DAA2B1000CA2EC5 /* SMADatabase.m */; };
 		EE09ACF11DAA2B2E00CA2EC5 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = EE09ACE71DAA2B2E00CA2EC5 /* FMDatabase.m */; };
 		EE09ACF21DAA2B2E00CA2EC5 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE09ACE91DAA2B2E00CA2EC5 /* FMDatabaseAdditions.m */; };
@@ -34,7 +35,12 @@
 		EE12EF2B1D7D6BCB0096F811 /* SMADieviceDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE12EF291D7D6BCB0096F811 /* SMADieviceDataCell.m */; };
 		EE12EF2C1D7D6BCB0096F811 /* SMADieviceDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE12EF2A1D7D6BCB0096F811 /* SMADieviceDataCell.xib */; };
 		EE155BCE1DC34FD400AD4900 /* SMARankTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE155BCD1DC34FD400AD4900 /* SMARankTableViewController.m */; };
+		EE1687881E484662008C4261 /* SMACalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687811E484662008C4261 /* SMACalibrationViewController.m */; };
+		EE1687891E484662008C4261 /* SMATimingMinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687831E484662008C4261 /* SMATimingMinViewController.m */; };
+		EE16878A1E484662008C4261 /* SMATimingSecondController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687851E484662008C4261 /* SMATimingSecondController.m */; };
+		EE16878B1E484662008C4261 /* SMATimingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687871E484662008C4261 /* SMATimingViewController.m */; };
 		EE1749001DAC7A6D004A892D /* SMADateDaultionfos.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */; };
+		EE22295E1E4C0261003453DF /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE22295D1E4C0261003453DF /* libSmaBLE.a */; };
 		EE227CCF1D7433A900B9387D /* SMAHighViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CCE1D7433A900B9387D /* SMAHighViewController.m */; };
 		EE227CF81D74381C00B9387D /* SMARulerScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CF71D74381C00B9387D /* SMARulerScrollView.m */; };
 		EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */; };
@@ -44,7 +50,6 @@
 		EE34EE5D1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */; };
 		EE34EE5E1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE34EE601E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip in Resources */ = {isa = PBXBuildFile; fileRef = EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */; };
-		EE34EE641E1F980000A8AABC /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE631E1F980000A8AABC /* libSmaBLE.a */; };
 		EE3A32B71DA8BD060077C813 /* BEMAnalogClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B41DA8BD060077C813 /* BEMAnalogClockView.m */; };
 		EE3A32B81DA8BD060077C813 /* KSMHand.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B61DA8BD060077C813 /* KSMHand.m */; };
 		EE3A32BB1DA8BDB80077C813 /* SMAAlarmSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32BA1DA8BDB80077C813 /* SMAAlarmSubViewController.m */; };
@@ -297,6 +302,7 @@
 		EED2F7C61D71ADCC00527FA7 /* UINavigationController+MTKNaVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EED2F7C51D71ADCC00527FA7 /* UINavigationController+MTKNaVC.m */; };
 		EED44BAD1D73D40500BF7D07 /* SMAAgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAC1D73D40500BF7D07 /* SMAAgeViewController.m */; };
 		EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */; };
+		EED48DBA1E208B8D00AEF801 /* SMAHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED48DB91E208B8D00AEF801 /* SMAHelpViewController.m */; };
 		EEE4AA2E1DF81586002644CD /* WMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE4AA241DF81586002644CD /* WMMenuItem.m */; };
 		EEE4AA2F1DF81586002644CD /* WMMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE4AA261DF81586002644CD /* WMMenuView.m */; };
 		EEE4AA301DF81586002644CD /* WMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE4AA281DF81586002644CD /* WMProgressView.m */; };
@@ -340,6 +346,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		14A2FFC6F43D298FC528BEF9 /* Pods-SMA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SMA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SMA/Pods-SMA.debug.xcconfig"; sourceTree = "<group>"; };
+		9D8C3099BCCF98C40A061C7E /* Pods-SMA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SMA.release.xcconfig"; path = "Pods/Target Support Files/Pods-SMA/Pods-SMA.release.xcconfig"; sourceTree = "<group>"; };
+		CC25B292843B2BA360D63A22 /* Pods_SMA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SMA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE09ACE21DAA2B1000CA2EC5 /* SMADatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADatabase.h; sourceTree = "<group>"; };
 		EE09ACE31DAA2B1000CA2EC5 /* SMADatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADatabase.m; sourceTree = "<group>"; };
 		EE09ACE61DAA2B2E00CA2EC5 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
@@ -460,8 +469,24 @@
 		EE12EF2A1D7D6BCB0096F811 /* SMADieviceDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMADieviceDataCell.xib; sourceTree = "<group>"; };
 		EE155BCC1DC34FD400AD4900 /* SMARankTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARankTableViewController.h; sourceTree = "<group>"; };
 		EE155BCD1DC34FD400AD4900 /* SMARankTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARankTableViewController.m; sourceTree = "<group>"; };
+		EE1687801E484662008C4261 /* SMACalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMACalibrationViewController.h; sourceTree = "<group>"; };
+		EE1687811E484662008C4261 /* SMACalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMACalibrationViewController.m; sourceTree = "<group>"; };
+		EE1687821E484662008C4261 /* SMATimingMinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATimingMinViewController.h; sourceTree = "<group>"; };
+		EE1687831E484662008C4261 /* SMATimingMinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATimingMinViewController.m; sourceTree = "<group>"; };
+		EE1687841E484662008C4261 /* SMATimingSecondController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATimingSecondController.h; sourceTree = "<group>"; };
+		EE1687851E484662008C4261 /* SMATimingSecondController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATimingSecondController.m; sourceTree = "<group>"; };
+		EE1687861E484662008C4261 /* SMATimingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMATimingViewController.h; sourceTree = "<group>"; };
+		EE1687871E484662008C4261 /* SMATimingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMATimingViewController.m; sourceTree = "<group>"; };
+		EE16878D1E48546D008C4261 /* SmaAlarmInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaAlarmInfo.h; sourceTree = "<group>"; };
+		EE16878E1E48546D008C4261 /* SmaBLE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaBLE.h; sourceTree = "<group>"; };
+		EE16878F1E48546D008C4261 /* SmaBusinessTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaBusinessTool.h; sourceTree = "<group>"; };
+		EE1687901E48546D008C4261 /* SmaHRHisInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaHRHisInfo.h; sourceTree = "<group>"; };
+		EE1687911E48546D008C4261 /* SmaNoDisInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaNoDisInfo.h; sourceTree = "<group>"; };
+		EE1687921E48546D008C4261 /* SmaSeatInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaSeatInfo.h; sourceTree = "<group>"; };
+		EE1687931E48546D008C4261 /* SmaVibrationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaVibrationInfo.h; sourceTree = "<group>"; };
 		EE1748FE1DAC7A6D004A892D /* SMADateDaultionfos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADateDaultionfos.h; sourceTree = "<group>"; };
 		EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADateDaultionfos.m; sourceTree = "<group>"; };
+		EE22295D1E4C0261003453DF /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE227CCD1D7433A900B9387D /* SMAHighViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHighViewController.h; sourceTree = "<group>"; };
 		EE227CCE1D7433A900B9387D /* SMAHighViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHighViewController.m; sourceTree = "<group>"; };
 		EE227CF61D74381C00B9387D /* SMARulerScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARulerScrollView.h; sourceTree = "<group>"; };
@@ -473,7 +498,6 @@
 		EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iOSDFULibrary.framework; sourceTree = "<group>"; };
 		EE34EE591E1F6C7000A8AABC /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Zip.framework; sourceTree = "<group>"; };
 		EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "sma07_app(pah8002)_v1.1.1.zip"; sourceTree = "<group>"; };
-		EE34EE631E1F980000A8AABC /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE3A32B31DA8BD060077C813 /* BEMAnalogClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAnalogClockView.h; sourceTree = "<group>"; };
 		EE3A32B41DA8BD060077C813 /* BEMAnalogClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAnalogClockView.m; sourceTree = "<group>"; };
 		EE3A32B51DA8BD060077C813 /* KSMHand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSMHand.h; sourceTree = "<group>"; };
@@ -808,13 +832,6 @@
 		EE63AD9A1DC07EFB00ABA94D /* SMASleepDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASleepDetailViewController.m; sourceTree = "<group>"; };
 		EE63AD9C1DC08ABE00ABA94D /* MTKSleepView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTKSleepView.h; sourceTree = "<group>"; };
 		EE63AD9D1DC08ABE00ABA94D /* MTKSleepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTKSleepView.m; sourceTree = "<group>"; };
-		EE648C4A1DFA58190090DD02 /* SmaAlarmInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaAlarmInfo.h; sourceTree = "<group>"; };
-		EE648C4B1DFA58190090DD02 /* SmaBLE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaBLE.h; sourceTree = "<group>"; };
-		EE648C4C1DFA58190090DD02 /* SmaBusinessTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaBusinessTool.h; sourceTree = "<group>"; };
-		EE648C4D1DFA58190090DD02 /* SmaHRHisInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaHRHisInfo.h; sourceTree = "<group>"; };
-		EE648C4E1DFA58190090DD02 /* SmaNoDisInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaNoDisInfo.h; sourceTree = "<group>"; };
-		EE648C4F1DFA58190090DD02 /* SmaSeatInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaSeatInfo.h; sourceTree = "<group>"; };
-		EE648C501DFA58190090DD02 /* SmaVibrationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaVibrationInfo.h; sourceTree = "<group>"; };
 		EE648C541DFA88A90090DD02 /* SMASwitchScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASwitchScrollView.h; sourceTree = "<group>"; };
 		EE648C551DFA88A90090DD02 /* SMASwitchScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASwitchScrollView.m; sourceTree = "<group>"; };
 		EE648C5B1DFABE170090DD02 /* SMAPhotoSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPhotoSelectView.h; sourceTree = "<group>"; };
@@ -822,6 +839,7 @@
 		EE6783D31E1DFC0F00B0B6E7 /* DfuUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DfuUpdate.h; sourceTree = "<group>"; };
 		EE6783D41E1DFC0F00B0B6E7 /* DfuUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DfuUpdate.m; sourceTree = "<group>"; };
 		EE6783D61E1DFC0F00B0B6E7 /* sma10b_firmware_v1.1.8.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = sma10b_firmware_v1.1.8.zip; sourceTree = "<group>"; };
+		EE6D88191E2F5D6E0081B204 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE733EC51DBDE41B00CF2887 /* SMAQuietHRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAQuietHRViewController.h; sourceTree = "<group>"; };
 		EE733EC61DBDE41B00CF2887 /* SMAQuietHRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAQuietHRViewController.m; sourceTree = "<group>"; };
 		EE733EC71DBDE41B00CF2887 /* SMAQuietHRViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMAQuietHRViewController.xib; sourceTree = "<group>"; };
@@ -1057,6 +1075,8 @@
 		EED44BAC1D73D40500BF7D07 /* SMAAgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAgeViewController.m; sourceTree = "<group>"; };
 		EED44BAE1D73D8B900BF7D07 /* SMAPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMAPickerView.h; path = ../SMAPickerView.h; sourceTree = "<group>"; };
 		EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMAPickerView.m; path = ../SMAPickerView.m; sourceTree = "<group>"; };
+		EED48DB81E208B8D00AEF801 /* SMAHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHelpViewController.h; sourceTree = "<group>"; };
+		EED48DB91E208B8D00AEF801 /* SMAHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHelpViewController.m; sourceTree = "<group>"; };
 		EEE4AA231DF81586002644CD /* WMMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuItem.h; sourceTree = "<group>"; };
 		EEE4AA241DF81586002644CD /* WMMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuItem.m; sourceTree = "<group>"; };
 		EEE4AA251DF81586002644CD /* WMMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuView.h; sourceTree = "<group>"; };
@@ -1111,6 +1131,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */,
+				EE22295E1E4C0261003453DF /* libSmaBLE.a in Frameworks */,
 				EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */,
 				EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */,
 				EEB54D1D1E151B950059F8D0 /* ImageIO.framework in Frameworks */,
@@ -1124,7 +1145,6 @@
 				EE57A74C1E0B5FE10007BCC8 /* libBLEasyConfig.a in Frameworks */,
 				EE4B1DD01D64898700825E2B /* libz.tbd in Frameworks */,
 				EE0E14181D6708590054BE87 /* libstdc++.tbd in Frameworks */,
-				EE34EE641E1F980000A8AABC /* libSmaBLE.a in Frameworks */,
 				EE57A73A1E0B5FE10007BCC8 /* libcrypto.a in Frameworks */,
 				EE0E14161D6708520054BE87 /* CoreTelephony.framework in Frameworks */,
 				EE10CE7A1DB5F7F000585B74 /* libCorePlot-CocoaTouch.a in Frameworks */,
@@ -1153,12 +1173,22 @@
 				EE57A7521E0B5FE10007BCC8 /* libConfiguration.a in Frameworks */,
 				EE34EE5B1E1F6C8600A8AABC /* Zip.framework in Frameworks */,
 				EE57A7501E0B5FE10007BCC8 /* libXlwDevice.a in Frameworks */,
+				BF1CD0662AA433CB7CFF3F9C /* Pods_SMA.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D85FF6875D83220B112A445 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				14A2FFC6F43D298FC528BEF9 /* Pods-SMA.debug.xcconfig */,
+				9D8C3099BCCF98C40A061C7E /* Pods-SMA.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EE09ACE51DAA2B2E00CA2EC5 /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
@@ -1297,6 +1327,7 @@
 				EEB54D001E14E96D0059F8D0 /* Social.framework */,
 				EEB643841DEC067D00544FFE /* CoreLocation.framework */,
 				EE10CE821DB5F9E100585B74 /* Accelerate.framework */,
+				CC25B292843B2BA360D63A22 /* Pods_SMA.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1323,14 +1354,14 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EE34EE631E1F980000A8AABC /* libSmaBLE.a */,
-				EE648C4A1DFA58190090DD02 /* SmaAlarmInfo.h */,
-				EE648C4B1DFA58190090DD02 /* SmaBLE.h */,
-				EE648C4C1DFA58190090DD02 /* SmaBusinessTool.h */,
-				EE648C4D1DFA58190090DD02 /* SmaHRHisInfo.h */,
-				EE648C4E1DFA58190090DD02 /* SmaNoDisInfo.h */,
-				EE648C4F1DFA58190090DD02 /* SmaSeatInfo.h */,
-				EE648C501DFA58190090DD02 /* SmaVibrationInfo.h */,
+				EE22295D1E4C0261003453DF /* libSmaBLE.a */,
+				EE16878D1E48546D008C4261 /* SmaAlarmInfo.h */,
+				EE16878E1E48546D008C4261 /* SmaBLE.h */,
+				EE16878F1E48546D008C4261 /* SmaBusinessTool.h */,
+				EE1687901E48546D008C4261 /* SmaHRHisInfo.h */,
+				EE1687911E48546D008C4261 /* SmaNoDisInfo.h */,
+				EE1687921E48546D008C4261 /* SmaSeatInfo.h */,
+				EE1687931E48546D008C4261 /* SmaVibrationInfo.h */,
 			);
 			path = SMAbleApi;
 			sourceTree = "<group>";
@@ -2405,6 +2436,8 @@
 				EE8B3F461DFEAE6600500664 /* SMAOpinion ViewController.m */,
 				EE55CFD51DFEC70F008A0F64 /* SMAAboutUsViewController.h */,
 				EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */,
+				EED48DB81E208B8D00AEF801 /* SMAHelpViewController.h */,
+				EED48DB91E208B8D00AEF801 /* SMAHelpViewController.m */,
 			);
 			name = VC;
 			sourceTree = "<group>";
@@ -2603,6 +2636,7 @@
 				EEB9F68B1D64318B0011AA07 /* SMA */,
 				EEB9F68A1D64318B0011AA07 /* Products */,
 				EE10CE811DB5F9E100585B74 /* Frameworks */,
+				5D85FF6875D83220B112A445 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2755,6 +2789,14 @@
 				EE83C1681DACCB8A00A4FD88 /* SMAHeartViewController.m */,
 				EE8B3F3C1DFE96DC00500664 /* SMADfuViewController.h */,
 				EE8B3F3D1DFE96DC00500664 /* SMADfuViewController.m */,
+				EE1687801E484662008C4261 /* SMACalibrationViewController.h */,
+				EE1687811E484662008C4261 /* SMACalibrationViewController.m */,
+				EE1687821E484662008C4261 /* SMATimingMinViewController.h */,
+				EE1687831E484662008C4261 /* SMATimingMinViewController.m */,
+				EE1687841E484662008C4261 /* SMATimingSecondController.h */,
+				EE1687851E484662008C4261 /* SMATimingSecondController.m */,
+				EE1687861E484662008C4261 /* SMATimingViewController.h */,
+				EE1687871E484662008C4261 /* SMATimingViewController.m */,
 				EEE4AA211DF81586002644CD /* WMPageController */,
 				EECC9DC51D88F3190019CAD8 /* VIEW */,
 			);
@@ -2980,10 +3022,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EEB9F6A01D64318B0011AA07 /* Build configuration list for PBXNativeTarget "SMA" */;
 			buildPhases = (
+				2A0053E9A66DE4DA0F339EA6 /* [CP] Check Pods Manifest.lock */,
 				EEB9F6851D64318B0011AA07 /* Sources */,
 				EEB9F6861D64318B0011AA07 /* Frameworks */,
 				EEB9F6871D64318B0011AA07 /* Resources */,
 				EE34EE521E1F6AD000A8AABC /* Embed Frameworks */,
+				EE2255221E28762000A037E9 /* ShellScript */,
+				58A242B77E3C4EADAB8A767E /* [CP] Embed Pods Frameworks */,
+				F7D57B88ACFB6E48460488E3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3031,6 +3077,7 @@
 				uk,
 				ru,
 				pl,
+				ko,
 			);
 			mainGroup = EEB9F6801D64318B0011AA07;
 			productRefGroup = EEB9F68A1D64318B0011AA07 /* Products */;
@@ -3081,6 +3128,67 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2A0053E9A66DE4DA0F339EA6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		58A242B77E3C4EADAB8A767E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SMA/Pods-SMA-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE2255221E28762000A037E9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" dc332542e108134b2d39e529fb4a30d42366608e a2a9f10a9902b4ad08526b76de4e4e7463a4bf015f521cfbeb1ac18fb2da4cd8";
+		};
+		F7D57B88ACFB6E48460488E3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SMA/Pods-SMA-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EEB9F6851D64318B0011AA07 /* Sources */ = {
@@ -3148,6 +3256,7 @@
 				EE57A7271E0B5FE00007BCC8 /* QNHosts.m in Sources */,
 				EE7A86E91DB08A5F0089BA70 /* SMAGoalViewController.m in Sources */,
 				EE4B1C111D6469C900825E2B /* NSDictionary-DeepMutableCopy.m in Sources */,
+				EE1687881E484662008C4261 /* SMACalibrationViewController.m in Sources */,
 				EE57A74B1E0B5FE10007BCC8 /* ESP_WifiUtil.m in Sources */,
 				EE60613E1DEEC1BB008A7786 /* SMASpGoalViewController.m in Sources */,
 				EE83C16C1DACDAAB00A4FD88 /* SMAPickLineView.m in Sources */,
@@ -3223,11 +3332,13 @@
 				EE57A7131E0B5FE00007BCC8 /* CKNullCache.m in Sources */,
 				EE57A7151E0B5FE00007BCC8 /* GCDAsyncUdpSocket.m in Sources */,
 				EE57A72B1E0B5FE00007BCC8 /* QNDes.m in Sources */,
+				EED48DBA1E208B8D00AEF801 /* SMAHelpViewController.m in Sources */,
 				EEE79A8A1D9CF252005683BA /* SMATimePickView.m in Sources */,
 				EE57A71E1E0B5FE00007BCC8 /* QNSystem.m in Sources */,
 				EE57A70C1E0B5FE00007BCC8 /* UIProgressView+AFNetworking.m in Sources */,
 				EE8063921DF66B90005D6863 /* SMAChangeCell.m in Sources */,
 				EE648C5D1DFABE170090DD02 /* SMAPhotoSelectView.m in Sources */,
+				EE16878A1E484662008C4261 /* SMATimingSecondController.m in Sources */,
 				EE57A7291E0B5FE00007BCC8 /* QNResolvUtil.m in Sources */,
 				EE12EF2B1D7D6BCB0096F811 /* SMADieviceDataCell.m in Sources */,
 				EE648C561DFA88A90090DD02 /* SMASwitchScrollView.m in Sources */,
@@ -3280,6 +3391,7 @@
 				EEC3CD1A1DB0CE320034105B /* UIScrollView+MJRefresh.m in Sources */,
 				EEB09AAF1D79214500E34B9D /* SMADeviceDataTableViewController.m in Sources */,
 				EE83CE431DD2AFB20031CF58 /* SDWebImageManager.m in Sources */,
+				EE1687891E484662008C4261 /* SMATimingMinViewController.m in Sources */,
 				EE0B08F71DF948D80026ABD8 /* SmaSliderButton.m in Sources */,
 				EE83CE3F1DD2AFB20031CF58 /* SDWebImageCompat.m in Sources */,
 				EE8086781DAF918D0075C705 /* SMAPersonalPickView.m in Sources */,
@@ -3296,6 +3408,7 @@
 				EEC3CD151DB0CE320034105B /* MJRefreshBaseView.m in Sources */,
 				EE57A7551E0B5FE10007BCC8 /* SRWebSocket.m in Sources */,
 				EE486C931DD9DCA200E3E385 /* SMADeviceAggregate.m in Sources */,
+				EE16878B1E484662008C4261 /* SMATimingViewController.m in Sources */,
 				EE83CE191DD2AF0A0031CF58 /* WYScrollView.m in Sources */,
 				EE155BCE1DC34FD400AD4900 /* SMARankTableViewController.m in Sources */,
 				EE10CE7D1DB5F82A00585B74 /* ScattView.m in Sources */,
@@ -3372,6 +3485,7 @@
 				EEB9F6B51D6437230011AA07 /* uk */,
 				EE9AB5B31D6EE1C00028F8DA /* ru */,
 				EE9AB5B41D6EE1CC0028F8DA /* pl */,
+				EE6D88191E2F5D6E0081B204 /* ko */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3465,6 +3579,7 @@
 		};
 		EEB9F6A11D64318B0011AA07 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14A2FFC6F43D298FC528BEF9 /* Pods-SMA.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3514,8 +3629,9 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-fobjc-arc",
+					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.coach;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e7ef197a-dd9f-4072-b7e9-a8a17caeebe7";
 				PROVISIONING_PROFILE_SPECIFIER = All_development_text;
@@ -3524,6 +3640,7 @@
 		};
 		EEB9F6A21D64318B0011AA07 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D8C3099BCCF98C40A061C7E /* Pods-SMA.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3531,7 +3648,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VHVLE5FL92;
+				DEVELOPMENT_TEAM = V96N6WUHA2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3571,11 +3688,12 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-fobjc-arc",
+					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.coach;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "346dc691-b905-4bbf-9e06-c9be3ad5030f";
-				PROVISIONING_PROFILE_SPECIFIER = liang_dis_smacare_text;
+				PROVISIONING_PROFILE = "9cd040a3-d8ca-4880-91ac-b5e19316ab18";
+				PROVISIONING_PROFILE_SPECIFIER = jinyun_dis_smarttime_sub;
 			};
 			name = Release;
 		};

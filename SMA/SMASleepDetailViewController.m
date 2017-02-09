@@ -114,7 +114,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     for (int i = 0; i < 2; i ++) {
         UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
         float width = (MainScreen.size.width - 120)/2;
-        
+        but.titleLabel.font = FontGothamLight(17);
         but.frame = CGRectMake((MainScreen.size.width - width*2 - 65)/2 + (width + 65)*i, (self.tabBarController.tabBar.frame.size.height - 30)/2, width, 30);
         but.layer.masksToBounds = YES;
         but.layer.cornerRadius = 10;

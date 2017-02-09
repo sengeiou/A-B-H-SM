@@ -38,6 +38,7 @@
 }
 
 - (void)createUI{
+    self.title = SMALocalizedString(@"me_perso_title");
     _nameLab.text = SMALocalizedString(@"me_perso_name");
     _nameDetalLab.text = user.userName;
     _accountLab.text = SMALocalizedString(@"me_perso_account");
@@ -52,7 +53,7 @@
     _ageDetalLab.text = user.userAge;
     _unitLab.text = SMALocalizedString(@"me_perso_unit");
     _unitDetalLab.text = user.unit.intValue?SMALocalizedString(@"me_perso_british"):SMALocalizedString(@"me_perso_metric");
-    [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
+//    [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
 }
 
 - (void)handleUserInfo{

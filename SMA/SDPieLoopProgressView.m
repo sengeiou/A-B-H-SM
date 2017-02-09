@@ -11,6 +11,11 @@
 @implementation SDPieLoopProgressView
 {
     CAShapeLayer *backLayer;
+    //中心图片
+    CALayer *logoImalayer;
+    CGContextRef ctx;
+    CGRect myRect;
+    int aniSLIndex;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -36,6 +41,9 @@
     backLayer.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
     
     [self.layer addSublayer:backLayer];
+    int startTime = (int)self.startTime%60;//防止超过60数值影响UI
+    int endTime = (int)self.endTime%60;
+    //    NSLog(@"fwgwhrhh===%d %f  %f",50%60,70/60.0,self.endTime);
     for (int i = 1; i <= 12; i ++) {
         
         CATextLayer * text = [CATextLayer layer];
@@ -44,30 +52,93 @@
         
         if (i%3) {
             CGSize fontsize = CGSizeMake(4, 8);
-//            CGSize fontsize = [@"|" sizeWithAttributes:@{NSFontAttributeName:FontGothamBold(10 * SDProgressViewFontScale)}];
+            //            CGSize fontsize = [@"|" sizeWithAttributes:@{NSFontAttributeName:FontGothamBold(10 * SDProgressViewFontScale)}];
             //计算点坐标
             CGFloat X = center.x + (rect.size.width/2 -(fontsize.height +5)/2) *sin((M_PI/180)*i*(360.0 /(12))) - fontsize.width/2; //R*sinB(夹角)
             CGFloat Y = center.y - (rect.size.width/2 -(fontsize.height +5)/2) *cos((M_PI/180)*i*(360.0 /(12))) - fontsize.height/2;//R*cosB(夹角)
             text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
             text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];//whiteColor
-            if (i<self.startTime/5 && i > self.endTime/5) {
-                text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+            NSLog(@"wghhh44444  %f  %f  %d \n histry: %f  %f",startTime/5.0,endTime/5.0,i,self.hisStartTime,self.hisEndTime);
+            
+            if ((int)self.endStartTime%60 > (int)self.endEndTime%60) {
+                if (startTime/5.0 > endTime/5.0) {
+                    if (i < startTime/5.0 && i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
+                else{
+                    if (i < startTime/5.0 || i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
+            }
+            else{
+                if (startTime/5.0 > endTime/5.0) {
+                    if (i < startTime/5.0 && i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
+                else{
+                    if (i < startTime/5.0 || i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
+                
             }
             
+            if (startTime == 0 && endTime == 0) {
+                text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+            }
             text.alignmentMode   = kCAAlignmentCenter;
             text.foregroundColor = [UIColor blueColor].CGColor;
             text.transform =  CATransform3DMakeRotation((M_PI/180)*i*(360.0 /(12)), 0, 0, 1);
         }
         else{
+            //                        NSLog(@"wghhh4444433333  %f  %f  %d",startTime/5.0,endTime/5.0,i);
             CGSize fontsize = [[NSString stringWithFormat:@"%d",i] sizeWithAttributes:@{NSFontAttributeName:FontGothamBold(12 * SDProgressViewFontScale)}];
             //计算点坐标
             CGFloat X = center.x + (rect.size.width/2 -fontsize.height/2) *sin((M_PI/180)*i*(360.0 /(12))) - fontsize.width/2; //R*sinB(夹角)
             CGFloat Y = center.y - (rect.size.width/2 -fontsize.height/2) *cos((M_PI/180)*i*(360.0 /(12))) - fontsize.height/2 + 1;//R*cosB(夹角)
             text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
             text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];
-            if (i<self.startTime/5 && i > self.endTime/5) {
-                text.string   =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+            //                if (i < startTime/5.0 || i > endTime/5.0) {
+            //                    text.string   =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];
+            //                }
+            //            if ((int)self.endStartTime%60 > (int)self.endEndTime%60) {
+            //                if (i < startTime/5.0 && i > endTime/5.0) {
+            //                    text.string   =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];
+            //                }
+            //            }
+            //            else{
+            if ((int)self.endStartTime%60 > (int)self.endEndTime%60) {
+                if (startTime/5.0 > endTime/5.0) {
+                    if (i < startTime/5.0 && i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
+                else{
+                    if (i < startTime/5.0 || i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
             }
+            else{
+                if (startTime/5.0 > endTime/5.0) {
+                    if (i < startTime/5.0 && i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
+                else{
+                    if (i < startTime/5.0 || i > endTime/5.0) {
+                        text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+                    }
+                }
+                
+            }
+            if (startTime == 0 && endTime == 0) {
+                text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor grayColor]}];
+            }
+            //            }
             text.alignmentMode   = kCAAlignmentCenter;
         }
         
@@ -78,9 +149,10 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    myRect = rect;
     //    rect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width - 2, rect.size.height - 2);
     [self setupLayers:rect];
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    ctx = UIGraphicsGetCurrentContext();
     
     CGFloat xCenter = rect.size.width * 0.5;
     CGFloat yCenter = rect.size.height * 0.5;
@@ -88,6 +160,7 @@
     
     // 背景圆
     [SDColorMaker(255, 255, 255, 1) set];
+    //    [[SmaColor colorWithHexString:@"#59D9A4" alpha:1] set];
     CGFloat w = radius * 2 ;
     CGFloat h = w;
     CGFloat x = (rect.size.width - w) * 0.5;
@@ -106,6 +179,9 @@
     //    CGContextStrokePath(ctx);
     
     // 进度环
+    //     [self sleepProgressWithStart:self.startTime end:self.endTime];
+    //    [self sleepTimeAnimaitonWtihStar:self.startTime end:self.endTime];
+    //    [SDColorMaker(255, 255, 255, 1) set];
     [[SmaColor colorWithHexString:@"#59D9A4" alpha:1] set];
     CGContextMoveToPoint(ctx, xCenter, yCenter);
     CGFloat to = M_PI * (((self.startTime-15)/60.0*360 - 360)/180) + (self.endTime-self.startTime)/60.0 * M_PI * 2 ; // 初始值
@@ -115,7 +191,7 @@
     
     // 遮罩
     [SDColorMaker(240, 240, 240, 1) set];
-    CGFloat maskW = (radius /4) * 2;
+    CGFloat maskW = (radius /4) * 3;
     CGFloat maskH = maskW;
     CGFloat maskX = (rect.size.width - maskW) * 0.5;
     CGFloat maskY = (rect.size.height - maskH) * 0.5;
@@ -123,9 +199,10 @@
     //    CGContextFillPath(ctx);
     
     //中心图片
-    CALayer *logoImalayer = [CALayer layer];
+    [logoImalayer removeFromSuperlayer];
+    logoImalayer = [CALayer layer];
     logoImalayer.contents = (__bridge id _Nullable)([UIImage imageNamed:@"home_sleep"].CGImage);
-    logoImalayer.frame       = CGRectMake(maskX, maskY, maskW, maskH);
+    logoImalayer.frame       = CGRectMake(maskX, maskY, maskW , maskH);
     logoImalayer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, logoImalayer.frame.size.width, logoImalayer.frame.size.height)].CGPath;
     [self.layer addSublayer:logoImalayer];
     
@@ -139,11 +216,11 @@
     //    CGContextStrokePath(ctx);
     
     // 进度数字
-    NSString *progressStr = [NSString stringWithFormat:@"%.0f%s", self.progress * 100, "\%"];
-    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-    attributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:20 * SDProgressViewFontScale];
-    attributes[NSForegroundColorAttributeName] = [UIColor lightGrayColor];
-    
+    //    NSString *progressStr = [NSString stringWithFormat:@"%.0f%s", self.progress * 100, "\%"];
+    //    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    //    attributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:20 * SDProgressViewFontScale];
+    //    attributes[NSForegroundColorAttributeName] = [UIColor lightGrayColor];
+    //     [self setupLayers:rect];
     
     //    [self setCenterProgressText:progressStr withAttributes:attributes];
 }

@@ -19,11 +19,25 @@
 
 @interface SDBaseProgressView : UIView
 
+@property (nonatomic, assign) CGFloat hisProgress;
+
 @property (nonatomic, assign) CGFloat progress;
 
+@property (nonatomic, assign) CGFloat endProgress;
+
 @property (nonatomic, assign) CGFloat startTime, endTime;
+@property (nonatomic, assign) CGFloat hisStartTime, hisEndTime;
+@property (nonatomic, assign) CGFloat endStartTime, endEndTime;
+
+@property (nonatomic, assign) BOOL isAnimation;
+
+@property (nonatomic, strong) NSString *hisTitleLab;
 
 @property (nonatomic, strong) NSString *titleLab;
+
+@property (nonatomic, strong) NSString *endTitleLab;
+
+@property (nonatomic, strong) NSTimer *animationTimer;
 
 - (void)setCenterProgressText:(NSString *)text withAttributes:(NSDictionary *)attributes;
 
@@ -34,4 +48,8 @@
 + (id)progressView;
 
 - (void)createUIRect:(CGRect)rect;
+
+- (void)changeProgress:(CGFloat)progress titleLab:(NSString *)title;
+
+- (void)sleepTimeAnimaitonWtihStar:(CGFloat)starTime end:(CGFloat)endTime;
 @end

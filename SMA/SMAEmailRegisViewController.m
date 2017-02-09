@@ -107,7 +107,7 @@
                 [MBProgressHUD showError:SMALocalizedString(@"register_accexist")];
             }
             else{
-                [web acloudSendVerifiyCodeWithAccount:_accountField.text template:[preferredLang isEqualToString:@"zh"]?4:3 success:^(id result) {
+                [web acloudSendVerifiyCodeWithAccount:_accountField.text template:[preferredLang isEqualToString:@"zh"]?6:5 success:^(id result) {
                     [MBProgressHUD hideHUD];
                     [MBProgressHUD showSuccess:SMALocalizedString(@"register_sendsucc")];
                     if (codeTimer) {

@@ -32,7 +32,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-   
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage buttonImageFromColors:@[[SmaColor colorWithHexString:@"#5790F9" alpha:1],[SmaColor colorWithHexString:@"#80C1F9" alpha:1]] ByGradientType:topToBottom size:CGSizeMake(MainScreen.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     [self updateUI];
     if (SmaBleMgr.peripheral.state == CBPeripheralStateConnected) {
         [self chectFirmwareVewsionWithWeb];
@@ -134,9 +134,16 @@
     
     _backlightCell.hidden = NO;
     _watchChangeCell.hidden = NO;
+    _timingCell.hidden = YES;
     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
         _backlightCell.hidden = YES;
         _watchChangeCell.hidden = YES;
+        
+    }
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]) {
+        _backlightCell.hidden = YES;
+        _watchChangeCell.hidden = YES;
+        _timingCell.hidden = NO;
     }
     
     SmaBleMgr.BLdelegate = self;
@@ -152,15 +159,17 @@
         _deviceLead.constant = MainScreen.size.width/2 - deviceSize.width/2 - 25;
         _deviceW.constant = 20;
         _deviceH.constant = 20;
+        _cellTra.constant = -20;
     }
     else{
         _deviceLab.text = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
-        _deviceIma.image = [UIImage imageNamed:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] ? @"SMA_07":@"SMA_10B"];
+        _deviceIma.image = [UIImage imageNamed:[self deviceName]];
         _bleIma.hidden = NO;
         _batteryIma.hidden = NO;
         _deviceLead.constant = 15;
         _deviceW.constant = 40;
         _deviceH.constant = 40;
+        _cellTra.constant = 8;
     }
     if (![SmaBleMgr checkBLConnectState] && !unpair) {
         _bleIma.image = [UIImage imageNamed:@"buletooth_unconnected"];
@@ -219,12 +228,15 @@
 //         }
 //         firmwareType = firmware_sma07c;
 //     }
+    NSLog(@"----%@",[SMADefaultinfos getValueforKey:SMACUSTOM]);
     SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
     [webSer acloudDfuFileWithFirmwareType:firmware_smav2 callBack:^(NSArray *finish, NSError *error) {
         for (int i = 0; i < finish.count; i ++) {
             NSString *filename = [[finish objectAtIndex:i] objectForKey:@"filename"];
-            NSString *fileType = [[filename componentsSeparatedByString:@"_"] firstObject];
-            if ([fileType isEqualToString:[SMADefaultinfos getValueforKey:BANDDEVELIVE]]) {
+            NSString *deviceName = [[filename componentsSeparatedByString:@"_"] firstObject];
+            NSString *fileType = [[filename componentsSeparatedByString:@"_"] objectAtIndex:1];
+//            if ([fileType isEqualToString:[SMAAccountTool userInfo].scnaName]) {
+            if ([fileType isEqualToString:[SMADefaultinfos getValueforKey:SMACUSTOM]] && [deviceName isEqualToString:[SMAAccountTool userInfo].scnaName]) {
                 NSString *webFirmwareVer = [[filename substringWithRange:NSMakeRange(filename.length - 9, 5)] stringByReplacingOccurrencesOfString:@"." withString:@""];
                 if ([[SMAAccountTool userInfo].watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue <= webFirmwareVer.intValue) {
                     _updateView.hidden = NO;
@@ -236,18 +248,6 @@
                 }
             }
         }
-//        if (finish.count > 0) {
-//            NSString *filename = [[finish firstObject] objectForKey:@"filename"];
-//            NSString *webFirmwareVer = [[filename substringWithRange:NSMakeRange(filename.length - 9, 5)] stringByReplacingOccurrencesOfString:@"." withString:@""];
-//            if ([[SMAAccountTool userInfo].watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue <= webFirmwareVer.intValue) {
-//                _updateView.hidden = NO;
-//                webFirmwareDic = [finish firstObject];
-//            }
-//            else{
-//                _updateView.hidden = YES;
-//                webFirmwareDic = nil;
-//            }
-//        }
     }];
 }
 
@@ -268,10 +268,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] && indexPath.section == 3 && indexPath.row == 0 ) {
+    if (![[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] && indexPath.section == 3 && indexPath.row == 3) {
         return 0;
     }
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] && indexPath.section == 4 && indexPath.row == 0) {
+    if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]) && indexPath.section == 3 && indexPath.row == 0 ) {
+        return 0;
+    }
+    if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]) && indexPath.section == 4 && indexPath.row == 0) {
         return 0;
     }
     if (indexPath.section == 1) {
@@ -466,6 +469,19 @@
     }
 }
 
+- (NSString *)deviceName{
+    NSString *imageStr;
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
+        imageStr = @"SMA_10B";
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
+        imageStr = @"SMA_07";
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
+        imageStr = @"img_queren_shouhuan";
+    }
+    return imageStr;
+}
 
 #pragma mark *******BLConnectDelegate*****
 - (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{

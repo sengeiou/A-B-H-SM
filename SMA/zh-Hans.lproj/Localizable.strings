@@ -133,9 +133,9 @@
 "device_syncFail" = "同步失败";
 "device_share_wechat" = "微信";
 "device_share_Timeline" = "朋友圈";
-"device_share_wechat" = "QQ";
-"device_share_wechat" = "QQ空间";
-"device_share_wechat" = "微博";
+"device_share_qq" = "QQ";
+"device_share_Qzone" = "QQ空间";
+"device_share_webo" = "微博";
 "device_share_shareTo" = "分享到";
 "device_share_WXNOInsta" = "请安装微信";
 "device_share_QQNOInsta" = "请安装QQ";
@@ -176,6 +176,7 @@
 "setting_band_bindsuccess" = "绑定成功";
 "setting_band_bindfail" = "绑定失败";
 "setting_band_remind" = "请长按设备中间按键，确认绑定";
+"setting_band_remindBand" = "请长按手环";
 "setting_band_noDevice" = "未发现设备，请保持设备有电并且贴近手机，再重新尝试";
 "setting_band_failRemind" = "抱歉，设备绑定失败";
 "setting_unband_title" = "设备管理";
@@ -257,6 +258,12 @@
 "setting_dfu_repair" = "请用专用工具修复";
 "setting_dfu_finish" = "升级完成";
 "setting_dfu_fail" = "升级失败";
+"setting_timing_title" = "智能校对";
+"setting_timing_remind" = "当你手表时间不准时，请进行下面操作";
+"setting_timing_hour" = "时";
+"setting_timing_minute" = "分";
+"setting_timing_confirm" = "请确认时间";
+"setting_timing_done" = "确认校对";
 "me_title" = "我的";
 "me_photograph" = "拍照";
 "me_photoAlbum" = "使用相册";

@@ -72,6 +72,7 @@
         _dfuLab.textColor = [UIColor whiteColor];
         _dfuLab.font = FontGothamBold(30);
         _dfuLab.text = @"0%";
+         [self setPregress:0];
         coverView = [[UIView alloc] initWithFrame:MainScreen];
         coverView.backgroundColor = [UIColor clearColor];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -194,7 +195,7 @@
     _dfuLab.font = FontGothamLight(17);
     _dfuLab.text = SMALocalizedString(@"setting_dfu_retry");
     [coverView removeFromSuperview];
-     [SmaBleMgr reunitonPeripheral:YES];
+    [SmaBleMgr reunitonPeripheral:YES];
 }
 
 - (void)setPregress:(float)pregress{
@@ -241,6 +242,8 @@
     NSLog(@"dfuUploadStateDidChangeTo %ld",(long)state);
     switch (state) {
         case DFUStateStarting:
+            [updateTimer invalidate];
+            updateTimer = nil;
             [SmaBleMgr reunitonPeripheral:NO];
             break;
         case DFUStateUploading:

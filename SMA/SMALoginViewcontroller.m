@@ -29,9 +29,9 @@
     [SmaNotificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [SmaNotificationCenter addObserver:self selector:@selector(update) name:UIApplicationDidEnterBackgroundNotification object:nil];
     //监听登录通知
-    [SmaNotificationCenter addObserver:self selector:@selector(loginSuccessed:) name:kLoginSuccessed object:[SMAthirdPartyManager sharedManager]];
-    [SmaNotificationCenter addObserver:self selector:@selector(loginFailed:) name:kLoginFailed object:[SMAthirdPartyManager sharedManager]];
-    [SmaNotificationCenter addObserver:self selector:@selector(loginCancelled:) name:kLoginCancelled object:[SMAthirdPartyManager sharedManager]];
+    [SmaNotificationCenter addObserver:self selector:@selector(loginSuccessed:) name:kLoginSuccessed object:nil];
+    [SmaNotificationCenter addObserver:self selector:@selector(loginFailed:) name:kLoginFailed object:nil];
+    [SmaNotificationCenter addObserver:self selector:@selector(loginCancelled:) name:kLoginCancelled object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,23 +88,36 @@
     _loginBut.enabled = NO;
     _thiPartyLab.text = SMALocalizedString(@"login_hirdParty");
     
-    if (![[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled]) {
-        [_QQBut setImage:[UIImage imageNamed:@"icon_qq_2"] forState:UIControlStateNormal];
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
+    NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
+
+    if (![preferredLang isEqualToString:@"zh"]) {
+        [_QQBut setImage:[UIImage imageNamed:@"home_twitter"] forState:UIControlStateNormal];
+        [_weChatBut setImage:[UIImage imageNamed:@"home_facebook"] forState:UIControlStateNormal];
+        _weiboBut.hidden = YES;
+        
     }
     else{
-        [_QQBut setImage:[UIImage imageNamed:@"icon_qq"] forState:UIControlStateNormal];
-    }
-    if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
-        [_weChatBut setImage:[UIImage imageNamed:@"icon_weixin_2"] forState:UIControlStateNormal];
-    }
-    else{
-        [_weChatBut setImage:[UIImage imageNamed:@"icon_weixin"] forState:UIControlStateNormal];
-    }
-    if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
-        [_weiboBut setImage:[UIImage imageNamed:@"icon_weibo_2"] forState:UIControlStateNormal];
-    }
-    else{
-        [_weiboBut setImage:[UIImage imageNamed:@"icon_weibo"] forState:UIControlStateNormal];
+        _weiboBut.hidden = NO;
+        if (![[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled]) {
+            [_QQBut setImage:[UIImage imageNamed:@"icon_qq_2"] forState:UIControlStateNormal];
+        }
+        else{
+            [_QQBut setImage:[UIImage imageNamed:@"icon_qq"] forState:UIControlStateNormal];
+        }
+        if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
+            [_weChatBut setImage:[UIImage imageNamed:@"icon_weixin_2"] forState:UIControlStateNormal];
+        }
+        else{
+            [_weChatBut setImage:[UIImage imageNamed:@"icon_weixin"] forState:UIControlStateNormal];
+        }
+        if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
+            [_weiboBut setImage:[UIImage imageNamed:@"icon_weibo_2"] forState:UIControlStateNormal];
+        }
+        else{
+            [_weiboBut setImage:[UIImage imageNamed:@"icon_weibo"] forState:UIControlStateNormal];
+        }
     }
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
     _gradientLayer.bounds = self.view.bounds;
@@ -225,29 +238,51 @@
 }
 
 - (IBAction)thirdPartySelector:(UIButton *)sender{
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
+    NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
     if (sender.tag == 101){
-        if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
-            [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
+        if (![preferredLang isEqualToString:@"zh"]) {
+            [[SMAthirdPartyLoginTool getinstance] loginToFacebookWithReadPermissions:@[@"public_profile", @"email", @"user_friends"] controller:self];
+            LoginProvider = ACAccountManagerLoginProviderFacebook;
             return;
         }
-        LoginProvider = ACAccountManagerLoginProviderWechat;
-        [[SMAthirdPartyLoginTool getinstance] WeChatLoginController:self];
+        else{
+            if (![[SMAthirdPartyLoginTool getinstance] isWXAppInstalled]) {
+                [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
+                return;
+            }
+            LoginProvider = ACAccountManagerLoginProviderWechat;
+            [[SMAthirdPartyLoginTool getinstance] WeChatLoginController:self];
+        }
     }
     else if (sender.tag == 102) {
-        if (![[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled]) {
-            [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
+        if (![preferredLang isEqualToString:@"zh"]) {
+            [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
+            LoginProvider = ACAccountManagerLoginProviderTwitter;
+            [[SMAthirdPartyLoginTool getinstance] loginToTwitter];
             return;
         }
-        LoginProvider = ACAccountManagerLoginProviderQQ;
-        [[SMAthirdPartyLoginTool getinstance] QQlogin];
+        else{
+            if (![[SMAthirdPartyLoginTool getinstance] iphoneQQInstalled]) {
+                [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
+                return;
+                
+            }
+            LoginProvider = ACAccountManagerLoginProviderQQ;
+            [[SMAthirdPartyLoginTool getinstance] QQlogin];
+        }
     }
     else{
+        if (![preferredLang isEqualToString:@"zh"]) {
+            
+        }
         if (![[SMAthirdPartyLoginTool getinstance] isWBAppInstalled]) {
             [MBProgressHUD showError:SMALocalizedString(@"login_noInstal")];
             return;
         }
-         LoginProvider = ACAccountManagerLoginProviderWeibo;
-         [[SMAthirdPartyLoginTool getinstance] WeiboLogin];
+        LoginProvider = ACAccountManagerLoginProviderWeibo;
+        [[SMAthirdPartyLoginTool getinstance] WeiboLogin];
     }
     
 }
@@ -295,7 +330,9 @@
 {
     NSLog(@"登录成功   %@",systemVersion.userInfo);
     SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
-    [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
+    if (![LoginProvider isEqualToString:ACAccountManagerLoginProviderTwitter]) {
+        [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
+    }
     //    [webServict acloudCheckExist:[NSString stringWithFormat:@"%@ %@",[systemVersion.userInfo objectForKey:@"LOGINTYPE"],[[[SMAthirdPartyLoginTool getinstance] oauth] openId]] success:^(bool exit) {
     //
     //    } failure:^(NSError *error) {
