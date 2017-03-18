@@ -12,6 +12,9 @@
 
 + (ACObject *)heartRateSetObject{
     ACObject *HRObject = [[ACObject alloc] init];
+    if (![SMAAccountTool HRHisInfo]) {
+        return nil;
+    }
     [HRObject putString:@"account" value:[SMAAccountTool userInfo].userID];
     [HRObject putInteger:@"start" value:[SMAAccountTool HRHisInfo].beginhour0.integerValue];
     [HRObject putInteger:@"end" value:[SMAAccountTool HRHisInfo].endhour0.integerValue];
@@ -22,6 +25,9 @@
 
 + (ACObject *)sedentarinessSetObject{
     ACObject *HRObject = [[ACObject alloc] init];
+    if (![SMAAccountTool seatInfo]) {
+        return nil;
+    }
     [HRObject putString:@"account" value:[SMAAccountTool userInfo].userID];
     [HRObject putInteger:@"repeat" value:[SMAAccountTool seatInfo].repeatWeek.integerValue];
     [HRObject putInteger:@"start1" value:[SMAAccountTool seatInfo].beginTime0.integerValue];

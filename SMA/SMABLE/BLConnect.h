@@ -44,6 +44,8 @@
 @property (assign,readonly,nonatomic) int sendIdentifier;
 @property (weak,   nonatomic) id<BLConnectDelegate> BLdelegate;
 @property (assign, nonatomic) BOOL syncing;
+@property (nonatomic, assign) BOOL repairDfu;
+@property (nonatomic, assign) BOOL dfuUpdate;
 + (instancetype)sharedCoreBlueTool;
 //查找蓝牙设备
 - (void)scanBL:(int)time;

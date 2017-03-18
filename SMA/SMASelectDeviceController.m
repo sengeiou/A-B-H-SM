@@ -40,7 +40,9 @@
 }
 
 - (void)initializeMethod{
-     deviceArr = @[@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"]/*,@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"img_07"]*/];
+     deviceArr = @[@[@"SMA-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"],@[@"SMA-A2",SMALocalizedString(@"setting_band_07detail"),@"img_launcher"],@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
+    
+//      deviceArr = @[@[@"SMA-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"],@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
 }
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_band_title");
@@ -98,14 +100,17 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0){
-        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-Q2"];
+    if (indexPath.row == 0) {
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-A1"];
     }
     if (indexPath.row == 1) {
-        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-A2"];
     }
-    if (indexPath.row == 2) {
-        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-A1"];
+    if (indexPath.row == 2){
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-Q2"];
+    }
+    if (indexPath.row == 3) {
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
     }
 
     self.navigationController.leftItemHidden = NO;

@@ -55,7 +55,10 @@
         imageStr = @"img_queren_shouhuan";
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-        imageStr = @"img_queren_shouhuan";
+        imageStr = @"img_queren_a1";
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
+        imageStr = @"img_queren_A2";
     }
     deviceIma.image = [UIImage imageNamed:imageStr];
 

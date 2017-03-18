@@ -327,6 +327,17 @@
 "me_chanPass_newPasFail" = "新密码不一致，请重新输入";
 "me_chanPass_chanSucc" = "修改成功";
 "me_chanPass_chanFail" = "修改失败";
+"me_repairDfu" = "固件修复";
+"me_repairSelect" = "选择您需要修复的设备类型";
+"me_repairDevice" = "选择设备";
+"me_dfuMessage" = "固件信息";
+"me_dfuFilename" = "文件名称：";
+"me_dfuFileSize" = "文件大小：";
+"me_repairMessage" = "文件下载中，请稍后...";
+"me_repairDfuMessage" = "文件修复中，请稍后...";
+"me_repairPrompt" = "提示：\n1.下载修复过程中，请勿执行其他操作\n2.下载修复过程中可能需要几分钟时间，请您耐心等候,期间请勿制裁程序\n3.若修复失败，请重新再试";
+"me_repairFinish" = "固件修复完成";
+"me_repairFail" = "修复失败\n点击重试";
 "rank_title" = "排行";
 "aler_conFirst" = "请先连接设备";
 "aler_bandDevice" = "未绑定设备,请绑定设备";

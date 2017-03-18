@@ -57,7 +57,7 @@
             date = [NSString stringWithFormat:@"%@%@%@%@%@00",info.year,info.mounth,info.day,info.hour,info.minute];
             NSTimeInterval timeInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:date timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
             
-            NSString *updatesql=[NSString stringWithFormat:@"update tb_clock set dayFlags='%@',aid=%d,timeInterval='%@',isopen=%d,tagname='%@',clock_web=%d where user_id=\'%@\' and clock_id=%d",info.dayFlags,[info.aid intValue],[NSString stringWithFormat:@"%f",timeInterval],[info.isOpen intValue],info.tagname,[info.isWeb intValue],account,info.aid.intValue];
+            NSString *updatesql=[NSString stringWithFormat:@"update tb_clock set dayFlags='%@',timeInterval='%@',isopen=%d,tagname='%@',clock_web=%d where user_id=\'%@\' and clock_id=%d",info.dayFlags,[NSString stringWithFormat:@"%f",timeInterval],[info.isOpen intValue],info.tagname,[info.isWeb intValue],account,info.aid.intValue];
             result = [db executeUpdate:updatesql];
             NSLog(@"修改闹钟 == %d",result);
         }

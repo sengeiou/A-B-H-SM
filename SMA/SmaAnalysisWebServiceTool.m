@@ -777,7 +777,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
 //获取所有用户步数及排行
 - (void)acloudCheckRankingCallBack:(void(^)(NSMutableArray *lis,NSError *error))callback{
     NSMutableArray *listArr = [NSMutableArray array];
-    [ACRankingManager scanWithName:@"china" period:ACRankingPeriodDay timestamp:0 startRank:1 endRank:10 order:ACRankingOrderDESC callback:^(NSArray<ACRankingValue *> *list, NSError *error) {
+    [ACRankingManager scanWithName:@"china" period:ACRankingPeriodDay timestamp:0 startRank:1 endRank:20 order:ACRankingOrderDESC callback:^(NSArray<ACRankingValue *> *list, NSError *error) {
         if (error) {   //错误处理
             if (callback) {
                 callback([list mutableCopy],error);
@@ -817,6 +817,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         [userInfoDic setValue:[NSString stringWithFormat:@"%@",[responseMsg getString:user_he]] forKey:user_he];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]] forKey:user_aim];
         [userInfoDic setObject:quietDaArr forKey:@"user_rate"];
+        [userInfoDic setObject:[NSString stringWithFormat:@"%ld",(long)[responseMsg getInteger:@"unit"]] forKey:@"unit"];
         //        if ([NSString stringWithFormat:@"%ld",[responseMsg getLong:user_aim]].intValue/1000==0) {
         //            [SMADefaultinfos removeValueForKey:@"stepPlan"];
         //        }

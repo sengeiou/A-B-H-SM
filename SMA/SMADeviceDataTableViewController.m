@@ -696,7 +696,7 @@
         sleepState = SMALocalizedString(@"device_SL_typeF");
     }
     NSMutableArray *sleep = [NSMutableArray array];
-    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",sleepHour/60],@"h",[NSString stringWithFormat:@"%@%d",sleepHour%60 < 60 ? @"0":@"",sleepHour%60],@"m"] fontArr:@[FontGothamLight(20),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];
+    [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",sleepHour/60],@"h",[NSString stringWithFormat:@"%@%d",sleepHour%60 < 10 ? @"0":@"",sleepHour%60],@"m"] fontArr:@[FontGothamLight(20),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];
     [sleep addObject:sleepState];
     [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",deepSleepAmount/60],@"h",[NSString stringWithFormat:@"%@%d",deepSleepAmount%60 < 10 ? @"0": @"",deepSleepAmount%60],@"m"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];
     [sleep addObject:[self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",simpleSleepAmount/60],@"h",[NSString stringWithFormat:@"%@%d",simpleSleepAmount%60 < 10 ? @"0":@"",simpleSleepAmount%60],@"m"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"2CCB6F" alpha:1],[UIColor blackColor]]]];

@@ -32,7 +32,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"addAlarm"] ) {
         SMAAlarmSubViewController*subVC = segue.destinationViewController;
-//        SMAAlarmSubViewController *subVC = [[navigationController viewControllers] objectAtIndex:0]; ;
+        //        SMAAlarmSubViewController *subVC = [[navigationController viewControllers] objectAtIndex:0]; ;
         subVC.delegate = self;
     }
 }
@@ -65,13 +65,13 @@
 
 - (IBAction)editSelector:(UIButton *)sender{
     if ( alarmArr.count > 0) {
-    sender.selected = !sender.selected;
-    editIng = sender.selected;
-    for (int i = 0; i < alarmArr.count; i ++ ) {
-        SMASedentEditCell *cell = [_alarmTView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        cell.edit = editIng;
+        sender.selected = !sender.selected;
+        editIng = sender.selected;
+        for (int i = 0; i < alarmArr.count; i ++ ) {
+            SMASedentEditCell *cell = [_alarmTView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            cell.edit = editIng;
+        }
     }
-  }
 }
 
 - (IBAction)addSelector:(id)sender{
@@ -109,22 +109,19 @@
         if ([SmaBleMgr checkBLConnectState]) {
             SMADatabase *smaDal = [[SMADatabase alloc] init];
             [smaDal deleteClockInfo:info.aid callback:^(BOOL result) {
-            NSInteger row = [alarmArr indexOfObject:info];
-            [alarmArr removeObjectAtIndex:row];
+                NSInteger row = [alarmArr indexOfObject:info];
+                [alarmArr removeObjectAtIndex:row];
                 NSMutableArray *colockArry=[NSMutableArray array];
-                int aid=0;
                 for (int i=0; i<alarmArr.count; i++) {
                     SmaAlarmInfo *info=(SmaAlarmInfo *)alarmArr[i];
                     if([info.isOpen intValue]>0)
                     {
-                        info.aid=[NSString stringWithFormat:@"%d",aid];
                         [colockArry addObject:info];
-                        aid++;
                     }
                 }
-
-            [SmaBleSend setClockInfoV2:colockArry];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+                
+                [SmaBleSend setClockInfoV2:colockArry];
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
             }];
         }
     }];
@@ -132,18 +129,15 @@
     [cell tapSwitchBlock:^(UISwitch *openSwitch, SmaAlarmInfo *alarminfo) {
         if ([SmaBleMgr checkBLConnectState]) {
             SMADatabase *smaDal = [[SMADatabase alloc] init];
-            [alarmArr insertObject:alarminfo atIndex:indexPath.row];
+            NSInteger row = [alarmArr indexOfObject:alarminfo];
+            [alarmArr replaceObjectAtIndex:row withObject:alarminfo];
             [smaDal insertClockInfo:alarminfo account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
-                [self initializeMethod];
                 NSMutableArray *colockArry=[NSMutableArray array];
-                int aid=0;
                 for (int i=0; i<alarmArr.count; i++) {
                     SmaAlarmInfo *info=(SmaAlarmInfo *)alarmArr[i];
                     if([info.isOpen intValue]>0)
                     {
-                        info.aid=[NSString stringWithFormat:@"%d",aid];
                         [colockArry addObject:info];
-                        aid++;
                     }
                 }
                 [SmaBleSend setClockInfoV2:colockArry];
@@ -158,14 +152,11 @@
 - (void)didEditAlarmInfo:(SmaAlarmInfo *)alarmInfo{
     [self initializeMethod];
     NSMutableArray *colockArry=[NSMutableArray array];
-    int aid=0;
     for (int i=0; i<alarmArr.count; i++) {
         SmaAlarmInfo *info=(SmaAlarmInfo *)alarmArr[i];
         if([info.isOpen intValue]>0)
         {
-            info.aid=[NSString stringWithFormat:@"%d",aid];
             [colockArry addObject:info];
-            aid++;
         }
     }
     [SmaBleSend setClockInfoV2:colockArry];

@@ -39,7 +39,7 @@
 - (void)initializeMethod{
     self.title = SMALocalizedString(@"me_more_set");
     user = [SMAAccountTool userInfo];
-    titleArr = @[@[SMALocalizedString(@"me_perso_unit")],[SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? @[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"me_set_feedback")]:@[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"login_findPass"),SMALocalizedString(@"me_set_feedback")],@[SMALocalizedString(@"me_set_about")]];
+    titleArr = @[@[SMALocalizedString(@"me_perso_unit")],[SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? @[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"me_set_feedback")]:@[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"login_findPass"),SMALocalizedString(@"me_set_feedback")],@[SMALocalizedString(@"me_repairDfu"),SMALocalizedString(@"me_set_about")]];
 }
 
 - (void)createUI{
@@ -89,6 +89,12 @@
             [SmaBleSend setBritishSystem:[SMADefaultinfos getIntValueforKey:BRITISHSYSTEM]];
             cell.detailTextLabel.text = unitArr[indexPath.row];
             [SMAAccountTool saveUser:user];
+            SmaAnalysisWebServiceTool *webService = [[SmaAnalysisWebServiceTool alloc] init];
+            [webService acloudPutUserifnfo:user success:^(NSString *success) {
+                
+            } failure:^(NSError *error) {
+                
+            }];
         }];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [app.window addSubview:timeTab];
@@ -97,10 +103,15 @@
     if (indexPath.section == 1 && indexPath.row == 1 && ![SMADefaultinfos getIntValueforKey:THIRDLOGIN]){
         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAChangePassViewController"] animated:YES];
     }
-    else if (indexPath.section == 1 && (indexPath.row == [SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? 1:2)){
+    else if (indexPath.section == 1 && (indexPath.row == ([SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? 1:2))){
         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAOpinion_ViewController"] animated:YES];
     }
-    else if (indexPath.section == 2){
+    else if (indexPath.section == 2 && indexPath.row == 0){
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        [self.navigationController pushViewController:[[SMARepairDfuCollectionController alloc] initWithCollectionViewLayout:layout] animated:YES];
+    }
+    else if (indexPath.section == 2 && indexPath.row == 1){
         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAAboutUsViewController"] animated:YES];
     }
 }

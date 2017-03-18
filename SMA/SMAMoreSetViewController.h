@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SMACenterTabView.h"
 #import "SMAChangePassViewController.h"
+#import "SMARepairDfuCell.h"
+#import "SMAReoaurDfuReusableView.h"
+#import "SMARepairDfuCollectionController.h"
 @interface SMAMoreSetViewController : UITableViewController
 
 @end

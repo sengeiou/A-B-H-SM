@@ -13,7 +13,11 @@
 @property (nonatomic, weak) IBOutlet UIButton *dfuBut;
 @property (nonatomic, weak) IBOutlet UILabel *remindLab, *nowVerTitLab, *nowVerLab, *dfuVerTitLab, *dfuVerLab, *upDfuVerTitLab, *upDfuVerLab, *dfuLab;
 @property (nonatomic, weak) IBOutlet UIView *backView, *dfu, *upVerView;
+@property (nonatomic, weak) IBOutlet UITextView *repairTextView;
 @property (nonatomic, weak) IBOutlet SMADfuView *dfuView;
 @property (nonatomic, strong) NSString *dfuVersion;
 @property (nonatomic, strong) NSDictionary *dfuInfoDic;
+@property (nonatomic, strong) CBPeripheral *epairPeripheral;
+@property (nonatomic, strong) NSString *repairBleCustom;
+@property (nonatomic, strong) NSString *repairDeviceName;
 @end

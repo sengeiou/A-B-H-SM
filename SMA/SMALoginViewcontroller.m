@@ -167,6 +167,7 @@
                 user.userSex = [[dic objectForKey:@"sex"] intValue] ? [dic objectForKey:@"sex"]:@"1";
                 user.userGoal = [[dic objectForKey:@"steps_Aim"] intValue] ? [dic objectForKey:@"steps_Aim"]:@"10000";
                 user.userHeadUrl = [dic objectForKey:@"_avatar"];
+                user.unit = [dic objectForKey:@"unit"];
                 [SMAAccountTool saveUser:user];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [MBProgressHUD hideHUD];
@@ -386,6 +387,7 @@
             user.userSex = [result objectForKey:@"sex"];
             user.userGoal = [result objectForKey:@"steps_Aim"];
             user.userHeadUrl = [result objectForKey:@"_avatar"];
+            user.unit = [result objectForKey:@"unit"];
             [SMAAccountTool saveUser:user];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];

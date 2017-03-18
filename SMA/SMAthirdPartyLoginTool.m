@@ -183,7 +183,7 @@ static SMAthirdPartyLoginTool *g_instance = nil;
         return;
     }
    
-    composeVc.view.backgroundColor = [UIColor greenColor];
+//    composeVc.view.backgroundColor = [UIColor greenColor];
     // 2.1.添加分享的文字
 //    [composeVc setInitialText:@"测试系统分享"];
     

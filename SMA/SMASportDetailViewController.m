@@ -1221,7 +1221,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     float distance = [SMACalculate countKMWithHeigh:user.userHeight.intValue step:step];
     NSString *disStr = nil;
     NSString *unitStr = nil;
-    if (user.unit) {
+    if (user.unit.intValue) {
         disStr = [SMACalculate notRounding:[SMACalculate convertToMile:distance] afterPoint:1];
         unitStr = SMALocalizedString(@"device_SP_mile");
     }

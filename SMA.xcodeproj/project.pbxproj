@@ -77,6 +77,12 @@
 		EE4CE2BF1DD47D9100AB66A6 /* ZXRollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4CE2BC1DD47D9100AB66A6 /* ZXRollView.m */; };
 		EE5193791DF10B17007DC2A2 /* SMACenterTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5193781DF10B17007DC2A2 /* SMACenterTabView.m */; };
 		EE55CFD71DFEC70F008A0F64 /* SMAAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */; };
+		EE569A1A1E77D7230064C073 /* SMARepairDfuCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A171E77D7230064C073 /* SMARepairDfuCollectionController.m */; };
+		EE569A1B1E77D7230064C073 /* SMARepairTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A191E77D7230064C073 /* SMARepairTableViewController.m */; };
+		EE569A221E77D7520064C073 /* SMAReoaurDfuReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A1D1E77D7520064C073 /* SMAReoaurDfuReusableView.m */; };
+		EE569A231E77D7520064C073 /* SMAReoaurDfuReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE569A1E1E77D7520064C073 /* SMAReoaurDfuReusableView.xib */; };
+		EE569A241E77D7520064C073 /* SMARepairDfuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A201E77D7520064C073 /* SMARepairDfuCell.m */; };
+		EE569A251E77D7520064C073 /* SMARepairDfuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE569A211E77D7520064C073 /* SMARepairDfuCell.xib */; };
 		EE57A6FE1E0B5FE00007BCC8 /* aes_cbc.c in Sources */ = {isa = PBXBuildFile; fileRef = EE57A5A81E0B5FE00007BCC8 /* aes_cbc.c */; };
 		EE57A6FF1E0B5FE00007BCC8 /* aes_core.c in Sources */ = {isa = PBXBuildFile; fileRef = EE57A5AA1E0B5FE00007BCC8 /* aes_core.c */; };
 		EE57A7001E0B5FE00007BCC8 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE57A5AF1E0B5FE00007BCC8 /* AFHTTPSessionManager.m */; };
@@ -486,6 +492,7 @@
 		EE1687931E48546D008C4261 /* SmaVibrationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmaVibrationInfo.h; sourceTree = "<group>"; };
 		EE1748FE1DAC7A6D004A892D /* SMADateDaultionfos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADateDaultionfos.h; sourceTree = "<group>"; };
 		EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADateDaultionfos.m; sourceTree = "<group>"; };
+		EE1DDCA91E5690C200D4B181 /* SMA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SMA.entitlements; sourceTree = "<group>"; };
 		EE22295D1E4C0261003453DF /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE227CCD1D7433A900B9387D /* SMAHighViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHighViewController.h; sourceTree = "<group>"; };
 		EE227CCE1D7433A900B9387D /* SMAHighViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHighViewController.m; sourceTree = "<group>"; };
@@ -548,6 +555,24 @@
 		EE5193781DF10B17007DC2A2 /* SMACenterTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMACenterTabView.m; sourceTree = "<group>"; };
 		EE55CFD51DFEC70F008A0F64 /* SMAAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAAboutUsViewController.h; sourceTree = "<group>"; };
 		EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAboutUsViewController.m; sourceTree = "<group>"; };
+		EE569A161E77D7230064C073 /* SMARepairDfuCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARepairDfuCollectionController.h; sourceTree = "<group>"; };
+		EE569A171E77D7230064C073 /* SMARepairDfuCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARepairDfuCollectionController.m; sourceTree = "<group>"; };
+		EE569A181E77D7230064C073 /* SMARepairTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARepairTableViewController.h; sourceTree = "<group>"; };
+		EE569A191E77D7230064C073 /* SMARepairTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARepairTableViewController.m; sourceTree = "<group>"; };
+		EE569A1C1E77D7520064C073 /* SMAReoaurDfuReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAReoaurDfuReusableView.h; sourceTree = "<group>"; };
+		EE569A1D1E77D7520064C073 /* SMAReoaurDfuReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAReoaurDfuReusableView.m; sourceTree = "<group>"; };
+		EE569A1E1E77D7520064C073 /* SMAReoaurDfuReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMAReoaurDfuReusableView.xib; sourceTree = "<group>"; };
+		EE569A1F1E77D7520064C073 /* SMARepairDfuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARepairDfuCell.h; sourceTree = "<group>"; };
+		EE569A201E77D7520064C073 /* SMARepairDfuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARepairDfuCell.m; sourceTree = "<group>"; };
+		EE569A211E77D7520064C073 /* SMARepairDfuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMARepairDfuCell.xib; sourceTree = "<group>"; };
+		EE569A261E77E1A60064C073 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE569A271E77E1AF0064C073 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE569A281E77E1BA0064C073 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE569A291E77E1CD0064C073 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE569A2A1E77E1D90064C073 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE569A2B1E77E1F80064C073 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE569A2C1E77E2100064C073 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE569A2D1E77E21E0064C073 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE57A5A71E0B5FE00007BCC8 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		EE57A5A81E0B5FE00007BCC8 /* aes_cbc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aes_cbc.c; sourceTree = "<group>"; };
 		EE57A5A91E0B5FE00007BCC8 /* aes_cbc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes_cbc.h; sourceTree = "<group>"; };
@@ -2415,6 +2440,12 @@
 				EE80638F1DF66B90005D6863 /* SMAChangeCell.h */,
 				EE8063901DF66B90005D6863 /* SMAChangeCell.m */,
 				EE8063911DF66B90005D6863 /* SMAChangeCell.xib */,
+				EE569A1C1E77D7520064C073 /* SMAReoaurDfuReusableView.h */,
+				EE569A1D1E77D7520064C073 /* SMAReoaurDfuReusableView.m */,
+				EE569A1E1E77D7520064C073 /* SMAReoaurDfuReusableView.xib */,
+				EE569A1F1E77D7520064C073 /* SMARepairDfuCell.h */,
+				EE569A201E77D7520064C073 /* SMARepairDfuCell.m */,
+				EE569A211E77D7520064C073 /* SMARepairDfuCell.xib */,
 			);
 			name = VIEW;
 			sourceTree = "<group>";
@@ -2438,6 +2469,10 @@
 				EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */,
 				EED48DB81E208B8D00AEF801 /* SMAHelpViewController.h */,
 				EED48DB91E208B8D00AEF801 /* SMAHelpViewController.m */,
+				EE569A161E77D7230064C073 /* SMARepairDfuCollectionController.h */,
+				EE569A171E77D7230064C073 /* SMARepairDfuCollectionController.m */,
+				EE569A181E77D7230064C073 /* SMARepairTableViewController.h */,
+				EE569A191E77D7230064C073 /* SMARepairTableViewController.m */,
 			);
 			name = VC;
 			sourceTree = "<group>";
@@ -2651,6 +2686,7 @@
 		EEB9F68B1D64318B0011AA07 /* SMA */ = {
 			isa = PBXGroup;
 			children = (
+				EE1DDCA91E5690C200D4B181 /* SMA.entitlements */,
 				EEB9F6BA1D6443200011AA07 /* other */,
 				EEB9F6B61D6438190011AA07 /* LoginRegis */,
 				EED2F7B81D7195E400527FA7 /* UserInfo */,
@@ -3052,9 +3088,13 @@
 					EEB9F6881D64318B0011AA07 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = VHVLE5FL92;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.HealthKit = {
+								enabled = 0;
 							};
 						};
 					};
@@ -3078,6 +3118,14 @@
 				ru,
 				pl,
 				ko,
+				da,
+				nl,
+				fi,
+				id,
+				nb,
+				tr,
+				sv,
+				de,
 			);
 			mainGroup = EEB9F6801D64318B0011AA07;
 			productRefGroup = EEB9F68A1D64318B0011AA07 /* Products */;
@@ -3102,8 +3150,10 @@
 				EE8063931DF66B90005D6863 /* SMAChangeCell.xib in Resources */,
 				EEEC5E931DE4206B0096DAF3 /* SMARunTableViewCell.xib in Resources */,
 				EEAD8E9B1D9A1997009128BB /* SMASedentEditCell.xib in Resources */,
+				EE569A251E77D7520064C073 /* SMARepairDfuCell.xib in Resources */,
 				EEE4AA3C1DF81608002644CD /* SMAWatchCollectionCell.xib in Resources */,
 				EEC3CD141DB0CE320034105B /* MJRefresh.bundle in Resources */,
+				EE569A231E77D7520064C073 /* SMAReoaurDfuReusableView.xib in Resources */,
 				EE34EE601E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip in Resources */,
 				EE9AB5C21D6EF5EA0028F8DA /* README.txt in Resources */,
 				EEEDD29C1D98FFEF009D6CA3 /* SMASedentaryCell.xib in Resources */,
@@ -3311,8 +3361,10 @@
 				EEA834001D96765800AF4CA9 /* SMAFindPassViewController.m in Sources */,
 				EEC3CD171DB0CE320034105B /* MJRefreshFooterView.m in Sources */,
 				EE59C7421DE7D5C20064D19F /* SMAUnPaierViewController.m in Sources */,
+				EE569A241E77D7520064C073 /* SMARepairDfuCell.m in Sources */,
 				EE49566C1DF590AE0094B5C2 /* SMAMoreSetViewController.m in Sources */,
 				EEEDD2971D98C93B009D6CA3 /* SMASedentaryController.m in Sources */,
+				EE569A1A1E77D7230064C073 /* SMARepairDfuCollectionController.m in Sources */,
 				EE09ACF11DAA2B2E00CA2EC5 /* FMDatabase.m in Sources */,
 				EEC582171DED6CB400980DDA /* SMABottomSelView.m in Sources */,
 				EE57A7001E0B5FE00007BCC8 /* AFHTTPSessionManager.m in Sources */,
@@ -3337,6 +3389,7 @@
 				EE57A71E1E0B5FE00007BCC8 /* QNSystem.m in Sources */,
 				EE57A70C1E0B5FE00007BCC8 /* UIProgressView+AFNetworking.m in Sources */,
 				EE8063921DF66B90005D6863 /* SMAChangeCell.m in Sources */,
+				EE569A1B1E77D7230064C073 /* SMARepairTableViewController.m in Sources */,
 				EE648C5D1DFABE170090DD02 /* SMAPhotoSelectView.m in Sources */,
 				EE16878A1E484662008C4261 /* SMATimingSecondController.m in Sources */,
 				EE57A7291E0B5FE00007BCC8 /* QNResolvUtil.m in Sources */,
@@ -3394,6 +3447,7 @@
 				EE1687891E484662008C4261 /* SMATimingMinViewController.m in Sources */,
 				EE0B08F71DF948D80026ABD8 /* SmaSliderButton.m in Sources */,
 				EE83CE3F1DD2AFB20031CF58 /* SDWebImageCompat.m in Sources */,
+				EE569A221E77D7520064C073 /* SMAReoaurDfuReusableView.m in Sources */,
 				EE8086781DAF918D0075C705 /* SMAPersonalPickView.m in Sources */,
 				EEAE8F1A1D952ED4008F82CE /* SMABindRemindView.m in Sources */,
 				EE09ACF41DAA2B2E00CA2EC5 /* FMDatabaseQueue.m in Sources */,
@@ -3486,6 +3540,14 @@
 				EE9AB5B31D6EE1C00028F8DA /* ru */,
 				EE9AB5B41D6EE1CC0028F8DA /* pl */,
 				EE6D88191E2F5D6E0081B204 /* ko */,
+				EE569A261E77E1A60064C073 /* da */,
+				EE569A271E77E1AF0064C073 /* nl */,
+				EE569A281E77E1BA0064C073 /* fi */,
+				EE569A291E77E1CD0064C073 /* id */,
+				EE569A2A1E77E1D90064C073 /* nb */,
+				EE569A2B1E77E1F80064C073 /* tr */,
+				EE569A2C1E77E2100064C073 /* sv */,
+				EE569A2D1E77E21E0064C073 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3586,7 +3648,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Shaohui Liang (AUMJG57LWL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shaohui Liang (AUMJG57LWL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = VHVLE5FL92;
@@ -3648,7 +3710,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = V96N6WUHA2;
+				DEVELOPMENT_TEAM = VHVLE5FL92;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3692,8 +3754,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9cd040a3-d8ca-4880-91ac-b5e19316ab18";
-				PROVISIONING_PROFILE_SPECIFIER = jinyun_dis_smarttime_sub;
+				PROVISIONING_PROFILE = "0c704187-a3a2-4c36-afa3-43cbed9986e7";
+				PROVISIONING_PROFILE_SPECIFIER = liang_dis_smarttime_text;
 			};
 			name = Release;
 		};

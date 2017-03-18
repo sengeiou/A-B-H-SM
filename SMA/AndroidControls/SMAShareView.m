@@ -69,7 +69,7 @@
     } completion:^(BOOL finished) {
         
     }];
-
+    
 }
 
 - (void)tapButCount:(UIButton *)sender{
@@ -90,9 +90,10 @@
                     [MBProgressHUD showError:SMALocalizedString(@"device_share_WXNOInsta")];
                 }
             }
-        {
-            [[SMAthirdPartyLoginTool getinstance] shareToTwitterWithShareImage:shareIma controller:_shareVC];
-        }
+            else
+            {
+                [[SMAthirdPartyLoginTool getinstance] shareToTwitterWithShareImage:shareIma controller:_shareVC];
+            }
             break;
         case 102:
             if (domestic) {
@@ -119,7 +120,7 @@
             else{
                 [[SMAthirdPartyLoginTool getinstance] shareToFacebookWithShareImage:shareIma controller:_shareVC];
             }
-          
+            
             break;
         case 104:
             if (domestic) {
@@ -130,7 +131,7 @@
                     [MBProgressHUD showError:SMALocalizedString(@"device_share_QQNOInsta")];
                 }
             }
-           
+            
             break;
         case 105:
             if ([[SMAthirdPartyLoginTool getinstance] isWBAppInstalled]) {
