@@ -15,6 +15,28 @@
     // Initialization code
 }
 
+- (void)setImageUrl:(NSString *)imageUrl{
+    _imageUrl = imageUrl;
+    SmaAnalysisWebServiceTool *web = [[SmaAnalysisWebServiceTool alloc] init];
+    [web acloudDownFileWithsession:imageUrl callBack:^(float progress, NSError *error) {
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.imageView.image = [UIImage imageNamed:@"img_moren"];
+            });
+        }
+    } CompleteCallback:^(NSString *filePath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSData *data = [NSData dataWithContentsOfFile:filePath];
+            if (data) {
+                self.imageView.image = [[UIImage alloc] initWithData:data];
+            }
+            else{
+                self.imageView.image = [UIImage imageNamed:@"img_moren"];
+            }
+        });
+    }];
+}
+
 - (void)drawRect:(CGRect)rect{
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 2);

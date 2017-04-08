@@ -19,7 +19,7 @@
 #define watchface_number @"smav2_watchface_number"//数字
 #define watchface_other @"smav2_watchface_other"//其他
 #define firmware_smav2 @"get_versions_smav2"
-#define firmware_sma07c @"get_versions_sma07c"
+#define firmware_smaProducts @"get_firmware_fix_products"
 
 @interface SmaAnalysisWebServiceTool : NSObject
 @property (nonatomic, strong) NSString *chaImageName;

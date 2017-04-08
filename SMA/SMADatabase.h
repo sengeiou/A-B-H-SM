@@ -19,7 +19,7 @@
 //删除闹钟
 - (void)deleteClockInfo:(NSString *)clockId callback:(void (^)(BOOL result))callBack;
 //删除所有闹钟
-- (void)deleteAllClockCallback:(void (^)(BOOL result))callBack;
+- (void)deleteAllClockWithAccount:(NSString *)account Callback:(void (^)(BOOL result))callBack;
 //获取所需要上传闹钟数据
 - (NSMutableArray *)readNeedUploadALData;
 //插入运动数据

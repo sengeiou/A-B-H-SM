@@ -260,6 +260,10 @@
 "setting_dfu_fail"="upgrade is mislukt";
 "setting_timing_title"="";
 "setting_timing_remind"="";
+"setting_timing_hourRemind" = "请将数字没到您手表时针的当前位置";
+"setting_timing_minRemind" = "请将数字没到您手表分针的当前位置";
+"setting_timing_secondRemind" = "请将数字没到您手表秒针的当前位置";
+"setting_timing_laterRemind" = "请确认下面表盘指针是否与您手表指针当前位置相同";
 "setting_timing_hour"="";
 "setting_timing_minute"="";
 "setting_timing_confirm"="";

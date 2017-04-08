@@ -259,10 +259,14 @@
 "setting_dfu_finish"="Aggiorn riuscito";
 "setting_dfu_fail"="Agg. fallito";
 "setting_timing_title" = "智能校对";
-"setting_timing_remind" = "当你手表时间不准时，请进行下面操作";
+"setting_timing_remind" = "手表虚拟盘显示";
+"setting_timing_hourRemind" = "请将数字没到您手表时针的当前位置";
+"setting_timing_minRemind" = "请将数字没到您手表分针的当前位置";
+"setting_timing_secondRemind" = "请将数字没到您手表秒针的当前位置";
+"setting_timing_laterRemind" = "请确认下面表盘指针是否与您手表指针当前位置相同";
 "setting_timing_hour" = "时";
 "setting_timing_minute" = "分";
-"setting_timing_confirm" = "请确认时间";
+"setting_timing_confirm" = "请确认下面表盘指针是否与您手表指针当前位置相同";
 "setting_timing_done" = "确认校对";
 "me_title"="Io";
 "me_photograph"="Camera";

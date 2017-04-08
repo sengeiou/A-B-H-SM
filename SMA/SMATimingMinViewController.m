@@ -50,22 +50,48 @@
     
     self.title = SMALocalizedString(@"setting_timing_title");
     _remindLab.text = SMALocalizedString(@"setting_timing_remind");
-    _timeLab.text = SMALocalizedString(@"setting_timing_minute");
+    _timeLab.text = SMALocalizedString(@"setting_timing_minRemind");
     _timeDetailLab.text = @"30";
+    _timeDetailLab.text = [NSString stringWithFormat:@"30 %@",SMALocalizedString(@"setting_timing_minute")];
     [_nextBut setTitle:SMALocalizedString(@"user_nextStep") forState:UIControlStateNormal];
 }
 
 - (void)scrollDidEndDecelerating:(NSString *)ruler scrollView:(UIScrollView *)scrollview{
     _clockView.minutes = ruler.integerValue ;
-    _timeDetailLab.text = ruler;
+    _timeDetailLab.text = [NSString stringWithFormat:@"%@ %@",ruler,SMALocalizedString(@"setting_timing_minute")];
     [_clockView updateTimeAnimated:NO];
 }
 
+//- (IBAction)pushSelector:(id)sender{
+//    if ([identifier isEqualToString:@"SMA-A2"]) {
+//        //跳转到解除绑定界面
+//        [self performSegueWithIdentifier:@"timmingsIndex" sender:nil];
+//    }
+//
+//}
+
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) {
+        SMATimingViewController *timingView = (SMATimingViewController *)segue.destinationViewController;
+        timingView.hour = _hour;
+        timingView.minute = (int)_clockView.minutes;
+        timingView.second = 30;
+        return;
+    }
     SMATimingSecondController *secondVC = (SMATimingSecondController *)segue.destinationViewController;
     secondVC.hour = _hour;
     secondVC.minute = (int)_clockView.minutes;
+}
+
+//判断是否允许跳转
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) {
+        //跳转到解除绑定界面
+        [self performSegueWithIdentifier:@"timmingsIndex" sender:nil];
+        return NO;
+    }
+    return YES;
 }
 
 @end

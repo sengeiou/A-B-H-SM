@@ -279,7 +279,7 @@
 
         for (int i = 0; i < finish.count; i ++) {
             NSString *filename = [[finish objectAtIndex:i] objectForKey:@"filename"];
-            NSString *filneNameNow = [NSString stringWithFormat:@"%@_%@_firmware_%@",self.repairDeviceName,self.repairBleCustom,[[filename componentsSeparatedByString:@"_"] lastObject]];
+            NSString *filneNameNow = [NSString stringWithFormat:@"%@_%@",self.repairBleCustom,[[filename componentsSeparatedByString:@"_"] lastObject]];
             if ([filneNameNow isEqualToString:filename]) {
                 [self downDfuWithFile:(NSMutableDictionary *)[finish objectAtIndex:i]];
                 haveFile = YES;

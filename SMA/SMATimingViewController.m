@@ -43,6 +43,10 @@
     self.title = SMALocalizedString(@"setting_timing_title");
     _remindLab.text = SMALocalizedString(@"setting_timing_confirm");
     _timeLab.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d ",_hour],SMALocalizedString(@"setting_timing_hour"),[NSString stringWithFormat:@" %@%d ",_minute < 10 ? @"0":@"",_minute],SMALocalizedString(@"setting_timing_minute"),[NSString stringWithFormat:@" %@%d ",_second < 10 ? @"0":@"",_second],SMALocalizedString(@"setting_seconds")] fontArr:@[FontGothamLight(28),FontGothamLight(18)]];
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) {
+        _clockView.secondHandAlpha = 0;
+        _timeLab.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d ",_hour],SMALocalizedString(@"setting_timing_hour"),[NSString stringWithFormat:@" %@%d ",_minute < 10 ? @"0":@"",_minute],SMALocalizedString(@"setting_timing_minute")] fontArr:@[FontGothamLight(28),FontGothamLight(18)]];
+    }
     [_doneBut setTitle:SMALocalizedString(@"setting_timing_done") forState:UIControlStateNormal];
 }
 

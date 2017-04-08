@@ -11,6 +11,7 @@
 @interface SMARepairDfuCell : UICollectionViewCell
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLab;
+@property (nonatomic, strong) NSString *imageUrl;
 @property (nonatomic, assign) BOOL topShow;
 @property (nonatomic, assign) BOOL leftpShow;
 @property (nonatomic, assign) BOOL bottomShow;

@@ -17,6 +17,7 @@
     [super viewDidLoad];
     SmaBleMgr.repairDfu = YES;
     [self initializeMethod];
+    self.title = SMALocalizedString(@"me_repairDevice");
 }
 
 - (void)didReceiveMemoryWarning {

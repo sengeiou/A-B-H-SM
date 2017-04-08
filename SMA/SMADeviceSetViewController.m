@@ -162,7 +162,7 @@
         _cellTra.constant = -20;
     }
     else{
-        _deviceLab.text = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+        _deviceLab.text = _userInfo.scnaName;
         _deviceIma.image = [UIImage imageNamed:[self deviceName]];
         _bleIma.hidden = NO;
         _batteryIma.hidden = NO;

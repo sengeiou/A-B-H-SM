@@ -122,12 +122,12 @@
         _alarmInfo.isOpen = @"1";
         _alarmInfo.isWeb = @"0";
         [smaDal insertClockInfo:_alarmInfo account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
-            [self.navigationController popViewControllerAnimated:YES];
-            if (_delegate && [_delegate respondsToSelector:@selector(didEditAlarmInfo:)]) {
-                [self.delegate didEditAlarmInfo:_alarmInfo];
-            }
+          
         }];
-        
+        [self.navigationController popViewControllerAnimated:YES];
+        if (_delegate && [_delegate respondsToSelector:@selector(didEditAlarmInfo:)]) {
+            [self.delegate didEditAlarmInfo:_alarmInfo];
+        }
     }
 }
 

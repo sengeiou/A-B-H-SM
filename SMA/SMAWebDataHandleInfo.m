@@ -138,7 +138,7 @@
 
 + (void)updateALData:(NSMutableArray *)alList finish:(void (^)(id finish)) callBack{
     SMADatabase *dal = [[SMADatabase alloc] init];
-    [dal deleteAllClockCallback:^(BOOL result) {
+    [dal deleteAllClockWithAccount:[[alList firstObject] objectForKey:@"account"] Callback:^(BOOL result) {
         
     }];
     __block int saveAccount = 0;

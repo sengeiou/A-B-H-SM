@@ -8,6 +8,31 @@
 
 #import "SMADatabase.h"
 @implementation SMADatabase
+
+static id _instace;
++ (id)allocWithZone:(struct _NSZone *)zone
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instace = [super allocWithZone:zone];
+    });
+    return _instace;
+}
+
++ (instancetype)sharedCoreBlueTool
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instace = [[self alloc] init];
+    });
+    return _instace;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return _instace;
+}
+
 - (FMDatabaseQueue *)createDataBase{
     NSString *filename = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"SMAwatch.sqlite"];
     // 1.创建数据库队列
@@ -114,10 +139,10 @@
 }
 
 //删除所有闹钟
-- (void)deleteAllClockCallback:(void (^)(BOOL result))callBack{
+- (void)deleteAllClockWithAccount:(NSString *)account Callback:(void (^)(BOOL result))callBack{
     [self.queue inDatabase:^(FMDatabase *db) {
         [db beginTransaction];
-        BOOL result = [db executeUpdate:@"delete from tb_clock where user_id=?",[SMAAccountTool userInfo].userID];
+        BOOL result = [db executeUpdate:@"delete from tb_clock where user_id=?",account];
         NSLog(@"删除所有 %d",result);
         [db commit];
         callBack(result);
@@ -164,7 +189,7 @@
                 sportStep = [rs stringForColumn:@"time"];
             }
             if (sportStep && ![sportStep isEqualToString:@""]) {
-                result =   [db executeUpdate:@"update tb_CuffSport set Cuff_id=?, step=?, sp_mode=?, sp_web=? where date=? and time=? and user_id=?",spID,[spDic objectForKey:@"STEP"],[spDic objectForKey:@"MODE"],[spDic objectForKey:@"WEB"],YTD,moment,[spDic objectForKey:@"USERID"]];
+                result =   [db executeUpdate:@"update tb_CuffSport set Cuff_id=?, step=?, sp_mode=?, sp_web=? where sp_mode=? and date=? and time=? and user_id=?",spID,[spDic objectForKey:@"STEP"],[spDic objectForKey:@"MODE"],[spDic objectForKey:@"WEB"],[spDic objectForKey:@"MODE"],YTD,moment,[spDic objectForKey:@"USERID"]];
                 NSLog(@"步数更新  %d  步数  %@  模式  %@  时间 %@",result,[spDic objectForKey:@"STEP"],[spDic objectForKey:@"MODE"],moment);
             }
             else{
@@ -663,7 +688,7 @@
             }
             
             if (HR_id && ![HR_id isEqualToString:@""]) {
-                result = [db executeUpdate:@"update tb_HRate set HR_id=?, HR_real=?,hr_mode=?,HR_web=? where HR_date =? and HR_time=? and user_id=?",hrID,[hrDic objectForKey:@"HEART"],[hrDic objectForKey:@"HRMODE"],[hrDic objectForKey:@"WEB"],YTD,moment,[hrDic objectForKey:@"USERID"]];
+               result = [db executeUpdate:@"update tb_HRate set HR_id=?, HR_real=?,hr_mode=?,HR_web=? where HR_date =? and HR_time=? and hr_mode=? and user_id=?",hrID,[hrDic objectForKey:@"HEART"],[hrDic objectForKey:@"HRMODE"],[hrDic objectForKey:@"WEB"],YTD,moment,[hrDic objectForKey:@"HRMODE"],[hrDic objectForKey:@"USERID"]];
                 NSLog(@"更新心率数据 %d ",result);
             }
             else{

@@ -32,11 +32,11 @@
                         <color key="textColor" red="0.20392156859999999" green="0.50588235290000005" blue="0.97254901959999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iTZ-K3-tIR">
-                        <rect key="frame" x="0.0" y="6" width="75" height="80"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_moren" translatesAutoresizingMaskIntoConstraints="NO" id="iTZ-K3-tIR">
+                        <rect key="frame" x="6.5" y="6" width="62" height="74"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="75" id="KpT-2k-ASs"/>
-                            <constraint firstAttribute="height" constant="80" id="yVP-wg-ipU"/>
+                            <constraint firstAttribute="width" constant="62" id="KpT-2k-ASs"/>
+                            <constraint firstAttribute="height" constant="74" id="yVP-wg-ipU"/>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -56,4 +56,7 @@
             <point key="canvasLocation" x="103.5" y="189"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="img_moren" width="127" height="127"/>
+    </resources>
 </document>

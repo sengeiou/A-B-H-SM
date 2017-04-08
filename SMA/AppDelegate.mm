@@ -80,7 +80,7 @@
     [SMADefaultinfos putKey:UPDATEDATE andValue:[NSDate date].yyyyMMddNoLineWithDate];
     //         真机测试时保存日志
     if ([[[UIDevice currentDevice] model] rangeOfString:@"simulator"].location) {
-//     [self redirectNSLogToDocumentFolder];
+     [self redirectNSLogToDocumentFolder];
     }
     //开机启动延时
 //    [NSThread sleepForTimeInterval:5.0];

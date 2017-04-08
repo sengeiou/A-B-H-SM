@@ -600,6 +600,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         NSMutableArray *alArr = [(NSMutableArray *)[backObject get:@"alarm_list"] mutableCopy];
         ACObject *sedentObject = [backObject getACObject:@"sedentariness_settings"];
         ACObject *hrObject = [backObject getACObject:@"heart_rate_settings"];
+        backAccount = 6;
         if (backAccount == 0) {
              callback(@"finish");
         }

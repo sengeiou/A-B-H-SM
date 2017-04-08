@@ -51,14 +51,15 @@
     
     self.title = SMALocalizedString(@"setting_timing_title");
     _remindLab.text = SMALocalizedString(@"setting_timing_remind");
-    _timeLab.text = SMALocalizedString(@"setting_seconds");
-    _timeDetailLab.text = @"30";
+    _timeLab.text = SMALocalizedString(@"setting_timing_secondRemind");
+    //_timeDetailLab.text = @"30";
+    _timeDetailLab.text = [NSString stringWithFormat:@"30 %@",SMALocalizedString(@"setting_seconds")];
     [_nextBut setTitle:SMALocalizedString(@"user_nextStep") forState:UIControlStateNormal];
 }
 
 - (void)scrollDidEndDecelerating:(NSString *)ruler scrollView:(UIScrollView *)scrollview{
     _clockView.seconds = ruler.integerValue ;
-    _timeDetailLab.text = ruler;
+    _timeDetailLab.text = [NSString stringWithFormat:@"%@ %@",ruler,SMALocalizedString(@"setting_seconds")];
     [_clockView updateTimeAnimated:NO];
 }
 
