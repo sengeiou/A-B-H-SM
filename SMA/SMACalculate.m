@@ -76,7 +76,8 @@
 }
 
 + (float)convertToMile:(float)km {
-    return  km / 1.609;
+//    return  km / 1.609;
+    return km * 0.6214;
 }
 
 + (float)convertToKm:(float)mile {

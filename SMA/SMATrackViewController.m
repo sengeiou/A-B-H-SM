@@ -103,25 +103,26 @@
 
 
 
-- (NSMutableAttributedString *)putPaceWithStep:(int)step duration:(int)time{
-     SMAUserInfo *user = [SMAAccountTool userInfo];
-    float distance = [SMACalculate countKMWithHeigh:user.userHeight.intValue step:step];
-   NSString *paceStr = nil;
-     NSString *unitStr = nil;
-    if (user.unit) {
-        int minute = time/[SMACalculate convertToMile:distance];
-        paceStr = [NSString stringWithFormat:@"%d’%@%d‘’",minute/60,minute%60 < 10 ? @"0":@"",minute%60];
-        if (time == 0 || distance == 0) {
-            paceStr = @"0’00’’";
+- (NSMutableAttributedString *)putPaceWithStep:(int)step duration:(double)time{
+    time = time/1000.0;
+    SMAUserInfo *user = [SMAAccountTool userInfo];
+    //    float distance = [SMACalculate countKMWithHeigh:user.userHeight.intValue step:step];
+    NSString *distance = [SMACalculate notRounding:[SMACalculate countKMWithHeigh:user.userHeight.intValue step:step] * 1000 afterPoint:0];
+    NSString *paceStr = nil;
+    NSString *unitStr = nil;
+    if (user.unit.intValue) {
+        int minute = ((int)time * 1000)/[[SMACalculate notRounding:[SMACalculate convertToMile:distance.intValue] afterPoint:0] intValue];
+        paceStr = [NSString stringWithFormat:@"%d'%@%d\"",minute/60,minute%60 < 10 ? @"0":@"",minute%60];
+        if (time == 0 || distance.intValue == 0) {
+            paceStr = @"00'00\"";
         }
-       unitStr = SMALocalizedString(@"device_RU_pace_brUnit");
-       
+        unitStr = SMALocalizedString(@"device_RU_pace_brUnit");
     }
     else{
-        int minute = time/distance;
-        paceStr = [NSString stringWithFormat:@"%d’%@%d’’",minute/60,minute%60 < 10 ? @"0":@"",minute%60];
-        if (time == 0 || distance == 0) {
-            paceStr = @"0’00’’";
+        int minute = (int)time/(distance.intValue/1000.0);
+        paceStr = [NSString stringWithFormat:@"%d'%@%d\"",minute/60,minute%60 < 10 ? @"0":@"",minute%60];
+        if (time == 0 || distance.intValue == 0) {
+            paceStr = @"00'00\"";
         }
         unitStr = SMALocalizedString(@"device_RU_pace_meUnit");
     }

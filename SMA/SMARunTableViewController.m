@@ -157,20 +157,24 @@
     return disAttStr;
 }
 
-- (NSMutableAttributedString *)putSpeedPerHourWithStep:(int)step duration:(int)time{
+- (NSMutableAttributedString *)putSpeedPerHourWithStep:(int)step duration:(double)time{
+    time = time/1000.0;
     SMAUserInfo *user = [SMAAccountTool userInfo];
-    float distance = [SMACalculate countKMWithHeigh:user.userHeight.intValue step:step];
+    NSString *distance = [SMACalculate notRounding:[SMACalculate countKMWithHeigh:user.userHeight.intValue step:step] * 1000 afterPoint:0];
     NSString *perStr = nil;
     NSString *unitStr = nil;
-    if (user.unit) {
-        perStr = [SMACalculate notRounding:[SMACalculate convertToMile:distance]/(time/60.0) afterPoint:1];
+    if (user.unit.intValue) {
+        float speed = ([SMACalculate convertToMile:distance.intValue/1000.0] * 3600)/((int)time);
+        perStr = [SMACalculate notRounding:((double)round(speed *1000.0)/1000) afterPoint:2];
         unitStr = SMALocalizedString(@"device_RU_per_brUnit");
     }
     else{
-        perStr = [SMACalculate notRounding:distance/(time/60.0) afterPoint:1];
+        NSLog(@"fwghh===%d",(int)time);
+        float speed = (distance.floatValue/1000.0 * 3600)/((int)time);
+        perStr = [SMACalculate notRounding:((double)(round(speed*1000.0)/1000)) afterPoint:2];
         unitStr = SMALocalizedString(@"device_RU_per_meUnit");
     }
-
+    
     NSDictionary *disDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:FontGothamLight(19)};
     NSDictionary *unitDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:FontGothamLight(14)};
     NSMutableAttributedString *perAttStr = [[NSMutableAttributedString alloc] initWithString:perStr attributes:disDic];
