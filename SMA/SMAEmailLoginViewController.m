@@ -82,57 +82,69 @@
     NSString *userAccount;
     [MBProgressHUD showMessage:SMALocalizedString(@"login_ing")];
     SmaAnalysisWebServiceTool *webServict = [[SmaAnalysisWebServiceTool alloc] init];
-     userAccount = _accountField.text;
+    userAccount = _accountField.text;
     [webServict acloudLoginWithAccount:userAccount Password:_passwordField.text success:^(id dic) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUD];
-        });
+        
         [webServict acloudDownLHeadUrlWithAccount:userAccount Success:^(id result) {
             
         } failure:^(NSError *error) {
         }];
-        SMAUserInfo *user = [[SMAUserInfo alloc]init];
-        user.userName = [dic objectForKey:@"nickName"];
-        user.userID = userAccount;
-        user.userPass = _passwordField.text;
-        user.userHeight = [dic objectForKey:@"hight"];
-        user.userWeigh = [dic objectForKey:@"weight"];
-        user.userAge = [dic objectForKey:@"age"];
-        user.userSex = [dic objectForKey:@"sex"];
-        user.userGoal = [dic objectForKey:@"steps_Aim"];
-        user.userHeadUrl = [dic objectForKey:@"_avatar"];
-        [SMAAccountTool saveUser:user];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
-            controller.isLogin = NO;
-            NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
-            NSArray *arrControllers = controller.viewControllers;
-            for (int i = 0; i < arrControllers.count; i ++) {
-                SMANavViewController *nav = [arrControllers objectAtIndex:i];
-                nav.tabBarItem.title = itemArr[i];
+        [webServict acloudDownLDataWithAccount:userAccount callBack:^(id finish) {
+            
+            if ([finish isEqualToString:@"finish"]) {
+                [SMADefaultinfos putInt:THIRDLOGIN andValue:NO];
+                SMAUserInfo *user = [[SMAUserInfo alloc] init];
+                
+                user.userName = [dic objectForKey:@"nickName"];
+                user.userID = userAccount;
+                user.userPass = _passwordField.text;
+                user.userHeight = [[dic objectForKey:@"hight"] intValue] ? [dic objectForKey:@"hight"]:@"170";
+                user.userWeigh =  [[dic objectForKey:@"weight"] intValue] ? [dic objectForKey:@"weight"]:@"60";
+                user.userAge = [[dic objectForKey:@"age"] intValue] ? [dic objectForKey:@"age"]:@"26";
+                user.userSex = [[dic objectForKey:@"sex"] intValue] ? [dic objectForKey:@"sex"]:@"1";
+                user.userGoal = [[dic objectForKey:@"steps_Aim"] intValue] ? [dic objectForKey:@"steps_Aim"]:@"10000";
+                user.userHeadUrl = [dic objectForKey:@"_avatar"];
+                user.unit = [dic objectForKey:@"unit"];
+                [SMAAccountTool saveUser:user];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:SMALocalizedString(@"login_suc")];
+                });
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
+                    controller.isLogin = NO;
+                    NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
+                    NSArray *arrControllers = controller.viewControllers;
+                    for (int i = 0; i < arrControllers.count; i ++) {
+                        SMANavViewController *nav = [arrControllers objectAtIndex:i];
+                        nav.tabBarItem.title = itemArr[i];
+                    }
+                    [UIApplication sharedApplication].keyWindow.rootViewController=controller;
+                });
             }
-            [UIApplication sharedApplication].keyWindow.rootViewController=controller;
-            //            [self presentViewController:controller animated:YES completion:nil];
-        });
-        
-        
+            else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showError:SMALocalizedString(@"login_fail")];
+                });
+            }
+        }];
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         if ([error.userInfo objectForKey:@"errorInfo"]) {
-           [MBProgressHUD showError:[self errorInfoWithSerialNumber:error]];
+            [MBProgressHUD showError:[self errorInfoWithSerialNumber:error]];
         }
         else if (error.code == -1001) {
             [MBProgressHUD showError:SMALocalizedString(@"alert_request_timeout")];
             NSLog(@"超时");
         }
-        else if (error.code == -1009) {
+        else if (error.code == -1009 || error.code == -1005) {
             [MBProgressHUD showError:SMALocalizedString(@"login_lostNet")];
         }
     }];
 }
+
 
 - (void)eyseSelect:(UIButton *)sender{
     sender.selected = !sender.selected;

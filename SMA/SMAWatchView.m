@@ -138,9 +138,8 @@
     }
     else{
         if (sender.selected) {
-            [self setSwitchBinData];
             if ([SmaBleMgr checkBLConnectState]) {
-                [SmaBleSend enterXmodem];
+                 [self setSwitchBinData];
             }
             else{
                 return;
@@ -270,6 +269,7 @@
                 NSData *data = [NSData dataWithContentsOfFile:filePath];
                 if (filePath) {
                     [SmaBleSend analySwitchsWithdata:data replace:(int)switchIndex];
+                    [SmaBleSend enterXmodem];
                 }
                 else{
                     [self setSwitchFail];
@@ -279,6 +279,7 @@
     }
     else{
         [SmaBleSend analySwitchsWithdata:data replace:(int)switchIndex];
+        [SmaBleSend enterXmodem];
     }
 }
 

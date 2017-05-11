@@ -90,8 +90,8 @@
 "device_RU_per_brUnit"="mil/j";
 "device_RU_pace_meUnit"="/km";
 "device_RU_pace_brUnit"="/mil";
-"device_RU_lunTime" = "运动时长";
-"device_RU_lastHR" = "最后一次心率值";
+"device_RU_lunTime" = "Exercise time";
+"device_RU_lastHR" = "Last heart rate value";
 "device_RU_traTit" = "Latihan track";
 "device_RU_stype" = "tahap latihan";
 "device_RU_severe" = "Berat";
@@ -270,11 +270,11 @@
 "setting_dfu_finish"="pembaharuan selesai";
 "setting_dfu_fail"="pembaharuan gagal";
 "setting_timing_title"="koreksi smarttime";
-"setting_timing_remind"="apabila waktu salah, lakukan langkah berikut";
-"setting_timing_hourRemind" = "请将数字没到您手表时针的当前位置";
-"setting_timing_minRemind" = "请将数字没到您手表分针的当前位置";
-"setting_timing_secondRemind" = "请将数字没到您手表秒针的当前位置";
-"setting_timing_laterRemind" = "请确认下面表盘指针是否与您手表指针当前位置相同";
+"setting_timing_remind"="";
+"setting_timing_hourRemind" = "Align the hour hand to the hour hand position of the watch.";
+"setting_timing_minRemind" = "Align the minute hand to the minute hand position of the watch.";
+"setting_timing_secondRemind" = "Align the second hand to the second hand position of the watch.";
+"setting_timing_laterRemind" = "Confirm if the pointer position as below is the same of the watch.";
 "setting_timing_hour"="j";
 "setting_timing_minute"="mnt";
 "setting_timing_confirm"="konfirmasi waktu";

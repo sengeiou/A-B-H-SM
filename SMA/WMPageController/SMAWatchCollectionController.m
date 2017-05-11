@@ -34,8 +34,6 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (void)initializeMethod{
-     SmaBleMgr.BLdelegate = self;
-     [SmaBleSend getSwitchNumber];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         SmaAnalysisWebServiceTool *tool = [[SmaAnalysisWebServiceTool alloc] init];
         [tool acloudDownLoadWatchInfos:_watchBucket offset:0 callBack:^(NSArray *finish, NSError *error) {
@@ -44,6 +42,12 @@ static NSString * const reuseIdentifier = @"Cell";
         }
         ];
     });
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [oldFaces removeAllObjects];
+    SmaBleMgr.BLdelegate = self;
+    [SmaBleSend getSwitchNumber];
 }
 
 - (void)createUI{

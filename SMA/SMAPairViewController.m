@@ -254,7 +254,7 @@
         }
         [remindView removeFromSuperview];
         [MBProgressHUD hideHUD];
-        [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindsuccess")];
+        [MBProgressHUD showSuccess:SMALocalizedString(@"setting_band_bindsuccess")];
         [SmaBleMgr reunitonPeripheral:YES];//开启重连机制
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSLog(@"绑定成功===%@",[[SMAAccountTool userInfo] watchUUID]);
@@ -378,6 +378,7 @@
             SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
+//            SmaBleMgr.scanName = @"SM07";
             SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){

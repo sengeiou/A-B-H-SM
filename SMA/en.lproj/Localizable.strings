@@ -89,8 +89,8 @@
 "device_RU_per_brUnit" = "mile/h";
 "device_RU_pace_meUnit" = "/km";
 "device_RU_pace_brUnit" = "/mile";
-"device_RU_lunTime" = "运动时长";
-"device_RU_lastHR" = "最后一次心率值";
+"device_RU_lunTime" = "Exercise time";
+"device_RU_lastHR" = "Last heart rate value";
 "device_RU_traTit" = "Exercise track";
 "device_RU_stype" = "Exercise stages";
 "device_RU_severe" = "Strenuous";

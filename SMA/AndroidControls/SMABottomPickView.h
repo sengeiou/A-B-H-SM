@@ -13,8 +13,9 @@ typedef void (^cancelButton)(UIButton *canBut);
 typedef void (^confiButton)(UIButton * confiBut);
 typedef void (^pickerSelectRow)(NSInteger row,NSInteger component);
 @property (nonatomic, strong) UIPickerView *pickView;
-//@property (nonatomic, copy) 
+//@property (nonatomic, copy)
 - (instancetype)initWithTitles:(NSArray *)titles describes:(NSArray *)describe buttonTitles:(NSArray *)buttons pickerMessage:(NSArray *)mesArr;
 - (void)selectConfirm:(confiButton)confirmBlock;
 - (void)pickSelectCallBack:(pickerSelectRow)callBack;
+- (void)pickRowWithTime:(NSArray *)arr;
 @end

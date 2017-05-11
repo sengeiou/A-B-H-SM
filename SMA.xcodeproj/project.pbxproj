@@ -45,10 +45,6 @@
 		EE227CF81D74381C00B9387D /* SMARulerScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CF71D74381C00B9387D /* SMARulerScrollView.m */; };
 		EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */; };
 		EE30F2F31D8E42C000869CF9 /* SMASelectViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2F11D8E42C000869CF9 /* SMASelectViewCell.m */; };
-		EE34EE5B1E1F6C8600A8AABC /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE591E1F6C7000A8AABC /* Zip.framework */; };
-		EE34EE5C1E1F6C8600A8AABC /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE591E1F6C7000A8AABC /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EE34EE5D1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */; };
-		EE34EE5E1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE34EE601E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip in Resources */ = {isa = PBXBuildFile; fileRef = EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */; };
 		EE3A32B71DA8BD060077C813 /* BEMAnalogClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B41DA8BD060077C813 /* BEMAnalogClockView.m */; };
 		EE3A32B81DA8BD060077C813 /* KSMHand.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B61DA8BD060077C813 /* KSMHand.m */; };
@@ -334,17 +330,23 @@
 		EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */; };
 		EEEDD29C1D98FFEF009D6CA3 /* SMASedentaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */; };
 		EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D051E14F8400059F8D0 /* FBSDKShareKit.framework */; };
+		EEFBA5031EC412CA001A077D /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */; };
+		EEFBA5051EC412CE001A077D /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5041EC412CE001A077D /* Zip.framework */; };
+		EEFBA5061EC412D5001A077D /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5041EC412CE001A077D /* Zip.framework */; };
+		EEFBA5071EC412D5001A077D /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5041EC412CE001A077D /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EEFBA5081EC412D8001A077D /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */; };
+		EEFBA5091EC412D8001A077D /* iOSDFULibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		EE34EE521E1F6AD000A8AABC /* Embed Frameworks */ = {
+		EEBC489C1EBACCCD0084F12C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EE34EE5E1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Embed Frameworks */,
-				EE34EE5C1E1F6C8600A8AABC /* Zip.framework in Embed Frameworks */,
+				EEFBA5091EC412D8001A077D /* iOSDFULibrary.framework in Embed Frameworks */,
+				EEFBA5071EC412D5001A077D /* Zip.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,8 +504,6 @@
 		EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASelectCoachViewController.m; sourceTree = "<group>"; };
 		EE30F2F01D8E42C000869CF9 /* SMASelectViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASelectViewCell.h; sourceTree = "<group>"; };
 		EE30F2F11D8E42C000869CF9 /* SMASelectViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASelectViewCell.m; sourceTree = "<group>"; };
-		EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iOSDFULibrary.framework; sourceTree = "<group>"; };
-		EE34EE591E1F6C7000A8AABC /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Zip.framework; sourceTree = "<group>"; };
 		EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "sma07_app(pah8002)_v1.1.1.zip"; sourceTree = "<group>"; };
 		EE3A32B31DA8BD060077C813 /* BEMAnalogClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAnalogClockView.h; sourceTree = "<group>"; };
 		EE3A32B41DA8BD060077C813 /* BEMAnalogClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAnalogClockView.m; sourceTree = "<group>"; };
@@ -1148,6 +1148,8 @@
 		EEEDD2981D98FFEF009D6CA3 /* SMASedentaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASedentaryCell.h; sourceTree = "<group>"; };
 		EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASedentaryCell.m; sourceTree = "<group>"; };
 		EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMASedentaryCell.xib; sourceTree = "<group>"; };
+		EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iOSDFULibrary.framework; sourceTree = "<group>"; };
+		EEFBA5041EC412CE001A077D /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Zip.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1159,6 +1161,7 @@
 				EE22295E1E4C0261003453DF /* libSmaBLE.a in Frameworks */,
 				EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */,
 				EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */,
+				EEFBA5051EC412CE001A077D /* Zip.framework in Frameworks */,
 				EEB54D1D1E151B950059F8D0 /* ImageIO.framework in Frameworks */,
 				EEB54D1B1E151B800059F8D0 /* QuartzCore.framework in Frameworks */,
 				EEB54D011E14E96D0059F8D0 /* Social.framework in Frameworks */,
@@ -1168,19 +1171,21 @@
 				EE57A7541E0B5FE10007BCC8 /* libiot.a in Frameworks */,
 				EE9AB5C41D6EF6170028F8DA /* libsqlite3.0.tbd in Frameworks */,
 				EE57A74C1E0B5FE10007BCC8 /* libBLEasyConfig.a in Frameworks */,
+				EEFBA5081EC412D8001A077D /* iOSDFULibrary.framework in Frameworks */,
 				EE4B1DD01D64898700825E2B /* libz.tbd in Frameworks */,
 				EE0E14181D6708590054BE87 /* libstdc++.tbd in Frameworks */,
 				EE57A73A1E0B5FE10007BCC8 /* libcrypto.a in Frameworks */,
 				EE0E14161D6708520054BE87 /* CoreTelephony.framework in Frameworks */,
 				EE10CE7A1DB5F7F000585B74 /* libCorePlot-CocoaTouch.a in Frameworks */,
+				EEFBA5061EC412D5001A077D /* Zip.framework in Frameworks */,
 				EE57A7531E0B5FE10007BCC8 /* libsmartlinklib_7x.a in Frameworks */,
 				EE0E14141D6708420054BE87 /* libsqlite3.tbd in Frameworks */,
 				EE0E14121D6708350054BE87 /* CoreGraphics.framework in Frameworks */,
 				EE0E14101D67082C0054BE87 /* SystemConfiguration.framework in Frameworks */,
 				EE57A7591E0B5FE10007BCC8 /* libAbleCloudLib.a in Frameworks */,
 				EE0E140E1D6708240054BE87 /* Security.framework in Frameworks */,
+				EEFBA5031EC412CA001A077D /* iOSDFULibrary.framework in Frameworks */,
 				EE57A7381E0B5FE00007BCC8 /* libFTC_DEBUG_ARM_64.a in Frameworks */,
-				EE34EE5D1E1F6C8A00A8AABC /* iOSDFULibrary.framework in Frameworks */,
 				EEB54D071E14F8400059F8D0 /* FBSDKCoreKit.framework in Frameworks */,
 				EE0E140C1D6708190054BE87 /* libiconv.tbd in Frameworks */,
 				EE57A7391E0B5FE10007BCC8 /* libcooee.a in Frameworks */,
@@ -1196,7 +1201,6 @@
 				EEB54D061E14F8400059F8D0 /* Bolts.framework in Frameworks */,
 				EEB54D081E14F8400059F8D0 /* FBSDKLoginKit.framework in Frameworks */,
 				EE57A7521E0B5FE10007BCC8 /* libConfiguration.a in Frameworks */,
-				EE34EE5B1E1F6C8600A8AABC /* Zip.framework in Frameworks */,
 				EE57A7501E0B5FE10007BCC8 /* libXlwDevice.a in Frameworks */,
 				BF1CD0662AA433CB7CFF3F9C /* Pods_SMA.framework in Frameworks */,
 			);
@@ -2396,8 +2400,8 @@
 			children = (
 				EE6783D31E1DFC0F00B0B6E7 /* DfuUpdate.h */,
 				EE6783D41E1DFC0F00B0B6E7 /* DfuUpdate.m */,
-				EE34EE591E1F6C7000A8AABC /* Zip.framework */,
-				EE34EE571E1F6C6F00A8AABC /* iOSDFULibrary.framework */,
+				EEFBA5041EC412CE001A077D /* Zip.framework */,
+				EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */,
 				EE6783D61E1DFC0F00B0B6E7 /* sma10b_firmware_v1.1.8.zip */,
 				EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */,
 			);
@@ -3062,10 +3066,10 @@
 				EEB9F6851D64318B0011AA07 /* Sources */,
 				EEB9F6861D64318B0011AA07 /* Frameworks */,
 				EEB9F6871D64318B0011AA07 /* Resources */,
-				EE34EE521E1F6AD000A8AABC /* Embed Frameworks */,
 				EE2255221E28762000A037E9 /* ShellScript */,
 				58A242B77E3C4EADAB8A767E /* [CP] Embed Pods Frameworks */,
 				F7D57B88ACFB6E48460488E3 /* [CP] Copy Pods Resources */,
+				EEBC489C1EBACCCD0084F12C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3558,6 +3562,7 @@
 		EEB9F69E1D64318B0011AA07 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -3593,7 +3598,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -3603,6 +3608,7 @@
 		EEB9F69F1D64318B0011AA07 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -3632,7 +3638,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -3652,6 +3658,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = VHVLE5FL92;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3711,6 +3718,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = VHVLE5FL92;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (

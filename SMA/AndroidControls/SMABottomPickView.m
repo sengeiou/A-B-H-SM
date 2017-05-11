@@ -28,7 +28,7 @@
 
 - (void)createUIWithTitles:(NSArray *)titles describes:(NSArray *)describe buttonTitles:(NSArray *)buttons pickerMessage:(NSArray *)mesArr{
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-//        [self addGestureRecognizer:tapGR];
+    //        [self addGestureRecognizer:tapGR];
     self.backgroundColor = [SmaColor colorWithHexString:@"#000000" alpha:0.5];
     backView = [[UIView alloc] initWithFrame:CGRectMake(0, MainScreen.size.height, MainScreen.size.width, 280)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -46,7 +46,7 @@
     UILabel *endLab = [[UILabel alloc] initWithFrame:CGRectMake(MainScreen.size.width/describe.count, 0, MainScreen.size.width/describe.count, describe ? 30:60)];
     endLab.textAlignment = NSTextAlignmentCenter;
     endLab.font = FontGothamLight(16);
-    endLab.text = titles[0];
+    endLab.text = titles[1];
     [titView addSubview:endLab];
     describeArr = describe;
     if (describe) {
@@ -88,13 +88,22 @@
     }];
 }
 
+- (void)pickRowWithTime:(NSArray *)arr{
+    [self.pickView selectRow:50 * 24 + [[arr firstObject] intValue] inComponent:0 animated:YES];
+    [self.pickView selectRow:50 * 24 + [[arr lastObject] intValue] inComponent:1 animated:YES];
+    if ([[arr firstObject] intValue] >= [[arr lastObject] intValue]) {
+        endReminLab.text = SMALocalizedString(@"setting_tomorrow");
+    }
+    
+}
+
 - (void)tapAction{
     [UIView animateWithDuration:0.3 animations:^{
         backView.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
-         [self removeFromSuperview];
+        [self removeFromSuperview];
     }];
-   
+    
 }
 
 - (void)selectConfirm:(confiButton)confirmBlock{
@@ -117,6 +126,7 @@
     return 60;
 }
 
+
 -(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     UILabel *label = nil;
     if (view != nil) {
@@ -135,7 +145,8 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (component == 1) {
-        if (row % 24 <= 8) {
+        NSInteger beginRow = [pickerView selectedRowInComponent:0]%24;
+        if (beginRow >= row%24) {
             endReminLab.text = describeArr[1];
         }
         else{
@@ -146,15 +157,15 @@
 }
 
 - (void)butSelector:(UIButton *)but{
-        confirm(but);
-     [self removeFromSuperview];
+    confirm(but);
+    [self removeFromSuperview];
 }
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 @end

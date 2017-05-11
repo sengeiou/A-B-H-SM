@@ -25,13 +25,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="实时心率监测，同步电话、短信，运动拍照功能。续航15天。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pH7-Sc-xIg">
-                        <rect key="frame" x="114" y="48" width="220" height="81"/>
+                        <rect key="frame" x="104" y="48" width="230" height="81"/>
                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SMA - COACHSMA" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xha-fz-jq0">
-                        <rect key="frame" x="116" y="8" width="218" height="40"/>
+                        <rect key="frame" x="106" y="8" width="228" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="vdM-kJ-WkB"/>
                         </constraints>
@@ -40,9 +40,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BpF-fl-nsz">
-                        <rect key="frame" x="16" y="30" width="90" height="90"/>
+                        <rect key="frame" x="16" y="30" width="80" height="90"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="90" id="NRK-MV-9NW"/>
+                            <constraint firstAttribute="width" constant="80" id="NRK-MV-9NW"/>
                             <constraint firstAttribute="height" constant="90" id="XcN-eq-1mC"/>
                         </constraints>
                     </imageView>

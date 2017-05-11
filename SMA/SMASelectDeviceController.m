@@ -80,10 +80,21 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 1) {
+        return 0;
+    }
     return 150;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 1) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"CELL"];
+        }
+        return cell;
+    }
+
     SMASelectCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SELECTCELL"];
     if (!cell) {
         cell = (SMASelectCell *) [[[NSBundle mainBundle] loadNibNamed:@"SMASelectCell" owner:nil options:nil] lastObject];
