@@ -689,6 +689,7 @@ static id _instace;
     [SmaBleSend getElectric];
     [SmaBleSend getBLVersion];
     [SmaBleSend getBLmac];
+    [SmaBleSend setPairAncs];
 }
 
 static double spInterval;

@@ -85,9 +85,11 @@
     userAccount = _accountField.text;
     [webServict acloudLoginWithAccount:userAccount Password:_passwordField.text success:^(id dic) {
         
-        [webServict acloudDownLHeadUrlWithAccount:userAccount Success:^(id result) {
+        webServict.chaImageName = [NSString stringWithFormat:@"%@.jpg",_accountField.text];
+        [webServict acloudDownFileWithsession:[dic objectForKey:@"_avatar"] callBack:^(float progress, NSError *error) {
             
-        } failure:^(NSError *error) {
+        } CompleteCallback:^(NSString *filePath) {
+            
         }];
         [webServict acloudDownLDataWithAccount:userAccount callBack:^(id finish) {
             
@@ -101,7 +103,7 @@
                 user.userHeight = [[dic objectForKey:@"hight"] intValue] ? [dic objectForKey:@"hight"]:@"170";
                 user.userWeigh =  [[dic objectForKey:@"weight"] intValue] ? [dic objectForKey:@"weight"]:@"60";
                 user.userAge = [[dic objectForKey:@"age"] intValue] ? [dic objectForKey:@"age"]:@"26";
-                user.userSex = [[dic objectForKey:@"sex"] intValue] ? [dic objectForKey:@"sex"]:@"1";
+                user.userSex = [dic objectForKey:@"sex"];
                 user.userGoal = [[dic objectForKey:@"steps_Aim"] intValue] ? [dic objectForKey:@"steps_Aim"]:@"10000";
                 user.userHeadUrl = [dic objectForKey:@"_avatar"];
                 user.unit = [dic objectForKey:@"unit"];

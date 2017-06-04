@@ -600,7 +600,6 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         NSMutableArray *alArr = [(NSMutableArray *)[backObject get:@"alarm_list"] mutableCopy];
         ACObject *sedentObject = [backObject getACObject:@"sedentariness_settings"];
         ACObject *hrObject = [backObject getACObject:@"heart_rate_settings"];
-        backAccount = 6;
         if (backAccount == 0) {
              callback(@"finish");
         }
@@ -811,8 +810,8 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         NSString *str = [fmt stringFromDate:[NSDate date]];
         [quietDaArr addObject:@[str,[NSString stringWithFormat:@"%ld bpm",[responseMsg getLong:user_rate]]]];
         //        [SMADefaultinfos putKey:@"quietDaArr" andValue:quietDaArr];
-        [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_hi]] forKey:user_hi];
-        [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_we]] forKey:user_we];
+        [userInfoDic setValue:[NSString stringWithFormat:@"%.1f",[responseMsg getFloat:user_hi]] forKey:user_hi];
+        [userInfoDic setValue:[NSString stringWithFormat:@"%.0f",[responseMsg getFloat:user_we]] forKey:user_we];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_sex]] forKey:user_sex];
         [userInfoDic setValue:[NSString stringWithFormat:@"%ld",[responseMsg getLong:user_age]] forKey:user_age];
         [userInfoDic setValue:[NSString stringWithFormat:@"%@",[responseMsg getString:user_he]] forKey:user_he];

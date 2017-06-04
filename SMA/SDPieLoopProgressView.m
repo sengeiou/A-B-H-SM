@@ -58,7 +58,6 @@
             CGFloat Y = center.y - (rect.size.width/2 -(fontsize.height +5)/2) *cos((M_PI/180)*i*(360.0 /(12))) - fontsize.height/2;//R*cosB(夹角)
             text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
             text.string    =  [[NSAttributedString alloc] initWithString:@"|" attributes:@{NSFontAttributeName : FontGothamBold(10 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];//whiteColor
-            NSLog(@"wghhh44444  %f  %f  %d \n histry: %f  %f",startTime/5.0,endTime/5.0,i,self.hisStartTime,self.hisEndTime);
             
             if ((int)self.endStartTime%60 > (int)self.endEndTime%60) {
                 if (startTime/5.0 > endTime/5.0) {
@@ -94,22 +93,13 @@
             text.transform =  CATransform3DMakeRotation((M_PI/180)*i*(360.0 /(12)), 0, 0, 1);
         }
         else{
-            //                        NSLog(@"wghhh4444433333  %f  %f  %d",startTime/5.0,endTime/5.0,i);
             CGSize fontsize = [[NSString stringWithFormat:@"%d",i] sizeWithAttributes:@{NSFontAttributeName:FontGothamBold(12 * SDProgressViewFontScale)}];
             //计算点坐标
             CGFloat X = center.x + (rect.size.width/2 -fontsize.height/2) *sin((M_PI/180)*i*(360.0 /(12))) - fontsize.width/2; //R*sinB(夹角)
             CGFloat Y = center.y - (rect.size.width/2 -fontsize.height/2) *cos((M_PI/180)*i*(360.0 /(12))) - fontsize.height/2 + 1;//R*cosB(夹角)
             text.frame           = CGRectMake(X, Y, fontsize.width, fontsize.height);
             text.string    =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];
-            //                if (i < startTime/5.0 || i > endTime/5.0) {
-            //                    text.string   =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];
-            //                }
-            //            if ((int)self.endStartTime%60 > (int)self.endEndTime%60) {
-            //                if (i < startTime/5.0 && i > endTime/5.0) {
-            //                    text.string   =  [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d",i] attributes:@{NSFontAttributeName : FontGothamBold(12 * SDProgressViewFontScale),NSForegroundColorAttributeName:[UIColor whiteColor]}];
-            //                }
-            //            }
-            //            else{
+
             if ((int)self.endStartTime%60 > (int)self.endEndTime%60) {
                 if (startTime/5.0 > endTime/5.0) {
                     if (i < startTime/5.0 && i > endTime/5.0) {

@@ -63,7 +63,7 @@ static NSString * const sectionHeaderIdentifier = @"SectionHeader";
 
 - (void)viewWillDisappear:(BOOL)animated{
     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
-        SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2"];
+        SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2",@"Noise Ignite"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
         SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];

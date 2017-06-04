@@ -72,7 +72,7 @@
 "device_SP_km"="km";
 "device_SP_mile"="mile";
 "device_SP_cal"="Kcal";
-"device_SP_calorie"="Cal";
+"device_SP_calorie"="Kcal";
 "device_SP_syncWait"="데이터가 동기화되지 않았습니다. 기다려 주십시오.";
 "device_SP_day"="일";
 "device_SP_week"="주";

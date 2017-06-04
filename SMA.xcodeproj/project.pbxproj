@@ -40,7 +40,6 @@
 		EE16878A1E484662008C4261 /* SMATimingSecondController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687851E484662008C4261 /* SMATimingSecondController.m */; };
 		EE16878B1E484662008C4261 /* SMATimingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687871E484662008C4261 /* SMATimingViewController.m */; };
 		EE1749001DAC7A6D004A892D /* SMADateDaultionfos.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */; };
-		EE22295E1E4C0261003453DF /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE22295D1E4C0261003453DF /* libSmaBLE.a */; };
 		EE227CCF1D7433A900B9387D /* SMAHighViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CCE1D7433A900B9387D /* SMAHighViewController.m */; };
 		EE227CF81D74381C00B9387D /* SMARulerScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CF71D74381C00B9387D /* SMARulerScrollView.m */; };
 		EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */; };
@@ -172,6 +171,7 @@
 		EE57A7581E0B5FE10007BCC8 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE57A6941E0B5FE00007BCC8 /* YYClassInfo.m */; };
 		EE57A7591E0B5FE10007BCC8 /* libAbleCloudLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE57A6961E0B5FE00007BCC8 /* libAbleCloudLib.a */; };
 		EE57A75A1E0B5FE10007BCC8 /* libAbleCloudLib_simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE57A6971E0B5FE00007BCC8 /* libAbleCloudLib_simulator.a */; };
+		EE59C3A41ED915F1007D5641 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE59C3A31ED915F1007D5641 /* libSmaBLE.a */; };
 		EE59C7421DE7D5C20064D19F /* SMAUnPaierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE59C7411DE7D5C20064D19F /* SMAUnPaierViewController.m */; };
 		EE5F825A1DFBFC750045B5C3 /* SMAFirstLunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5F82591DFBFC750045B5C3 /* SMAFirstLunViewController.m */; };
 		EE60613E1DEEC1BB008A7786 /* SMASpGoalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE60613D1DEEC1BB008A7786 /* SMASpGoalViewController.m */; };
@@ -495,7 +495,6 @@
 		EE1748FE1DAC7A6D004A892D /* SMADateDaultionfos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADateDaultionfos.h; sourceTree = "<group>"; };
 		EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADateDaultionfos.m; sourceTree = "<group>"; };
 		EE1DDCA91E5690C200D4B181 /* SMA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SMA.entitlements; sourceTree = "<group>"; };
-		EE22295D1E4C0261003453DF /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE227CCD1D7433A900B9387D /* SMAHighViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHighViewController.h; sourceTree = "<group>"; };
 		EE227CCE1D7433A900B9387D /* SMAHighViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHighViewController.m; sourceTree = "<group>"; };
 		EE227CF61D74381C00B9387D /* SMARulerScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARulerScrollView.h; sourceTree = "<group>"; };
@@ -838,6 +837,7 @@
 		EE57A6F91E0B5FE00007BCC8 /* ACUserTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACUserTimerManager.h; sourceTree = "<group>"; };
 		EE57A6FB1E0B5FE00007BCC8 /* ACWeatherManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWeatherManager.h; sourceTree = "<group>"; };
 		EE57A6FD1E0B5FE00007BCC8 /* ACWifiLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWifiLinkManager.h; sourceTree = "<group>"; };
+		EE59C3A31ED915F1007D5641 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE59C7401DE7D5C20064D19F /* SMAUnPaierViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAUnPaierViewController.h; sourceTree = "<group>"; };
 		EE59C7411DE7D5C20064D19F /* SMAUnPaierViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAUnPaierViewController.m; sourceTree = "<group>"; };
 		EE5F82581DFBFC750045B5C3 /* SMAFirstLunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAFirstLunViewController.h; sourceTree = "<group>"; };
@@ -1158,7 +1158,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */,
-				EE22295E1E4C0261003453DF /* libSmaBLE.a in Frameworks */,
 				EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */,
 				EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */,
 				EEFBA5051EC412CE001A077D /* Zip.framework in Frameworks */,
@@ -1203,6 +1202,7 @@
 				EE57A7521E0B5FE10007BCC8 /* libConfiguration.a in Frameworks */,
 				EE57A7501E0B5FE10007BCC8 /* libXlwDevice.a in Frameworks */,
 				BF1CD0662AA433CB7CFF3F9C /* Pods_SMA.framework in Frameworks */,
+				EE59C3A41ED915F1007D5641 /* libSmaBLE.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1383,7 +1383,7 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EE22295D1E4C0261003453DF /* libSmaBLE.a */,
+				EE59C3A31ED915F1007D5641 /* libSmaBLE.a */,
 				EE16878D1E48546D008C4261 /* SmaAlarmInfo.h */,
 				EE16878E1E48546D008C4261 /* SmaBLE.h */,
 				EE16878F1E48546D008C4261 /* SmaBusinessTool.h */,

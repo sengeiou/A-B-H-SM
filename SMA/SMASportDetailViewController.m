@@ -440,6 +440,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     cell.statelab.text = @"";
     cell.stateIma.image = [UIImage imageNamed:[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"MODE"]];
     cell.distanceLab.text = [NSString stringWithFormat:@"%@%@",[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"DURATION"],[[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"DURATION"] intValue] > 1 ? SMALocalizedString(@"device_SP_steps"):SMALocalizedString(@"device_SP_step")];
+    if ([[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"DURATION"] intValue] < 0) {
+        cell.distanceLab.text = [NSString stringWithFormat:@"0%@",SMALocalizedString(@"device_SP_step")];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

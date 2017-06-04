@@ -153,7 +153,7 @@
         info.mounth = [dateStr substringWithRange:NSMakeRange(4, 2)];
         info.year = [dateStr substringWithRange:NSMakeRange(0, 4)];
         info.tagname = [dic objectForKey:@"tag"];
-        info.isOpen = [NSString stringWithFormat:@"%d",[[dic objectForKey:@"isopen"] intValue]];
+        info.isOpen = [NSString stringWithFormat:@"%d",[[dic objectForKey:@"enabled"] intValue]];
         info.isWeb = @"1";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             [dal insertClockInfo:info account:[[alList objectAtIndex:i] objectForKey:@"account"] callback:^(BOOL result) {

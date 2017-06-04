@@ -72,7 +72,7 @@
 "device_SP_km"="Km";
 "device_SP_mile"="mile";
 "device_SP_cal"="Kcal";
-"device_SP_calorie"="Cal";
+"device_SP_calorie"="Kcal";
 "device_SP_syncWait"="Les données ne sont pas synchronisées.";
 "device_SP_day"="journée";
 "device_SP_week"="La semaine";

@@ -89,7 +89,7 @@
     
 //    SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
-        SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2"];
+        SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2",@"Noise Ignite"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
         SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
@@ -108,7 +108,7 @@
     if (sender.selected) {
         [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
         if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
-            SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2"];
+            SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2",@"Noise Ignite"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
             SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
@@ -291,7 +291,7 @@
             [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
             _searchBut.selected = YES;
             if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
-                SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2"];
+                SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2",@"Noise Ignite"];
             }
             else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
                 SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
@@ -375,7 +375,7 @@
         [remindView removeFromSuperview];
         [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
         if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
-            SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2"];
+            SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2",@"Noise Ignite"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
 //            SmaBleMgr.scanName = @"SM07";

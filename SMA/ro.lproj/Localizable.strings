@@ -71,8 +71,8 @@
 "device_SP_running" = "跑步";
 "device_SP_km" = "km";
 "device_SP_mile" = "mile";
-"device_SP_cal" = "cal";
-"device_SP_calorie" = "cal";
+"device_SP_cal" = "Kcal";
+"device_SP_calorie" = "Kcal";
 "device_SP_syncWait" = "Sincronizarea datelor telefonului nu s-a terminat încă, vă rugăm să aşteptaţi";
 "device_SP_day" = "Zi";
 "device_SP_week" = "Săptămână";

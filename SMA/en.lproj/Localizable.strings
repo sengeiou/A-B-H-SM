@@ -71,7 +71,7 @@
 "device_SP_km" = "km";
 "device_SP_mile" = "mile";
 "device_SP_cal" = "Kcal";
-"device_SP_calorie" = "Cal";
+"device_SP_calorie" = "Kcal";
 "device_SP_syncWait" = "The data is not synchronized.Please wait!";
 "device_SP_day" = "Day";
 "device_SP_week" = "Week";
