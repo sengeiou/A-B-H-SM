@@ -27,9 +27,10 @@
 - (void)createUIWithSwitchs:(NSArray *)switchs{
     int remainder = (int)[[switchs firstObject] count]%4;
     int divisor = (int)[[switchs firstObject] count]/4;
-   titleArr = @[SMALocalizedString(@"setting_antiLost"),SMALocalizedString(@"setting_noDistrub"),SMALocalizedString(@"setting_callNot"),SMALocalizedString(@"setting_smsNot"),SMALocalizedString(@"setting_screen")];
+  titleArr = @[SMALocalizedString(@"setting_antiLost"),SMALocalizedString(@"setting_noDistrub"),SMALocalizedString(@"setting_callNot"),SMALocalizedString(@"setting_smsNot"),SMALocalizedString(@"setting_screen"),SMALocalizedString(@"setting_liftBright")];
+    
     imageArr = switchs;
-    NSArray *stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:![SMADefaultinfos getIntValueforKey:SCREENSET]]];
+     NSArray *stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:![SMADefaultinfos getIntValueforKey:SCREENSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]]];
     for (int i = 0; i < [[switchs firstObject] count]; i ++) {
         UIView *butView = [[UIView alloc] init];
         butView.backgroundColor = [UIColor whiteColor];
@@ -109,7 +110,10 @@
                 [SMADefaultinfos putInt:SCREENSET andValue:!sender.selected];
                 [SmaBleSend setVertical:[SMADefaultinfos getIntValueforKey:SCREENSET]];
                 break;
-                
+            case 1060:
+                [SMADefaultinfos putInt:LIFTBRIGHT andValue:sender.selected];
+                [SmaBleSend setLiftBright:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]];
+                break;
             default:
                 break;
         }

@@ -36,4 +36,6 @@
 +(BOOL)checkNckBytes:(Byte [])bytes;
 +(void)setAckCmdSeqId:(int16_t)seqId peripheral:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
 +(void)setNackCmdSeqId:(int16_t)seqId peripheral:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
++ (void)setSerialNum;
++(NSData *)getOTAdata;
 @end

@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 typedef void (^pushAction)(UIButton *pushBut);
+typedef void (^gestureAction)(BOOL gesture);
 @interface SMATrackDetailView : UIView
 @property(nonatomic,copy)pushAction block;
+@property(nonatomic,copy)gestureAction blgestureBock;
 + (instancetype)initializeView;
 - (void)updateUIwithData:(NSMutableDictionary *)dic;
 
 - (void)tapPushBut:(pushAction)action;
+- (void)tapGesture:(gestureAction)action;
+- (void)tapAction:(UITapGestureRecognizer *)sender;
 @end

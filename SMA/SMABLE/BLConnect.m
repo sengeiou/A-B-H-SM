@@ -151,6 +151,16 @@ static id _instace;
         //        }
     }
     else if(SmaDfuManager.dfuMode){
+        NSArray *SystemArr1 = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
+        NSLog(@"重连系统连接设备====%@  %@",SystemArr1,self.user.watchUUID);
+        if (SystemArr1.count > 0) {
+            [SystemArr1 enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL *stop) {
+                if ([obj.identifier.UUIDString isEqual:self.user.watchUUID]) {
+                    [self connectBl:obj];
+                }
+            }];
+        }
+
         [self.peripherals removeAllObjects];
         self.peripherals = nil;
         NSArray *SystemArr = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
@@ -162,9 +172,7 @@ static id _instace;
         else{
             [self performSelector:@selector(scanPerformDFU) withObject:nil afterDelay:3.5f];
         }
-        
     }
-    
 }
 
 - (void)scanPerformDFU{
@@ -351,6 +359,9 @@ static id _instace;
     if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(blediDWriteValueForCharacteristicError:)]) {
         [self.BLdelegate blediDWriteValueForCharacteristicError:error];
     }
+    if (error && error.code == 8) {
+        [SmaBusinessTool setSerialNum];
+    }
     NSLog(@"didWriteValueForCharacteristic  %@",error);
 }
 
@@ -369,11 +380,16 @@ static id _instace;
         if ([characteristic.UUID.UUIDString isEqualToString:@"6E400002-B5A3-F393-E0A9-E50E24DCCA9E"]) {
             SmaBleSend.Write = characteristic;
             SMAUserInfo *user = [SMAAccountTool userInfo];
-            if (user.watchUUID) {
+            if (user.watchUUID && !SmaDfuManager.dfuMode) {
+                [SmaBusinessTool setSerialNum];
                 [SmaBleSend setHighSpeed:YES];
                 [SmaBleSend LoginUserWithUserID:user.userID];
             }
-            else{
+            if (SmaDfuManager.dfuMode || _repairDfu) {
+                [SmaBleSend setOTAstate];
+            }
+            else if (!user.watchUUID){
+                [SmaBusinessTool setSerialNum];
                 [SmaBleSend bindUserWithUserID:user.userID];
                 if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleBindState:)]){
                     [self.BLdelegate bleBindState:0];
@@ -401,6 +417,20 @@ static id _instace;
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     NSLog(@"连接问题 %@",error);
+    
+    SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
+    loca.allowLocation = NO;
+    loca.gatherLocation = NO;
+    [loca stopLocation];
+    SMADatabase *db = [[SMADatabase alloc] init];
+    if (loca.firstRunDic) {
+        [db deleteLocationFromTime:[loca.firstRunDic objectForKey:@"DATE"] finish:^(id finish) {
+            
+        }];
+        loca.firstRunDic = nil;
+    }
+
+    
     if ([SMAAccountTool userInfo].watchUUID && ![[SMAAccountTool userInfo].watchUUID isEqualToString:@""]  && !SmaDfuManager.dfuMode && !_repairDfu && !_dfuUpdate) {
         [self connectBl:peripheral];
     }
@@ -570,6 +600,26 @@ static id _instace;
             break;
         case RUNMODE:
             NSLog(@"riunfjwfiow===%@",array);
+            if (array.count == 1 && [[[array firstObject] objectForKey:@"MODE"] intValue] == 34) {//代表运动中数据（用于激活定位后台，区别于下拉刷新中的运动数据）
+                SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
+                loca.runStepDic = [array firstObject];
+                loca.gatherLocation = YES;
+                return;
+            }
+            if ([[[array firstObject] objectForKey:@"MODE"] intValue] == 32) {
+                SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
+                loca.runStepDic = [array firstObject];
+                loca.gatherLocation = YES;
+                loca.allowLocation = YES;
+                loca.firstRunDic = [array firstObject];
+                [[SMALocatiuonManager sharedCoreBlueTool] startLocation];
+            }
+            else if ([[[array firstObject] objectForKey:@"MODE"] intValue] == 47){
+                SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
+                loca.runStepDic = [array firstObject];
+                loca.gatherLocation = YES;
+                [[SMALocatiuonManager sharedCoreBlueTool] stopLocation];
+            }
             break;
         default:
             break;
@@ -661,7 +711,7 @@ static id _instace;
         [SmaBleSend setLanguage:1];
     }
     
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
         [SmaBleSend setVertical:[SMADefaultinfos getIntValueforKey:SCREENSET]];
         //获取系统是24小时制或者12小时制
         NSString *formatStringForHours = [NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]];
@@ -669,7 +719,9 @@ static id _instace;
         BOOL hasAMPM = containsA.location != NSNotFound;
         [SmaBleSend setHourly:hasAMPM];
     }
-    
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+        [SmaBleSend setLiftBright:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]];
+    }
     [SmaBleSend setBritishSystem:[SMADefaultinfos getIntValueforKey:BRITISHSYSTEM]];
     
     SMADatabase *smaDal = [[SMADatabase alloc] init];

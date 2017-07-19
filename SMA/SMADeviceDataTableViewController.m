@@ -26,9 +26,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     firstLun = YES;
     [self initializeMethod:NO];
-    
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,16 +43,22 @@
         return;
     }
     [self initializeMethod:YES];
+    //     [self.navigationController addObserver:self forKeyPath:@"childViewControllers" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
+    
     [SmaNotificationCenter addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
-     [SmaNotificationCenter addObserver:self selector:@selector(updateData) name:@"updateData" object:nil];
+    [SmaNotificationCenter addObserver:self selector:@selector(updateData) name:@"updateData" object:nil];
+//     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chectFirmwareVewsionWithWeb) name:@"DFUUPDATEFINISH" object:nil];
+     [self chectFirmwareVewsionWithWeb];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [SmaNotificationCenter removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [SmaNotificationCenter removeObserver:self name:@"updateData" object:nil];
+//    [SmaNotificationCenter removeObserver:self name:@"DFUUPDATEFINISH" object:nil];
 }
 
 - (SMADatabase *)dal{
@@ -71,7 +78,7 @@
 - (void)initializeMethod:(BOOL)updateUi{
     SmaBleMgr.BLdelegate = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-//        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
+        //        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
         spArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate]];
         HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
         quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
@@ -81,7 +88,7 @@
                 [self createUI];
             }
             else{
-                 [self updateUI];
+                [self updateUI];
             }
         });
     });
@@ -97,15 +104,14 @@
     self.navigationItem.titleView = titleLab;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-        self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setupRefresh];
     
-    
-//    SDDemoItemView *roundView =[[SDDemoItemView alloc] initWithFrame:CGRectMake(20, 100, 100, 100)];
-//    [self.view addSubview:roundView];
-//    roundView.progressViewClass = [SDLoopProgressView class];
+    //    SDDemoItemView *roundView =[[SDDemoItemView alloc] initWithFrame:CGRectMake(20, 100, 100, 100)];
+    //    [self.view addSubview:roundView];
+    //    roundView.progressViewClass = [SDLoopProgressView class];
 }
 
 - (void)updateUI{
@@ -124,6 +130,47 @@
     [self.tableView reloadData];
 }
 
+- (void)chectFirmwareVewsionWithWeb{
+    if (![SMAAccountTool userInfo].watchUUID || [[SMAAccountTool userInfo].watchUUID isEqualToString:@""]) {
+        [SMADefaultinfos putKey:DFUUPDATE andValue:@"1"];
+        return;
+    }
+    if ([SMADefaultinfos getValueforKey:DFUUPDATE] && [[SMADefaultinfos getValueforKey:DFUUPDATE] isEqualToString:@"0"]) {
+        NSLog(@"----%@",[SMADefaultinfos getValueforKey:SMACUSTOM]);
+        SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
+        [webSer acloudDfuFileWithFirmwareType:firmware_smav2 callBack:^(NSArray *finish, NSError *error) {
+            for (int i = 0; i < finish.count; i ++) {
+                NSString *filename = [[finish objectAtIndex:i] objectForKey:@"filename"];
+                NSString *deviceName = [[filename componentsSeparatedByString:@"_"] firstObject];
+                NSString *fileType = [[filename componentsSeparatedByString:@"_"] objectAtIndex:1];
+                //            if ([fileType isEqualToString:[SMAAccountTool userInfo].scnaName]) {
+                if ([fileType isEqualToString:[SMADefaultinfos getValueforKey:SMACUSTOM]] && [deviceName isEqualToString:[SMAAccountTool userInfo].scnaName]) {
+                    NSDictionary *webFirmwareDic = [finish objectAtIndex:i];
+                    [self dfuUpdateAgain:webFirmwareDic];
+                }
+            }
+        }];
+    }
+}
+
+- (void)dfuUpdateAgain:(NSDictionary *)dic{
+    NSLog(@"升级 %d",[SMADefaultinfos getIntValueforKey:DFUUPDATE]);
+    UIAlertController *alcer = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"me_repairRemain") message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *canAct = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_repairNoRemain") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+       [SMADefaultinfos putKey:DFUUPDATE andValue:@"1"];
+    }];
+    UIAlertAction *confimAct = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        SMADfuViewController *subVC = (SMADfuViewController *)[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMADfuViewController"];
+        subVC.dfuInfoDic = dic;
+        [self.navigationController pushViewController:subVC animated:YES];
+    }];
+    [alcer addAction:canAct];
+    [alcer addAction:confimAct];
+    [self presentViewController:alcer animated:YES completion:^{
+        
+    }];
+}
+
 - (void)updateData{
     NSLog(@"更新数据");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -132,12 +179,13 @@
         quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
         sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
         dispatch_async(dispatch_get_main_queue(), ^{
-                [self updateUI];
+            [self updateUI];
         });
     });
 }
 
 - (IBAction)calendarSelector:(id)sender{
+    [SMADefaultinfos putInt:@"childViewControllers" andValue:1];
     calendarView = [[SMACalendarView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height)];
     calendarView.delegate = self;
     calendarView.date = self.date;
@@ -145,28 +193,28 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app.window addSubview:calendarView];
     
-//    SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
-//    [webSer acloudDownLDataWithAccount:[SMAAccountTool userInfo].userID];
+    //    SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
+    //    [webSer acloudDownLDataWithAccount:[SMAAccountTool userInfo].userID];
     
-//    NSString *date = [SMADateDaultionfos stringFormmsecIntervalSince1970:1479375000000000/1000 withFormatStr:@"yyyy-MM-dd HH:mm:ss" timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-//    
-//   NSTimeInterval timeInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:[NSDate date].yyyyMMddHHmmSSNoLineWithDate timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-//    NSTimeInterval timeInterval1 = [SMADateDaultionfos msecIntervalSince1970Withdate:@"20000101000000" timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-//    NSLog(@"fef==%@",date);
+    //    NSString *date = [SMADateDaultionfos stringFormmsecIntervalSince1970:1479375000000000/1000 withFormatStr:@"yyyy-MM-dd HH:mm:ss" timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    //
+    //   NSTimeInterval timeInterval = [SMADateDaultionfos msecIntervalSince1970Withdate:[NSDate date].yyyyMMddHHmmSSNoLineWithDate timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    //    NSTimeInterval timeInterval1 = [SMADateDaultionfos msecIntervalSince1970Withdate:@"20000101000000" timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    //    NSLog(@"fef==%@",date);
 }
 
 - (IBAction)shareselector:(id)sender{
-//    SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
-//    [webSer acloudSyncAllDataWithAccount:[SMAAccountTool userInfo].userID];
-//    Byte buf[4];
-//    buf[0] = 0x1f + 0x80;
-//    buf[1] = 0xc5;
-//    buf[2] = 0xea;
-//    buf[3] = 0xea;
-//    NSLog(@"ff==%@",[NSData dataWithBytes:buf length:4]);
-//    if (buf[0] > 0x7f) {
-//        buf[0] = buf[0] - 0x8f;
-//    }
+    //    SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
+    //    [webSer acloudSyncAllDataWithAccount:[SMAAccountTool userInfo].userID];
+    //    Byte buf[4];
+    //    buf[0] = 0x1f + 0x80;
+    //    buf[1] = 0xc5;
+    //    buf[2] = 0xea;
+    //    buf[3] = 0xea;
+    //    NSLog(@"ff==%@",[NSData dataWithBytes:buf length:4]);
+    //    if (buf[0] > 0x7f) {
+    //        buf[0] = buf[0] - 0x8f;
+    //    }
     CGSize imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);//你要的截图的位置
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -206,7 +254,7 @@
 }
 
 - (UIImage *)screenshot{
-     CGSize imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);//你要的截图的位置
+    CGSize imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);//你要的截图的位置
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
@@ -266,7 +314,7 @@
             [self.view endEditing:YES];
             [self.tableView headerEndRefreshing];
         });
-
+        
     }
 }
 
@@ -428,7 +476,7 @@
         hrDetailVC.hidesBottomBarWhenPushed=YES;
         hrDetailVC.date = self.date;
         [self.navigationController pushViewController:hrDetailVC animated:YES];
-
+        
     }
     else{
         SMASleepDetailViewController *slDetailVC = [[SMASleepDetailViewController alloc] init];
@@ -444,7 +492,7 @@
     NSLog(@"bledidDisposeMode  ==%d",mode);
     if (mode == CUFFSLEEPDATA) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
+            //            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
             spArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate]];
             HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
             quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
@@ -453,7 +501,7 @@
                 self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncSucc");
                 [self.tableView headerEndRefreshing];
                 self.tableView.scrollEnabled = YES;
-                 [self.tableView reloadData];
+                [self.tableView reloadData];
             });
         });
     }
@@ -461,8 +509,8 @@
 
 - (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode{
     if (mode == CUFFSPORTDATA || mode == CUFFSLEEPDATA || mode == CUFFHEARTRATE) {
-         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            //            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
             spArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate]];
             HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
             quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
@@ -471,7 +519,7 @@
                 self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncFail");
                 [self.tableView headerEndRefreshing];
                 self.tableView.scrollEnabled = YES;
-                 [self.tableView reloadData];
+                [self.tableView reloadData];
             });
         });
     }
@@ -483,7 +531,7 @@
     titleLab.text = [self dateWithYMD];
     [[NSDate date] lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSString class]];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
+        //        spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
         spArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate]];
         HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
         quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
@@ -492,7 +540,7 @@
             [self.tableView reloadData];
         });
     });
-//    NSLog(@"date==%@",self.date.yyyyMMddNoLineWithDate);
+    //    NSLog(@"date==%@",self.date.yyyyMMddNoLineWithDate);
 }
 
 - (NSString *)dateWithYMD{
@@ -593,11 +641,11 @@
             else if (prevMode.intValue == 18){
                 runAmount = runAmount + amount;
             }
-
-//            NSString *nowMinute = [SMADateDaultionfos minuteFormDate:[[NSDate date] yyyyMMddHHmmSSNoLineWithDate]];
-//            int sustainTime = nowMinute.intValue - prevTime.intValue;
-//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:nowMinute]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",sustainTime /60] intValue], @"h",[NSString stringWithFormat:@"%@%d",sustainTime%60 < 10 ? @"0":@"",sustainTime%60],@"m"],@"DURATION", nil];
-//            [detailArr addObject:dic];
+            
+            //            NSString *nowMinute = [SMADateDaultionfos minuteFormDate:[[NSDate date] yyyyMMddHHmmSSNoLineWithDate]];
+            //            int sustainTime = nowMinute.intValue - prevTime.intValue;
+            //            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@-%@",[self getHourAndMin:[NSString stringWithFormat:@"%d",prevTime.intValue]],[self getHourAndMin:nowMinute]],@"TIME",[self sportMode:prevMode.intValue],@"MODE",[NSString stringWithFormat:@"%d%@%@%@",[[NSString stringWithFormat:@"%d",sustainTime /60] intValue], @"h",[NSString stringWithFormat:@"%@%d",sustainTime%60 < 10 ? @"0":@"",sustainTime%60],@"m"],@"DURATION", nil];
+            //            [detailArr addObject:dic];
         }
     }
     
@@ -612,20 +660,20 @@
 
 
 - (NSMutableArray *)screeningSleepData:(NSMutableArray *)sleepData{
-//    NSArray * arr = [sleepData sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
-//        if ([obj1[@"TIME"] intValue]<[obj2[@"TIME"] intValue]) {
-//            return NSOrderedAscending;
-//        }
-//        
-//        else if ([obj1[@"TIME"] intValue]==[obj2[@"TIME"] intValue])
-//            
-//            return NSOrderedSame;
-//        
-//        else
-//            
-//            return NSOrderedDescending;
-//        
-//    }];
+    //    NSArray * arr = [sleepData sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+    //        if ([obj1[@"TIME"] intValue]<[obj2[@"TIME"] intValue]) {
+    //            return NSOrderedAscending;
+    //        }
+    //
+    //        else if ([obj1[@"TIME"] intValue]==[obj2[@"TIME"] intValue])
+    //
+    //            return NSOrderedSame;
+    //
+    //        else
+    //
+    //            return NSOrderedDescending;
+    //
+    //    }];
     NSMutableArray *sortArr = sleepData;
     if (sortArr.count > 2) {//筛选同一状态数据
         for (int i = 0; i< sortArr.count-1; i++) {

@@ -72,8 +72,12 @@
     if (user.userAge.intValue < 0) {
         user.userAge = @"0";
     }
-    if (user.userAge.intValue > 60) {
-        user.userAge = @"60";
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"YYYY";
+    int nowYear = [formatter stringFromDate:[NSDate date]].intValue;
+    int yelNum = nowYear - 1939;
+    if (user.userAge.intValue > (yelNum + 1)) {
+        user.userAge = [NSString stringWithFormat:@"%d",yelNum - 1];
     }
     [SMAAccountTool saveUser:user];
 }
@@ -147,10 +151,12 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"YYYY";
         NSMutableArray *ageArr = [NSMutableArray array];
-        for (int i = 1; i<61; i ++) {
-            [ageArr addObject:[NSString stringWithFormat:@"%d",[formatter stringFromDate:[NSDate date]].intValue - 60 + i]];
+        int nowYear = [formatter stringFromDate:[NSDate date]].intValue;
+        int yelNum = nowYear - 1939;
+        for (int i = 1; i < (yelNum + 1); i ++) {
+            [ageArr addObject:[NSString stringWithFormat:@"%d",[formatter stringFromDate:[NSDate date]].intValue - yelNum + i]];
         }
-        __block NSInteger selectRow = 59 - user.userAge.intValue;
+        __block NSInteger selectRow = yelNum - 1 - user.userAge.intValue;
         SMACenterLabView *pickView = [[SMACenterLabView alloc] initWithPickTitle:SMALocalizedString(@"user_age") buttonTitles:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_sedentary_confirm")] pickerMessage:@[ageArr]];
         [pickView.pickView selectRow:selectRow inComponent:0 animated:NO];
         [pickView lableDidSelectRow:^(UIButton *but, NSString *titleStr) {

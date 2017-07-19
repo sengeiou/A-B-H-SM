@@ -40,6 +40,12 @@
 		EE16878A1E484662008C4261 /* SMATimingSecondController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687851E484662008C4261 /* SMATimingSecondController.m */; };
 		EE16878B1E484662008C4261 /* SMATimingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1687871E484662008C4261 /* SMATimingViewController.m */; };
 		EE1749001DAC7A6D004A892D /* SMADateDaultionfos.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */; };
+		EE1EF54A1F00B5B80097FC33 /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1EF5411F00B5B80097FC33 /* MKMapView+ZoomLevel.m */; };
+		EE1EF54B1F00B5B80097FC33 /* SMALocatiuonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1EF5431F00B5B80097FC33 /* SMALocatiuonManager.m */; };
+		EE1EF54C1F00B5B80097FC33 /* SMAMKMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1EF5451F00B5B80097FC33 /* SMAMKMapView.m */; };
+		EE1EF54D1F00B5B80097FC33 /* SMAPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1EF5471F00B5B80097FC33 /* SMAPolyline.m */; };
+		EE1EF54E1F00B5B80097FC33 /* TQLocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1EF5491F00B5B80097FC33 /* TQLocationConverter.m */; };
+		EE1EF5511F00B8E40097FC33 /* SMASportStypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1EF5501F00B8E40097FC33 /* SMASportStypeView.m */; };
 		EE227CCF1D7433A900B9387D /* SMAHighViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CCE1D7433A900B9387D /* SMAHighViewController.m */; };
 		EE227CF81D74381C00B9387D /* SMARulerScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE227CF71D74381C00B9387D /* SMARulerScrollView.m */; };
 		EE30F2EF1D8E42A600869CF9 /* SMASelectCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE30F2EE1D8E42A600869CF9 /* SMASelectCoachViewController.m */; };
@@ -72,6 +78,7 @@
 		EE4CE2BF1DD47D9100AB66A6 /* ZXRollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4CE2BC1DD47D9100AB66A6 /* ZXRollView.m */; };
 		EE5193791DF10B17007DC2A2 /* SMACenterTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5193781DF10B17007DC2A2 /* SMACenterTabView.m */; };
 		EE55CFD71DFEC70F008A0F64 /* SMAAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */; };
+		EE5698831F1C6BC800C2CAD3 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5698821F1C6BC800C2CAD3 /* libSmaBLE.a */; };
 		EE569A1A1E77D7230064C073 /* SMARepairDfuCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A171E77D7230064C073 /* SMARepairDfuCollectionController.m */; };
 		EE569A1B1E77D7230064C073 /* SMARepairTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A191E77D7230064C073 /* SMARepairTableViewController.m */; };
 		EE569A221E77D7520064C073 /* SMAReoaurDfuReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A1D1E77D7520064C073 /* SMAReoaurDfuReusableView.m */; };
@@ -171,7 +178,6 @@
 		EE57A7581E0B5FE10007BCC8 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE57A6941E0B5FE00007BCC8 /* YYClassInfo.m */; };
 		EE57A7591E0B5FE10007BCC8 /* libAbleCloudLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE57A6961E0B5FE00007BCC8 /* libAbleCloudLib.a */; };
 		EE57A75A1E0B5FE10007BCC8 /* libAbleCloudLib_simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE57A6971E0B5FE00007BCC8 /* libAbleCloudLib_simulator.a */; };
-		EE59C3A41ED915F1007D5641 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE59C3A31ED915F1007D5641 /* libSmaBLE.a */; };
 		EE59C7421DE7D5C20064D19F /* SMAUnPaierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE59C7411DE7D5C20064D19F /* SMAUnPaierViewController.m */; };
 		EE5F825A1DFBFC750045B5C3 /* SMAFirstLunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5F82591DFBFC750045B5C3 /* SMAFirstLunViewController.m */; };
 		EE60613E1DEEC1BB008A7786 /* SMASpGoalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE60613D1DEEC1BB008A7786 /* SMASpGoalViewController.m */; };
@@ -263,7 +269,6 @@
 		EEB54D1D1E151B950059F8D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D1C1E151B950059F8D0 /* ImageIO.framework */; };
 		EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D1E1E151BCF0059F8D0 /* Foundation.framework */; };
 		EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D201E151BFD0059F8D0 /* CoreText.framework */; };
-		EEB643831DEC05C600544FFE /* SMALocatiuonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */; };
 		EEB643851DEC067D00544FFE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB643841DEC067D00544FFE /* CoreLocation.framework */; };
 		EEB9F68E1D64318B0011AA07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F68D1D64318B0011AA07 /* main.m */; };
 		EEB9F6911D64318B0011AA07 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = EEB9F6901D64318B0011AA07 /* AppDelegate.mm */; };
@@ -495,6 +500,18 @@
 		EE1748FE1DAC7A6D004A892D /* SMADateDaultionfos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMADateDaultionfos.h; sourceTree = "<group>"; };
 		EE1748FF1DAC7A6D004A892D /* SMADateDaultionfos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMADateDaultionfos.m; sourceTree = "<group>"; };
 		EE1DDCA91E5690C200D4B181 /* SMA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SMA.entitlements; sourceTree = "<group>"; };
+		EE1EF5401F00B5B80097FC33 /* MKMapView+ZoomLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+ZoomLevel.h"; sourceTree = "<group>"; };
+		EE1EF5411F00B5B80097FC33 /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
+		EE1EF5421F00B5B80097FC33 /* SMALocatiuonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMALocatiuonManager.h; sourceTree = "<group>"; };
+		EE1EF5431F00B5B80097FC33 /* SMALocatiuonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMALocatiuonManager.m; sourceTree = "<group>"; };
+		EE1EF5441F00B5B80097FC33 /* SMAMKMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAMKMapView.h; sourceTree = "<group>"; };
+		EE1EF5451F00B5B80097FC33 /* SMAMKMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAMKMapView.m; sourceTree = "<group>"; };
+		EE1EF5461F00B5B80097FC33 /* SMAPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAPolyline.h; sourceTree = "<group>"; };
+		EE1EF5471F00B5B80097FC33 /* SMAPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAPolyline.m; sourceTree = "<group>"; };
+		EE1EF5481F00B5B80097FC33 /* TQLocationConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQLocationConverter.h; sourceTree = "<group>"; };
+		EE1EF5491F00B5B80097FC33 /* TQLocationConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQLocationConverter.m; sourceTree = "<group>"; };
+		EE1EF54F1F00B8E40097FC33 /* SMASportStypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASportStypeView.h; sourceTree = "<group>"; };
+		EE1EF5501F00B8E40097FC33 /* SMASportStypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASportStypeView.m; sourceTree = "<group>"; };
 		EE227CCD1D7433A900B9387D /* SMAHighViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHighViewController.h; sourceTree = "<group>"; };
 		EE227CCE1D7433A900B9387D /* SMAHighViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHighViewController.m; sourceTree = "<group>"; };
 		EE227CF61D74381C00B9387D /* SMARulerScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARulerScrollView.h; sourceTree = "<group>"; };
@@ -554,6 +571,7 @@
 		EE5193781DF10B17007DC2A2 /* SMACenterTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMACenterTabView.m; sourceTree = "<group>"; };
 		EE55CFD51DFEC70F008A0F64 /* SMAAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAAboutUsViewController.h; sourceTree = "<group>"; };
 		EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAboutUsViewController.m; sourceTree = "<group>"; };
+		EE5698821F1C6BC800C2CAD3 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE569A161E77D7230064C073 /* SMARepairDfuCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARepairDfuCollectionController.h; sourceTree = "<group>"; };
 		EE569A171E77D7230064C073 /* SMARepairDfuCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARepairDfuCollectionController.m; sourceTree = "<group>"; };
 		EE569A181E77D7230064C073 /* SMARepairTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARepairTableViewController.h; sourceTree = "<group>"; };
@@ -837,7 +855,6 @@
 		EE57A6F91E0B5FE00007BCC8 /* ACUserTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACUserTimerManager.h; sourceTree = "<group>"; };
 		EE57A6FB1E0B5FE00007BCC8 /* ACWeatherManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWeatherManager.h; sourceTree = "<group>"; };
 		EE57A6FD1E0B5FE00007BCC8 /* ACWifiLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWifiLinkManager.h; sourceTree = "<group>"; };
-		EE59C3A31ED915F1007D5641 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE59C7401DE7D5C20064D19F /* SMAUnPaierViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAUnPaierViewController.h; sourceTree = "<group>"; };
 		EE59C7411DE7D5C20064D19F /* SMAUnPaierViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAUnPaierViewController.m; sourceTree = "<group>"; };
 		EE5F82581DFBFC750045B5C3 /* SMAFirstLunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAFirstLunViewController.h; sourceTree = "<group>"; };
@@ -1018,8 +1035,6 @@
 		EEB54D1C1E151B950059F8D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		EEB54D1E1E151BCF0059F8D0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EEB54D201E151BFD0059F8D0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		EEB643811DEC05C600544FFE /* SMALocatiuonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMALocatiuonManager.h; sourceTree = "<group>"; };
-		EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMALocatiuonManager.m; sourceTree = "<group>"; };
 		EEB643841DEC067D00544FFE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		EEB9F6891D64318B0011AA07 /* SMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEB9F68D1D64318B0011AA07 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1202,7 +1217,7 @@
 				EE57A7521E0B5FE10007BCC8 /* libConfiguration.a in Frameworks */,
 				EE57A7501E0B5FE10007BCC8 /* libXlwDevice.a in Frameworks */,
 				BF1CD0662AA433CB7CFF3F9C /* Pods_SMA.framework in Frameworks */,
-				EE59C3A41ED915F1007D5641 /* libSmaBLE.a in Frameworks */,
+				EE5698831F1C6BC800C2CAD3 /* libSmaBLE.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1383,7 +1398,7 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EE59C3A31ED915F1007D5641 /* libSmaBLE.a */,
+				EE5698821F1C6BC800C2CAD3 /* libSmaBLE.a */,
 				EE16878D1E48546D008C4261 /* SmaAlarmInfo.h */,
 				EE16878E1E48546D008C4261 /* SmaBLE.h */,
 				EE16878F1E48546D008C4261 /* SmaBusinessTool.h */,
@@ -2652,8 +2667,16 @@
 		EEB643801DEC058600544FFE /* SMASystemMap */ = {
 			isa = PBXGroup;
 			children = (
-				EEB643811DEC05C600544FFE /* SMALocatiuonManager.h */,
-				EEB643821DEC05C600544FFE /* SMALocatiuonManager.m */,
+				EE1EF5401F00B5B80097FC33 /* MKMapView+ZoomLevel.h */,
+				EE1EF5411F00B5B80097FC33 /* MKMapView+ZoomLevel.m */,
+				EE1EF5421F00B5B80097FC33 /* SMALocatiuonManager.h */,
+				EE1EF5431F00B5B80097FC33 /* SMALocatiuonManager.m */,
+				EE1EF5441F00B5B80097FC33 /* SMAMKMapView.h */,
+				EE1EF5451F00B5B80097FC33 /* SMAMKMapView.m */,
+				EE1EF5461F00B5B80097FC33 /* SMAPolyline.h */,
+				EE1EF5471F00B5B80097FC33 /* SMAPolyline.m */,
+				EE1EF5481F00B5B80097FC33 /* TQLocationConverter.h */,
+				EE1EF5491F00B5B80097FC33 /* TQLocationConverter.m */,
 			);
 			name = SMASystemMap;
 			sourceTree = "<group>";
@@ -3024,6 +3047,8 @@
 				EEEC5E951DE42D710096DAF3 /* SMATrackDetailView.m */,
 				EEA8D9BA1DF577F600DAE4BA /* SMARemindView.h */,
 				EEA8D9BB1DF577F600DAE4BA /* SMARemindView.m */,
+				EE1EF54F1F00B8E40097FC33 /* SMASportStypeView.h */,
+				EE1EF5501F00B8E40097FC33 /* SMASportStypeView.m */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -3362,6 +3387,7 @@
 				EE91FAB51D83DC200064A5A5 /* SDLoopProgressView.m in Sources */,
 				EE57A7331E0B5FE00007BCC8 /* QNFormUpload.m in Sources */,
 				EE5193791DF10B17007DC2A2 /* SMACenterTabView.m in Sources */,
+				EE1EF54D1F00B5B80097FC33 /* SMAPolyline.m in Sources */,
 				EEA834001D96765800AF4CA9 /* SMAFindPassViewController.m in Sources */,
 				EEC3CD171DB0CE320034105B /* MJRefreshFooterView.m in Sources */,
 				EE59C7421DE7D5C20064D19F /* SMAUnPaierViewController.m in Sources */,
@@ -3403,6 +3429,7 @@
 				EE57A7461E0B5FE10007BCC8 /* ESPUDPSocketClient.m in Sources */,
 				EED2F7B51D7167CB00527FA7 /* SMAEmailRegisViewController.m in Sources */,
 				EEE4AA2E1DF81586002644CD /* WMMenuItem.m in Sources */,
+				EE1EF54A1F00B5B80097FC33 /* MKMapView+ZoomLevel.m in Sources */,
 				EE57A7181E0B5FE00007BCC8 /* QNAsyncRun.m in Sources */,
 				EED21B031D76AF0400BB8770 /* SMAWeightViewController.m in Sources */,
 				EE57A7231E0B5FE00007BCC8 /* QNRecord.m in Sources */,
@@ -3415,12 +3442,12 @@
 				EEC3CD161DB0CE320034105B /* MJRefreshConst.m in Sources */,
 				EE57A7481E0B5FE10007BCC8 /* ESP_ByteUtil.m in Sources */,
 				EE8B3F3E1DFE96DC00500664 /* SMADfuViewController.m in Sources */,
-				EEB643831DEC05C600544FFE /* SMALocatiuonManager.m in Sources */,
 				EE57A72D1E0B5FE00007BCC8 /* QNIP.m in Sources */,
 				EE4B1C231D6476C500825E2B /* SmaColor.m in Sources */,
 				EE57A7371E0B5FE00007BCC8 /* QNUpToken.m in Sources */,
 				EE57A7141E0B5FE00007BCC8 /* GCDAsyncSocket.m in Sources */,
 				EE83CE481DD2AFB20031CF58 /* UIImage+WebP.m in Sources */,
+				EE1EF5511F00B8E40097FC33 /* SMASportStypeView.m in Sources */,
 				EE55CFD71DFEC70F008A0F64 /* SMAAboutUsViewController.m in Sources */,
 				EE09ACF31DAA2B2E00CA2EC5 /* FMDatabasePool.m in Sources */,
 				EE83CE441DD2AFB20031CF58 /* SDWebImagePrefetcher.m in Sources */,
@@ -3471,10 +3498,13 @@
 				EE155BCE1DC34FD400AD4900 /* SMARankTableViewController.m in Sources */,
 				EE10CE7D1DB5F82A00585B74 /* ScattView.m in Sources */,
 				EE83CE461DD2AFB20031CF58 /* UIImage+GIF.m in Sources */,
+				EE1EF54E1F00B5B80097FC33 /* TQLocationConverter.m in Sources */,
 				EE1749001DAC7A6D004A892D /* SMADateDaultionfos.m in Sources */,
 				EE57A73F1E0B5FE10007BCC8 /* ESPDataCode.m in Sources */,
 				EE60614F1DEEEC45008A7786 /* SMASelectDeviceController.m in Sources */,
 				EE63AD9E1DC08ABE00ABA94D /* MTKSleepView.m in Sources */,
+				EE1EF54B1F00B5B80097FC33 /* SMALocatiuonManager.m in Sources */,
+				EE1EF54C1F00B5B80097FC33 /* SMAMKMapView.m in Sources */,
 				EEB9F6911D64318B0011AA07 /* AppDelegate.mm in Sources */,
 				EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */,
 				EE7CB58D1DEC539800AB5E7D /* SMAEmailLoginViewController.m in Sources */,
@@ -3667,7 +3697,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SMA/DfuUpdate",
 				);
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PREFIX_HEADER = SMA/PrefixHeader.pch;
 				INFOPLIST_FILE = SMA/Info.plist;
@@ -3700,9 +3730,9 @@
 					"-fobjc-arc",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smatime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e7ef197a-dd9f-4072-b7e9-a8a17caeebe7";
+				PROVISIONING_PROFILE = "a2a26d26-3859-4458-9916-8f392e545982";
 				PROVISIONING_PROFILE_SPECIFIER = All_development_text;
 			};
 			name = Debug;
@@ -3717,7 +3747,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VHVLE5FL92;
+				DEVELOPMENT_TEAM = V96N6WUHA2;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -3727,7 +3757,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SMA/DfuUpdate",
 				);
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PREFIX_HEADER = SMA/PrefixHeader.pch;
 				INFOPLIST_FILE = SMA/Info.plist;
@@ -3760,10 +3790,10 @@
 					"-fobjc-arc",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smatime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0c704187-a3a2-4c36-afa3-43cbed9986e7";
-				PROVISIONING_PROFILE_SPECIFIER = liang_dis_smarttime_text;
+				PROVISIONING_PROFILE = "f42746b0-3a2f-479b-93dd-556fd31be4ec";
+				PROVISIONING_PROFILE_SPECIFIER = jinyun_dis_smarttime_sub;
 			};
 			name = Release;
 		};

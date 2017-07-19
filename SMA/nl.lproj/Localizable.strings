@@ -34,7 +34,7 @@
 "register_getagain"="opnieuw te verzenden";
 "register_email"="E-register";
 "register_protocol1"="Door te klikken op Register, gaat u akkoord met\n";
-"register_protocol2"="Easysmart HR Gebruiksvoorwaarden";
+"register_protocol2"="SMART-TIME Gebruiksvoorwaarden";
 "register_enterphone"="Account nummer";
 "register_regpwd"="Wachtwoord mag niet leeg zijn";
 "register_regcode"="Verificatiecode mag niet leeg zijn";
@@ -163,6 +163,7 @@
 "setting_callNot"="call kennisgeving";
 "setting_smsNot"="SMS-melding";
 "setting_screen"="Schermrichting";
+"setting_liftBright" = "Gesture light up";
 "setting_sedentary"="zittend leven";
 "setting_alarm"="Alarm";
 "setting_vibration"="alarm trillingen";
@@ -173,7 +174,7 @@
 "setting_turnOff"="Uitschakelen";
 "setting_band_title"="pairing apparaat";
 "setting_band_07detail"="Functie: Instant hartslagmeter, Call / SMS-melding, activiteit tracker, selfie etc.";
-"setting_band_buywatch"="Koop Easysmart HR";
+"setting_band_buywatch"="Koop SMART-TIME";
 "setting_band_unPair"="koppelen Later";
 "setting_band_tryAgain"="opnieuw proberen";
 "setting_band_attention"="Zorg ervoor dat het horloge volledig is opgeladen en in de buurt van de telefoon";
@@ -353,6 +354,8 @@
 "me_chanPass_newPasFail"="Nieuw wachtwoord is niet hetzelfde, voer dan opnieuw";
 "me_chanPass_chanSucc"="wijzigen succesvol";
 "me_chanPass_chanFail"="wijzigen is mislukt";
+"me_repairRemain" = "Firmware upgrade failed, try again?";
+"me_repairNoRemain" = "Do not remind again";
 "rank_title"="Rang";
 "aler_conFirst"="Gelieve te koppelen van het apparaat eerst";
 "aler_bandDevice"="Disconnected, gelieve te koppelen van het apparaat";

@@ -60,6 +60,9 @@
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
         imageStr = @"img_queren_A2";
     }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+        imageStr = @"img_queren_shouhuan";
+    }
     deviceIma.image = [UIImage imageNamed:imageStr];
 
     deviceIma.center = CGPointMake(CGRectGetWidth(backView.frame)/2, deviceIma.center.y);

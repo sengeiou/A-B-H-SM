@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SMASportStypeView.h"
 @interface SMARunHrViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *hrArr;
+@property (nonatomic, strong) NSMutableDictionary *runDic;
 @end

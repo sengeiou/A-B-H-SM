@@ -34,7 +34,7 @@
 "register_getagain"="Skicka igen";
 "register_email"="e-postregistret";
 "register_protocol1"="Genom att klicka på Registrera, godkänner du\n";
-"register_protocol2"="Easysmart HR Användarvillkor";
+"register_protocol2"="SMART-TIME Användarvillkor";
 "register_enterphone"="Konto Nej";
 "register_regpwd"="Lösenord kan inte vara tomt";
 "register_regcode"="Verifieringskod inte kan vara tom";
@@ -163,6 +163,7 @@
 "setting_callNot"="samtal väntar";
 "setting_smsNot"="SMS-avisering";
 "setting_screen"="display orientering";
+"setting_liftBright" = "Gesture light up";
 "setting_sedentary"="Sedentariness";
 "setting_alarm"="Larm";
 "setting_vibration"="alarmvibrations";
@@ -173,7 +174,7 @@
 "setting_turnOff"="Stäng av";
 "setting_band_title"="pairing anordning";
 "setting_band_07detail"="Funktion: Omedelbar pulsmätare Samtal / SMS-avisering, aktivitet tracker, selfie etc.";
-"setting_band_buywatch"="Köp Easysmart HR";
+"setting_band_buywatch"="Köp SMART-TIME";
 "setting_band_unPair"="ihopkopplingen Senare";
 "setting_band_tryAgain"="Försök igen";
 "setting_band_attention"="Se klockan är fulladdat och nära till telefonen";
@@ -353,6 +354,8 @@
 "me_chanPass_newPasFail"="Nytt lösenord är inte samma sak, vänligen ingång igen";
 "me_chanPass_chanSucc"="modifiera framgångsrik";
 "me_chanPass_chanFail"="modifiera misslyckades";
+"me_repairRemain" = "Firmware upgrade failed, try again?";
+"me_repairNoRemain" = "Do not remind again";
 "rank_title"="Rang";
 "aler_conFirst"="Vänligen koppla enheten först";
 "aler_bandDevice"="Frånkopplad, vänligen ihop enheten";

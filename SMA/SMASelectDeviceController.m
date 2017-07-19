@@ -40,7 +40,7 @@
 }
 
 - (void)initializeMethod{
-     deviceArr = @[@[@"SMA-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"],@[@"SMA-A2",SMALocalizedString(@"setting_band_07detail"),@"img_launcher"],@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
+     deviceArr = @[@[@"SMART-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"]/*,@[@"SMA-A2",SMALocalizedString(@"setting_band_07detail"),@"img_launcher"]*/,@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"],@[@"SMART BAND-02",SMALocalizedString(@"setting_band_07detail"),@"img_B2"]];
     
 //      deviceArr = @[@[@"SMA-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"],@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
 }
@@ -81,19 +81,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 1) {
-        return 0;
+        return 150;
     }
     return 150;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 1) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"CELL"];
-        }
-        return cell;
-    }
+//    if (indexPath.row == 1) {
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
+//        if (!cell) {
+//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"CELL"];
+//        }
+//        return cell;
+//    }
 
     SMASelectCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SELECTCELL"];
     if (!cell) {
@@ -114,14 +114,17 @@
     if (indexPath.row == 0) {
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-A1"];
     }
-    if (indexPath.row == 1) {
-        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-A2"];
-    }
-    if (indexPath.row == 2){
+//    if (indexPath.row == 1) {
+//        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-A2"];
+//    }
+    if (indexPath.row == 1){
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-Q2"];
     }
-    if (indexPath.row == 3) {
+    if (indexPath.row == 2) {
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
+    }
+    if (indexPath.row == 3) {
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-B2"];
     }
 
     self.navigationController.leftItemHidden = NO;

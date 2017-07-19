@@ -78,6 +78,7 @@
         [SMADefaultinfos putInt:BACKLIGHTSET andValue:2];
     }
     [SMADefaultinfos putKey:UPDATEDATE andValue:[NSDate date].yyyyMMddNoLineWithDate];
+     [SMALocatiuonManager sharedCoreBlueTool];
     //         真机测试时保存日志
     if ([[[UIDevice currentDevice] model] rangeOfString:@"simulator"].location) {
 //     [self redirectNSLogToDocumentFolder];

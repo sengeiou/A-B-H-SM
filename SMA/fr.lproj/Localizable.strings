@@ -34,7 +34,7 @@
 "register_getagain"="Renvoyer";
 "register_email"="Enregistrement par e-mail";
 "register_protocol1"="En cliquant sur Enregistrer, vous acceptez\n";
-"register_protocol2"="Conditions d'utilisation Easysmart HR";
+"register_protocol2"="Conditions d'utilisation SMART-TIME";
 "register_enterphone"="N ° de compte";
 "register_regpwd"="Le mot de passe ne peut pas être vide";
 "register_regcode"="Le code de vérification ne peut pas être vide";
@@ -163,6 +163,7 @@
 "setting_callNot"="Notification d'appel";
 "setting_smsNot"="Notification SMS";
 "setting_screen"="Orientation de l'affichage";
+"setting_liftBright" = "Gesture light up";
 "setting_sedentary"="Sédentarité";
 "setting_alarm"="Alarme";
 "setting_vibration"="Vibration d'alarme";
@@ -173,11 +174,11 @@
 "setting_turnOff"="Éteindre";
 "setting_band_title"="Dispositif de couplage";
 "setting_band_07detail"="Fonction: moniteur instantané de fréquence cardiaque, notification d'appel / de SMS, pisteur d'activité, selfie etc.";
-"setting_band_buywatch"="Acheter Easysmart HR";
+"setting_band_buywatch"="Acheter SMART-TIME";
 "setting_band_unPair"="Appariement ultérieur";
 "setting_band_tryAgain"="Recommencez";
 "setting_band_attention"="Assurez-vous que la montre est complètement chargée et près du téléphone";
-"setting_band_remind07"="Si vous ne trouvez pas la montre Bluetooth, allez dans les Paramètres du téléphone - Bluetooth -% @ - oubliez l'appareil / désaccouplez";
+"setting_band_remind07"="Si vous ne trouvez pas la montre Bluetooth, allez dans les Paramètres du téléphone - Bluetooth -%@ - oubliez l'appareil / désaccouplez";
 "setting_band_search"="Lancer la recherche";
 "setting_band_searching"="Recherche \n (Cliquez pour mettre en pause)";
 "setting_band_connecting"="De liaison…";
@@ -353,6 +354,8 @@
 "me_chanPass_newPasFail"="Mauvais mot de passe";
 "me_chanPass_chanSucc"="Le nouveau mot de passe n'est pas le même, veuillez saisir à nouveau";
 "me_chanPass_chanFail"="Modifier avec succès";
+"me_repairRemain" = "Firmware upgrade failed, try again?";
+"me_repairNoRemain" = "Do not remind again";
 "rank_title"="Échec de la modification";
 "aler_conFirst"="Rang";
 "aler_bandDevice"="Veuillez relier le périphérique en premier";

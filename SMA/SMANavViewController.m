@@ -31,7 +31,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     if (/*viewController.navigationItem.leftBarButtonItem == nil && */self.childViewControllers.count >= 1) {
@@ -39,6 +38,7 @@
     }
     [super pushViewController:viewController animated:animated];
 }
+    
 
 - (void)_didClickBackBarButtonItem:(id)sender{
     [self popViewControllerAnimated:YES];

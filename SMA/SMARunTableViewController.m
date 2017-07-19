@@ -59,7 +59,7 @@
     UILabel *timelab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     timelab.font = FontGothamLight(16);
     if (runDetailArr.count > 0) {
-         timelab.text = [NSString stringWithFormat:@"%@.%@.%@",[[[runDetailArr firstObject] objectForKey:@"DATE"] substringToIndex:4],[[[runDetailArr firstObject] objectForKey:@"DATE"] substringWithRange:NSMakeRange(4, 2)],[[[runDetailArr firstObject] objectForKey:@"DATE"] substringWithRange:NSMakeRange(6, 2)]];
+        timelab.text = [NSString stringWithFormat:@"%@.%@.%@",[[[runDetailArr firstObject] objectForKey:@"DATE"] substringToIndex:4],[[[runDetailArr firstObject] objectForKey:@"DATE"] substringWithRange:NSMakeRange(4, 2)],[[[runDetailArr firstObject] objectForKey:@"DATE"] substringWithRange:NSMakeRange(6, 2)]];
     }
     return timelab;
 }
@@ -90,30 +90,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SMATrackViewController *trackVC = [[SMATrackViewController alloc] init];
     trackVC.runDic = (NSMutableDictionary *)runDetailArr[indexPath.row];
-//    [self.navigationController pushViewController:trackVC animated:YES];
+    [self.navigationController pushViewController:trackVC animated:YES];
 }
 
 - (NSMutableArray *)getRunFullWithData:(NSMutableArray *)runData{
-  NSMutableArray *detailArr = [NSMutableArray array];
+    NSMutableArray *detailArr = [NSMutableArray array];
     for (int i = 0; i < runData.count; i ++) {
         NSMutableDictionary *modeDic = [(NSMutableDictionary *)runData[i] mutableCopy];
         NSMutableArray *mutable = [self.dal readRunHearReatDataWithDate:[modeDic objectForKey:@"DATE"] startTime:[[modeDic objectForKey:@"STARTTIME"] intValue] endTime:[[modeDic objectForKey:@"ENDTIME"] intValue] detail:NO];
         [modeDic setObject:[self putDistanceWithStep:[[modeDic objectForKey:@"ENDSTEP"] intValue] - [[modeDic objectForKey:@"STARTSTEP"] intValue]] forKey:@"DISTANCE"];
         [modeDic setObject:[self putCalWithStep:[[modeDic objectForKey:@"ENDSTEP"] intValue] - [[modeDic objectForKey:@"STARTSTEP"] intValue]] forKey:@"CAL"];
-        [modeDic setObject:[self putSpeedPerHourWithStep:[[modeDic objectForKey:@"ENDSTEP"] intValue] - [[modeDic objectForKey:@"STARTSTEP"] intValue] duration:[[modeDic objectForKey:@"ENDTIME"] intValue] - [[modeDic objectForKey:@"STARTTIME"] intValue]] forKey:@"PER"];
-        [modeDic setObject:[self putTimeWithMinute:[[modeDic objectForKey:@"STARTTIME"] intValue]] forKey:@"STARTTIME"];
-        [modeDic setObject:[self putTimeWithMinute:[[modeDic objectForKey:@"ENDTIME"] intValue]] forKey:@"ENDTIME"];
+        [modeDic setObject:[self putSpeedPerHourWithStep:[[modeDic objectForKey:@"ENDSTEP"] intValue] - [[modeDic objectForKey:@"STARTSTEP"] intValue] duration:[[modeDic objectForKey:@"PRECISEEND"] doubleValue] - [[modeDic objectForKey:@"PRECISESTART"] doubleValue]] forKey:@"PER"];
+        [modeDic setObject:[self putTimeWithMinute:[[modeDic objectForKey:@"PRECISESTART"] doubleValue]] forKey:@"STARTTIME"];
+        [modeDic setObject:[self putTimeWithMinute:[[modeDic objectForKey:@"PRECISEEND"] doubleValue]] forKey:@"ENDTIME"];
         [modeDic setObject:[self putHrWithReat:[[mutable firstObject] objectForKey:@"REAT"]] forKey:@"REAT"];
-         [detailArr addObject:modeDic];
+        [detailArr addObject:modeDic];
         NSLog(@"fwgegtrhth=j===%@",mutable);
     }
     return detailArr;
 }
 
-- (NSString *)putTimeWithMinute:(int)minute{
-    NSString *hour = [NSString stringWithFormat:@"%@%d",minute/60 < 10 ? @"0":@"",minute/60];
-    NSString *min = [NSString stringWithFormat:@"%@%d",minute%60 < 10 ? @"0":@"",minute%60];
-    return [NSString stringWithFormat:@"%@:%@",hour,min];
+- (NSString *)putTimeWithMinute:(double)millisecond{
+    //    NSString *hour = [NSString stringWithFormat:@"%@%.0f",minute/3600 < 10 ? @"0":@"",minute/3600];
+    //    NSString *min = [NSString stringWithFormat:@"%@%d",minute%60 < 10 ? @"0":@"",minute%60];
+    NSString *date = [SMADateDaultionfos stringFormmsecIntervalSince1970:millisecond withFormatStr:@"HH:mm:ss" timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    return date;
 }
 
 - (NSMutableAttributedString *)putDistanceWithStep:(int)step{
@@ -144,9 +145,9 @@
     float cal = [SMACalculate countCalWithSex:user.userSex userWeight:user.userWeigh.intValue step:step];
     NSString *calStr = nil;
     NSString *unitStr = nil;
-
-        calStr = [SMACalculate notRounding:cal afterPoint:1];
-        unitStr = SMALocalizedString(@"device_SP_cal");
+    
+    calStr = [SMACalculate notRounding:cal afterPoint:1];
+    unitStr = SMALocalizedString(@"device_SP_cal");
     NSDictionary *disDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:FontGothamLight(19)};
     NSDictionary *unitDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:FontGothamLight(14)};
     NSAttributedString *disAtt = [[NSAttributedString alloc] initWithString:calStr attributes:disDic];

@@ -163,6 +163,7 @@
 "setting_callNot" = "Call notification";
 "setting_smsNot" = "SMS notification";
 "setting_screen" = "Display orientation";
+"setting_liftBright" = "Gesture light up";
 "setting_sedentary" = "Sedentariness";
 "setting_alarm" = "Alarm";
 "setting_vibration" = "Alarm vibration";
@@ -354,6 +355,8 @@
 "me_repairPrompt" = "Tip: \ n1. Downloading the repair program, do not perform other operations. \ n2. Downloading the repair program may take a few minutes, please be patient, do not uninstall the program \ n3. If the repair fails, please try again";
 "me_repairFinish" = "Finished";
 "me_repairFail" = "Failed\ntry again";
+"me_repairRemain" = "Firmware upgrade failed, try again?";
+"me_repairNoRemain" = "Do not remind again";
 "rank_title" = "Rank";
 "aler_conFirst" = "Please pair the device first";
 "aler_bandDevice" = "Disconnected, please pair the device";

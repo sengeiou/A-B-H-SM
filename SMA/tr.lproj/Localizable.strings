@@ -34,7 +34,7 @@
 "register_getagain"="Yeniden gönder";
 "register_email"="E-posta yazar";
 "register_protocol1"="Kayıt'ı tıklatarak,\n";
-"register_protocol2"="Easysmart HR Kullanıcı Koşulları";
+"register_protocol2"="SMART-TIME Kullanıcı Koşulları";
 "register_enterphone"="Hesap No";
 "register_regpwd"="Şifre boş olamaz";
 "register_regcode"="Doğrulama kodu boş olamaz";
@@ -163,6 +163,7 @@
 "setting_callNot"="Çağrı bildirimi";
 "setting_smsNot"="SMS bildirimi";
 "setting_screen"="Yönünü göster";
+"setting_liftBright" = "Gesture light up";
 "setting_sedentary"="Sedanlik";
 "setting_alarm"="Alarm";
 "setting_vibration"="Alarm titreşimi";
@@ -173,7 +174,7 @@
 "setting_turnOff"="Kapat";
 "setting_band_title"="Eşleştirme aygıtı";
 "setting_band_07detail"="İşlev: Anlık kalp atış hızı izleyicisi, Çağrı / SMS bildirimi, etkinlik izleyici, selfie vb.";
-"setting_band_buywatch"="Easysmart HR Satın Alın";
+"setting_band_buywatch"="SMART-TIME Satın Alın";
 "setting_band_unPair"="Eşleştirme Daha Sonra";
 "setting_band_tryAgain"="Yeniden dene";
 "setting_band_attention"="Lütfen saatin tamamen dolduğundan ve telefonun yakınında olduğundan emin olun";
@@ -353,6 +354,8 @@
 "me_chanPass_newPasFail"="Yeni şifre aynı değil, lütfen tekrar giriniz";
 "me_chanPass_chanSucc"="Başarıyla değiştir";
 "me_chanPass_chanFail"="Değiştirilemedi.";
+"me_repairRemain" = "Firmware upgrade failed, try again?";
+"me_repairNoRemain" = "Do not remind again";
 "rank_title"="Sıra";
 "aler_conFirst"="Lütfen cihazı önce eşleştirin";
 "aler_bandDevice"="Bağlantı kesildi, lütfen cihazı eşleştirin";

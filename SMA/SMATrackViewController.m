@@ -8,10 +8,13 @@
 
 #import "SMATrackViewController.h"
 
-@interface SMATrackViewController ()
+@interface SMATrackViewController ()<MKMapViewDelegate>
 {
     NSMutableArray *hrArr;
     NSMutableArray *runArr;
+    SMAMKMapView *MKmapView;
+    NSMutableArray *locationArr;
+    SMATrackDetailView *trackview;
 }
 @property (nonatomic, strong) SMADatabase *dal;
 @end
@@ -41,67 +44,95 @@
     NSDictionary *dic = [self.dal readSummaryHreatReatWithDate:[_runDic objectForKey:@"DATE"]startTime:[self convertToMin:[_runDic objectForKey:@"STARTTIME"]] endTime:[self convertToMin:[self.runDic objectForKey:@"ENDTIME"]]];
     runArr = [self.dal readRunDetailDataWithDate:[_runDic objectForKey:@"DATE"] startTime:[self convertToMin:[_runDic objectForKey:@"STARTTIME"]] endTime:[self convertToMin:[self.runDic objectForKey:@"ENDTIME"]]];
     [self getFullDetailViewWithHrDic:dic];
-    NSLog(@"gg===%@",hrArr);
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMddHHmmss"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
+    SMADatabase *base = [[SMADatabase alloc] init];
+    //    locationArr = [base readLocationDataWithDate:[self converToDtae:[[_runDic objectForKey:@"PRECISESTART"] doubleValue]]] toDate:[NSString stringWithFormat:@"%@%@%@30",[_runDic objectForKey:@"DATE"],[[[_runDic objectForKey:@"ENDTIME"] componentsSeparatedByString:@":"] firstObject],[[[_runDic objectForKey:@"ENDTIME"] componentsSeparatedByString:@":"] lastObject]]];
+    locationArr = [base readLocationDataWithDate:[self converToDtae:[[_runDic objectForKey:@"PRECISESTART"] doubleValue]] toDate:[self converToDtae:[[_runDic objectForKey:@"PRECISEEND"] doubleValue]]];
 }
 
 - (void)createUI{
+    self.title = SMALocalizedString(@"device_RU_traTit");
     
-    UITableView *tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 568 - 64) style:UITableViewStyleGrouped];
-    tab.delegate = self;
-    tab.dataSource = self;
-    [self.view addSubview:tab];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithIcon:@"icon-xinlv" highIcon:@"icon-xinlv" frame:CGRectMake(0, 0, 45, 45) target:self action:@selector(rightButton) transfrom:0];
+    
+    MKmapView = [[SMAMKMapView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 300)];
+    UITapGestureRecognizer *mTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPress:)];
+    [MKmapView addGestureRecognizer:mTap];
+    MKmapView.pointImages = [@[[UIImage imageNamed:@"map_location_blue"],[UIImage imageNamed:@"map_location_red"]] mutableCopy];
+    if (locationArr.count > 0) {
+        [MKmapView drawOverlayWithPoints:[@[locationArr] mutableCopy]];
+        [MKmapView addAnnotationsWithPoints:[@[[locationArr firstObject],[locationArr lastObject]] mutableCopy]];
+    }
+    [self.view addSubview:MKmapView];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    SMATrackDetailView *trackview = [SMATrackDetailView initializeView];
+    trackview = [SMATrackDetailView initializeView];
     [trackview updateUIwithData:_runDic];
     [trackview tapPushBut:^(UIButton *pushBut) {
         NSLog(@"tapPush");
-        SMARunHrViewController *runHRVC = [[SMARunHrViewController alloc] init];
-        runHRVC.hrArr = hrArr;
-        [self.navigationController pushViewController:runHRVC animated:YES];
+        //        SMARunHrViewController *runHRVC = [[SMARunHrViewController alloc] init];
+        //        runHRVC.hrArr = hrArr;
+        //        [self.navigationController pushViewController:runHRVC animated:YES];
+    }];
+    [trackview tapGesture:^(BOOL gesture) {
+        if (gesture) {
+            [UIView animateWithDuration:0.5 animations:^{
+                MKmapView.frame = CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 104);
+            }];
+        }
+        else{
+            [UIView animateWithDuration:0.5 animations:^{
+                MKmapView.frame = CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 300);
+            }];
+        }
+        
     }];
     [self.view addSubview:trackview];
     
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return runArr.count;
+- (void)rightButton{
+    SMARunHrViewController *runHRVC = [[SMARunHrViewController alloc] init];
+    runHRVC.hrArr = hrArr;
+    runHRVC.runDic = _runDic;
+    [self.navigationController pushViewController:runHRVC animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 30;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return [NSString stringWithFormat:@"mode: 开始 32  运动中 33  结束 47"];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"CELL"];
-    }
-    cell.textLabel.text = [NSString stringWithFormat:@"time: %@  mode: %@",[runArr[indexPath.row] objectForKey:@"TIME"],[runArr[indexPath.row] objectForKey:@"MODE"]],[runArr[indexPath.row] objectForKey:@"MODE"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ steps",[runArr[indexPath.row] objectForKey:@"STEP"]];
-    
-    return cell;
+- (void)tapPress:(UIGestureRecognizer*)gestureRecognizer {
+    [trackview tapAction:nil];
 }
 
 - (void)getFullDetailViewWithHrDic:(NSDictionary *)dictionary{
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    int runTime = [self convertToMin:[_runDic objectForKey:@"ENDTIME"]] - [self convertToMin:[_runDic objectForKey:@"STARTTIME"]];
-    [_runDic setObject:[self putPaceWithStep:[[_runDic objectForKey:@"ENDSTEP"] intValue] - [[_runDic objectForKey:@"STARTSTEP"] intValue] duration:[self convertToMin:[_runDic objectForKey:@"ENDTIME"]] - [self convertToMin:[_runDic objectForKey:@"STARTTIME"]]] forKey:@"PACE"];
-    [_runDic setObject:[NSString stringWithFormat:@"%@%d:%@%d:00",runTime/60 < 10 ? @"0":@"",runTime/60,runTime%60 < 10 ? @"0":@"",runTime%60] forKey:@"RUNTIME"];
+    NSString *runTime = [self convertRunToMin:[[_runDic objectForKey:@"PRECISEEND"] doubleValue] - [[_runDic objectForKey:@"PRECISESTART"] doubleValue]];
+    [_runDic setObject:[self putPaceWithStep:[[_runDic objectForKey:@"ENDSTEP"] intValue] - [[_runDic objectForKey:@"STARTSTEP"] intValue] duration:[[_runDic objectForKey:@"PRECISEEND"] doubleValue] - [[_runDic objectForKey:@"PRECISESTART"] doubleValue]]  forKey:@"PACE"];
+    [_runDic setObject:runTime forKey:@"RUNTIME"];
     [_runDic setObject:[self putHrWithReat:[NSString stringWithFormat:@"%d",[[dictionary objectForKey:@"avgHR"] intValue]]] forKey:@"AVGHR"];
     [_runDic setObject:[self putHrWithReat:[dictionary objectForKey:@"maxHR"]] forKey:@"MAXHR"];
+    [_runDic setObject:[self putHrWithReat:[dictionary objectForKey:@"minHR"]] forKey:@"MINHR"];
     
 }
 
 - (int)convertToMin:(NSString *)time{
-    return [[[time componentsSeparatedByString:@":"] firstObject] intValue] * 60 + [[[time componentsSeparatedByString:@":"] lastObject] intValue];
+    NSLog(@"===%@   %d",[time componentsSeparatedByString:@":"],[[[time componentsSeparatedByString:@":"] objectAtIndex:0] intValue] * 60 + [[[time componentsSeparatedByString:@":"] objectAtIndex:1] intValue]);
+    return [[[time componentsSeparatedByString:@":"] objectAtIndex:0] intValue] * 60 + [[[time componentsSeparatedByString:@":"] objectAtIndex:1] intValue];
 }
 
+- (NSString *)convertRunToMin:(double)time{
+    time = time/1000;
+    int hour = ((int)time)/3600;
+    int minute = ((int)time - hour * 3600)/60;
+    int seconds = ((int)time - hour * 3600)%60;
+    return [NSString stringWithFormat:@"%@%@:%@%@:%@%@",hour > 9 ? @"":@"0",[NSString stringWithFormat:@"%d",hour], minute > 9 ? @"":@"0",[NSString stringWithFormat:@"%d",minute],seconds > 9 ? @"":@"0",[NSString stringWithFormat:@"%d",seconds]];
+}
 
+- (NSString *)converToDtae:(double)millisecond{
+    NSString *date = [SMADateDaultionfos stringFormmsecIntervalSince1970:millisecond timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    return date;
+}
 
 - (NSMutableAttributedString *)putPaceWithStep:(int)step duration:(double)time{
     time = time/1000.0;
@@ -142,16 +173,16 @@
     NSAttributedString *unitAtt = [[NSAttributedString alloc] initWithString:@"bpm" attributes:unitDic];
     [perAttStr appendAttributedString:unitAtt];
     return perAttStr;
-
+    
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

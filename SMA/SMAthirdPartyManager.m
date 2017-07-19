@@ -42,38 +42,42 @@
 
 - (void)wbLoginFinishWithUserID:(NSString *)userid accessToken:(NSString *)token{
     if (userid && token) {
-         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［Weibo］" ,@"LOGINTYPE",userid,@"OPENID",token,@"TOKEN", nil]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［Weibo］" ,@"LOGINTYPE",userid,@"OPENID",token,@"TOKEN", nil]];
     }
     else{
         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［Weibo］" forKey:@"LOGINTYPE"]];
     }
-
+    
 }
 
 #pragma mark - WXApiDelegate (微信登录反馈)
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
-
+        
     } else if ([resp isKindOfClass:[SendAuthResp class]]) {
         SendAuthResp *authResp = (SendAuthResp *)resp;
-        if (!resp.errCode) {
-            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-            manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html", @"text/json", @"text/javascript",@"text/plain", nil];
-            manager.requestSerializer=[AFJSONRequestSerializer serializer];
-            [manager GET:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxd62755cbf90135a2&secret=f6c9999482d249e813f9c213e7ca1215&code=%@&grant_type=authorization_code",authResp.code] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-                
-            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［WX］" ,@"LOGINTYPE",[responseObject objectForKey:@"openid"],@"OPENID",[responseObject objectForKey:@"access_token"],@"TOKEN", nil]];
-                
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［WX］" forKey:@"LOGINTYPE"]];
-            }];
-        }
-        else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［WX］" forKey:@"LOGINTYPE"]];
-        }
+        [self handle:authResp];
     } else if ([resp isKindOfClass:[AddCardToWXCardPackageResp class]]) {
-
     }
+}
+
+- (void) handle:(SendAuthResp *)resp{
+    if (!resp.errCode) {
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html", @"text/json", @"text/javascript",@"text/plain", nil];
+        manager.requestSerializer=[AFJSONRequestSerializer serializer];
+        [manager GET:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxd62755cbf90135a2&secret=f6c9999482d249e813f9c213e7ca1215&code=%@&grant_type=authorization_code",resp.code] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessed object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"［WX］" ,@"LOGINTYPE",[responseObject objectForKey:@"openid"],@"OPENID",[responseObject objectForKey:@"access_token"],@"TOKEN", nil]];
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［WX］" forKey:@"LOGINTYPE"]];
+        }];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailed object:self userInfo:[NSDictionary dictionaryWithObject:@"［WX］" forKey:@"LOGINTYPE"]];
+    }
+    
 }
 @end

@@ -92,7 +92,7 @@
     [attributed appendAttributedString:str1];
     [attributed appendAttributedString:str2];
     [_protocolBut setAttributedTitle:attributed forState:UIControlStateNormal];
-
+    _protocolBut.hidden = YES;
     [_registerBut setTitle:SMALocalizedString(@"login_regis") forState:UIControlStateNormal];
 }
 

@@ -52,6 +52,7 @@
     _moreLab.text = SMALocalizedString(@"me_more_set");
     _helpLab.text = SMALocalizedString(@"me_userHelp");
     _signOutLab.text = SMALocalizedString(@"me_signOut");
+    _pairDfuLab.text = SMALocalizedString(@"me_repairDfu");
 }
 
 - (IBAction)photoSelector:(id)sender{
@@ -150,10 +151,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
-    if (section == 0 || section == 1 ){
+    if (section == 0 || section == 1  || section == 2){
         return 10;
     }
-    else if (section == 2){
+    else if (section == 3){
         return 30;
     }
     return 30;
@@ -172,47 +173,17 @@
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];
     }
-    return lab;
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 3) {
-//        UIAlertController *aler = [UIAlertController alertControllerWithTitle:nil message:SMALocalizedString(@"me_signOut_remind") preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *confimAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
-//            SMAUserInfo *user = [SMAAccountTool userInfo];
-//            if (indexPath.section == 3) {
-//                [webservice acloudSyncAllDataWithAccount:user.userID callBack:^(id finish) {
-//                    
-//                }];
-//                [webservice logOutSuccess:^(bool result) {
-//                    
-//                }];
-//                user.userID = @"";
-//                user.watchUUID = nil;
-//                [SMAAccountTool saveUser:user];
-//                UINavigationController *loginNav = [MainStoryBoard instantiateViewControllerWithIdentifier:@"ViewController"];
-//                [UIApplication sharedApplication].keyWindow.rootViewController=loginNav;
-//            }
-//            
-//        }];
-//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//            cell.selected = NO;
-//        }];
-//        [aler addAction:cancelAction];
-//        [aler addAction:confimAction];
-//        [self presentViewController:aler animated:YES completion:^{
-//            
-//        }];
-        
-        SMACenterAlerView *cenAler = [[SMACenterAlerView alloc] initWithMessage: SMALocalizedString(@"me_signOut_remind") buttons:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"me_signOut_confirm")]];
-        cenAler.delegate = self;
-        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [app.window addSubview:cenAler];
 
-    }
     if (indexPath.section == 2 && indexPath.row == 1) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        [self.navigationController pushViewController:[[SMARepairDfuCollectionController alloc] initWithCollectionViewLayout:layout] animated:YES];
+    }
+    if (indexPath.section == 3 && indexPath.row == 0) {
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.smawatch.com/page263"]];
         SMAHelpViewController *helpVC = [[SMAHelpViewController alloc] init];
         helpVC.hidesBottomBarWhenPushed = YES;

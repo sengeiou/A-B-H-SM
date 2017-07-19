@@ -28,15 +28,30 @@
     NSArray * allLanguages = [defaults objectForKey:@"AppleLanguages"];
     NSString * preferredLang = [[allLanguages objectAtIndex:0] substringToIndex:2];
     NSArray *array = @[@"img_zhuye",@"img_yundong",@"img_xinlv",@"img_shuimian"];
-    if (![preferredLang isEqualToString:@"zh"]){
-        array = @[@"img_zhuye_en",@"img_yundong_en",@"img_xinlv_en",@"img_shuimian_en"];
-    }
+
+    scrollview.contentSize = CGSizeMake(MainScreen.size.width * array.count, MainScreen.size.height);
+    
+    NSArray *titleArr = @[SMALocalizedString(@"guide1a"),SMALocalizedString(@"guide2a"),SMALocalizedString(@"guide3a"),SMALocalizedString(@"guide4a")];
+    NSArray *titleArr1 = @[SMALocalizedString(@"guide1b"),SMALocalizedString(@"guide2b"),SMALocalizedString(@"guide3b"),SMALocalizedString(@"guide4b")];
     scrollview.contentSize = CGSizeMake(MainScreen.size.width * array.count, MainScreen.size.height);
     for (int i = 0; i < array.count; i ++) {
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0 + MainScreen.size.width * i, 0, MainScreen.size.width, MainScreen.size.height)];
         image.image = [UIImage imageNamed:array[i]];
         image.userInteractionEnabled = YES;
+        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(20 + MainScreen.size.width * i, 20, MainScreen.size.width - 40, 30)];
+        lab1.font = FontGothamBold(20);
+        lab1.textAlignment = NSTextAlignmentCenter;
+        lab1.text = titleArr[i];
+        lab1.textColor = [UIColor whiteColor];
         [scrollview addSubview:image];
+        [scrollview addSubview:lab1];
+        UILabel *lab2 = [[UILabel alloc] initWithFrame:CGRectMake(16 + MainScreen.size.width * i, CGRectGetMaxY(lab1.frame) + 4, MainScreen.size.width - 32, 60)];
+        lab2.font = FontGothamLight(15);
+        lab2.numberOfLines = 0;
+        lab2.textAlignment = NSTextAlignmentCenter;
+        lab2.text = titleArr1[i];
+        lab2.textColor = [UIColor whiteColor];
+        [scrollview addSubview:lab2];
         if (i == array.count - 1) {
             but = [UIButton buttonWithType:UIButtonTypeCustom];
             but.frame = CGRectMake(0, MainScreen.size.height + 10, MainScreen.size.width - 120, 40);

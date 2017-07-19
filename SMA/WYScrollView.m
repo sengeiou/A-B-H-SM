@@ -316,7 +316,6 @@
         
     }else
     {
-        NSLog(@"changeImageLeft=");
         for (ScattView *view in _leftImageView.subviews) {
             [view removeFromSuperview];
         }

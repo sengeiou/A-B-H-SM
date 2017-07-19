@@ -12,6 +12,7 @@
 #import "SMARepairDfuCell.h"
 #import "SMAReoaurDfuReusableView.h"
 #import "SMARepairDfuCollectionController.h"
-@interface SMAMoreSetViewController : UITableViewController
+#import "SMACenterAlerView.h"
+@interface SMAMoreSetViewController : UITableViewController<cenAlerButDelegate>
 
 @end

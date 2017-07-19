@@ -72,7 +72,8 @@
 
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) {
+//    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) {
+    if ([SmaBleMgr.peripheral.name isEqualToString:@"SMA-A2"]) {
         SMATimingViewController *timingView = (SMATimingViewController *)segue.destinationViewController;
         timingView.hour = _hour;
         timingView.minute = (int)_clockView.minutes;
@@ -86,7 +87,8 @@
 
 //判断是否允许跳转
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) {
+//    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) {
+    if ([SmaBleMgr.peripheral.name isEqualToString:@"SMA-A2"]) {
         //跳转到解除绑定界面
         [self performSegueWithIdentifier:@"timmingsIndex" sender:nil];
         return NO;

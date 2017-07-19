@@ -27,6 +27,8 @@
 #define DEVICEMAC @"DEVICEMAC"//mac地址
 #define RUNKSTEP @"RUNKSTEP"//排行榜信息
 #define SMACUSTOM @"SMACUSTOM" //定制项目标志
+#define DFUUPDATE @"DFUUPDATE" //升级失败标志
+#define LIFTBRIGHT @"LIFTBRIGHT" //抬手亮
 @interface SMADefaultinfos : NSObject
 +(void)putKey:(NSString *)key andValue:(NSObject *)value;
 +(void)putInt:(NSString *)key andValue:(int)value;

@@ -34,7 +34,7 @@
 "register_getagain"="Send igen";
 "register_email"="E-mail register";
 "register_protocol1"="Ved at klikke på Tilmeld, accepterer du";
-"register_protocol2"="Easysmart HR Bruger Betingelser";
+"register_protocol2"="SMART-TIME Bruger Betingelser";
 "register_enterphone"="konto nr";
 "register_regpwd"="Password kan ikke være tom";
 "register_regcode"="Bekræftelseskode kan ikke være tom";
@@ -163,6 +163,7 @@
 "setting_callNot"="Ring meddelelse";
 "setting_smsNot"="SMS-meddelelse";
 "setting_screen"="Display orientering";
+"setting_liftBright" = "Gesture light up";
 "setting_sedentary"="Sedentariness";
 "setting_alarm"="Alarm";
 "setting_vibration"="Alarm vibrationer";
@@ -173,7 +174,7 @@
 "setting_turnOff"="Sluk";
 "setting_band_title"="Parring enhed";
 "setting_band_07detail"="Funktion: Øjeblikkelig pulsmåler, Call / SMS notifikation, aktivitet tracker, selfie etc.";
-"setting_band_buywatch"="Køb Easysmart HR";
+"setting_band_buywatch"="Køb SMART-TIME";
 "setting_band_unPair"="Parring Senere";
 "setting_band_tryAgain"="Prøve igen";
 "setting_band_attention"="Sørg for, at uret er fuldt opladet og tæt på telefonen";
@@ -353,6 +354,8 @@
 "me_chanPass_newPasFail"="Nyt kodeord er ikke det samme, skal du input igen";
 "me_chanPass_chanSucc"="Ændre en succes";
 "me_chanPass_chanFail"="Ændre mislykkedes";
+"me_repairRemain" = "Firmware upgrade failed, try again?";
+"me_repairNoRemain" = "Do not remind again";
 "rank_title"="Rang";
 "aler_conFirst"="Venligst parre enheden først";
 "aler_bandDevice"="Afbrudt, bedes du parre enheden";

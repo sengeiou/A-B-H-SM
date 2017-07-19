@@ -31,7 +31,7 @@
     canBut.frame = CGRectMake(MainScreen.size.width - 80, 8, 72, 36);
     [canBut setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [canBut addTarget:self action:@selector(tapAction) forControlEvents:UIControlEventTouchUpInside];
-    canBut.titleLabel.font = FontGothamLight(16);
+    canBut.titleLabel.font = FontGothamLight(14);
     canBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [canBut setTitle:SMALocalizedString(@"setting_sedentary_cancel") forState:UIControlStateNormal];
     [backView addSubview:canBut];

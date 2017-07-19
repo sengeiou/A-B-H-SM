@@ -7,6 +7,7 @@
 //
 
 #import "SMARankTableViewCell.h"
+#define HLWeakSelf __weak typeof(self) weakSelf = self //拿不准的block泄露，可放在外面
 
 @implementation SMARankTableViewCell
 
@@ -16,8 +17,8 @@
 }
 
 - (void)createUI{
-//    _rankIma.layer.shouldRasterize = YES;
-//    _rankIma.layer.rasterizationScale =  [UIScreen mainScreen].scale;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale =  [UIScreen mainScreen].scale;
     _rankIma.layer.masksToBounds = YES;
     _rankIma.layer.cornerRadius = 18.0f;
 }
@@ -29,6 +30,7 @@
 }
 
 - (void)setrankList:(NSDictionary *)list{
+    HLWeakSelf;
     SmaAnalysisWebServiceTool *web = [[SmaAnalysisWebServiceTool alloc] init];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [web acloudDownFileWithsession:[list objectForKey:@"IMAGE"] callBack:^(float progress, NSError *error) {
@@ -38,9 +40,10 @@
                 });
             }
         } CompleteCallback:^(NSString *filePath) {
+           
             dispatch_async(dispatch_get_main_queue(), ^{
             NSData *data = [NSData dataWithContentsOfFile:filePath];
-            self.rankIma.image = [[UIImage alloc] initWithData:data];
+           weakSelf.rankIma.image = [[UIImage alloc] initWithData:data];
           });
         }];
 

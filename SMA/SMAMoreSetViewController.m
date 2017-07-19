@@ -12,6 +12,7 @@
 {
     NSArray *titleArr;
     SMAUserInfo *user;
+    UIButton *laoutLab;
 }
 @end
 
@@ -19,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self createUI];
     [self initializeMethod];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -39,11 +41,22 @@
 - (void)initializeMethod{
     self.title = SMALocalizedString(@"me_more_set");
     user = [SMAAccountTool userInfo];
-    titleArr = @[@[SMALocalizedString(@"me_perso_unit")],[SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? @[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"me_set_feedback")]:@[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"login_findPass"),SMALocalizedString(@"me_set_feedback")],@[SMALocalizedString(@"me_repairDfu"),SMALocalizedString(@"me_set_about")]];
+    titleArr = @[@[SMALocalizedString(@"me_perso_unit")],[SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? @[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"me_set_feedback")]:@[SMALocalizedString(@"me_set_version"),SMALocalizedString(@"login_findPass"),SMALocalizedString(@"me_set_feedback")]/*,@[SMALocalizedString(@"me_repairDfu"),SMALocalizedString(@"me_set_about")]*/];
 }
 
 - (void)createUI{
     self.tableView.tableFooterView = [[UIView alloc] init];
+    //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    laoutLab = [UIButton buttonWithType:UIButtonTypeCustom];
+    laoutLab.frame = CGRectMake(20, MainScreen.size.height - 64 - 80, MainScreen.size.width - 40, 44);
+    laoutLab.layer.cornerRadius = 22;
+    laoutLab.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [laoutLab setTitle:SMALocalizedString(@"me_signOut") forState:UIControlStateNormal];
+    [laoutLab setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    laoutLab.backgroundColor = [SmaColor colorWithHexString:@"#7EBFF9" alpha:1];
+    laoutLab.layer.masksToBounds = YES;
+    [laoutLab addTarget:self action:@selector(lououtSelect) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:laoutLab];
 }
 
 #pragma mark - Table view data source
@@ -106,25 +119,43 @@
     else if (indexPath.section == 1 && (indexPath.row == ([SMADefaultinfos getIntValueforKey:THIRDLOGIN] ? 1:2))){
         [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAOpinion_ViewController"] animated:YES];
     }
-    else if (indexPath.section == 2 && indexPath.row == 0){
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        [self.navigationController pushViewController:[[SMARepairDfuCollectionController alloc] initWithCollectionViewLayout:layout] animated:YES];
-    }
-    else if (indexPath.section == 2 && indexPath.row == 1){
-        [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAAboutUsViewController"] animated:YES];
-    }
+    
+    //    else if (indexPath.section == 2 && indexPath.row == 0){
+    //        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    //        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    //        [self.navigationController pushViewController:[[SMARepairDfuCollectionController alloc] initWithCollectionViewLayout:layout] animated:YES];
+    //    }
+    //    else if (indexPath.section == 2 && indexPath.row == 1){
+    //        [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAAboutUsViewController"] animated:YES];
+    //    }
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)lououtSelect{
+    
+    SMACenterAlerView *cenAler = [[SMACenterAlerView alloc] initWithMessage: SMALocalizedString(@"me_signOut_remind") buttons:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"me_signOut_confirm")]];
+    cenAler.delegate = self;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app.window addSubview:cenAler];
+    
 }
-*/
+
+#pragma mark ***********cenAlerButDelegate
+- (void)centerAlerView:(SMACenterAlerView *)alerView didAlerBut:(UIButton *)button{
+    if (button.tag == 102) {
+        SmaAnalysisWebServiceTool *webservice=[[SmaAnalysisWebServiceTool alloc]init];
+        //        SMAUserInfo *user = [SMAAccountTool userInfo];
+        [webservice acloudSyncAllDataWithAccount:user.userID callBack:^(id finish) {
+            
+        }];
+        [webservice logOutSuccess:^(bool result) {
+            
+        }];
+        user.userID = @"";
+        user.watchUUID = nil;
+        [SMAAccountTool saveUser:user];
+        UINavigationController *loginNav = [MainStoryBoard instantiateViewControllerWithIdentifier:@"ViewController"];
+        [UIApplication sharedApplication].keyWindow.rootViewController=loginNav;
+    }
+}
 
 @end

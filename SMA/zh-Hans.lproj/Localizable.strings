@@ -23,7 +23,7 @@
 "login_findSucc" = "修改密码成功";
 "login_findFail" = "修改密码失败";
 "login_noInstal" = "未安装此应用";
-"login_smaTit" = "属于你的 SMA 智能生活";
+"login_smaTit" = "属于你的智能生活";
 "login_smaTitS" = "记录你的健康数据";
 "login_smaTitT" = "分享你的汗水与努力";
 "register_accplace" = "请输入手机号";
@@ -33,7 +33,7 @@
 "register_getagain" = "重新发送";
 "register_email" = "邮箱注册";
 "register_protocol1" = "点击注册即表示你同意";
-"register_protocol2" = "《SMA 用户使用协议》";
+"register_protocol2" = "《SMART-TIME 用户使用协议》";
 "register_enterphone" = "请输入账号";
 "register_regpwd" = "密码不能为空";
 "register_regcode" = "验证码不能为空";
@@ -163,6 +163,7 @@
 "setting_callNot" = "来电提醒";
 "setting_smsNot" = "消息提醒";
 "setting_screen" = "横竖模式";
+"setting_liftBright" = "抬腕亮屏";
 "setting_sedentary" = "久坐";
 "setting_alarm" = "闹钟";
 "setting_vibration" = "闹钟震动";
@@ -353,6 +354,8 @@
 "me_repairPrompt" = "提示：\n1.下载修复过程中，请勿执行其他操作\n2.下载修复过程中可能需要几分钟时间，请您耐心等候,期间请勿制裁程序\n3.若修复失败，请重新再试";
 "me_repairFinish" = "固件修复完成";
 "me_repairFail" = "修复失败\n点击重试";
+"me_repairRemain" = "固件升级失败，是否重试？";
+"me_repairNoRemain" = "不再提醒";
 "rank_title" = "排行";
 "aler_conFirst" = "请先连接设备";
 "aler_bandDevice" = "未绑定设备,请绑定设备";

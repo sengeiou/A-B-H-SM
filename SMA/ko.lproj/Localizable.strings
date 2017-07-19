@@ -34,7 +34,7 @@
 "register_getagain"="재전송";
 "register_email"="이메일 등록";
 "register_protocol1"="(클릭)동의 합니다.";
-"register_protocol2"="《SMA User Terms》";
+"register_protocol2"="《SMART-TIME User Terms》";
 "register_enterphone"="아이디를 입력 하십시오.";
 "register_regpwd"="비밀번호가 입력되지 않았습니다.";
 "register_regcode"="식별코드가 입력되지 않았습니다.";
@@ -163,6 +163,7 @@
 "setting_callNot"="전화 알림";
 "setting_smsNot"="메시지 알림";
 "setting_screen"="가로 형식";
+"setting_liftBright" = "Gesture light up";
 "setting_sedentary"="앉아 있는 시간";
 "setting_alarm"="알람";
 "setting_vibration"="알람 진동";
@@ -353,6 +354,8 @@
 "me_repairPrompt" = "알림：\n1.다운로드 중에 다른 조작을 하지 말아 주십시오. \n2.다운로드는 몇분의 시간이 소요되오니 기다려주십시오. \n2.복원이 실패할 경우 다시 진행해 주십시오.";
 "me_repairFinish" = "끝마친";
 "me_repairFail" = "실패했습니다\n다시 시도하십시오.";
+"me_repairRemain" = "Firmware upgrade failed, try again?";
+"me_repairNoRemain" = "Do not remind again";
 "rank_title"="랭킹";
 "aler_conFirst"="기기를 페어링시켜 주세요";
 "aler_bandDevice"="접속이 끊겼습니다. 페어링을 해주세요";

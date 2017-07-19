@@ -30,7 +30,7 @@
 #import "SMACalculate.h"
 #import "SMADeviceAggregate.h"
 #import "DfuUpdate.h"
-
+#import "SMALocatiuonManager.h"
 /**** Define
  */
 #define SmaBleMgr [BLConnect sharedCoreBlueTool]

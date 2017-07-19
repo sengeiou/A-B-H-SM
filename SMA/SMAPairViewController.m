@@ -67,7 +67,7 @@
     [_searchBut setTitle:SMALocalizedString(@"setting_band_searching") forState:UIControlStateSelected];
 //    _ignoreLab.text = SMALocalizedString(@"setting_band_remind07");
     _nearLab.text = SMALocalizedString(@"setting_band_attention");
-    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? [NSString stringWithFormat:@"%@/NW1135",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] ? [NSString stringWithFormat:@"%@/MOSW007",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]: [SMADefaultinfos getValueforKey:BANDDEVELIVE]];
+    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? [NSString stringWithFormat:@"%@/NW1135",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] ? [NSString stringWithFormat:@"%@/MOSW007",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]: [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] ? [NSString stringWithFormat:@"%@/SMA-A2",[SMADefaultinfos getValueforKey:BANDDEVELIVE]] : [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? @"B2" : [SMADefaultinfos getValueforKey:BANDDEVELIVE]];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     
@@ -95,10 +95,13 @@
         SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-        SmaBleMgr.scanNameArr = @[@"SMA-A1"];
+        SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
         SmaBleMgr.scanNameArr = @[@"SMA-A2"];
+    }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+        SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
     }
     [SmaBleMgr scanBL:12];
 }
@@ -114,10 +117,13 @@
             SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-            SmaBleMgr.scanNameArr = @[@"SMA-A1"];
+            SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
             SmaBleMgr.scanNameArr = @[@"SMA-A2"];
+        }
+        else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+            SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
         }
         [SmaBleMgr scanBL:12];
     }
@@ -297,10 +303,13 @@
                 SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
             }
             else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-                SmaBleMgr.scanNameArr = @[@"SMA-A1"];
+                SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
             }
             else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
                 SmaBleMgr.scanNameArr = @[@"SMA-A2"];
+            }
+            else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+                SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
             }
             [SmaBleMgr scanBL:12];
         }];
@@ -382,10 +391,13 @@
             SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-            SmaBleMgr.scanNameArr = @[@"SMA-A1"];
+            SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
             SmaBleMgr.scanNameArr = @[@"SMA-A2"];
+        }
+        else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+            SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
         }
         [SmaBleMgr scanBL:12];
     }

@@ -44,31 +44,35 @@
         createUI = YES;
         NSArray *switchArr;
         if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
-             switchArr = @[@[@"remind_lost_pre",@"remind_disturb_pre",@"remind_call_pre",@"remind_message_pre",@"remind_screen_pre"],@[@"remind_lost",@"remind_disturb",@"remind_call",@"remind_message",@"remind_screen"]];
+            switchArr = @[@[@"remind_lost_pre",@"remind_disturb_pre",@"remind_call_pre",@"remind_message_pre",@"remind_screen_pre"],@[@"remind_lost",@"remind_disturb",@"remind_call",@"remind_message",@"remind_screen"]];
+        }
+        else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+            switchArr = @[@[@"remind_lost_pre",@"remind_disturb_pre",@"remind_call_pre",@"remind_message_pre",@"remind_screen_pre",@"Bright screen_pre"],@[@"remind_lost",@"remind_disturb",@"remind_call",@"remind_message",@"remind_screen",@"Bright screen"]];
         }
         else{
             switchArr = @[@[@"remind_lost_pre",@"remind_disturb_pre",@"remind_call_pre",@"remind_message_pre"],@[@"remind_lost",@"remind_disturb",@"remind_call",@"remind_message"]];
         }
         switchView = [[SMASwitchScrollView alloc] initWithSwitchs:switchArr];
         [_switchCell.contentView addSubview:switchView];
-      __block UIPageControl *pageControl;
-//        if ([[switchArr firstObject] count] > 4) {
-            pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(0, _switchCell.frame.size.height - 29, _switchCell.frame.size.width, 29)];
-            pageControl.center = CGPointMake(_switchCell.frame.size.width/2, pageControl.center.y);
-            pageControl.numberOfPages = [[switchArr firstObject] count] > 4 ? 2:1;
-            pageControl.backgroundColor = [UIColor whiteColor];
-            pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-            pageControl.currentPageIndicatorTintColor=[SmaColor colorWithHexString:@"#5891f9" alpha:1];
-            [_switchCell.contentView addSubview:pageControl];
-            [switchView didEndDecelerating:^(CGPoint Offset) {
-                pageControl.currentPage=(int)fabs(Offset.x/320);
-            }];
-//        }
+        __block UIPageControl *pageControl;
+        //        if ([[switchArr firstObject] count] > 4) {
+        pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(0, _switchCell.frame.size.height - 29, _switchCell.frame.size.width, 29)];
+        pageControl.center = CGPointMake(_switchCell.frame.size.width/2, pageControl.center.y);
+        pageControl.numberOfPages = [[switchArr firstObject] count] > 4 ? 2:1;
+        pageControl.backgroundColor = [UIColor whiteColor];
+        pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+        pageControl.currentPageIndicatorTintColor=[SmaColor colorWithHexString:@"#5891f9" alpha:1];
+        [_switchCell.contentView addSubview:pageControl];
+        [switchView didEndDecelerating:^(CGPoint Offset) {
+            pageControl.currentPage=(int)fabs(Offset.x/320);
+        }];
+        //        }
     }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self dfuFinish];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -89,7 +93,7 @@
         }
         else{
             //跳转到解除绑定界面
-//            [self performSegueWithIdentifier:@"unPairDevice" sender:nil];
+            //            [self performSegueWithIdentifier:@"unPairDevice" sender:nil];
             return NO;
         }
     }
@@ -98,6 +102,31 @@
 
 - (void)initializeMethod{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dfuFinish) name:@"DFUUPDATEFINISH" object:nil];
+}
+
+- (void)dfuFinish{
+    NSLog(@"升级 %@",[SMADefaultinfos getValueforKey:DFUUPDATE]);
+    if (!self.userInfo.watchUUID || [self.userInfo.watchUUID isEqualToString:@""]) {
+        [SMADefaultinfos putKey:DFUUPDATE andValue:@"1"];
+        return;
+    }
+    if ([SMADefaultinfos getValueforKey:DFUUPDATE] && [[SMADefaultinfos getValueforKey:DFUUPDATE] isEqualToString:@"0"]) {
+        UIAlertController *alcer = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"me_repairRemain") message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *canAct = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_repairNoRemain") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [SMADefaultinfos putKey:DFUUPDATE andValue:@"1"];
+        }];
+        UIAlertAction *confimAct = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            SMADfuViewController *subVC = (SMADfuViewController *)[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMADfuViewController"];
+            subVC.dfuInfoDic = webFirmwareDic;
+            [self.navigationController pushViewController:subVC animated:YES];
+        }];
+        [alcer addAction:canAct];
+        [alcer addAction:confimAct];
+        [self presentViewController:alcer animated:YES completion:^{
+            
+        }];
+    }
 }
 
 - (void)createUI{
@@ -118,15 +147,16 @@
     _watchLab.text = SMALocalizedString(@"setting_watchface_title");
     _dfuUpdateLab.text = SMALocalizedString(@"setting_unband_dfuUpdate");
     _unPairLab.text = SMALocalizedString(@"setting_unband_remove");
+    _timingLab.text = SMALocalizedString(@"setting_timing_title");
     _updateView.layer.masksToBounds = YES;
     _updateView.layer.cornerRadius = 3.0f;
     _updateView.layer.shouldRasterize = YES;
     _updateView.layer.rasterizationScale =  [UIScreen mainScreen].scale;
     _updateView.hidden = YES;
-//    _backlightCell.hidden = NO;
-//    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
-//        _backlightCell.hidden = YES;
-//    }
+    //    _backlightCell.hidden = NO;
+    //    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
+    //        _backlightCell.hidden = YES;
+    //    }
     [self updateUI];
 }
 
@@ -135,7 +165,7 @@
     _backlightCell.hidden = NO;
     _watchChangeCell.hidden = NO;
     _timingCell.hidden = YES;
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]) {
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
         _backlightCell.hidden = YES;
         _watchChangeCell.hidden = YES;
         
@@ -147,7 +177,7 @@
     }
     
     SmaBleMgr.BLdelegate = self;
-
+    
     _userInfo = [SMAAccountTool userInfo];
     if (!self.userInfo.watchUUID || [self.userInfo.watchUUID isEqualToString:@""]) {
         _deviceLab.text = SMALocalizedString(@"setting_conDevice");
@@ -178,7 +208,7 @@
     else{
         _bleIma.image = [UIImage imageNamed:@"buletooth_connected"];
         if (!unpair) {
-             [SmaBleSend getElectric];
+            [SmaBleSend getElectric];
         }
     }
     if (unpair) {
@@ -190,7 +220,7 @@
     _noDistrubIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:NODISTRUBSET] ? @"remind_disturb_pre":@"remind_disturb"];
     _callIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:CALLSET] ? @"remind_call_pre":@"remind_call"];
     _smsIma.image = [UIImage imageNamed:![SMADefaultinfos getIntValueforKey:SMSSET] ? @"remind_message_pre":@"remind_message"];
-//    NSLog(@"fwegrgrhg---%d",[SMADefaultinfos getIntValueforKey:SCREENSET]);
+    //    NSLog(@"fwegrgrhg---%d",[SMADefaultinfos getIntValueforKey:SCREENSET]);
     _screenIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:SCREENSET] ? @"remind_screen_pre":@"remind_screen"];
     _sleepMonIma.image = [UIImage imageNamed:[SMADefaultinfos getIntValueforKey:SLEEPMONSET] ? @"remind_heart_pre":@"remind_heart"];
     
@@ -221,13 +251,13 @@
 }
 
 - (void)chectFirmwareVewsionWithWeb{
-//    NSString *firmwareType = firmware_smav2;
-//     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
-//         if ([[SMADefaultinfos getValueforKey:SMACUSTOM] isEqualToString:@""]) {
-//             
-//         }
-//         firmwareType = firmware_sma07c;
-//     }
+    //    NSString *firmwareType = firmware_smav2;
+    //     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
+    //         if ([[SMADefaultinfos getValueforKey:SMACUSTOM] isEqualToString:@""]) {
+    //
+    //         }
+    //         firmwareType = firmware_sma07c;
+    //     }
     NSLog(@"----%@",[SMADefaultinfos getValueforKey:SMACUSTOM]);
     SmaAnalysisWebServiceTool *webSer = [[SmaAnalysisWebServiceTool alloc] init];
     [webSer acloudDfuFileWithFirmwareType:firmware_smav2 callBack:^(NSArray *finish, NSError *error) {
@@ -235,10 +265,10 @@
             NSString *filename = [[finish objectAtIndex:i] objectForKey:@"filename"];
             NSString *deviceName = [[filename componentsSeparatedByString:@"_"] firstObject];
             NSString *fileType = [[filename componentsSeparatedByString:@"_"] objectAtIndex:1];
-//            if ([fileType isEqualToString:[SMAAccountTool userInfo].scnaName]) {
+            //            if ([fileType isEqualToString:[SMAAccountTool userInfo].scnaName]) {
             if ([fileType isEqualToString:[SMADefaultinfos getValueforKey:SMACUSTOM]] && [deviceName isEqualToString:[SMAAccountTool userInfo].scnaName]) {
                 NSString *webFirmwareVer = [[filename substringWithRange:NSMakeRange(filename.length - 9, 5)] stringByReplacingOccurrencesOfString:@"." withString:@""];
-                if ([[SMAAccountTool userInfo].watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue < webFirmwareVer.intValue) {
+                if ([[SMAAccountTool userInfo].watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue <= webFirmwareVer.intValue) {
                     _updateView.hidden = NO;
                     webFirmwareDic = [finish objectAtIndex:i];
                 }
@@ -271,10 +301,10 @@
     if (!([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) && indexPath.section == 3 && indexPath.row == 3) {
         return 0;
     }
-    if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) && indexPath.section == 3 && indexPath.row == 0 ) {
+    if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) && indexPath.section == 3 && indexPath.row == 0 ) {
         return 0;
     }
-    if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]) && indexPath.section == 4 && indexPath.row == 0) {
+    if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) && indexPath.section == 4 && indexPath.row == 0) {
         return 0;
     }
     if (indexPath.section == 1) {
@@ -299,30 +329,30 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//  if ([SmaBleMgr checkBLConnectState]) {
+    //  if ([SmaBleMgr checkBLConnectState]) {
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (cell == _vibrationCell) {
         if ([SmaBleMgr checkBLConnectState]) {
-//            UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_vibration") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//            for ( int i = 0; i <= 6; i ++) {
-//                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_sedentary_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_times")] style:i == 6 ? UIAlertActionStyleCancel:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                    if (i != 6) {
-//                        [SMADefaultinfos putInt:VIBRATIONSET andValue:i*2];
-//                    }
-//                    [SmaBleSend setVibrationFrequency:[SMADefaultinfos getIntValueforKey:VIBRATIONSET]];
-//                    [self updateUI];
-//                }];
-//                NSMutableAttributedString *alertTitleStr = [[NSMutableAttributedString alloc] initWithString:SMALocalizedString(@"setting_vibration")];
-//                [alertTitleStr addAttribute:NSFontAttributeName value:FontGothamBold(20) range:NSMakeRange(0, alertTitleStr.length)];
-//                [aler setValue:alertTitleStr forKey:@"attributedTitle"];
-//                
-//                [aler addAction:action];
-//            }
-//            [self presentViewController:aler animated:YES completion:^{
-//                
-//            }];
+            //            UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_vibration") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            //            for ( int i = 0; i <= 6; i ++) {
+            //                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_sedentary_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_times")] style:i == 6 ? UIAlertActionStyleCancel:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //                    if (i != 6) {
+            //                        [SMADefaultinfos putInt:VIBRATIONSET andValue:i*2];
+            //                    }
+            //                    [SmaBleSend setVibrationFrequency:[SMADefaultinfos getIntValueforKey:VIBRATIONSET]];
+            //                    [self updateUI];
+            //                }];
+            //                NSMutableAttributedString *alertTitleStr = [[NSMutableAttributedString alloc] initWithString:SMALocalizedString(@"setting_vibration")];
+            //                [alertTitleStr addAttribute:NSFontAttributeName value:FontGothamBold(20) range:NSMakeRange(0, alertTitleStr.length)];
+            //                [aler setValue:alertTitleStr forKey:@"attributedTitle"];
+            //
+            //                [aler addAction:action];
+            //            }
+            //            [self presentViewController:aler animated:YES completion:^{
+            //
+            //            }];
             NSArray *timeArr1 = @[SMALocalizedString(@"setting_turnOff"),@"2",@"4",@"6",@"8"];
             NSArray *timeArr = @[@"0",@"2",@"4",@"6",@"8"];
             SMACenterTabView *timeTab = [[SMACenterTabView alloc] initWithMessages:timeArr1 selectMessage:timeArr1[[SMADefaultinfos getIntValueforKey:VIBRATIONSET]/2] selName:@"icon_selected"];
@@ -341,23 +371,23 @@
     }
     else if (cell == _backlightCell){
         if ([SmaBleMgr checkBLConnectState]) {
-//            UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_backlight") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//            for ( int i = 0; i <= 6; i ++) {
-//                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_sedentary_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_seconds")] style:i == 6 ? UIAlertActionStyleCancel:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                    if (i != 6) {
-//                        [SMADefaultinfos putInt:BACKLIGHTSET andValue:i*2];
-//                    }
-//                    [SmaBleSend setBacklight:[SMADefaultinfos getIntValueforKey:BACKLIGHTSET]];
-//                    [self updateUI];
-//                }];
-//                [aler addAction:action];
-//            }
-//            NSMutableAttributedString *alertTitleStr = [[NSMutableAttributedString alloc] initWithString:SMALocalizedString(@"setting_backlight")];
-//            [alertTitleStr addAttribute:NSFontAttributeName value:FontGothamBold(20) range:NSMakeRange(0, alertTitleStr.length)];
-//            [aler setValue:alertTitleStr forKey:@"attributedTitle"];
-//            [self presentViewController:aler animated:YES completion:^{
-//                
-//            }];
+            //            UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_backlight") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            //            for ( int i = 0; i <= 6; i ++) {
+            //                UIAlertAction *action = [UIAlertAction actionWithTitle:i == 0?SMALocalizedString(@"setting_turnOff"):i == 6?SMALocalizedString(@"setting_sedentary_cancel"):[NSString stringWithFormat:@"%d %@",i*2,SMALocalizedString(@"setting_seconds")] style:i == 6 ? UIAlertActionStyleCancel:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //                    if (i != 6) {
+            //                        [SMADefaultinfos putInt:BACKLIGHTSET andValue:i*2];
+            //                    }
+            //                    [SmaBleSend setBacklight:[SMADefaultinfos getIntValueforKey:BACKLIGHTSET]];
+            //                    [self updateUI];
+            //                }];
+            //                [aler addAction:action];
+            //            }
+            //            NSMutableAttributedString *alertTitleStr = [[NSMutableAttributedString alloc] initWithString:SMALocalizedString(@"setting_backlight")];
+            //            [alertTitleStr addAttribute:NSFontAttributeName value:FontGothamBold(20) range:NSMakeRange(0, alertTitleStr.length)];
+            //            [aler setValue:alertTitleStr forKey:@"attributedTitle"];
+            //            [self presentViewController:aler animated:YES completion:^{
+            //
+            //            }];
             NSArray *timeArr1 = @[SMALocalizedString(@"setting_turnOff"),@"2",@"4",@"6",@"8"];
             NSArray *timeArr = @[@"0",@"2",@"4",@"6",@"8"];
             SMACenterTabView *timeTab = [[SMACenterTabView alloc] initWithMessages:timeArr1 selectMessage:timeArr1[[SMADefaultinfos getIntValueforKey:BACKLIGHTSET]/2] selName:@"icon_selected"];
@@ -378,23 +408,23 @@
     }
     else if (cell == _photoCell){
         __block UIImagePickerControllerSourceType sourceType ;
-            sourceType = UIImagePickerControllerSourceTypeCamera;
-            if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
-                [SmaBleSend setBLcomera:YES];
-              
-                if (!picker) {
-                    picker = [[UIImagePickerController alloc] init];//初始化
-                    picker.delegate = self;
-                    picker.allowsEditing = YES;//设置可编辑
-                }
-                picker.sourceType = sourceType;
-                [self presentViewController:picker animated:YES completion:^{
-                    
-                }];
+        sourceType = UIImagePickerControllerSourceTypeCamera;
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+            [SmaBleSend setBLcomera:YES];
+            
+            if (!picker) {
+                picker = [[UIImagePickerController alloc] init];//初始化
+                picker.delegate = self;
+                picker.allowsEditing = YES;//设置可编辑
             }
-            else{
-                [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
-            }
+            picker.sourceType = sourceType;
+            [self presentViewController:picker animated:YES completion:^{
+                
+            }];
+        }
+        else{
+            [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
+        }
     }
     else if (cell == _unPairCell){
         SMAUserInfo *user = [SMAAccountTool userInfo];
@@ -407,7 +437,7 @@
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [app.window addSubview:cenAler];
     }
-//}
+    //}
 }
 
 - (IBAction)antilostSelector:(UIButton *)sender{
@@ -483,6 +513,9 @@
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
         imageStr = @"SMA_A2";
     }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+        imageStr = @"SMA_B2";
+    }
     return imageStr;
 }
 
@@ -542,17 +575,17 @@
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString*)kUTTypeImage]) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
         NSLog(@"fwgwgg-----%@",NSStringFromCGSize(image.size));
-     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
         
     }
-     [self dismissViewControllerAnimated:YES completion:^{
-         [SmaBleSend setBLcomera:NO];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [SmaBleSend setBLcomera:NO];
     }];
 }
-    
+
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-        
-        NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
+    
+    NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -571,13 +604,13 @@
         [SMAAccountTool saveUser:user];
         [SmaBleSend relieveWatchBound];
         [SmaBleMgr reunitonPeripheral:NO];//关闭重连机制
-//        unpair = YES;
-       
+        //        unpair = YES;
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self updateUI];
+            [self updateUI];
             [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-//            //             [SmaBleMgr disconnectBl];
-//            [self.navigationController popViewControllerAnimated:YES];
+            //            //             [SmaBleMgr disconnectBl];
+            //            [self.navigationController popViewControllerAnimated:YES];
         });
     }
 }

@@ -9,7 +9,7 @@
 "firstLun_taste" = "开始体验";
 
 //登录注册页
-"login_smaTit" = "属于你的 SMA 智能生活";
+"login_smaTit" = "属于你的智能生活";
 "login_smaTitS" = "记录你的健康数据";
 "login_smaTitT" = "分享你的汗水与努力";
 "login_login" = "Logowanie";
@@ -142,6 +142,7 @@
 "setting_callNot" = "Powiadamienie";
 "setting_smsNot" = "Zawiadomienia\nSMS";
 "setting_screen" = "横竖模式";
+"setting_liftBright" = "Gesture light up";
 "setting_sleepMon" = "心率测睡";
 "setting_sedentary" = "SIEDZĄCY";
 "setting_alarm" = "Alarm";
