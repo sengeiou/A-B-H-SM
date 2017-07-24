@@ -598,6 +598,7 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         NSMutableArray *slArr = [(NSMutableArray *)[backObject get:@"sleep_list"] mutableCopy];
         NSMutableArray *hrArr = [(NSMutableArray *)[backObject get:@"rate_list"] mutableCopy];
         NSMutableArray *alArr = [(NSMutableArray *)[backObject get:@"alarm_list"] mutableCopy];
+        NSMutableArray *laArr = [(NSMutableArray *)[backObject get:@"tracker_list"] mutableCopy];
         ACObject *sedentObject = [backObject getACObject:@"sedentariness_settings"];
         ACObject *hrObject = [backObject getACObject:@"heart_rate_settings"];
         if (backAccount == 0) {
@@ -639,6 +640,15 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         if (hrArr.count > 0) {
             [SMAWebDataHandleInfo updateHRData:hrArr finish:^(id finish) {
                 NSLog(@"hrArr===%@",finish);
+                saveAccount ++;
+                if (saveAccount == backAccount) {
+                    callback(@"finish");
+                }
+            }];
+        }
+        if (laArr.count > 0) {
+            [SMAWebDataHandleInfo updateLAData:laArr finish:^(id finish) {
+                NSLog(@"laArr===%@",finish);
                 saveAccount ++;
                 if (saveAccount == backAccount) {
                     callback(@"finish");

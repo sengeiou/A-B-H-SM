@@ -186,7 +186,7 @@
         }
         return;
     }
-    if (((SmaBleMgr.repairDfu ? NO : [SmaBleMgr checkBLConnectState]) && _dfuInfoDic && [user.watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue <= webFirmwareVer.intValue) || SmaBleMgr.repairDfu) {
+    if (((SmaBleMgr.repairDfu ? NO : [SmaBleMgr checkBLConnectState]) && _dfuInfoDic && [user.watchVersion stringByReplacingOccurrencesOfString:@"." withString:@""].intValue < webFirmwareVer.intValue) || SmaBleMgr.repairDfu) {
         [SmaBleMgr reunitonPeripheral:YES];
         [updateTimer invalidate];
         [coverView removeFromSuperview];

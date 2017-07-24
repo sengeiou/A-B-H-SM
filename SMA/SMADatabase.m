@@ -945,6 +945,7 @@ static id _instace;
         success ([NSString stringWithFormat:@"%d",result]);
         
     }];
+
 }
 
 //读取轨迹数据
