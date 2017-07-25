@@ -28,7 +28,11 @@ typedef enum {
     CUFFSLEEPDATA,  //07睡眠数据
     WATCHFACE,     //获取设备表盘（10-A）
     XMODEM,          //进入XODEM模式（10-A）
-    RUNMODE         //运动模式
+    RUNMODE,         //运动模式
+    NOTIFICATION,    //更改通知
+    GOALCALLBACK,   //运动目标返回
+    LONGTIMEBACK,   //久坐设置返回
+    FINDPHONE,      //寻找手机
 }SMA_INFO_MODE;
 /*
  @param BAND            反馈绑定信息，反馈数组内若为1，绑定成功，若为0，绑定失败
@@ -72,6 +76,7 @@ typedef enum {
  @param CUFFSWITCHS     反馈10系列手表表盘编号
  @param XMODEM          10系列进入XMODE模式（用于表盘切换）
  @param RUNMODE         反馈10系列运动模式下数据 MODE 32：开始 33：运动中  47：结束 （&&&&**i-Med 定制项目 48：6m开始  49：12m开始 63：结束 **&&&&）
+ @param NOTIFICATION    R1系列设备更改通知（@"96":闹钟设置更改通知； @"97":计步目标更改通知; @"100":久坐设置更改通知; @"103":手表相机界面开启通知）
  */
 
 @protocol SmaCoreBlueToolDelegate <NSObject>
@@ -356,6 +361,14 @@ typedef enum {
  */
 - (void)requestLastHRData;
 
+
+/**寻找设备
+ Description 寻找设备并根据蜂鸣强度促使设备播放音乐
+ 
+ @param intensity 蜂鸣强度（intensity = 0 无蜂鸣（关闭）；intensity = 1 中等；intensity = 2 高等强度蜂鸣）
+ */
+- (void)requestFindDeviceWithBuzzing:(int)intensity;
+
 /*复位手表
  @discussion 重启手表
  */
@@ -416,6 +429,18 @@ typedef enum {
 /*获取表盘编号（10-A）
  */
 - (void)getSwitchNumber;
+
+
+/**获取用户目标步数 (R1系列)
+ Description 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ */
+- (void)getGoal;
+
+
+/**久坐设置获取 (R1系列)
+ Description 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
+ */
+- (void)getLongTime;
 
 /*进入XOMDEM模式（10-A，07(指定固件)）
  */

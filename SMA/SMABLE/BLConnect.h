@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <VideoToolbox/VideoToolbox.h>
 #import "ScannedPeripheral.h"
 #import "SmaBLE.h"
 @protocol BLConnectDelegate <NSObject>
@@ -41,11 +43,14 @@
 @property (strong, nonatomic) NSTimer *reloadTimer;
 @property (strong, nonatomic) NSTimer *scanTimer;
 @property (strong, nonatomic) SMAUserInfo *user;
+@property (nonatomic,strong)AVAudioPlayer *player;
 @property (assign,readonly,nonatomic) int sendIdentifier;
 @property (weak,   nonatomic) id<BLConnectDelegate> BLdelegate;
 @property (assign, nonatomic) BOOL syncing;
 @property (nonatomic, assign) BOOL repairDfu;
 @property (nonatomic, assign) BOOL dfuUpdate;
+@property (nonatomic, assign) BOOL bandDevice;
+@property (nonatomic, strong) NSString *cameraIndex;
 + (instancetype)sharedCoreBlueTool;
 //查找蓝牙设备
 - (void)scanBL:(int)time;

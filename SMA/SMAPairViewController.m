@@ -67,8 +67,7 @@
     [_searchBut setTitle:SMALocalizedString(@"setting_band_searching") forState:UIControlStateSelected];
 //    _ignoreLab.text = SMALocalizedString(@"setting_band_remind07");
     _nearLab.text = SMALocalizedString(@"setting_band_attention");
-    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? [NSString stringWithFormat:@"%@/NW1135",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] ? [NSString stringWithFormat:@"%@/MOSW007",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]: [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] ? [NSString stringWithFormat:@"%@/SMA-A2",[SMADefaultinfos getValueforKey:BANDDEVELIVE]] : [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? @"B2" : [SMADefaultinfos getValueforKey:BANDDEVELIVE]];
-    
+    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? [NSString stringWithFormat:@"%@/NW1135",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] ? [NSString stringWithFormat:@"%@/MOSW007",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]: [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] ? [NSString stringWithFormat:@"%@/SMA-A2",[SMADefaultinfos getValueforKey:BANDDEVELIVE]] : [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? @"B2" : [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"] ? @"M1/Technos_SR/MOSRAA":[SMADefaultinfos getValueforKey:BANDDEVELIVE]];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
@@ -103,6 +102,9 @@
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
         SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
     }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
+        SmaBleMgr.scanNameArr = @[@"M1",@"Technos_SR",@"MOSRAA"];
+    }
     [SmaBleMgr scanBL:12];
 }
 
@@ -124,6 +126,9 @@
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
             SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
+        }
+        else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
+            SmaBleMgr.scanNameArr = @[@"M1",@"Technos_SR",@"MOSRAA"];
         }
         [SmaBleMgr scanBL:12];
     }
@@ -311,6 +316,9 @@
             else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
                 SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
             }
+            else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
+                SmaBleMgr.scanNameArr = @[@"M1",@"Technos_SR",@"MOSRAA"];
+            }
             [SmaBleMgr scanBL:12];
         }];
         [aler addAction:canAction];
@@ -398,6 +406,9 @@
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
             SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
+        }
+        else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
+            SmaBleMgr.scanNameArr = @[@"M1",@"Technos_SR",@"MOSRAA"];
         }
         [SmaBleMgr scanBL:12];
     }

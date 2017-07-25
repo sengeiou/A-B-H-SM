@@ -54,6 +54,10 @@
 		EE3A32B71DA8BD060077C813 /* BEMAnalogClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B41DA8BD060077C813 /* BEMAnalogClockView.m */; };
 		EE3A32B81DA8BD060077C813 /* KSMHand.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32B61DA8BD060077C813 /* KSMHand.m */; };
 		EE3A32BB1DA8BDB80077C813 /* SMAAlarmSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A32BA1DA8BDB80077C813 /* SMAAlarmSubViewController.m */; };
+		EE42658A1F27514200590C8D /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4265891F27514200590C8D /* MediaPlayer.framework */; };
+		EE42658C1F27515900590C8D /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE42658B1F27515900590C8D /* VideoToolbox.framework */; };
+		EE42658E1F27528700590C8D /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EE42658D1F27528700590C8D /* Alarm.mp3 */; };
+		EE4265931F2755D600590C8D /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4265921F2755D600590C8D /* libSmaBLE.a */; };
 		EE438B421DDC2D4E0066D5A6 /* SMARankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE438B401DDC2D4D0066D5A6 /* SMARankTableViewCell.m */; };
 		EE438B431DDC2D4E0066D5A6 /* SMARankTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE438B411DDC2D4D0066D5A6 /* SMARankTableViewCell.xib */; };
 		EE486C931DD9DCA200E3E385 /* SMADeviceAggregate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE486C921DD9DCA200E3E385 /* SMADeviceAggregate.m */; };
@@ -78,7 +82,6 @@
 		EE4CE2BF1DD47D9100AB66A6 /* ZXRollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4CE2BC1DD47D9100AB66A6 /* ZXRollView.m */; };
 		EE5193791DF10B17007DC2A2 /* SMACenterTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5193781DF10B17007DC2A2 /* SMACenterTabView.m */; };
 		EE55CFD71DFEC70F008A0F64 /* SMAAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */; };
-		EE5698831F1C6BC800C2CAD3 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5698821F1C6BC800C2CAD3 /* libSmaBLE.a */; };
 		EE569A1A1E77D7230064C073 /* SMARepairDfuCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A171E77D7230064C073 /* SMARepairDfuCollectionController.m */; };
 		EE569A1B1E77D7230064C073 /* SMARepairTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A191E77D7230064C073 /* SMARepairTableViewController.m */; };
 		EE569A221E77D7520064C073 /* SMAReoaurDfuReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE569A1D1E77D7520064C073 /* SMAReoaurDfuReusableView.m */; };
@@ -527,6 +530,10 @@
 		EE3A32B61DA8BD060077C813 /* KSMHand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSMHand.m; sourceTree = "<group>"; };
 		EE3A32B91DA8BDB80077C813 /* SMAAlarmSubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAAlarmSubViewController.h; sourceTree = "<group>"; };
 		EE3A32BA1DA8BDB80077C813 /* SMAAlarmSubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAlarmSubViewController.m; sourceTree = "<group>"; };
+		EE4265891F27514200590C8D /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		EE42658B1F27515900590C8D /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		EE42658D1F27528700590C8D /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
+		EE4265921F2755D600590C8D /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE438B3F1DDC2D4D0066D5A6 /* SMARankTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARankTableViewCell.h; sourceTree = "<group>"; };
 		EE438B401DDC2D4D0066D5A6 /* SMARankTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARankTableViewCell.m; sourceTree = "<group>"; };
 		EE438B411DDC2D4D0066D5A6 /* SMARankTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMARankTableViewCell.xib; sourceTree = "<group>"; };
@@ -571,7 +578,6 @@
 		EE5193781DF10B17007DC2A2 /* SMACenterTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMACenterTabView.m; sourceTree = "<group>"; };
 		EE55CFD51DFEC70F008A0F64 /* SMAAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAAboutUsViewController.h; sourceTree = "<group>"; };
 		EE55CFD61DFEC70F008A0F64 /* SMAAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAAboutUsViewController.m; sourceTree = "<group>"; };
-		EE5698821F1C6BC800C2CAD3 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
 		EE569A161E77D7230064C073 /* SMARepairDfuCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARepairDfuCollectionController.h; sourceTree = "<group>"; };
 		EE569A171E77D7230064C073 /* SMARepairDfuCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMARepairDfuCollectionController.m; sourceTree = "<group>"; };
 		EE569A181E77D7230064C073 /* SMARepairTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMARepairTableViewController.h; sourceTree = "<group>"; };
@@ -1172,9 +1178,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE42658C1F27515900590C8D /* VideoToolbox.framework in Frameworks */,
+				EE42658A1F27514200590C8D /* MediaPlayer.framework in Frameworks */,
 				EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */,
 				EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */,
 				EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */,
+				EE4265931F2755D600590C8D /* libSmaBLE.a in Frameworks */,
 				EEFBA5051EC412CE001A077D /* Zip.framework in Frameworks */,
 				EEB54D1D1E151B950059F8D0 /* ImageIO.framework in Frameworks */,
 				EEB54D1B1E151B800059F8D0 /* QuartzCore.framework in Frameworks */,
@@ -1217,7 +1226,6 @@
 				EE57A7521E0B5FE10007BCC8 /* libConfiguration.a in Frameworks */,
 				EE57A7501E0B5FE10007BCC8 /* libXlwDevice.a in Frameworks */,
 				BF1CD0662AA433CB7CFF3F9C /* Pods_SMA.framework in Frameworks */,
-				EE5698831F1C6BC800C2CAD3 /* libSmaBLE.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1360,6 +1368,8 @@
 		EE10CE811DB5F9E100585B74 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE42658B1F27515900590C8D /* VideoToolbox.framework */,
+				EE4265891F27514200590C8D /* MediaPlayer.framework */,
 				EEB54D201E151BFD0059F8D0 /* CoreText.framework */,
 				EEB54D1E1E151BCF0059F8D0 /* Foundation.framework */,
 				EEB54D1C1E151B950059F8D0 /* ImageIO.framework */,
@@ -1398,7 +1408,7 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EE5698821F1C6BC800C2CAD3 /* libSmaBLE.a */,
+				EE4265921F2755D600590C8D /* libSmaBLE.a */,
 				EE16878D1E48546D008C4261 /* SmaAlarmInfo.h */,
 				EE16878E1E48546D008C4261 /* SmaBLE.h */,
 				EE16878F1E48546D008C4261 /* SmaBusinessTool.h */,
@@ -2714,6 +2724,7 @@
 			isa = PBXGroup;
 			children = (
 				EE1DDCA91E5690C200D4B181 /* SMA.entitlements */,
+				EE42658D1F27528700590C8D /* Alarm.mp3 */,
 				EEB9F6BA1D6443200011AA07 /* other */,
 				EEB9F6B61D6438190011AA07 /* LoginRegis */,
 				EED2F7B81D7195E400527FA7 /* UserInfo */,
@@ -3116,7 +3127,7 @@
 				TargetAttributes = {
 					EEB9F6881D64318B0011AA07 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = V96N6WUHA2;
+						DevelopmentTeam = VHVLE5FL92;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3171,6 +3182,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE42658E1F27528700590C8D /* Alarm.mp3 in Resources */,
 				EE6783DA1E1DFC1000B0B6E7 /* sma10b_firmware_v1.1.8.zip in Resources */,
 				EEB9F6BD1D6443340011AA07 /* Gotham-Light_0.otf in Resources */,
 				EE12EF2C1D7D6BCB0096F811 /* SMADieviceDataCell.xib in Resources */,

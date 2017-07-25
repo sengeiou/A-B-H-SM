@@ -29,6 +29,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]) {
+        SmaBleMgr.BLdelegate = self;
+        [SmaBleSend getCuffCalarmClockList];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"addAlarm"] ) {
         SMAAlarmSubViewController*subVC = segue.destinationViewController;
@@ -50,6 +58,7 @@
 }
 
 - (void)initializeMethod{
+    SmaBleMgr.BLdelegate = self;
     SMADatabase *smaDal = [[SMADatabase alloc] init];
     alarmArr = [smaDal selectClockList];
 }
@@ -120,7 +129,13 @@
                     }
                 }
                 
-                [SmaBleSend setClockInfoV2:colockArry];
+                if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]) {
+                    [SmaBleSend setClockInfoV2:alarmArr];
+                }
+                else{
+                    [SmaBleSend setClockInfoV2:colockArry];
+                }
+                
                 [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
             }];
         }
@@ -140,7 +155,12 @@
                         [colockArry addObject:info];
                     }
                 }
-                [SmaBleSend setClockInfoV2:colockArry];
+                if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]) {
+                    [SmaBleSend setClockInfoV2:alarmArr];
+                }
+                else{
+                    [SmaBleSend setClockInfoV2:colockArry];
+                }
             }];
         }
     }];
@@ -159,10 +179,23 @@
             [colockArry addObject:info];
         }
     }
-    [SmaBleSend setClockInfoV2:colockArry];
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]) {
+        [SmaBleSend setClockInfoV2:alarmArr];
+    }
+    else{
+        [SmaBleSend setClockInfoV2:colockArry];
+    }
     [_alarmTView reloadData];
 }
 
+- (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{
+    if (mode == ALARMCLOCK) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self initializeMethod];
+            [_alarmTView reloadData];
+        });
+    }
+}
 
 //  十进制转二进制
 - (NSString *)toBinarySystemWithDecimalSystem:(NSString *)decimal
@@ -206,6 +239,7 @@
     NSString * result = [NSString stringWithFormat:@"%d",ll];
     return result;
 }
+
 
 /*
  #pragma mark - Navigation

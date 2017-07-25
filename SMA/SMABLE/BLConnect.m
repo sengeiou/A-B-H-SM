@@ -47,6 +47,34 @@ static id _instace;
 {
     SmaBleSend.delegate = self;
     self.firstInitilize = YES;
+    
+    //1.音频文件的url路径
+    NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
+    
+    //2.实例化播放器
+    _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:Nil];
+    _player.volume = 1.0;
+    //3.缓冲
+    [_player prepareToPlay];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+    [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    
+    [self getSystemVolumSlider];
+}
+
+- (UISlider*)getSystemVolumSlider{
+    static UISlider * volumeViewSlider = nil;
+    if (volumeViewSlider == nil) {
+        MPVolumeView *volumeView = [[MPVolumeView alloc] initWithFrame:CGRectMake(10, 50, 200, 4)];
+        
+        for (UIView* newView in volumeView.subviews) {
+            if ([newView.class.description isEqualToString:@"MPVolumeSlider"]){
+                volumeViewSlider = (UISlider*)newView;
+                break;
+            }
+        }
+    }
+    return volumeViewSlider;
 }
 
 - (SMAUserInfo *)user{
@@ -506,6 +534,7 @@ static id _instace;
                 }
             }
             else{
+                _bandDevice = NO;
                 if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleBindState:)]){
                     [self.BLdelegate bleBindState:2];
                 }
@@ -515,7 +544,8 @@ static id _instace;
             if([array[0] intValue])//登录成功，
             {
                 _syncing = NO;
-                [self firstSet];
+                [self firstSet:_bandDevice];
+                _bandDevice = YES;
             }
             else{
                 
@@ -621,6 +651,98 @@ static id _instace;
                 [[SMALocatiuonManager sharedCoreBlueTool] stopLocation];
             }
             break;
+        case NOTIFICATION:
+            if ([[array firstObject] intValue] == 96) {
+                [SmaBleSend getCuffCalarmClockList];
+            }
+            if ([[array firstObject] intValue] == 97) {
+                [SmaBleSend getGoal];
+            }
+            if ([[array firstObject] intValue] == 100) {
+                [SmaBleSend getLongTime];
+            }
+            if ([[array firstObject] intValue] == 103) {
+                self.cameraIndex = @"1";
+            }
+            break;
+        case ALARMCLOCK:
+            NSLog(@"(((***  == %@",array);
+            if (![[array firstObject] isKindOfClass:[NSDictionary class]]) {
+                array = [[[array reverseObjectEnumerator] allObjects] mutableCopy];
+                [dal deleteAllClockWithAccount:[SMAAccountTool userInfo].userID Callback:^(BOOL result) {
+                    
+                }];
+                for (SmaAlarmInfo *info in array) {
+                    info.isWeb = @"0";
+                    info.aid = nil;
+                    if (!info.tagname) {
+                        info.tagname = @"";
+                    }
+                    NSLog(@"fwgiojo  n =%@",info.tagname);
+                    [dal insertClockInfo:info account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
+                        
+                    }];
+                }
+            }
+            break;
+        case GOALCALLBACK:{
+            SMAUserInfo *user = [SMAAccountTool userInfo];
+            if ([[array firstObject] isKindOfClass:[NSString class]]) {
+                user.userGoal = [array firstObject];
+                [SMAAccountTool saveUser:user];
+            }
+        }
+            break;
+        case LONGTIMEBACK:{
+            SmaSeatInfo *seat = [SMAAccountTool seatInfo];
+            if (!seat) {
+                seat = [[SmaSeatInfo alloc] init];
+                seat.isOpen = @"1";
+                seat.repeatWeek = @"124";
+                seat.beginTime0 = @"8";
+                seat.endTime0 = @"21";
+                seat.isOpen0 = @"0";
+                seat.beginTime1 = @"9";
+                seat.endTime1 = @"22";
+                seat.isOpen1 = @"0";
+                seat.seatValue = @"30";
+                seat.stepValue = @"30";
+            }
+            if (![[array firstObject] isKindOfClass:[NSDictionary class]]) {
+                SmaSeatInfo *info = (SmaSeatInfo *)[array firstObject];
+                seat.isOpen = info.isOpen;
+                seat.repeatWeek = info.repeatWeek;
+                seat.beginTime0 = info.beginTime0.intValue >= 25 ? seat.beginTime0:info.beginTime0;
+                seat.endTime0 = info.endTime0.intValue >= 25 ? seat.endTime0:info.endTime0;
+                seat.isOpen0 = info.isOpen0;
+                seat.beginTime1 = info.beginTime1.intValue >= 25 ? seat.beginTime1:info.beginTime1;;
+                seat.endTime1 = info.endTime1.intValue >= 25 ? seat.endTime1:info.endTime1;
+                seat.isOpen1 = info.isOpen1;
+                seat.seatValue = info.seatValue;
+                seat.stepValue = info.stepValue;
+            }
+            [SMAAccountTool saveSeat:seat];
+        }
+            break;
+        case FINDPHONE:
+            if ([[array firstObject] intValue] >= 1) {
+                [self getSystemVolumSlider].value = 1.0f;
+                [_player play];
+            }
+            else{
+                [_player stop];
+            }
+            break;
+        case BOTTONSTYPE:
+        {
+            if ([[array firstObject] intValue] == 1) {
+                self.cameraIndex = @"2";
+            }
+            else if([[array firstObject] intValue] == 2){
+                self.cameraIndex = @"0";
+            }
+        }
+            break;
         default:
             break;
     }
@@ -650,7 +772,7 @@ static id _instace;
     }
 }
 
-- (void)firstSet{
+- (void)firstSet:(BOOL)band{
     [SmaBleSend setSystemTime];
     [SmaBleSend setDefendLose:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]];
     [SmaBleSend setSleepAIDS:[SMADefaultinfos getIntValueforKey:SLEEPMONSET]];
@@ -676,12 +798,8 @@ static id _instace;
         HRInfo.endhour0 = @"23";
         [SMAAccountTool saveHRHis:HRInfo];
     }
-    [SmaBleSend setHRWithHR:HRInfo];
     
     SmaSeatInfo *setInfo = [SMAAccountTool seatInfo];
-    if (setInfo) {
-        [SmaBleSend seatLongTimeInfoV2:setInfo];
-    }
     
     [SmaBleSend setBacklight:[SMADefaultinfos getIntValueforKey:BACKLIGHTSET]];
     SmaVibrationInfo *vibration = [[SmaVibrationInfo alloc] init];
@@ -737,7 +855,26 @@ static id _instace;
             aid++;
         }
     }
-    [SmaBleSend setClockInfoV2:colockArry];
+    
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"] && !band){
+        if (setInfo){
+            [SmaBleSend seatLongTimeInfoV2:setInfo];
+        }
+        [SmaBleSend setHRWithHR:HRInfo];
+        [SmaBleSend setClockInfoV2:alarmArr];
+    }else if (![[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
+        if (setInfo){
+            [SmaBleSend seatLongTimeInfoV2:setInfo];
+        }
+        [SmaBleSend setHRWithHR:HRInfo];
+        [SmaBleSend setClockInfoV2:colockArry];
+    }
+    else{
+        [SmaBleSend getCuffCalarmClockList];
+        [SmaBleSend getLongTime];
+        [SmaBleSend getGoal];
+    }
+
     [SmaBleSend getElectric];
     [SmaBleSend getBLVersion];
     [SmaBleSend getBLmac];

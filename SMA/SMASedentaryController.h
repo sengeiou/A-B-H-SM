@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 #import "SMABottomPickView.h"
 #import "SMACenterTabView.h"
-@interface SMASedentaryController : UITableViewController<timePickDelegate>
+@interface SMASedentaryController : UITableViewController<timePickDelegate,BLConnectDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *firBeginLab, *firBeDescLab, *firEndLab, *firEndDescLab, *secBeginLab, *secBeDescLab, *secEndnLab, *secEndDescLab, *repeatLab, *sedentaryTimeLab, *timeLab;
 @property (nonatomic, weak) IBOutlet UISwitch *firSwitch, *secSwitch;
 @property (nonatomic, weak) IBOutlet UIButton *monBut, *tueBut, *wedBut, *thuBut, *firBut, *satBut, *sunBut, *saveBut;

@@ -49,6 +49,14 @@
     _calLab.text = [self putCalStringWithSex:user.userSex userWeight:user.userWeigh.floatValue step:user.userGoal.intValue];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]) {
+        SmaBleMgr.BLdelegate = self;
+        [SmaBleSend getGoal];
+    }
+}
+
 #pragma mark ******UIPickerViewDelegate
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
@@ -126,6 +134,14 @@
     }
 //    UITabBarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
 //    [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{
+    if (mode == GOALCALLBACK) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self createUI];
+        });
+    }
 }
 /*
 #pragma mark - Navigation

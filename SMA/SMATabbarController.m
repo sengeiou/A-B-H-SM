@@ -12,6 +12,7 @@
     {
         NSTimer *rankTimer;
         NSMutableArray *passArr;
+        UIImagePickerController *picker;
     }
     @end
 
@@ -36,10 +37,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-    
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-        NSLog(@"CHANGE  %@",change);
 }
     
 static int deviceNum;
@@ -121,6 +118,7 @@ static bool setRunk;
 - (void)initializeMethod{
     //预加载数据（暂定睡眠,运动）
     //    [[SMADeviceAggregate deviceAggregateTool] initilizeWithWeek];
+    [[BLConnect sharedCoreBlueTool] addObserver:self forKeyPath:@"cameraIndex" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     if (!_isLogin) {
         SmaAnalysisWebServiceTool *webService = [[SmaAnalysisWebServiceTool alloc] init];
         //            [webService acloudDownLDataWithAccount:[SMAAccountTool userInfo].userID callBack:^(id finish) {
@@ -132,7 +130,29 @@ static bool setRunk;
         //        });
     }
 }
-    
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    NSLog(@"key == %@  change  %@",keyPath,change);
+    if (![keyPath isEqualToString:@"cameraIndex"]) {
+        return;
+    }
+    //    if (picker) {
+    if ([[change objectForKey:@"new"] intValue] == 1) {
+        [self openCamera];
+    }
+    if ([[change objectForKey:@"new"] intValue] == 2) {
+        if (picker) {
+            [picker takePicture];
+        }
+    }
+    if ([[change objectForKey:@"new"] intValue] == 0) {
+        [SmaBleSend setBLcomera:NO];
+        [self.selectedViewController dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    }
+}
+
 - (void)rankTimeOut{
     for (UIViewController *controller in self.viewControllers) {
         controller.tabBarItem.badgeValue = nil;
@@ -154,5 +174,57 @@ static bool setRunk;
      // Pass the selected object to the new view controller.
      }
      */
+
+- (void)openCamera{
+    [picker removeFromParentViewController];
+    picker = nil;
+    //    if (picker) {
+    //        [self.selectedViewController dismissViewControllerAnimated:YES completion:^{
+    //
+    //        }];
+    //    }
+    __block UIImagePickerControllerSourceType sourceType ;
     
+    sourceType = UIImagePickerControllerSourceTypeCamera;
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        //        [SmaBleSend setBLcomera:YES];
+        if (!picker) {
+            picker = [[UIImagePickerController alloc] init];//初始化
+            picker.delegate = self;
+            picker.allowsEditing = YES;//设置可编辑
+        }
+        picker.sourceType = sourceType;
+        [self.selectedViewController presentViewController:picker animated:YES completion:^{
+            
+        }];
+    }
+    else{
+        [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    __block UIImage* image;
+    if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString*)kUTTypeImage]) {
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        NSLog(@"fwgwgg-----%@",NSStringFromCGSize(image.size));
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
+        
+    }
+    [self.selectedViewController dismissViewControllerAnimated:YES completion:^{
+        [SmaBleSend setBLcomera:NO];
+    }];
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    
+    NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [SmaBleSend setBLcomera:NO];
+    [self.selectedViewController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
     @end

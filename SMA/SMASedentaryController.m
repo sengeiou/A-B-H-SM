@@ -31,6 +31,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]) {
+        SmaBleMgr.BLdelegate = self;
+        [SmaBleSend getLongTime];
+    }
+}
+
 - (void)initializeMethod{
     seat = [SMAAccountTool seatInfo];
     if (!seat) {
@@ -401,6 +408,14 @@
     }
     else{
         _secTimeIma.transform = CGAffineTransformIdentity;
+    }
+}
+
+- (void)bledidDisposeMode:(SMA_INFO_MODE)mode dataArr:(NSMutableArray *)data{
+    if (mode == LONGTIMEBACK) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self initializeMethod];
+        });
     }
 }
 /*

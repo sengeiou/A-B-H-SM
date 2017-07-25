@@ -10,7 +10,7 @@
 #import "SMASedentEditCell.h"
 #import "SmaAlarmInfo.h"
 #import "SMAAlarmSubViewController.h"
-@interface SMAAlarmViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,alarmEditDelegate>
+@interface SMAAlarmViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,alarmEditDelegate,BLConnectDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *alarmTView;
 @property (nonatomic, weak) IBOutlet UIButton *editBut, *addBut;
 @end

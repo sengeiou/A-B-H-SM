@@ -2549,8 +2549,39 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="7cS-4L-Ts4">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="gI4-P7-Pzu">
                                         <rect key="frame" x="0.0" y="728" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gI4-P7-Pzu" id="cGg-Mx-ybA">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="remind_zhaoshoubiao_pre" translatesAutoresizingMaskIntoConstraints="NO" id="iOd-y5-oT2">
+                                                    <rect key="frame" x="16" y="11" width="22" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="22" id="RbJ-q4-9XW"/>
+                                                        <constraint firstAttribute="width" constant="22" id="lNZ-Pn-mIA"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="找手表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wj6-6G-4ZW">
+                                                    <rect key="frame" x="46" y="8" width="288" height="27"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="iOd-y5-oT2" firstAttribute="leading" secondItem="cGg-Mx-ybA" secondAttribute="leading" constant="16" id="AIp-pE-21d"/>
+                                                <constraint firstAttribute="bottom" secondItem="wj6-6G-4ZW" secondAttribute="bottom" constant="8" id="WBd-YR-uJO"/>
+                                                <constraint firstItem="wj6-6G-4ZW" firstAttribute="top" secondItem="cGg-Mx-ybA" secondAttribute="top" constant="8" id="j24-Un-S5E"/>
+                                                <constraint firstItem="iOd-y5-oT2" firstAttribute="centerY" secondItem="cGg-Mx-ybA" secondAttribute="centerY" id="jwP-rj-Sb5"/>
+                                                <constraint firstItem="wj6-6G-4ZW" firstAttribute="leading" secondItem="iOd-y5-oT2" secondAttribute="trailing" constant="8" id="mL1-KU-d3v"/>
+                                                <constraint firstAttribute="trailing" secondItem="wj6-6G-4ZW" secondAttribute="trailing" constant="8" id="zaN-Ft-C64"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="7cS-4L-Ts4">
+                                        <rect key="frame" x="0.0" y="772" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7cS-4L-Ts4" id="LiQ-Pi-njY">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
@@ -2588,7 +2619,7 @@
                             <tableViewSection id="heA-OB-FvX">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="m9j-a9-D93">
-                                        <rect key="frame" x="0.0" y="807" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="851" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m9j-a9-D93" id="AAm-bU-kFa">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
@@ -2619,7 +2650,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="ug4-w9-pif">
-                                        <rect key="frame" x="0.0" y="851" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="895" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ug4-w9-pif" id="xEj-gh-kkY">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
@@ -2665,7 +2696,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="2l8-Nt-LH1">
-                                        <rect key="frame" x="0.0" y="895" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="939" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2l8-Nt-LH1" id="Jix-m9-FFy">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
@@ -2728,6 +2759,8 @@
                         <outlet property="deviceW" destination="pz3-g2-0P6" id="ncX-VQ-Ocv"/>
                         <outlet property="dfuUpdateCell" destination="ug4-w9-pif" id="Ufw-XZ-zqv"/>
                         <outlet property="dfuUpdateLab" destination="ZUB-lL-POy" id="RuA-P1-DUR"/>
+                        <outlet property="findDeviceLab" destination="wj6-6G-4ZW" id="4Ci-rg-qFp"/>
+                        <outlet property="findDiviceCell" destination="gI4-P7-Pzu" id="r0P-Oc-7tu"/>
                         <outlet property="noDistrubBut" destination="50w-YR-w6U" id="h4U-qM-pKN"/>
                         <outlet property="noDistrubIma" destination="znF-uu-15e" id="a60-Fr-L81"/>
                         <outlet property="noDistrubLab" destination="P4X-sI-XCH" id="nW9-ZC-Rro"/>
@@ -2745,6 +2778,7 @@
                         <outlet property="smsIma" destination="0ET-bP-Gef" id="rog-cb-Gtu"/>
                         <outlet property="smsLab" destination="sSe-NQ-MD9" id="DS3-TR-4tz"/>
                         <outlet property="switchCell" destination="ZOw-1k-Cac" id="A9x-9v-pbU"/>
+                        <outlet property="timingCell" destination="7cS-4L-Ts4" id="mj0-XY-tiQ"/>
                         <outlet property="timingLab" destination="bsS-Bd-Bma" id="2YV-Sd-5av"/>
                         <outlet property="unPairCell" destination="2l8-Nt-LH1" id="uhq-Uy-QoY"/>
                         <outlet property="unPairLab" destination="W4k-C4-qBe" id="qO5-6G-hOL"/>
@@ -5889,6 +5923,7 @@
         <image name="remind_lost_pre" width="40" height="40"/>
         <image name="remind_message_pre" width="40" height="40"/>
         <image name="remind_screen_pre" width="40" height="40"/>
+        <image name="remind_zhaoshoubiao_pre" width="40" height="40"/>
         <image name="set_alarm" width="22" height="22"/>
         <image name="set_backlight" width="22" height="22"/>
         <image name="set_biaopan" width="22" height="22"/>

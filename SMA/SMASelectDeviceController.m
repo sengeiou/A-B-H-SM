@@ -40,7 +40,7 @@
 }
 
 - (void)initializeMethod{
-     deviceArr = @[@[@"SMART-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"]/*,@[@"SMA-A2",SMALocalizedString(@"setting_band_07detail"),@"img_launcher"]*/,@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"],@[@"SMART BAND-02",SMALocalizedString(@"setting_band_07detail"),@"img_B2"]];
+     deviceArr = @[@[@"SMART-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"]/*,@[@"SMA-A2",SMALocalizedString(@"setting_band_07detail"),@"img_launcher"]*/,@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"],@[@"SMART BAND-02",SMALocalizedString(@"setting_band_07detail"),@"img_B2"],@[@"SMART BAND-R1",SMALocalizedString(@"setting_band_07detail"),@"img_r1"]];
     
 //      deviceArr = @[@[@"SMA-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"],@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
 }
@@ -126,7 +126,9 @@
     if (indexPath.row == 3) {
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-B2"];
     }
-
+    if (indexPath.row == 4) {
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-R1"];
+    }
     self.navigationController.leftItemHidden = NO;
     [self.navigationController pushViewController:[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMAPairViewController"] animated:YES];
 }
