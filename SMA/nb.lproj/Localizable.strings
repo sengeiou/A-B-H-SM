@@ -54,9 +54,9 @@
 "register_regsucceed"="Registrering vellykket";
 "user_title"="Min profil";
 "user_next"="Hopp over";
-"user_girl"="Hunn";
-"user_boy"="Kvinne";
-"user_age"="Mann";
+"user_girl"="Kvinne";
+"user_boy"="Mann";
+"user_age"="Alder";
 "user_nextStep"="Neste";
 "user_hight"="Høyde";
 "user_weight"="Vekt";
@@ -178,7 +178,8 @@
 "setting_band_unPair"="Koble til senere";
 "setting_band_tryAgain"="Prøv på nytt";
 "setting_band_attention"="Sørg for at klokken er fulladet og i nærheten av telefonen";
-"setting_band_remind07"="Hvis den ikke kobler til bluetooth gjør flg. : Gå til innstillinger-bluetooth-SM07. Trykk på \"glem denne enheten\" Prøv å koble til igjen. ";
+"setting_band_remind07"="Hvis den ikke kobler til bluetooth gjør flg. : Gå til innstillinger-bluetooth-%@. Trykk på \"glem denne enheten\" Prøv å koble til igjen. ";
+"setting_band_remindNot" = "Hvis den ikke kobler til bluetooth gjør flg. : Gå til innstillinger-bluetooth Trykk på \"glem denne enheten\" Prøv å koble til igjen. ";
 "setting_band_search"="start søk";
 "setting_band_searching"="Søk \n (Klikk for pause)";
 "setting_band_connecting"="Kobler til…";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="fre";
 "setting_sedentary_sat"="lør";
 "setting_sedentary_sun"="søn";
+"setting_findDevice" = "Find device";
 "month1"="Januar";
 "month2"="Februar";
 "month3"="Mars";

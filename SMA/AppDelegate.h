@@ -16,5 +16,9 @@
 @property (strong, nonatomic) NSString *wbtoken;
 @property (strong, nonatomic) NSString *wbRefreshToken;
 @property (strong, nonatomic) NSString *wbCurrentUserID;
+@property (strong, nonatomic) UIApplication *applica;
+@property (nonatomic, unsafe_unretained) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (nonatomic, unsafe_unretained) UIBackgroundTaskIdentifier bgTask;
+- (void)requestBackgroundTask;
 @end
 

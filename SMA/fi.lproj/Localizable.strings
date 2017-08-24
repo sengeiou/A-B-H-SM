@@ -178,7 +178,8 @@
 "setting_band_unPair"="Muodosta laitepari myöhemmin";
 "setting_band_tryAgain"="Yritä uudelleen";
 "setting_band_attention"="Varmista, että kello on ladattu täyteen ja on lähellä puhelinta";
-"setting_band_remind07"="Jos et löydä kelloa Bluetooth kautta, siirry puhelimen asetuksiin- Bluetooth -% @ - unohda laite / poista laitepari";
+"setting_band_remind07"="Jos et löydä kelloa Bluetooth kautta, siirry puhelimen asetuksiin- Bluetooth -%@ - unohda laite / poista laitepari";
+"setting_band_remindNot" = "Jos et löydä kelloa Bluetooth kautta, siirry puhelimen asetuksiin- Bluetooth unohda laite / poista laitepari";
 "setting_band_search"="Aloita haku";
 "setting_band_searching"="Haetaan \n (Klikkaamalla tauko)";
 "setting_band_connecting"="Yhdistetään ...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="Pe";
 "setting_sedentary_sat"="La";
 "setting_sedentary_sun"="Su";
+"setting_findDevice" = "Find device";
 "month1"="Tammikuu";
 "month2"="Helmikuu";
 "month3"="Maaliskuu";

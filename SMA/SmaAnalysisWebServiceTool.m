@@ -801,7 +801,6 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             double score = value.score;
             long place = value.place;
             __block NSDictionary *rankDic;
-            NSLog(@"fwgfwgg==%@  %@",[NSNumber numberWithDouble:score],[NSNumber numberWithLong:place]);
             rankDic = [NSDictionary dictionaryWithObjectsAndKeys:nickName,@"NAME",icon_url,@"IMAGE",[NSNumber numberWithDouble:score],@"SCORE",[NSNumber numberWithLong:place],@"PLACE", nil];
             [listArr addObject:rankDic];
         }

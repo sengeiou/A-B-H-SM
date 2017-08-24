@@ -179,6 +179,7 @@
 "setting_band_tryAgain"="Recommencez";
 "setting_band_attention"="Assurez-vous que la montre est complètement chargée et près du téléphone";
 "setting_band_remind07"="Si vous ne trouvez pas la montre Bluetooth, allez dans les Paramètres du téléphone - Bluetooth -%@ - oubliez l'appareil / désaccouplez";
+"setting_band_remindNot" = "Si vous ne trouvez pas la montre Bluetooth, allez dans les Paramètres du téléphone - Bluetooth oubliez l'appareil / désaccouplez";
 "setting_band_search"="Lancer la recherche";
 "setting_band_searching"="Recherche \n (Cliquez pour mettre en pause)";
 "setting_band_connecting"="De liaison…";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="Ven";
 "setting_sedentary_sat"="Sam";
 "setting_sedentary_sun"="Soleil";
+"setting_findDevice" = "Buscar dispositivo";
 "month1"="janvier";
 "month2"="février";
 "month3"="Mars";

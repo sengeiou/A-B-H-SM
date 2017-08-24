@@ -160,6 +160,7 @@
 "setting_band_tryAgain" = "重试";
 "setting_band_attention" = "(Будь ласка, переконайтеся, що батарея годинника має достатній заряд та що годинник знаходиться поруч з телефоном)";
 "setting_band_remind07" = "Якщо Ви не можете знайти сигнал Bluetooth СМАРТ годинника, будь ласка, перейдіть в Налаштування-Bluetooth-забути мобільний пристрій (SM07).";
+"setting_band_remindNot" = "如果搜索不到手表蓝牙，请先在设置-蓝牙-忽略已配对设备。";
 "setting_band_search" = "开始搜索";
 "setting_band_searching" = "正在搜索\n(点击暂停)";
 "setting_band_connecting" = "З'єднання...";

@@ -178,7 +178,8 @@
 "setting_band_unPair"="später koppel";
 "setting_band_tryAgain"="Wiederholen";
 "setting_band_attention"="Bitte stelle sicher, dass die Uhr komplett aufgeladen ist und sich in der Nähe des Telefons befindet";
-"setting_band_remind07"="Wenn Sie die Uhr nicht finden können, gehen Sie bitte zu den Telefoneinstellungen - Bluetooth -% @ - Gerät vergessen / unpair";
+"setting_band_remind07"="Wenn Sie die Uhr nicht finden können, gehen Sie bitte zu den Telefoneinstellungen - Bluetooth -%@ - Gerät vergessen / unpair";
+"setting_band_remindNot" = "Wenn Sie die Uhr nicht finden können, gehen Sie bitte zu den Telefoneinstellungen - Bluetooth Gerät vergessen / unpair";
 "setting_band_search"="Suche starten";
 "setting_band_searching"="Suchen \n (Klicken, um zu pausieren)";
 "setting_band_connecting"="Verbinden ...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="FR";
 "setting_sedentary_sat"="SA";
 "setting_sedentary_sun"="SO";
+"setting_findDevice" = "Find device";
 "month1"="Januar";
 "month2"="Februar";
 "month3"="März";

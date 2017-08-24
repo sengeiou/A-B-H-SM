@@ -268,7 +268,9 @@
                 [picker takePicture];
             }
             else if([[data firstObject] intValue] == 2){
-                 [SmaBleSend setBLcomera:NO];
+                if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]) {
+                    return;
+                }
                 [self dismissViewControllerAnimated:YES completion:^{
                     
                 }];

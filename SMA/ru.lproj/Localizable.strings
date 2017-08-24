@@ -179,6 +179,7 @@
 "setting_band_tryAgain"="Попробовать снова";
 "setting_band_attention"="Пожалуйста убедитесь, что часы заряжены на 100% и находятся рядом с телефоном";
 "setting_band_remind07"="Если вам не удается обнаружить часы по Bluetooth, откройте Настройки телефона - Bluetooth - %@ - забыть устройство";
+"setting_band_remindNot" = "Если вам не удается обнаружить часы по Bluetooth, откройте Настройки телефона - Bluetooth забыть устройство";
 "setting_band_search"="Начать поиск";
 "setting_band_searching"="Поиск \n(нажать для паузы)";
 "setting_band_connecting"="Соединение…";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="пт.";
 "setting_sedentary_sat"="сб.";
 "setting_sedentary_sun"="вс.";
+"setting_findDevice" = "Find device";
 "month1"="Январь";
 "month2"="Февраль";
 "month3"="Март";

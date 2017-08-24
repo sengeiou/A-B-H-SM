@@ -179,6 +179,7 @@
 "setting_band_tryAgain"="재시도";
 "setting_band_attention"="반드시 휴대폰을 가까이 두고, 밴드의 배터리가 완충되어 있는지 확인하세요.";
 "setting_band_remind07"="블루투스 페어링이 안될 경우, 휴대폰 블루투스 세팅에서 블루투스를 활성화해 주십시오.";
+"setting_band_remindNot" = "블루투스 페어링이 안될 경우, 휴대폰 블루투스 세팅에서 블루투스를 활성화해 주십시오.";
 "setting_band_search"="검색 시작";
 "setting_band_searching"="검색중\n (눌러서 멈춤)";
 "setting_band_connecting"="연결중....";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="금";
 "setting_sedentary_sat"="토";
 "setting_sedentary_sun"="일";
+"setting_findDevice" = "Find device";
 "month1"="1월";
 "month2"="2월";
 "month3"="3월";

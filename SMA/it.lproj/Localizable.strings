@@ -179,6 +179,7 @@
 "setting_band_tryAgain"="Riprova";
 "setting_band_attention"="Assicurati che l'orologio sia completamente carico e sia posizionato vicino al telefono";
 "setting_band_remind07"="Se non riesci ad accoppiare l'orologio ed il telefono, assicurati che l'orologio non sia già collegato al Bluetooth del telefono verificando i dispositivi collegati nel menu Bluetooth del telefono.";
+"setting_band_remindNot" = "Se non riesci ad accoppiare l'orologio ed il telefono, assicurati che l'orologio non sia già collegato al Bluetooth del telefono verificando i dispositivi collegati nel menu Bluetooth del telefono.";
 "setting_band_search"="Inizia la ricerca";
 "setting_band_searching"="ricerca\n (tap per interrompere)";
 "setting_band_connecting"="Connecting...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="Ven";
 "setting_sedentary_sat"="Sab";
 "setting_sedentary_sun"="Dom";
+"setting_findDevice" = "Find device";
 "month1"="Gennaio";
 "month2"="Febbraio";
 "month3"="Marzo";

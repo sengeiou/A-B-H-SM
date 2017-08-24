@@ -14,7 +14,7 @@
 @end
 
 @implementation BLConnect
-@synthesize peripherals;
+@synthesize peripherals,cameraIndex;
 /*********** 蓝牙单例公共对象构建  begin ***********/
 // 用来保存唯一的单例对象
 static id _instace;
@@ -47,27 +47,120 @@ static id _instace;
 {
     SmaBleSend.delegate = self;
     self.firstInitilize = YES;
-    
-    //1.音频文件的url路径
+    //    if (!_backGroundMgr) {
+    //        _backGroundMgr = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
+    //    }
+    [self createPlay];
+}
+
+- (void)openCamera{
+    if (_picker) {
+        [_picker removeFromParentViewController];
+        _picker = nil;
+    }
+    __block UIImagePickerControllerSourceType sourceType ;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    sourceType = UIImagePickerControllerSourceTypeCamera;
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        //        [SmaBleSend setBLcomera:YES];
+        if (!_picker) {
+            _picker = [[UIImagePickerController alloc] init];//初始化
+            _picker.delegate = self;
+            _picker.allowsEditing = YES;//设置可编辑
+        }
+        _picker.sourceType = sourceType;
+        [app.window.rootViewController presentViewController:_picker animated:YES completion:^{
+            
+        }];
+    }
+    else{
+        [MBProgressHUD showError:SMALocalizedString(@"me_no_photograph")];
+    }
+}
+
+- (void)MainPlay{
     NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
-    
     //2.实例化播放器
     _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:Nil];
-    _player.volume = 1.0;
+    _player.volume = 0.1;
     //3.缓冲
     [_player prepareToPlay];
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-    [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    //    _player.delegate = self;
+    [_player play];
     
-    [self getSystemVolumSlider];
+    NSError *error;
+    _session = [AVAudioSession sharedInstance];
+    [_session setActive:YES error:&error];
+    [_session setCategory:AVAudioSessionCategoryPlayback error:&error];
+    
 }
+
+- (void)createPlay{
+    //1.音频文件的url路径
+    NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
+    NSURL *url1=[[NSBundle mainBundle]URLForResource:@"Alarm1.mp3" withExtension:Nil];
+    //2.实例化播放器
+    _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:Nil];
+    _player.volume = 0;
+    //3.缓冲
+    [_player prepareToPlay];
+    _player.delegate = self;
+    [_player play];
+    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+    //    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+    [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self getSystemVolumSlider];
+    
+    //    AVPlayerItem * songItem = [[AVPlayerItem alloc]initWithURL:url];
+    
+    //    _AVplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:Nil];
+    //    [_AVplayer prepareToPlay];
+    //    [_AVplayer setVolume:0.01 ];
+    
+    
+    _Queplayer = [[AVQueuePlayer alloc] initWithItems:@[[AVPlayerItem playerItemWithURL:url]]];
+    _Queplayer.actionAtItemEnd = AVPlayerActionAtItemEndAdvance;
+    
+    void(^ observerBlock)(CMTime time)= ^(CMTime time){
+        NSString * timeString = [NSString stringWithFormat:@"%02.2f",(float)time.value /(float)time.timescale];
+        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive){
+            //            self.lblMusicTime.text = timeString;
+        } else {
+            NSLog(@"App is backgrounded。Time is：%@",timeString);
+        }
+    };
+    
+    self.timeObserver = [_Queplayer addPeriodicTimeObserverForInterval:CMTimeMake(10, 1000) queue:dispatch_get_main_queue() usingBlock:observerBlock];
+    //    _AVplayer.numberOfLoops = -1; //设置音乐播放次数  -1为一直循环
+    //    [_AVplayer play];
+    
+}
+
+// 当播放完成时执行的代理
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    NSLog(@"audioPlayerDidFinishPlaying");
+} // 当播放发生错误时调用
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError * __nullable)error {
+    NSLog(@"播放发生错误%@",error);
+} // 当播放器发生中断时调用 如来电
+- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player {
+    NSLog(@"audioPlayerBeginInterruption");
+    // 暂停播放 用户不暂停，系统也会帮你暂停。但是如果你暂停了，等来电结束，需要再开启
+} // 当中断停止时调用 如来电结束
+- (void)audioPlayerEndInterruption:(AVAudioPlayer *)player withOptions:(NSUInteger)flags {
+    NSLog(@"audioPlayerEndInterruption"); // 你可以帮用户开启 也可以什么都不执行，让用户自己决定
+}
+
 
 - (UISlider*)getSystemVolumSlider{
     static UISlider * volumeViewSlider = nil;
     if (volumeViewSlider == nil) {
         MPVolumeView *volumeView = [[MPVolumeView alloc] initWithFrame:CGRectMake(10, 50, 200, 4)];
         
-        for (UIView* newView in volumeView.subviews) {
+        for (UIView *newView in volumeView.subviews) {
             if ([newView.class.description isEqualToString:@"MPVolumeSlider"]){
                 volumeViewSlider = (UISlider*)newView;
                 break;
@@ -85,7 +178,7 @@ static id _instace;
 - (void)setScanNameArr:(NSArray *)scanNameArr{
     _scanNameArr = scanNameArr;
     SMAUserInfo *user = [SMAAccountTool userInfo];
-    //    user.scnaName = scanName;
+    //user.scnaName = scanName;
     user.scnaNameArr = scanNameArr;
     [SMAAccountTool saveUser:user];
 }
@@ -122,9 +215,21 @@ static id _instace;
     else{
         self.mgr =  [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
     }
+    if (!_backGroundMgr) {
+        _backGroundMgr = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_queue_create("com.example.queue", DISPATCH_QUEUE_CONCURRENT) options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
+    }
     [self stopSearch];
     if (time) {
         self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(timerFireScan) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)backgrounScanBLE:(BOOL)scan{
+    if (scan) {
+        [_backGroundMgr scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"FEE7"]] options:nil];
+    }
+    else{
+        [_backGroundMgr stopScan];
     }
 }
 
@@ -188,7 +293,7 @@ static id _instace;
                 }
             }];
         }
-
+        
         [self.peripherals removeAllObjects];
         self.peripherals = nil;
         NSArray *SystemArr = [SmaBleMgr.mgr retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"00001530-1212-EFDE-1523-785FEABCD123"]]];
@@ -261,6 +366,8 @@ static id _instace;
             break;
         case CBCentralManagerStatePoweredOn:
         {
+            //             [_backGroundMgr scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"FEE7"]] options:nil];
+            //             [_backGroundMgr scanForPeripheralsWithServices:nil options:nil];
             NSLog( @"蓝牙已经成功开启，正在扫描蓝牙接口……");
             if (self.user.watchUUID && ![self.user.watchUUID isEqualToString:@""] && !_repairDfu) {
                 NSArray *allPer = [SmaBleMgr.mgr retrievePeripheralsWithIdentifiers:@[[[NSUUID alloc] initWithUUIDString:self.user.watchUUID]]];
@@ -309,6 +416,10 @@ static id _instace;
 //发现周边蓝牙设备
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     NSLog(@"搜索设备UUID：%@  记录UUID：%@  scanName: %@",peripheral.identifier.UUIDString,self.user.watchUUID,self.scanNameArr);
+    if (central == _backGroundMgr) {
+        NSLog(@"_backGroundMgr");
+        return;
+    }
     if (self.user.watchUUID && !_repairDfu) {
         if ([self.user.watchUUID isEqualToString:peripheral.identifier.UUIDString]) {
             [self connectBl:peripheral];
@@ -404,6 +515,7 @@ static id _instace;
     self.characteristics = [NSMutableArray array];
     for (CBCharacteristic * characteristic in service.characteristics) {
         NSLog(@"%@===+%@",characteristic.UUID.UUIDString,self.user);
+        
         [self.characteristics addObject:characteristic.UUID.UUIDString];
         if ([characteristic.UUID.UUIDString isEqualToString:@"6E400002-B5A3-F393-E0A9-E50E24DCCA9E"]) {
             SmaBleSend.Write = characteristic;
@@ -432,7 +544,6 @@ static id _instace;
         else if ([characteristic.UUID.UUIDString isEqualToString:@"2A29"]){
             [self.peripheral readValueForCharacteristic:characteristic];
         }
-        
     }
     SMAUserInfo *user = [SMAAccountTool userInfo];
     user.scnaName = peripheral.name;
@@ -445,7 +556,6 @@ static id _instace;
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     NSLog(@"连接问题 %@",error);
-    
     SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
     loca.allowLocation = NO;
     loca.gatherLocation = NO;
@@ -457,7 +567,6 @@ static id _instace;
         }];
         loca.firstRunDic = nil;
     }
-
     
     if ([SMAAccountTool userInfo].watchUUID && ![[SMAAccountTool userInfo].watchUUID isEqualToString:@""]  && !SmaDfuManager.dfuMode && !_repairDfu && !_dfuUpdate) {
         [self connectBl:peripheral];
@@ -466,7 +575,6 @@ static id _instace;
     if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleDisconnected:)]){
         [self.BLdelegate bleDisconnected:error.localizedDescription];
     }
-    
 }
 
 -(void)peripheral:(CBPeripheral*)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
@@ -482,6 +590,10 @@ static id _instace;
     if (self.BLdelegate && [self.BLdelegate respondsToSelector:@selector(bleDidUpdateValue:)]) {
         [self.BLdelegate bleDidUpdateValue:characteristic];
     }
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(nonnull NSNumber *)RSSI error:(nullable NSError *)error{
+    NSLog(@"rssi == %@",RSSI);
 }
 
 - (void)timerFireMethod{
@@ -662,7 +774,9 @@ static id _instace;
                 [SmaBleSend getLongTime];
             }
             if ([[array firstObject] intValue] == 103) {
-                self.cameraIndex = @"1";
+//                self.cameraIndex = @"1";
+                NSLog(@"+++++++++++++++++++打开相机&*&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                [self openCamera];
             }
             break;
         case ALARMCLOCK:
@@ -683,6 +797,11 @@ static id _instace;
                         
                     }];
                 }
+            }
+            else{
+                [dal deleteAllClockWithAccount:[SMAAccountTool userInfo].userID Callback:^(BOOL result) {
+                    
+                }];
             }
             break;
         case GOALCALLBACK:{
@@ -726,20 +845,56 @@ static id _instace;
             break;
         case FINDPHONE:
             if ([[array firstObject] intValue] >= 1) {
+                //                 [SmaBleSend getBLmac];
                 [self getSystemVolumSlider].value = 1.0f;
-                [_player play];
+                //                _player.currentTime = 5;
+                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                //                [app requestBackgroundTask];
+                //                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(plsayMusic) userInfo:nil repeats:NO];
+                //                [self changeFond];
+                //                [_AVplayer play];
+                NSLog(@"播放00 %f",[NSDate timeIntervalSinceReferenceDate]);
+                //                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(plsayMusic) userInfo:nil repeats:NO];
+                //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                //                     NSLog(@"播放33 %f",[NSDate timeIntervalSinceReferenceDate]);
+                //                   [self createPlay];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //                     [_player play];
+                });
+                [_Queplayer play];
+                //                [self musicPlay]
+                //                   [_AVplayer play];
+                //                });
+                //                [self postNotificationWithTitle:@"寻找手机" content:@"寻找手机，收到回答" audioName:@"Alarm.mp3" info:nil];
+                NSLog(@"播放11 %f",[NSDate timeIntervalSinceReferenceDate]);
+                //                SystemSoundID soundID = 1007;
+                //                AudioServicesPlaySystemSound(soundID);
             }
             else{
-                [_player stop];
+                //                [_player stop];
+                [_Queplayer pause];
+                NSLog(@"播放 --");
             }
             break;
         case BOTTONSTYPE:
         {
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             if ([[array firstObject] intValue] == 1) {
-                self.cameraIndex = @"2";
+                //                self.cameraIndex = @"2";
+                if (_picker) {
+                    [_picker takePicture];
+                }
+              
             }
             else if([[array firstObject] intValue] == 2){
-                self.cameraIndex = @"0";
+                //                self.cameraIndex = @"0";
+                NSLog(@"&&&&&&&&&&&&&&&&&&&&&&&&&关闭相机&*&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                if (_picker) {
+                    [app.window.rootViewController dismissViewControllerAnimated:YES completion:^{
+                        
+                    }];
+                }
+                
             }
         }
             break;
@@ -750,6 +905,47 @@ static id _instace;
         [self.BLdelegate bledidDisposeMode:mode dataArr:array];
     }
 }
+
+- (void)plsayMusic{
+    NSLog(@"播放44 %f",[NSDate timeIntervalSinceReferenceDate]);
+    [_player play];
+}
+
+- (void)postNotificationWithTitle:(NSString *)title content:(NSString *)content audioName:(NSString *)audioName info:(NSDictionary *)info {
+    UILocalNotification *localNote = [[UILocalNotification alloc] init];
+    
+    // 2.设置本地通知的内容
+    // 2.1.设置通知发出的时间
+    localNote.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+    // 2.2.设置通知的内容
+    localNote.alertBody = content;
+    // 2.4.决定alertAction是否生效
+    localNote.hasAction = NO;
+    // 2.6.设置alertTitle
+    localNote.alertTitle = title;
+    // 2.7.设置有通知时的音效
+    localNote.soundName = audioName;
+    // 2.8.设置应用程序图标右上角的数字
+    localNote.applicationIconBadgeNumber = 0;
+    // 2.9.设置额外信息
+    //    localNote.userInfo = info;
+    NSMutableDictionary *aUserInfo = [[NSMutableDictionary alloc] init];
+    aUserInfo[@"kLocalNotificationID"] = @"LocalNotificationID";
+    localNote.userInfo = aUserInfo;
+    // 3.调用通知
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNote];
+}
+
+- (void)changeFond{
+    SystemSoundID soundID; //NSBundle来返回音频文件路径
+    NSString *soundFile = [[NSBundle mainBundle] pathForResource:@"aiffmp3" ofType:@"aiff"]; //建立SystemSoundID对象，但是这里要传地址(加&符号)。 第一个参数需要一个CFURLRef类型的url参数，要新建一个NSString来做桥接转换(bridge)，而这个NSString的值，就是上面的音频文件路径
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:soundFile], &soundID); //播放提示音 带震动
+    AudioServicesPlayAlertSound(soundID); //播放系统声音 //
+    AudioServicesPlaySystemSound(soundID);
+    
+    //    AudioFileStreamOpen(<#void * _Nullable inClientData#>, <#AudioFileStream_PropertyListenerProc  _Nonnull inPropertyListenerProc#>, <#AudioFileStream_PacketsProc  _Nonnull inPacketsProc#>, <#AudioFileTypeID inFileTypeHint#>, <#AudioFileStreamID  _Nullable * _Nonnull outAudioFileStream#>)
+}
+
 - (void)sendIdentifier:(int)identifier{
     NSLog(@"identifier  %d %ld",identifier,SmaBleSend.serialNum);
     _sendIdentifier = identifier;
@@ -773,6 +969,7 @@ static id _instace;
 }
 
 - (void)firstSet:(BOOL)band{
+    //    [self createPlay];
     [SmaBleSend setSystemTime];
     [SmaBleSend setDefendLose:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]];
     [SmaBleSend setSleepAIDS:[SMADefaultinfos getIntValueforKey:SLEEPMONSET]];
@@ -856,11 +1053,12 @@ static id _instace;
         }
     }
     
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"] && !band){
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"] && band){
+        [SmaBleSend setPhoneSystemState:2];
         if (setInfo){
             [SmaBleSend seatLongTimeInfoV2:setInfo];
         }
-        [SmaBleSend setHRWithHR:HRInfo];
+        //        [SmaBleSend setHRWithHR:HRInfo];
         [SmaBleSend setClockInfoV2:alarmArr];
     }else if (![[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
         if (setInfo){
@@ -870,11 +1068,12 @@ static id _instace;
         [SmaBleSend setClockInfoV2:colockArry];
     }
     else{
+        [SmaBleSend setPhoneSystemState:2];
         [SmaBleSend getCuffCalarmClockList];
         [SmaBleSend getLongTime];
         [SmaBleSend getGoal];
     }
-
+    
     [SmaBleSend getElectric];
     [SmaBleSend getBLVersion];
     [SmaBleSend getBLmac];
@@ -931,4 +1130,114 @@ static double hrInterval;
     }
     return hr_arr;
 }
+
+- (void)music{
+    NSLog(@"systemVersion==%f",[[UIDevice currentDevice] systemVersion].floatValue);
+    if ([[UIDevice currentDevice] systemVersion].floatValue >= 8.0) {
+        self.musicPlayerController =  [MPMusicPlayerController systemMusicPlayer];//初始化系统音乐播放器
+    }else{
+        self.musicPlayerController =  [MPMusicPlayerController applicationMusicPlayer];
+        
+    }
+    self.musicPlaybackState = self.musicPlayerController.playbackState;
+    if (![self isPlayingItem]  ) {
+        [self getMusicListFromMusicLibrary];
+    }
+    //    isPlayMusic = YES;
+}
+
+// 判断有没有正在播放的媒体项目
+- (BOOL)isPlayingItem {
+    if ([self.musicPlayerController indexOfNowPlayingItem] == NSNotFound) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (MPMediaItemCollection *)getMusicListFromMusicLibrary {
+    self.query = [MPMediaQuery songsQuery];
+    // 申明一个Collection便于下面给MusicPlayer赋值
+    MPMediaItemCollection *mediaItemCollection;
+    if (self.query.items.count == 0) {
+        return 0;
+    } else {
+        //获取本地音乐库文件
+        NSMutableArray *musicArray= [NSMutableArray array];
+        for(MPMediaItem *item in self.query.items) {
+            [musicArray addObject:item];
+            NSLog(@"%@",item.title);
+        }
+        MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage:nil]; //歌曲名称
+        //        [songInfo setObject:@"深夜地下铁" forKey:MPMediaItemPropertyTitle];
+        
+        // 将音乐信息赋值给musicPlayer
+        mediaItemCollection = [[MPMediaItemCollection alloc] initWithItems:[musicArray copy]];
+        [self.musicPlayerController setQueueWithItemCollection:mediaItemCollection];
+    }
+    
+    return mediaItemCollection;
+}
+
+- (void)musicPlay{
+    [self music];
+    NSLog(@"%lu",(unsigned long)self.musicPlayerController.indexOfNowPlayingItem);
+    if (self.musicPlaybackState == MPMusicPlaybackStatePlaying) {
+        [self.musicPlayerController pause];//暂停
+        self.musicPlaybackState = MPMusicPlaybackStatePaused;
+        
+    }else if (self.musicPlaybackState == MPMusicPlaybackStateStopped || self.musicPlaybackState == MPMusicPlaybackStatePaused || self.musicPlaybackState == MPMusicPlaybackStateInterrupted) {
+        [self.musicPlayerController play]; //播放
+        self.musicPlaybackState = MPMusicPlaybackStatePlaying;
+    }
+}
+
+- (void)musicBack{
+    if (self.musicPlaybackState != MPMusicPlaybackStatePlaying) {
+        [self music];
+    }
+    [self.musicPlayerController play];
+    [self.musicPlayerController skipToPreviousItem];
+    self.musicPlaybackState = MPMusicPlaybackStatePlaying;
+}
+
+- (void)musicNext{
+    
+    if (self.musicPlaybackState != MPMusicPlaybackStatePlaying) {
+        [self music];
+    }
+    
+    [self.musicPlayerController play];
+    //    isPause = NO;
+    [self.musicPlayerController skipToNextItem];
+    self.musicPlaybackState = MPMusicPlaybackStatePlaying;
+    
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    __block UIImage* image;
+    if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString*)kUTTypeImage]) {
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        NSLog(@"fwgwgg-----%@",NSStringFromCGSize(image.size));
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
+    }
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app.window.rootViewController dismissViewControllerAnimated:YES completion:^{
+        [SmaBleSend setBLcomera:NO];
+    }];
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    
+    NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [SmaBleSend setBLcomera:NO];
+    [app.window.rootViewController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
 @end

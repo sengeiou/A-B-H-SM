@@ -178,7 +178,8 @@
 "setting_band_unPair"="ihopkopplingen Senare";
 "setting_band_tryAgain"="Försök igen";
 "setting_band_attention"="Se klockan är fulladdat och nära till telefonen";
-"setting_band_remind07"="Om du inte kan hitta klockan Bluetooth, gå till Telefoninställningar - Bluetooth -% @ - glömma enhet / ta bort parkoppling";
+"setting_band_remind07"="Om du inte kan hitta klockan Bluetooth, gå till Telefoninställningar - Bluetooth -%@ - glömma enhet / ta bort parkoppling";
+"setting_band_remindNot" = "Om du inte kan hitta klockan Bluetooth, gå till Telefoninställningar - Bluetooth glömma enhet / ta bort parkoppling";
 "setting_band_search"="Starta sökning";
 "setting_band_searching"="Letar \n (Klicka för att pausa)";
 "setting_band_connecting"="Ansluter ...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="fre";
 "setting_sedentary_sat"="lör";
 "setting_sedentary_sun"="Sol";
+"setting_findDevice" = "Find device";
 "month1"="januari";
 "month2"="februari";
 "month3"="Mars";

@@ -9,7 +9,6 @@
 #import "SMAAlarmSubViewController.h"
 
 @interface SMAAlarmSubViewController ()
-
 @end
 
 @implementation SMAAlarmSubViewController
@@ -33,14 +32,14 @@
         _alarmInfo.hour = @"08";
         _alarmInfo.day = @"1";
         _alarmInfo.mounth = @"10";
-         _alarmInfo.year = @"2016";
+        _alarmInfo.year = @"2016";
         _alarmInfo.tagname = SMALocalizedString(@"setting_alarm_title");
     }
 }
 
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_alarm_set");
-//    [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
+    //    [_saveBut setTitle:SMALocalizedString(@"setting_sedentary_achieve") forState:UIControlStateNormal];
     _clockView.borderColor = [UIColor whiteColor];
     _clockView.borderWidth = 3;
     _clockView.faceBackgroundColor = [UIColor whiteColor];
@@ -122,7 +121,7 @@
         _alarmInfo.isOpen = @"1";
         _alarmInfo.isWeb = @"0";
         [smaDal insertClockInfo:_alarmInfo account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
-          
+            
         }];
         [self.navigationController popViewControllerAnimated:YES];
         if (_delegate && [_delegate respondsToSelector:@selector(didEditAlarmInfo:)]) {
@@ -149,9 +148,11 @@
         if (!cell) {
             cell = (SMARepeatCell *) [[[NSBundle mainBundle] loadNibNamed:@"SMARepeatCell" owner:nil options:nil] lastObject];
         }
+        __weak __typeof__(self) weakSelf = self;
         [cell setRepeatBlock:^(NSString *weekStr){
+            __strong __typeof__(weakSelf) strongSelf = weakSelf;
             NSLog(@"week ==%@",weekStr);
-            _alarmInfo.dayFlags = weekStr;
+            strongSelf.alarmInfo.dayFlags = weekStr;
         }];
         [cell weekStrConvert:_alarmInfo.dayFlags];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -172,45 +173,51 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 1) {
-//        __block UITextField *titleField;
-//        UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_alarm_lable") message:nil preferredStyle:UIAlertControllerStyleAlert];
-//        [aler addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-//            textField.font = FontGothamLight(17);
-//            textField.delegate = self;
-//            titleField = textField;
-//        }];
-//        UIAlertAction *confimAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_achieve") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            _alarmInfo.tagname = titleField.text;
-//            [_tabView reloadData];
-//        }];
-//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//            [_tabView reloadData];
-//        }];
-//        [aler addAction:cancelAction];
-//        [aler addAction:confimAction];
-//        [self presentViewController:aler animated:YES completion:^{
-//            
-//        }];
+        //        __block UITextField *titleField;
+        //        UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_alarm_lable") message:nil preferredStyle:UIAlertControllerStyleAlert];
+        //        [aler addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        //            textField.font = FontGothamLight(17);
+        //            textField.delegate = self;
+        //            titleField = textField;
+        //        }];
+        //        UIAlertAction *confimAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_achieve") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //            _alarmInfo.tagname = titleField.text;
+        //            [_tabView reloadData];
+        //        }];
+        //        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        //            [_tabView reloadData];
+        //        }];
+        //        [aler addAction:cancelAction];
+        //        [aler addAction:confimAction];
+        //        [self presentViewController:aler animated:YES completion:^{
+        //
+        //        }];
         SMACenterLabView *lableView = [[SMACenterLabView alloc] initWithTitle:SMALocalizedString(@"setting_alarm_lable") buttonTitles:@[SMALocalizedString(@"setting_sedentary_cancel"),SMALocalizedString(@"setting_sedentary_confirm")]];
+        __weak __typeof__(self) weakSelf = self;
         [lableView lableDidSelectRow:^(UIButton *but, NSString *titleStr) {
+            __strong __typeof__(weakSelf) strongSelf = weakSelf;
             if (but.tag == 102) {
-              _alarmInfo.tagname = titleStr;
+                strongSelf.alarmInfo.tagname = titleStr;
             }
-            [_tabView reloadData];
+            [strongSelf.tabView reloadData];
         }];
+        
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [app.window addSubview:lableView];
     }
 }
 
+- (void)dealloc{
+    NSLog(@"alarm dealloc");
+}
 
 /*- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSString *aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if ([aString dataUsingEncoding:NSUTF8StringEncoding].length > 17) {
-        return NO;
-    }
-    return YES;
-}*/
+ NSString *aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+ if ([aString dataUsingEncoding:NSUTF8StringEncoding].length > 17) {
+ return NO;
+ }
+ return YES;
+ }*/
 /*
  #pragma mark - Navigation
  

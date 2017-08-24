@@ -179,6 +179,7 @@
 "setting_band_tryAgain"="coba lagi";
 "setting_band_attention"="pastikan watch terisi daya dan dekat dengan handphone";
 "setting_band_remind07"="Apabila tidak ditemukan watch bluetooth, lakukan pengaturan di Setting - Bluetooth - %@ - lupakan perangkat/ putuskan";
+"setting_band_remindNot" = "Apabila tidak ditemukan watch bluetooth, lakukan pengaturan di Setting - Bluetooth lupakan perangkat/ putuskan";
 "setting_band_search"="mulai pencarian";
 "setting_band_searching"="pencarian\ntekan untuk berhenti sejenak";
 "setting_band_connecting"="menghubungkan";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="jum";
 "setting_sedentary_sat"="sab";
 "setting_sedentary_sun"="min";
+"setting_findDevice" = "Find device";
 "month1"="januari";
 "month2"="februari";
 "month3"="maret";

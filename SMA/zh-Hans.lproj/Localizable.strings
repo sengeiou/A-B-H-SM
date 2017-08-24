@@ -179,6 +179,7 @@
 "setting_band_tryAgain" = "重试";
 "setting_band_attention" = "(请保证手表电量充足，并靠近手机)";
 "setting_band_remind07" = "如果搜索不到手表蓝牙，请先在设置-蓝牙-%@-忽略此设备。";
+"setting_band_remindNot" = "如果搜索不到手表蓝牙，请先在设置-蓝牙-忽略已配对设备。";
 "setting_band_search" = "开始搜索";
 "setting_band_searching" = "正在搜索\n(点击暂停)";
 "setting_band_connecting" = "正在连接...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri" = "五";
 "setting_sedentary_sat" = "六";
 "setting_sedentary_sun" = "日";
+"setting_findDevice" = "找手表";
 "month1" = "1月";
 "month2" = "2月";
 "month3" = "3月";

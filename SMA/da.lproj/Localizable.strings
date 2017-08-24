@@ -178,7 +178,8 @@
 "setting_band_unPair"="Parring Senere";
 "setting_band_tryAgain"="Prøve igen";
 "setting_band_attention"="Sørg for, at uret er fuldt opladet og tæt på telefonen";
-"setting_band_remind07"="Hvis du ikke kan finde uret Bluetooth, skal du gå til Telefonindstillinger - Bluetooth -% @ - glem enhed / ophæv parring";
+"setting_band_remind07"="Hvis du ikke kan finde uret Bluetooth, skal du gå til Telefonindstillinger - Bluetooth -%@ - glem enhed / ophæv parring";
+"setting_band_remindNot" = "Hvis du ikke kan finde uret Bluetooth, skal du gå til Telefonindstillinger - Bluetooth glem enhed / ophæv parring";
 "setting_band_search"="Start søgning";
 "setting_band_searching"="Søgning \n (Klik for at holde pause)";
 "setting_band_connecting"="Tilslutning…";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="fre";
 "setting_sedentary_sat"="Sat";
 "setting_sedentary_sun"="Sol";
+"setting_findDevice" = "Find device";
 "month1"="januar";
 "month2"="februar";
 "month3"="marts";

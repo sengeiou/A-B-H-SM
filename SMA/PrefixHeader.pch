@@ -33,6 +33,12 @@
 #import "SMALocatiuonManager.h"
 /**** Define
  */
+#if DEBUG
+#define NSLog(FORMAT, ...) fprintf(stderr,"\nfunction:%s line:%d content:%s\n", __FUNCTION__, __LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+#else
+#define NSLog(FORMAT, ...) nil
+#endif
+
 #define SmaBleMgr [BLConnect sharedCoreBlueTool]
 #define SmaBleSend [SmaBLE sharedCoreBlue]
 #define SmaAggregate [SMADeviceAggregate deviceAggregateTool]

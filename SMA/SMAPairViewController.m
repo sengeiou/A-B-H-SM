@@ -66,8 +66,9 @@
     [_searchBut setTitle:SMALocalizedString(@"setting_band_search") forState:UIControlStateNormal];
     [_searchBut setTitle:SMALocalizedString(@"setting_band_searching") forState:UIControlStateSelected];
 //    _ignoreLab.text = SMALocalizedString(@"setting_band_remind07");
-    _nearLab.text = SMALocalizedString(@"setting_band_attention");
-    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? [NSString stringWithFormat:@"%@/NW1135",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]:[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] ? [NSString stringWithFormat:@"%@/MOSW007",[SMADefaultinfos getValueforKey:BANDDEVELIVE]]: [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"] ? [NSString stringWithFormat:@"%@/SMA-A2",[SMADefaultinfos getValueforKey:BANDDEVELIVE]] : [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? @"B2" : [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"] ? @"M1/Technos_SR/MOSRAA":[SMADefaultinfos getValueforKey:BANDDEVELIVE]];
+//    _nearLab.text = SMALocalizedString(@"setting_band_attention");
+//    _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:@" "];
+    _ignoreLab.text = SMALocalizedString(@"setting_band_remindNot");
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:87/255.0 green:144/255.0 blue:249/255.0 alpha:1] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
     
     CAGradientLayer * _gradientLayer = [CAGradientLayer layer];  // 设置渐变效果
@@ -86,12 +87,12 @@
     [_searchBut.layer addSublayer:searchImalayer];
     [searchImalayer addAnimation:[self searchAnimation] forKey:nil];
     
-//    SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
+//     `SmaBleMgr.scanName = [SMADefaultinfos getValueforKey:BANDDEVELIVE];
     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"]) {
         SmaBleMgr.scanNameArr = @[@"NW1135",@"SMA-Q2",@"Noise Ignite"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"]){
-        SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
+        SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007",@"HERA Fit"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
         SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
@@ -196,6 +197,12 @@
 
 #pragma mark *******BLConnectDelegate
 - (void)reloadView{
+    _ignoreLab.text = SMALocalizedString(@"setting_band_remindNot");
+    if (SmaBleMgr.sortedArray.count > 0) {
+        NSArray *array = [SmaBleMgr.sortedArray valueForKeyPath:@"@distinctUnionOfObjects.peripheral.name"];
+        NSString *str = [array componentsJoinedByString:@"/"];
+        _ignoreLab.text = [SmaLocalizeableInfo localizedStringDic:@"setting_band_remind07" comment:str];
+    }
     [_deviceTableView reloadData];
 }
 
@@ -208,6 +215,7 @@
         nofondAler.delegate = self;
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [app.window addSubview:nofondAler];
+        _ignoreLab.text = SMALocalizedString(@"setting_band_remindNot");
     }
     NSLog(@"搜索超时");
 }
@@ -221,6 +229,7 @@
         [MBProgressHUD hideHUD];
         [SmaBleMgr stopSearch];
         [remindView removeFromSuperview];
+        _searchBut.selected = NO;
         [searchImalayer removeAllAnimations];
         //        UIAlertController *aler = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"setting_band_connectfail") message:nil preferredStyle:UIAlertControllerStyleAlert];
         //        UIAlertAction *canAction = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_band_unPair") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -269,7 +278,7 @@
         [SmaBleMgr reunitonPeripheral:YES];//开启重连机制
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSLog(@"绑定成功===%@",[[SMAAccountTool userInfo] watchUUID]);
-            //           [self.navigationController popToRootViewControllerAnimated:YES];
+            // [self.navigationController popToRootViewControllerAnimated:YES];
             SMATabbarController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SMAMainTabBarController"];
             controller.isLogin = YES;
             NSArray *itemArr = @[SMALocalizedString(@"device_title"),SMALocalizedString(@"rank_title"),SMALocalizedString(@"setting_title"),SMALocalizedString(@"me_title")];
@@ -287,8 +296,8 @@
             timer = nil;
         }
         [remindView removeFromSuperview];
-        //        [MBProgressHUD hideHUD];
-        //        [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindfail")];
+        //  [MBProgressHUD hideHUD];
+        //  [MBProgressHUD showError:SMALocalizedString(@"setting_band_bindfail")];
         
         [MBProgressHUD hideHUD];
         [SmaBleMgr disconnectBl];

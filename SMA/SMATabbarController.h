@@ -10,4 +10,5 @@
 
 @interface SMATabbarController : UITabBarController<UITabBarControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (nonatomic, assign) BOOL isLogin;
+@property (nonatomic, strong)  UIImagePickerController *picker;
 @end

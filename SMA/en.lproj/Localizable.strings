@@ -179,6 +179,7 @@
 "setting_band_tryAgain" = "Retry";
 "setting_band_attention" = "Please ensure the watch is fully charged and close to the phone";
 "setting_band_remind07" = "If you can't find the watch Bluetooth, please go to the Phone Settings - Bluetooth - %@ - forget device/unpair";
+"setting_band_remindNot" = "If you can't find the watch Bluetooth, please go to the Phone Settings - Bluetooth forget device/unpair";
 "setting_band_search" = "Start Search";
 "setting_band_searching" = "Searching \n (Click to pause)";
 "setting_band_connecting" = "Connecting...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri" = "Fri";
 "setting_sedentary_sat" = "Sat";
 "setting_sedentary_sun" = "Sun";
+"setting_findDevice" = "Find device";
 "month1" = "January";
 "month2" = "February";
 "month3" = "March";

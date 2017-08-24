@@ -178,7 +178,8 @@
 "setting_band_unPair"="koppelen Later";
 "setting_band_tryAgain"="opnieuw proberen";
 "setting_band_attention"="Zorg ervoor dat het horloge volledig is opgeladen en in de buurt van de telefoon";
-"setting_band_remind07"="Als u het horloge Bluetooth niet kunt vinden, ga dan naar de Phone Settings - Bluetooth -% @ - vergeet apparaat / ontkoppelen";
+"setting_band_remind07"="Als u het horloge Bluetooth niet kunt vinden, ga dan naar de Phone Settings - Bluetooth -%@ - vergeet apparaat / ontkoppelen";
+"setting_band_remindNot" = "Als u het horloge Bluetooth niet kunt vinden, ga dan naar de Phone Settings - Bluetooth vergeet apparaat / ontkoppelen";
 "setting_band_search"="Start met zoeken";
 "setting_band_searching"="Zoeken \n (Klik hier om te pauzeren)";
 "setting_band_connecting"="Verbinding maken ...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="vr";
 "setting_sedentary_sat"="Za";
 "setting_sedentary_sun"="Zon";
+"setting_findDevice" = "Find device";
 "month1"="januari-";
 "month2"="februari";
 "month3"="maart";

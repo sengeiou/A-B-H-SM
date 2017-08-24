@@ -178,7 +178,8 @@
 "setting_band_unPair"="Eşleştirme Daha Sonra";
 "setting_band_tryAgain"="Yeniden dene";
 "setting_band_attention"="Lütfen saatin tamamen dolduğundan ve telefonun yakınında olduğundan emin olun";
-"setting_band_remind07"="Saatli Bluetooth'i bulamazsan, lütfen Telefon Ayarları - Bluetooth -% @ - aygıtı / eşleştirmeyi unut";
+"setting_band_remind07"="Saatli Bluetooth'i bulamazsan, lütfen Telefon Ayarları - Bluetooth -%@ - aygıtı / eşleştirmeyi unut";
+"setting_band_remindNot" = "Saatli Bluetooth'i bulamazsan, lütfen Telefon Ayarları - Bluetooth aygıtı / eşleştirmeyi unut";
 "setting_band_search"="Aramaya başla";
 "setting_band_searching"="Aranıyor \n (Duraklatmak için tıklayın)";
 "setting_band_connecting"="Bağlanılıyor ...";
@@ -210,6 +211,7 @@
 "setting_sedentary_fri"="Cuma";
 "setting_sedentary_sat"="Oturdu";
 "setting_sedentary_sun"="Güneş";
+"setting_findDevice" = "Find device";
 "month1"="Ocak ayı";
 "month2"="Şubat ayı";
 "month3"="Mart";

@@ -10,6 +10,7 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <VideoToolbox/VideoToolbox.h>
+
 #import "ScannedPeripheral.h"
 #import "SmaBLE.h"
 @protocol BLConnectDelegate <NSObject>
@@ -30,9 +31,10 @@
 @end
 
 
-@interface BLConnect : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate,SmaCoreBlueToolDelegate>
+@interface BLConnect : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate,SmaCoreBlueToolDelegate,AVAudioPlayerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 /* 中心管理者*/
 @property (nonatomic, strong) CBCentralManager *mgr;
+@property (nonatomic, strong) CBCentralManager *backGroundMgr;
 /*连接的那个蓝牙设备*/
 @property (nonatomic,strong) CBPeripheral *peripheral;
 @property (strong, nonatomic) NSMutableArray *peripherals;
@@ -43,7 +45,15 @@
 @property (strong, nonatomic) NSTimer *reloadTimer;
 @property (strong, nonatomic) NSTimer *scanTimer;
 @property (strong, nonatomic) SMAUserInfo *user;
-@property (nonatomic,strong)AVAudioPlayer *player;
+@property (nonatomic,strong)  AVAudioPlayer *player;
+@property (nonatomic , retain)AVAudioSession *session;
+@property (nonatomic,strong)  AVAudioPlayer *AVplayer;
+@property (nonatomic,strong)  AVQueuePlayer *Queplayer;
+@property (nonatomic, strong)  UIImagePickerController *picker;
+@property (nonatomic,strong)  id timeObserver;
+@property (nonatomic,strong)  MPMusicPlayerController *musicPlayerController;
+@property (nonatomic,strong)  MPMediaQuery *query;
+@property (nonatomic,assign) MPMusicPlaybackState musicPlaybackState;
 @property (assign,readonly,nonatomic) int sendIdentifier;
 @property (weak,   nonatomic) id<BLConnectDelegate> BLdelegate;
 @property (assign, nonatomic) BOOL syncing;
@@ -64,4 +74,6 @@
 - (void)disconnectBl;
 //检查连接是否正常
 - (BOOL)checkBLConnectState;
+//背景是否搜索设备
+- (void)backgrounScanBLE:(BOOL)scan;
 @end

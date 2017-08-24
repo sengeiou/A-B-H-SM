@@ -179,6 +179,7 @@
 "setting_band_tryAgain"="Reintentar";
 "setting_band_attention"="Por favor, asegúrese que el reloj está cargado y cerca del teléfono";
 "setting_band_remind07"="Si no puede encontrar el reloj, por favor, vaya a Ajustes  - Bluetoot - %@ - borrar";
+"setting_band_remindNot" = "Si no puede encontrar el reloj, por favor, vaya a Ajustes  - Bluetoot borrar。";
 "setting_band_search"="Iniciar Búsqueda";
 "setting_band_searching"="Buscando \n (haga click para pausar)";
 "setting_band_connecting"="Conectando…";
@@ -280,6 +281,7 @@
 "setting_timing_minute" = "Min";
 "setting_timing_confirm" = "Confirm if the pointer position as below is the same of the watch.";
 "setting_timing_done" = "Confirm proofreading time";
+"setting_findDevice" = "Find device";
 "me_title"="Yo";
 "me_photograph"="Cámara";
 "me_photoAlbum"="Use álbumes";

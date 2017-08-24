@@ -166,6 +166,7 @@
 "setting_band_tryAgain" = "重试";
 "setting_band_attention" = "(Certifique-se que a bateria do relógio tem carga suficiente e que o relógio está perto do telefone)";
 "setting_band_remind07" = "Caso não consida encontrar o sinal Bluetooth de SMA WATCH, aceda a Definições-bluetooth-esquecer o dispositivo (SM07).";
+"setting_band_remindNot" = "如果搜索不到手表蓝牙，请先在设置-蓝牙-忽略已配对设备。";
 "setting_band_search" = "开始搜索";
 "setting_band_searching" = "正在搜索\n(点击暂停)";
 "setting_band_connecting" = "A conectar...";
