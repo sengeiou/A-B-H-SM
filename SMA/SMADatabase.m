@@ -579,6 +579,8 @@ static id _instace;
                         NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:date,@"DATE",sleepTime,@"TIME",sleepType,@"TYPE", nil];
                         [sleepData addObject:dic];
                     }
+//                    NSDictionary *endDic = [NSDictionary dictionaryWithObjectsAndKeys:endDate,@"DATE",[NSString stringWithFormat:@"%d",endTime.intValue + 1440],@"TIME",@"3",@"TYPE", nil];
+//                    [sleepData addObject:endDic];
                 }
                 else{//入睡时间为当天，十点前睡眠数据
                     startSql = [NSString stringWithFormat:@"select *from tb_sleep where sleep_date=\'%@\' and sleep_time >=%d and sleep_time <=%d and user_id=\'%@\' and sleep_mode < 15 group by sleep_time",date,strTime.intValue,endTime.intValue,[SMAAccountTool userInfo].userID];

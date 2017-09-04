@@ -612,10 +612,17 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             NSDictionary *obj1 = [sortArr objectAtIndex:i];
             NSDictionary *obj2 = [sortArr objectAtIndex:i+1];
             if ([obj1[@"TYPE"] intValue] == [obj2[@"TYPE"] intValue]) {
-                [sortArr removeObjectAtIndex:i+1];
-                i--;
+                if ((i + 1) == (sortArr.count - 1)) {
+                    [sortArr removeObjectAtIndex:i];
+                    i--;
+                }
+                else{
+                    [sortArr removeObjectAtIndex:i+1];
+                    i--;
+                }
             }
         }
+//        [sortArr addObject:[arr lastObject]];
     }
     
     if (sortArr.count > 2) {//筛选同一时间数据
@@ -664,9 +671,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         if (i == 0) {
             [detailDataArr addObject:@{@"TIME":[self getHourAndMin:dic[@"TIME"]],@"TYPE":SMALocalizedString(@"device_SL_fallTime")}];
         }
-        else if (i == sortArr.count - 1){
-            [detailDataArr addObject:@{@"TIME":[self getHourAndMin:dic[@"TIME"]],@"TYPE":SMALocalizedString(@"device_SL_wakeTime")}];
-        }
         else{
             [detailSLArr addObject:@{@"TIME":[NSString stringWithFormat:@"%d",prevTime<600?(prevTime+120):(prevTime - 1320)],@"QUALITY":[NSString stringWithFormat:@"%d",prevType],@"SLEEPTIME":[NSString stringWithFormat:@"%d",amount]}];
             //筛选相同睡眠状态数据整合成一条
@@ -691,6 +695,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             if (prevType != atType) {
                 prevTypeTime = 0;
             }
+        }
+        if (i == sortArr.count - 1){
+            [detailDataArr addObject:@{@"TIME":[self getHourAndMin:dic[@"TIME"]],@"TYPE":SMALocalizedString(@"device_SL_wakeTime")}];
         }
         prevType = [dic[@"TYPE"] intValue];
         prevTime = [dic[@"TIME"] intValue];

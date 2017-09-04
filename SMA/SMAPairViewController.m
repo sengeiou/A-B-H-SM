@@ -95,7 +95,7 @@
         SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007",@"HERA Fit"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-        SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
+        SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2",@"Technos_SC"];
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
         SmaBleMgr.scanNameArr = @[@"SMA-A2"];
@@ -120,7 +120,7 @@
             SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-            SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
+             SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2",@"Technos_SC"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
             SmaBleMgr.scanNameArr = @[@"SMA-A2"];
@@ -317,7 +317,7 @@
                 SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
             }
             else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-                SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
+                 SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2",@"Technos_SC"];
             }
             else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
                 SmaBleMgr.scanNameArr = @[@"SMA-A2"];
@@ -408,7 +408,7 @@
             SmaBleMgr.scanNameArr = @[@"SM07",@"MOSW007"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A1"]){
-            SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2"];
+            SmaBleMgr.scanNameArr = @[@"SMA-A1",@"SMA-A2",@"Technos_SC"];
         }
         else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-A2"]){
             SmaBleMgr.scanNameArr = @[@"SMA-A2"];

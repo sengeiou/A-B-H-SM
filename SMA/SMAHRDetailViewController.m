@@ -47,11 +47,11 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//    quietDate = dateNow;
+        //    quietDate = dateNow;
         quietDate = [NSDate date];
-    quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
+        quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
         dispatch_async(dispatch_get_main_queue(), ^{
-           quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
+            quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
         });
     });
 }
@@ -130,7 +130,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 }
 
 - (void)addSubViewWithCycle:(int)Cycle{
-        self.view.frame = CGRectMake(0, 64, MainScreen.size.width, MainScreen.size.height);
+    self.view.frame = CGRectMake(0, 64, MainScreen.size.width, MainScreen.size.height);
     cycle = Cycle;
     for (UIView *view in mainScroll.subviews) {
         [view removeFromSuperview];
@@ -174,11 +174,11 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [self setViewTop:0 preference:YES];
     if (cycle == 0) {
         mainScroll.scrollEnabled = NO;
-//        WYLocalScrollView.yDraw = YES;
-//         NSMutableArray *HRArr = [aggregateData[1][2] mutableCopy];
-//        NSInteger max = [[HRArr valueForKeyPath:@"@max.intValue"] integerValue];
-//        WYLocalScrollView.coordsLab = [NSString stringWithFormat:@"%lD",max/2];
-//        WYLocalScrollView.coordsPlace = CGRectGetHeight(WYLocalScrollView.frame)/2;
+        //        WYLocalScrollView.yDraw = YES;
+        //         NSMutableArray *HRArr = [aggregateData[1][2] mutableCopy];
+        //        NSInteger max = [[HRArr valueForKeyPath:@"@max.intValue"] integerValue];
+        //        WYLocalScrollView.coordsLab = [NSString stringWithFormat:@"%lD",max/2];
+        //        WYLocalScrollView.coordsPlace = CGRectGetHeight(WYLocalScrollView.frame)/2;
         
         UIView *quietView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(WYLocalScrollView.frame), MainScreen.size.width,44)];
         quietView.backgroundColor = [SmaColor colorWithHexString:@"#EA1F75" alpha:1];
@@ -193,7 +193,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         [quietView addSubview:indexView];
         
         quiethrLab = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(indexView.frame) - 90, 0, 80, CGRectGetHeight(quietView.frame))];
-            quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
+        quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)] textColor:[UIColor whiteColor]];
         quiethrLab.textAlignment = NSTextAlignmentRight;
         [quietView addSubview:quiethrLab];
         
@@ -222,21 +222,21 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         
         [mainScroll addSubview:stateView];
         
-//        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame)) style:UITableViewStylePlain];
+        //        detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame)) style:UITableViewStylePlain];
         detailTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(stateView.frame)+1, MainScreen.size.width, (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame)) style:UITableViewStylePlain];
         detailTabView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        detailTabView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:0];
+        //        detailTabView.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:0];
         detailTabView.delegate = self;
         detailTabView.dataSource = self;
         detailTabView.tableFooterView = [[UIView alloc] init];
-//        detailTabView.scrollEnabled = NO;
+        //        detailTabView.scrollEnabled = NO;
         [mainScroll addSubview:detailTabView];
         CGFloat scrollHeight = MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height;
-       tableHeight = (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame);
-//        [self setViewTop:0 preference:YES];
-//        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
+        tableHeight = (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) - CGRectGetHeight(WYLocalScrollView.frame) - CGRectGetHeight(stateView.frame) - CGRectGetHeight(quietView.frame);
+        //        [self setViewTop:0 preference:YES];
+        //        mainScroll.contentSize = CGSizeMake(MainScreen.size.width, (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0) >= (MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) ? ((MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height) + 145):CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0);
         
-//        NSLog(@"f2fgrhg==%f  %f  %@  %f", (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0),(MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height),NSStringFromCGSize(mainScroll.contentSize),MainScreen.size.height);
+        //        NSLog(@"f2fgrhg==%f  %f  %@  %f", (CGRectGetHeight(WYLocalScrollView.frame) + CGRectGetHeight(stateLab.frame)+ [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] * 44.0),(MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height),NSStringFromCGSize(mainScroll.contentSize),MainScreen.size.height);
     }
     else{
         
@@ -299,8 +299,8 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                 [aggregateData addObject:leftData];
                 [aggregateData addObject:nowData];
                 [aggregateData addObject:rightData];
-
-//                quietDate = self.date;
+                
+                //                quietDate = self.date;
                 quietDate = [NSDate date];
                 quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
                 [self addSubViewWithCycle:0];
@@ -378,16 +378,16 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         return;
     }
     self.view.frame = CGRectMake(0, 64 + viewTop, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - viewTop);
-     mainScroll.frame = CGRectMake(mainScroll.frame.origin.x, mainScroll.frame.origin.y, mainScroll.frame.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - viewTop);
+    mainScroll.frame = CGRectMake(mainScroll.frame.origin.x, mainScroll.frame.origin.y, mainScroll.frame.size.width, MainScreen.size.height - 64 - self.tabBarController.tabBar.frame.size.height - viewTop);
     tabBarView.frame = CGRectMake(tabBarView.frame.origin.x,CGRectGetMaxY(mainScroll.frame), tabBarView.frame.size.width, tabBarView.frame.size.height);
     detailTabView.frame = CGRectMake(0, detailTabView.frame.origin.y, detailTabView.frame.size.width, tableHeight - viewTop);
-   
-
+    
+    
     NSLog(@"fwgggggggg=22222==%@  %@",NSStringFromCGRect(self.view.frame),NSStringFromCGRect(detailTabView.frame));
 }
 #pragma mark ******UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[[aggregateData objectAtIndex:1] objectAtIndex:3]  count];
+    return [[[aggregateData objectAtIndex:1] objectAtIndex:5]  count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -399,28 +399,28 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     if (indexPath.row == 0) {
         cell.topLine.hidden = YES;
     }
-    else if (indexPath.row == [[[aggregateData objectAtIndex:1] objectAtIndex:3] count] - 1){
+    else if (indexPath.row == [[[aggregateData objectAtIndex:1] objectAtIndex:5] count] - 1){
         cell.botLine.hidden = YES;
     }
-    cell.timeLab.text = [[[[aggregateData objectAtIndex:1] objectAtIndex:3]  objectAtIndex:indexPath.row] objectForKey:@"TIME"];
+    cell.timeLab.text = [self getHourAndMin:[[[[aggregateData objectAtIndex:1] objectAtIndex:5]  objectAtIndex:indexPath.row] objectForKey:@"TIME"]] ;
     cell.statelab.text = @"";
-    cell.distanceLab.text = [NSString stringWithFormat:@"%@bpm",[[[[aggregateData objectAtIndex:1] objectAtIndex:3] objectAtIndex:indexPath.row] objectForKey:@"REAT"]];
+    cell.distanceLab.text = [NSString stringWithFormat:@"%@bpm",[[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:indexPath.row] objectForKey:@"REAT"]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 #pragma mark *******UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    NSLog(@"gwgg==%f  %@",scrollView.contentOffset.y,NSStringFromCGSize(mainScroll.contentSize));
-//    if (scrollView == mainScroll && scrollView.contentOffset.y < 145 && cycle == 0) {
-//        detailTabView.scrollEnabled = NO;
-//        [detailTabView setContentOffset:CGPointMake(0.0, 0) animated:NO];
-//    }
-//    if (scrollView.contentOffset.y >= 145 && scrollView == mainScroll && cycle == 0) {
-//        scrollView.contentOffset = CGPointMake(0, 145);
-//        detailTabView.scrollEnabled = YES;
-//        return;
-//    }
+    //    NSLog(@"gwgg==%f  %@",scrollView.contentOffset.y,NSStringFromCGSize(mainScroll.contentSize));
+    //    if (scrollView == mainScroll && scrollView.contentOffset.y < 145 && cycle == 0) {
+    //        detailTabView.scrollEnabled = NO;
+    //        [detailTabView setContentOffset:CGPointMake(0.0, 0) animated:NO];
+    //    }
+    //    if (scrollView.contentOffset.y >= 145 && scrollView == mainScroll && cycle == 0) {
+    //        scrollView.contentOffset = CGPointMake(0, 145);
+    //        detailTabView.scrollEnabled = YES;
+    //        return;
+    //    }
     if (cycle == 0 && scrollView == detailTabView) {
         CGFloat y = scrollView.contentOffset.y;
         CGFloat viewTop =  0 - y;
@@ -443,7 +443,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
     }
     else if (indexPath.row == 1){
-         cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:6] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
+        cell.detailLab.attributedText = [self attributedStringWithArr:@[[[[aggregateData objectAtIndex:1] objectAtIndex:6] objectAtIndex:showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
     }
     else if (indexPath.row == 2){
         cell.detailLab.attributedText = [self attributedStringWithArr:@[[[aggregateData objectAtIndex:1] objectAtIndex:2][showDataIndex],@"bpm"] fontArr:@[FontGothamLight(35),FontGothamLight(18)] textColor:[UIColor blackColor]];
@@ -672,7 +672,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     scrollView.imageArray = aggregateData;
     [detailTabView reloadData];
     [detailColView reloadData];
-//    quietDate = dateNow;
+    //    quietDate = dateNow;
     quietDate = [NSDate date];
     quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
     quiethrLab.attributedText = [self attributedStringWithArr:@[quietArr.count > 0?[[quietArr firstObject] objectForKey:@"HEART"]:@"0",@"bpm"] fontArr:@[FontGothamLight(20),FontGothamLight(16)]textColor:[UIColor whiteColor]];
@@ -684,7 +684,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
 }
 
 - (void)WYplotTouchUp{
-     mainScroll.scrollEnabled = YES;
+    mainScroll.scrollEnabled = YES;
 }
 
 - (void)WYbarTouchDownAtRecordIndex:(NSUInteger)idx{
@@ -711,9 +711,9 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         if (dayArr.count > 0 && [[[dayArr lastObject] objectForKey:@"TIME"] intValue]/(1440/cyTime)>=i) {
             for (NSDictionary *dic in dayArr) {
                 int add = [[dic objectForKey:@"TIME"] intValue]/(1440/cyTime);
-//                if ([[dic objectForKey:@"TIME"] intValue]%(1440/cyTime) != 0) {
-//                    add ++;
-//                }
+                //                if ([[dic objectForKey:@"TIME"] intValue]%(1440/cyTime) != 0) {
+                //                    add ++;
+                //                }
                 if (add == i) {
                     if (time == i) {
                         [fullDatas removeLastObject];
@@ -772,12 +772,13 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         }
         [yBaesValues addObject:@"0"];
     }
-   NSArray *invertedArr = [[dataArr reverseObjectEnumerator] allObjects];
+    NSArray *invertedArr = [[dataArr reverseObjectEnumerator] allObjects];
     [dayAlldata addObject:xText];
     [dayAlldata addObject:yBaesValues];
     [dayAlldata addObject:yValue];
     [dayAlldata addObject:invertedArr];
     [dayAlldata addObject:date.yyyyMMddNoLineWithDate];
+    [dayAlldata addObject:dayArr];
     return dayAlldata;
 }
 
@@ -876,7 +877,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         else{
             firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
         }
-//        quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
+        //        quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
         quietDate = [NSDate date];
         NSMutableArray *quietDateArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
         [quietData addObject:quietDateArr];

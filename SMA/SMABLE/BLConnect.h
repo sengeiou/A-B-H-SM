@@ -47,7 +47,8 @@
 @property (strong, nonatomic) SMAUserInfo *user;
 @property (nonatomic,strong)  AVAudioPlayer *player;
 @property (nonatomic , retain)AVAudioSession *session;
-@property (nonatomic,strong)  AVAudioPlayer *AVplayer;
+@property (nonatomic,strong)  AVPlayer *AVplayer;
+@property (nonatomic,strong)  AVPlayerItem *playerItem;
 @property (nonatomic,strong)  AVQueuePlayer *Queplayer;
 @property (nonatomic, strong)  UIImagePickerController *picker;
 @property (nonatomic,strong)  id timeObserver;

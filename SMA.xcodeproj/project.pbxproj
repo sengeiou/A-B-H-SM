@@ -877,7 +877,7 @@
 		EE62D2C41DAB95120047FC6B /* SMACalculate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMACalculate.h; sourceTree = "<group>"; };
 		EE62D2C51DAB95120047FC6B /* SMACalculate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMACalculate.m; sourceTree = "<group>"; };
 		EE63AD991DC07EFB00ABA94D /* SMASleepDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASleepDetailViewController.h; sourceTree = "<group>"; };
-		EE63AD9A1DC07EFB00ABA94D /* SMASleepDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASleepDetailViewController.m; sourceTree = "<group>"; };
+		EE63AD9A1DC07EFB00ABA94D /* SMASleepDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.c.objc; path = SMASleepDetailViewController.m; sourceTree = "<group>"; };
 		EE63AD9C1DC08ABE00ABA94D /* MTKSleepView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTKSleepView.h; sourceTree = "<group>"; };
 		EE63AD9D1DC08ABE00ABA94D /* MTKSleepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTKSleepView.m; sourceTree = "<group>"; };
 		EE648C541DFA88A90090DD02 /* SMASwitchScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASwitchScrollView.h; sourceTree = "<group>"; };

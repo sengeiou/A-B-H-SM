@@ -51,6 +51,7 @@ static id _instace;
     //        _backGroundMgr = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
     //    }
     [self createPlay];
+//    [self createQueplay];
 }
 
 - (void)openCamera{
@@ -84,9 +85,9 @@ static id _instace;
     _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:Nil];
     _player.volume = 0.1;
     //3.缓冲
-    //    [_player prepareToPlay];
-    //    _player.delegate = self;
-    //    [_player play];
+    [_player prepareToPlay];
+        _player.delegate = self;
+    [_player play];
     
     NSError *error;
     _session = [AVAudioSession sharedInstance];
@@ -99,7 +100,7 @@ static id _instace;
     //1.音频文件的url路径
     NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
     NSString *urlPath = [[NSBundle mainBundle] pathForResource:@"Alarm.mp3" ofType:nil];
-    //    NSURL *url = [[NSURL alloc] initWithString:urlPath];
+//    NSURL *url = [[NSURL alloc] initWithString:urlPath];
     NSURL *url1=[[NSBundle mainBundle]URLForResource:@"Alarm1.mp3" withExtension:Nil];
     //2.实例化播放器
     _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:Nil];
@@ -109,41 +110,129 @@ static id _instace;
     _player.delegate = self;
     [_player play];
     
-    BOOL RES0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+  BOOL RES0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
     //    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
     BOOL RES1 = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
     
     NSError *ERROR;
     BOOL RES2 = [[AVAudioSession sharedInstance] setActive:YES error:&ERROR];
-    //    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+//    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self getSystemVolumSlider];
     
-        AVPlayerItem * songItem = [[AVPlayerItem alloc]initWithURL:url];
+    //    AVPlayerItem * songItem = [[AVPlayerItem alloc]initWithURL:url];
     
-    _AVplayer = [[AVPlayer alloc] initWithPlayerItem:songItem];
-    //        [_AVplayer prepareToPlay];
-    [_AVplayer setVolume:1 ];
+        _AVplayer = [[AVPlayer alloc] initWithURL:url];
+//        [_AVplayer prepareToPlay];
+        [_AVplayer setVolume:1 ];
     
     
-    //    _Queplayer = [[AVQueuePlayer alloc] initWithItems:@[[AVPlayerItem playerItemWithURL:url]]];
-    //    _Queplayer.actionAtItemEnd = AVPlayerActionAtItemEndAdvance;
-    //
-    //    void(^ observerBlock)(CMTime time)= ^(CMTime time){
-    //        NSString * timeString = [NSString stringWithFormat:@"%02.2f",(float)time.value /(float)time.timescale];
-    //        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive){
-    //            //            self.lblMusicTime.text = timeString;
-    //        } else {
-    //            NSLog(@"App is backgrounded。Time is：%@",timeString);
-    //        }
-    //    };
-    //
-    //    self.timeObserver = [_Queplayer addPeriodicTimeObserverForInterval:CMTimeMake(10, 1000) queue:dispatch_get_main_queue() usingBlock:observerBlock];
+    _Queplayer = [[AVQueuePlayer alloc] initWithItems:@[[AVPlayerItem playerItemWithURL:url]]];
+    _Queplayer.actionAtItemEnd = AVPlayerActionAtItemEndAdvance;
+    
+    void(^ observerBlock)(CMTime time)= ^(CMTime time){
+        NSString * timeString = [NSString stringWithFormat:@"%02.2f",(float)time.value /(float)time.timescale];
+        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive){
+            //            self.lblMusicTime.text = timeString;
+        } else {
+            NSLog(@"App is backgrounded。Time is：%@",timeString);
+        }
+    };
+
+    self.timeObserver = [_Queplayer addPeriodicTimeObserverForInterval:CMTimeMake(10, 1000) queue:dispatch_get_main_queue() usingBlock:observerBlock];
     //    _AVplayer.numberOfLoops = -1; //设置音乐播放次数  -1为一直循环
-    //    [_AVplayer play];
+//        [_Queplayer play];
+}
+
+- (void)createQueplay{
+//    if (_Queplayer) {
+//        _Queplayer = nil;
+//    }]
+    BOOL RES0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+    BOOL RES1 = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    NSError *ERROR;
+    BOOL RES2 = [[AVAudioSession sharedInstance] setActive:YES error:&ERROR];
+     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    
+    NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
+    self.playerItem =[[AVPlayerItem alloc]initWithURL:url];
+    //playerItem 添加观察者
+    [self addNotifications];
+    self.Queplayer = [AVQueuePlayer playerWithPlayerItem:self.playerItem];
+    [self.Queplayer seekToTime:CMTimeMake(5, 1) toleranceBefore:CMTimeMake(1,1) toleranceAfter:CMTimeMake(1,1)];
+    void(^ observerBlock)(CMTime time)= ^(CMTime time){
+        NSString * timeString = [NSString stringWithFormat:@"%02.2f",(float)time.value /(float)time.timescale];
+        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive){
+            //            self.lblMusicTime.text = timeString;
+        } else {
+            NSLog(@"App is backgrounded。Time is：%@",timeString);
+        }
+    };
+    
+     self.timeObserver = [self.Queplayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 100) queue:nil usingBlock:observerBlock];
     
 }
 
+-(void)resetLayer
+{
+    if (self.timeObserver) {
+        [self.Queplayer removeTimeObserver:self.timeObserver];
+        self.timeObserver = nil;
+    }
+    // 移除通知
+    [self removeObservrOrNOtifiactions];
+    self.playerItem = nil;
+    // 暂停
+    [self.Queplayer pause];
+    // 移除原来的layer
+//    [self.AVplayer removeFromSuperlayer];
+    // 替换PlayerItem为nil
+    [self.Queplayer replaceCurrentItemWithPlayerItem:nil];
+    // 把player置为nil
+    self.Queplayer = nil;
+}
 
+- (void)addNotifications{
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
+    if (self.playerItem) {
+        [_playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        
+    }
+}
+
+-(void)moviePlayDidEnd:(NSNotification *)notification{
+    NSLog(@"moviePlayDidEnd");
+    [self resetLayer];
+}
+
+#pragma mark - 移除通知--
+-(void)removeObservrOrNOtifiactions
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_playerItem removeObserver:self forKeyPath:@"status"];
+    
+//    [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+//    [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+//    [_playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    if (object == self.Queplayer.currentItem) {
+        if ([keyPath isEqualToString:@"status"]) {
+            
+            if (self.Queplayer.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+                //播放前准备
+//                if () {
+//                    <#statements#>
+//                }
+//                [self.AVplayer play];
+                [self.Queplayer play];
+                
+            } else if (self.AVplayer.currentItem.status == AVPlayerItemStatusFailed) {
+//                self.state = LXPlayerStateFailed;
+            }
+        }
+    }
+}
 
 // 当播放完成时执行的代理
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
@@ -780,7 +869,7 @@ static id _instace;
                 [SmaBleSend getLongTime];
             }
             if ([[array firstObject] intValue] == 103) {
-                //                self.cameraIndex = @"1";
+//                self.cameraIndex = @"1";
                 NSLog(@"+++++++++++++++++++打开相机&*&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
                 [self openCamera];
             }
@@ -864,34 +953,62 @@ static id _instace;
                 //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 //                     NSLog(@"播放33 %f",[NSDate timeIntervalSinceReferenceDate]);
                 //                   [self createPlay];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //                     [_player play];
-                });
-                //                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-                //                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+
+//                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+//                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+                
+//               dispatch_queue_t q = dispatch_queue_create("playQueue", DISPATCH_QUEUE_CONCURRENT);
+//                dispatch_async(q, ^{
+//                    NSError *error = nil;
+//                    //                   BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error]
+//                    BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
+//                    if (error) {
+//                        NSLog(@"fowgjioergj g %d== %@  ",res0,error);
+//                    }
+//                    NSError *error1 = nil;
+//                    BOOL res = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+//                    [[AVAudioSession sharedInstance] setActive:YES error:&error1];
+//                    if (error) {
+//                        NSLog(@"%d  fowgjioergj g== %@",res,error);
+//                    }
+//                    NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
+//                    
+////                    [_Queplayer replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:url]];
+////                    dispatch_async(q, ^{
+////                        [_Queplayer play];
+////                    });
+////                    [_Queplayer advanceToNextItem];
+////                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [self resetLayer];
+//                        [self createQueplay];
+////                    });
+//                });
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //                     [_player play];
                     NSError *error = nil;
-                    //                   BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error]
-                    BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
+//                   BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error]
+                     BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
                     if (error) {
                         NSLog(@"fowgjioergj g %d== %@  ",res0,error);
                     }
                     NSError *error1 = nil;
-                    BOOL res = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+                 BOOL res = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
                     [[AVAudioSession sharedInstance] setActive:YES error:&error1];
                     if (error) {
                         NSLog(@"%d  fowgjioergj g== %@",res,error);
                     }
-                    //   [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
                     NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
-                    [_AVplayer replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:url]];
+                    [_Queplayer replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:url]];
+//                    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+                    [_Queplayer play];
                 });
                 
-                [_AVplayer play];
-                //                                [self musicPlay]
-                //                [_AVplayer play];
+//                [self.Queplayer seekToTime:CMTimeMake(5, 1) toleranceBefore:CMTimeMake(1,1) toleranceAfter:CMTimeMake(1,1)];
+//                [_Queplayer play];
+                
+//                                [self musicPlay]
+//                                   [_AVplayer play];
                 //                });
                 //                [self postNotificationWithTitle:@"寻找手机" content:@"寻找手机，收到回答" audioName:@"Alarm.mp3" info:nil];
                 NSLog(@"播放11 %f",[NSDate timeIntervalSinceReferenceDate]);
@@ -900,8 +1017,8 @@ static id _instace;
             }
             else{
                 //                [_player stop];
-                [_AVplayer pause];
-                //                [_AVplayer pause];
+//                [_Queplayer pause];
+//                [_AVplayer pause];
                 NSLog(@"播放 --");
             }
             break;
@@ -913,7 +1030,7 @@ static id _instace;
                 if (_picker) {
                     [_picker takePicture];
                 }
-                
+              
             }
             else if([[array firstObject] intValue] == 2){
                 //                self.cameraIndex = @"0";
