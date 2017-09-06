@@ -21,6 +21,8 @@
 }
 
 static int aniIndex;
+static BOOL endAnimation0;
+static BOOL endAnimation1;
 - (void)setProgress:(CGFloat)progress
 {
     if (progress >= 1 ) {
@@ -61,6 +63,7 @@ static int aniIndex;
         _animationTimer = nil;
         aniIndex = 0;
         NSLog(@"FWGGH==%F",1/(progress * 100));
+        
         _animationTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(animationTimer:) userInfo:nil repeats:YES];
     }
     else{
@@ -69,6 +72,116 @@ static int aniIndex;
         [self setNeedsDisplay];
     }
     _titleLab = title;
+}
+
+- (void)setBPProgres:(CGFloat)shrinkPor relaxaion:(CGFloat)relaPro shrinkTitleLab:(NSString *)title relaxaionTitleLab:(NSString *)relaxaiontitle{
+    if (shrinkPor >= 1 ) {
+        shrinkPor = 1;
+    }
+    NSLog(@"fwghh44444hh==%f  %d  %@",shrinkPor,_isAnimation,self);
+    _endProgress = shrinkPor;
+    _endTitleLab = title;
+    _BPendProgress = relaPro;
+    _BPendTitleLab = relaxaiontitle;
+    endAnimation0 = NO;
+    endAnimation1 = NO;
+    if (shrinkPor - _hisProgress != 0 || _endTitleLab.intValue - _hisTitleLab.intValue != 0 || shrinkPor - _BPhisProgress != 0 || _BPendTitleLab.intValue - _BPhisTitleLab.intValue != 0) {
+        [_animationTimer invalidate];
+        _animationTimer = nil;
+        aniIndex = 0;
+        NSLog(@"FWGGH==%F",1/(shrinkPor * 100));
+        _animationTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(animationBPTimer:) userInfo:nil repeats:YES];
+    }
+    else{
+        _titleLab = title;
+        _progress = shrinkPor;
+        _BPtitleLab = relaxaiontitle;
+        _BPprogress = relaPro;
+        [self setNeedsDisplay];
+    }
+//    _titleLab = title;
+//    _BPtitleLab = relaxaiontitle;
+}
+
+- (void)animationBPTimer:(NSTimer *)timer{
+    
+    aniIndex = aniIndex + 1;
+    CGFloat nowProgress = aniIndex * ((_endProgress - _hisProgress)/100) + _hisProgress;
+    NSString *titString = [NSString stringWithFormat:@"%.0f",0.01 * aniIndex * ((_endTitleLab.intValue - _hisTitleLab.intValue)) + _hisTitleLab.intValue];
+    if (_endProgress - _hisProgress >= 0) {
+        if (nowProgress >= _endProgress) {
+            nowProgress = _endProgress;
+            _hisProgress = nowProgress;
+        }
+        if (titString.intValue >= _endTitleLab.intValue) {
+            titString = _endTitleLab;
+            _hisTitleLab = _endTitleLab;
+        }
+        if (titString.intValue >= _endTitleLab.intValue && nowProgress >= _endProgress) {
+//            [_animationTimer invalidate];
+//            _animationTimer = nil;
+            endAnimation0 = YES;
+        }
+    }
+    else{
+        if (nowProgress <= _endProgress) {
+            nowProgress = _endProgress;
+            _hisProgress = nowProgress;
+        }
+        if (titString.intValue <= _endTitleLab.intValue) {
+            titString = _endTitleLab;
+            _hisTitleLab = _endTitleLab;
+        }
+        if (titString.intValue <= _endTitleLab.intValue && nowProgress <= _endProgress) {
+//            [_animationTimer invalidate];
+//            _animationTimer = nil;
+            endAnimation0 = YES;
+        }
+    }
+    //   NSLog(@"FWGHHHHH===%f    %@",nowProgress,titString);
+    _progress = nowProgress;
+    _titleLab = titString;
+    
+    CGFloat BPnowProgress = aniIndex * ((_BPendProgress - _BPhisProgress)/100) + _BPhisProgress;
+    NSString *BPtitString = [NSString stringWithFormat:@"%.0f",0.01 * aniIndex * ((_BPendTitleLab.intValue - _BPhisTitleLab.intValue)) + _BPhisTitleLab.intValue];
+    if (_BPendProgress - _BPhisProgress >= 0) {
+        if (BPnowProgress >= _BPendProgress) {
+            nowProgress = _endProgress;
+            _BPhisProgress = BPnowProgress;
+        }
+        if (BPtitString.intValue >= _BPendTitleLab.intValue) {
+            BPtitString = _BPendTitleLab;
+            _BPhisTitleLab = _BPendTitleLab;
+        }
+        if (BPtitString.intValue >= _BPendTitleLab.intValue && BPnowProgress >= _BPendProgress) {
+//            [_animationTimer invalidate];
+//            _animationTimer = nil;
+             endAnimation1 = YES;
+        }
+    }
+    else{
+        if (BPnowProgress <= _BPendProgress) {
+            BPnowProgress = _BPendProgress;
+            _BPhisProgress = BPnowProgress;
+        }
+        if (BPtitString.intValue <= _BPendTitleLab.intValue) {
+            BPtitString = _BPendTitleLab;
+            _BPhisTitleLab = _BPendTitleLab;
+        }
+        if (BPtitString.intValue <= _BPendTitleLab.intValue && BPnowProgress <= _BPendProgress) {
+//            [_animationTimer invalidate];
+//            _animationTimer = nil;
+            endAnimation1 = YES;
+        }
+    }
+    //   NSLog(@"FWGHHHHH===%f    %@",nowProgress,titString);
+    _BPprogress = BPnowProgress;
+    _BPtitleLab = BPtitString;
+    [self setNeedsDisplay];
+    if (endAnimation1 && endAnimation0) {
+        [_animationTimer invalidate];
+        _animationTimer = nil;
+    }
 }
 
 - (void)animationTimer:(NSTimer *)timer{

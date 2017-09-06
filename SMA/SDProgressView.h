@@ -12,3 +12,4 @@
 #import "SDPieLoopProgressView.h"
 //#import "SDTransparentPieProgressView.h"
 #import "SDRotationLoopProgressView.h"
+#import "SDBPProgressView.h"

@@ -16,5 +16,7 @@ typedef void (^imaBlock)(UIButton *button, UIView *view);
 @property (nonatomic, weak) IBOutlet SDDemoItemView *roundView;
 @property (nonatomic, weak) IBOutlet UIImageView *pulldownView,*roundView1, *roundView2, *roundView3;
 @property (nonatomic, weak) IBOutlet UIButton *roundBut1, *roundBut2, *roundBut3;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *Round2W;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *round1top;
 - (void)tapRoundView:(imaBlock)callBlock;
 @end

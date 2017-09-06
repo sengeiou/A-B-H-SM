@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ScattView.h"
 #import "MTKSleepView.h"
+#import "SMAHGView.h"
 /** 遵循该代理就可以监控到网络滚动视图的index*/
 @class WYScrollView;
 @protocol WYScrollViewNetDelegate <NSObject>
@@ -77,6 +78,10 @@
 
 @property (nonatomic, assign) BOOL sleepDayDraw;  //绘制睡眠当天图像
 
+@property (nonatomic, assign) BOOL HGDayDraw;  //绘制睡眠当天图像
+
+@property (nonatomic, assign) BOOL HGPolylineDraw;  //绘制睡眠当天图像
+
 /*绘图区域是否允许点击改变颜色*/
 @property (nonatomic, assign) BOOL selectColor;
 
@@ -122,6 +127,8 @@
  *  @return
  */
 - (instancetype) initWithFrame:(CGRect)frame WithNetImages:(NSArray *)imageArray;
+
+- (instancetype)initWithFrame:(CGRect)frame WithHGDatas:(NSArray *)dataArray;
 
  /** 设置数量*/
 -(void)setMaxImageCount;

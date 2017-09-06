@@ -15,6 +15,7 @@
     NSMutableArray *HRArr;
     NSMutableArray *quietArr;
     NSMutableArray *sleepArr;
+    NSMutableArray *BPArr;
     UILabel *titleLab;
     BOOL firstLun;
 }
@@ -29,7 +30,8 @@
     
     firstLun = YES;
     [self initializeMethod:NO];
-   
+//     [self createUI];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,14 +53,14 @@
     
     [SmaNotificationCenter addObserver:self selector:@selector(updateUI) name:UIApplicationDidBecomeActiveNotification object:nil];
     [SmaNotificationCenter addObserver:self selector:@selector(updateData) name:@"updateData" object:nil];
-//     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chectFirmwareVewsionWithWeb) name:@"DFUUPDATEFINISH" object:nil];
-     [self chectFirmwareVewsionWithWeb];
+    //     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chectFirmwareVewsionWithWeb) name:@"DFUUPDATEFINISH" object:nil];
+    [self chectFirmwareVewsionWithWeb];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [SmaNotificationCenter removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [SmaNotificationCenter removeObserver:self name:@"updateData" object:nil];
-//    [SmaNotificationCenter removeObserver:self name:@"DFUUPDATEFINISH" object:nil];
+    //    [SmaNotificationCenter removeObserver:self name:@"DFUUPDATEFINISH" object:nil];
 }
 
 - (SMADatabase *)dal{
@@ -83,14 +85,18 @@
         HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
         quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
         sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (!updateUi) {
-                [self createUI];
-            }
-            else{
-                [self updateUI];
-            }
-        });
+        BPArr = [self.dal selectBPDataWihtDate:self.date.yyyyMMddNoLineWithDate];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!updateUi) {
+                    [self createUI];
+                    [self.tableView reloadData];
+                }
+                else{
+                    [self updateUI];
+                }
+            });
+//        });
     });
 }
 
@@ -157,7 +163,7 @@
     NSLog(@"升级 %d",[SMADefaultinfos getIntValueforKey:DFUUPDATE]);
     UIAlertController *alcer = [UIAlertController alertControllerWithTitle:SMALocalizedString(@"me_repairRemain") message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *canAct = [UIAlertAction actionWithTitle:SMALocalizedString(@"me_repairNoRemain") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-       [SMADefaultinfos putKey:DFUUPDATE andValue:@"1"];
+        [SMADefaultinfos putKey:DFUUPDATE andValue:@"1"];
     }];
     UIAlertAction *confimAct = [UIAlertAction actionWithTitle:SMALocalizedString(@"setting_sedentary_confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         SMADfuViewController *subVC = (SMADfuViewController *)[MainStoryBoard instantiateViewControllerWithIdentifier:@"SMADfuViewController"];
@@ -178,6 +184,7 @@
         HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
         quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
         sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+        BPArr = [self.dal selectBPDataWihtDate:self.date.yyyyMMddNoLineWithDate];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateUI];
         });
@@ -329,11 +336,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 3;
+    return 3 + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 180;
+    return 185;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -346,8 +353,11 @@
         else if (indexPath.row == 1) {
             cell.roundView.progressViewClass = [SDRotationLoopProgressView class];
         }
-        else{
+        else if (indexPath.row == 3){
             cell.roundView.progressViewClass = [SDPieLoopProgressView class];
+        }
+        else if (indexPath.row == 2){
+            cell.roundView.progressViewClass = [SDBPProgressView class];
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -426,7 +436,7 @@
         [cell.roundBut2 setImage:[UIImage imageNamed:@"icon_heart_big"] forState:UIControlStateNormal];
         [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_heart_jingxi"] forState:UIControlStateNormal];
     }
-    else if (indexPath.row == 2){
+    else if (indexPath.row == 3){
         cell.pulldownView.hidden = YES;
         //                cell.roundView.progressView.progress = 0.001;
         [cell.roundView.progressView sleepTimeAnimaitonWtihStar:[[sleepArr objectAtIndex:5] floatValue] end:[[sleepArr objectAtIndex:6] floatValue]];
@@ -461,6 +471,52 @@
         [cell.roundBut2 setImage:[UIImage imageNamed:@"icon_shenshui"] forState:UIControlStateNormal];
         [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_qingxin"] forState:UIControlStateNormal];
     }
+    else if (indexPath.row == 2){
+        cell.pulldownView.hidden = YES;
+        cell.roundBut2.hidden = YES;
+        cell.Round2W.constant = 10;
+        cell.round1top.constant = 16;
+        cell.detailsLab2.hidden = YES;
+        [cell.roundBut1 setImage:[UIImage imageNamed:@"icon_ssy"] forState:UIControlStateNormal];
+        [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_szy"] forState:UIControlStateNormal];
+        cell.titLab.text = SMALocalizedString(@"血压监测");
+        cell.titLab.textColor = [SmaColor colorWithHexString:@"#ffb446" alpha:1.0];
+        
+        cell.dialLab.textColor = [SmaColor colorWithHexString:@"#ffb446" alpha:1.0];
+        cell.dialLab.font = FontGothamLight(18);
+        cell.stypeLab.text = @"";
+        
+        [cell tapRoundView:^(UIButton *button,UIView *view) {
+            CGSize remindSize;
+            NSString *remindStr;
+            if (button.tag == 103) {
+                remindStr = SMALocalizedString(@"舒张压");
+            }
+            else{
+                remindStr = SMALocalizedString(@"收缩压");
+            }
+            remindSize = [self sizeWithText:remindStr];
+            SMARemindView *remindView = [[SMARemindView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(button.frame) - 8, CGRectGetMinY(button.frame) - 18, remindSize.width + 8, remindSize.height + 6) title:remindStr];
+            remindView.backIma.image = [UIImage imageNamed:@"home_xueya"];
+            [view addSubview:remindView];
+        }];
+        NSDictionary *dic = [BPArr firstObject];
+        CGFloat max = ([dic[@"SHRINK"] floatValue] - 90.0)/(240.0 - 90.0);
+        if (max <= 0) {
+            max = 0;
+        }
+        CGFloat min = ([dic[@"RELAXATION"] floatValue] - 30.0)/(90.0 - 30.0);
+        if (min <= 0) {
+            min = 0;
+        }
+        [cell.roundView.progressView setBPProgres:max relaxaion:min shrinkTitleLab:[NSString stringWithFormat:@"%d",[dic[@"SHRINK"] intValue]] relaxaionTitleLab:[NSString stringWithFormat:@"%d",[dic[@"RELAXATION"] intValue]] ];
+        static BOOL inta = NO;
+        inta = !inta;
+        cell.detailsLab3.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[dic[@"RELAXATION"] intValue]],@"mmHg"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#ffb446" alpha:1],[UIColor blackColor]]];
+        cell.detailsLab1.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[dic[@"SHRINK"] intValue]],@"mmHg"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#ffb446" alpha:1],[UIColor blackColor]]];
+        cell.dialLab.text = [self bpModeSystolic:[dic[@"SHRINK"] intValue] diastolic:[dic[@"RELAXATION"] intValue]];
+        //        cell.detailsLab2.attributedText = [self attributedStringWithArr:@[[NSString stringWithFormat:@"%d",[[[HRArr lastObject] objectForKey:@"maxHR"] intValue]],@"bpm"] fontArr:@[FontGothamLight(15),FontGothamLight(15)]colorArr:@[[SmaColor colorWithHexString:@"#EA1F75" alpha:1],[UIColor blackColor]]];
+    }
     return cell;
 }
 
@@ -478,8 +534,14 @@
         [self.navigationController pushViewController:hrDetailVC animated:YES];
         
     }
-    else{
+    else if (indexPath.row == 3){
         SMASleepDetailViewController *slDetailVC = [[SMASleepDetailViewController alloc] init];
+        slDetailVC.hidesBottomBarWhenPushed=YES;
+        slDetailVC.date = self.date;
+        [self.navigationController pushViewController:slDetailVC animated:YES];
+    }
+    else if (indexPath.row == 2){
+        SMAHGDetailViewController *slDetailVC = [[SMAHGDetailViewController alloc] init];
         slDetailVC.hidesBottomBarWhenPushed=YES;
         slDetailVC.date = self.date;
         [self.navigationController pushViewController:slDetailVC animated:YES];
@@ -497,6 +559,7 @@
             HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
             quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
             sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+            BPArr = [self.dal selectBPDataWihtDate:self.date.yyyyMMddNoLineWithDate];
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncSucc");
                 [self.tableView headerEndRefreshing];
@@ -520,6 +583,7 @@
             HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
             quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
             sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+            BPArr = [self.dal selectBPDataWihtDate:self.date.yyyyMMddNoLineWithDate];
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.tableView.headerRefreshingText = SMALocalizedString(@"device_syncFail");
                 [self.tableView headerEndRefreshing];
@@ -541,6 +605,7 @@
         HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
         quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
         sleepArr =[self screeningSleepData:[self.dal readSleepDataWithDate:self.date.yyyyMMddNoLineWithDate]];
+        BPArr = [self.dal selectBPDataWihtDate:self.date.yyyyMMddNoLineWithDate];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
@@ -808,6 +873,18 @@
     else{
         modeStr = SMALocalizedString(@"device_HR_typeT");
     }
+    return modeStr;
+}
+
+- (NSString *)bpModeSystolic:(int)systolic diastolic:(int)diastolic{
+    NSString *modeStr = SMALocalizedString(@"正常血压");
+    if (systolic > 141 || diastolic > 91) {
+        modeStr = SMALocalizedString(@"高血压");
+    }
+    if (systolic < 89 || diastolic < 59) {
+        modeStr = SMALocalizedString(@"低血压");
+    }
+    
     return modeStr;
 }
 

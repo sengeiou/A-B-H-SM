@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,17 +19,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DATACELL" id="KGk-i7-Jjw" customClass="SMADieviceDataCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="185"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="179"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="185"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nog-LC-vsT">
-                        <rect key="frame" x="8" y="8" width="304" height="163"/>
+                        <rect key="frame" x="8" y="8" width="304" height="168.5"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y7t-hr-wDV">
-                                <rect key="frame" x="152" y="0.0" width="152" height="163"/>
+                                <rect key="frame" x="152" y="0.0" width="152" height="168.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="运动目标" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zh-0S-HkD">
                                         <rect key="frame" x="5" y="0.0" width="142" height="43"/>
@@ -69,19 +70,19 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="00h 32m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R9Z-xL-PUM">
-                                        <rect key="frame" x="76.5" y="74.5" width="67.5" height="15"/>
+                                        <rect key="frame" x="76.5" y="75" width="67.5" height="15"/>
                                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="00h 32m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ucb-07-P2T">
-                                        <rect key="frame" x="76.5" y="107.5" width="67.5" height="15"/>
+                                        <rect key="frame" x="76.5" y="108" width="67.5" height="15"/>
                                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="00h 32m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXx-fa-q7P">
-                                        <rect key="frame" x="76.5" y="140.5" width="67.5" height="15"/>
+                                        <rect key="frame" x="76.5" y="141" width="67.5" height="15"/>
                                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -147,7 +148,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lox-aa-Ijw">
-                                <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
+                                <rect key="frame" x="0.0" y="0.0" width="152" height="168.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_refresh" translatesAutoresizingMaskIntoConstraints="NO" id="7DL-dZ-JgD">
                                         <rect key="frame" x="9" y="11" width="14" height="17"/>
@@ -157,15 +158,14 @@
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" horizontalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="21s-Hq-v3u" customClass="SDDemoItemView">
-                                        <rect key="frame" x="16" y="30" width="120" height="120"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="120" id="054-AW-YeM"/>
-                                            <constraint firstAttribute="height" constant="120" id="hu6-3Y-YN3"/>
-                                        </constraints>
+                                        <rect key="frame" x="7" y="15.5" width="138.5" height="138.5"/>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="21s-Hq-v3u" firstAttribute="top" secondItem="Lox-aa-Ijw" secondAttribute="top" constant="30" id="gOl-1S-CKe"/>
+                                    <constraint firstItem="21s-Hq-v3u" firstAttribute="centerX" secondItem="Lox-aa-Ijw" secondAttribute="centerX" id="01O-QU-v4Y"/>
+                                    <constraint firstItem="21s-Hq-v3u" firstAttribute="height" secondItem="Lox-aa-Ijw" secondAttribute="height" constant="-30" id="8D6-Ud-9H6"/>
+                                    <constraint firstItem="21s-Hq-v3u" firstAttribute="centerY" secondItem="Lox-aa-Ijw" secondAttribute="centerY" id="je1-2f-Tkp"/>
+                                    <constraint firstItem="21s-Hq-v3u" firstAttribute="width" secondItem="Lox-aa-Ijw" secondAttribute="height" constant="-30" id="mA8-Ce-pKv"/>
                                     <constraint firstItem="21s-Hq-v3u" firstAttribute="centerX" secondItem="Lox-aa-Ijw" secondAttribute="centerX" id="rfb-k3-xH4"/>
                                     <constraint firstItem="7DL-dZ-JgD" firstAttribute="leading" secondItem="Lox-aa-Ijw" secondAttribute="leading" constant="9" id="xKi-VZ-dmd"/>
                                     <constraint firstItem="7DL-dZ-JgD" firstAttribute="top" secondItem="Lox-aa-Ijw" secondAttribute="top" constant="11" id="yGH-GU-VID"/>
@@ -193,6 +193,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="Round2W" destination="aqf-zV-p2z" id="gAd-wV-ROb"/>
                 <outlet property="backgrouView" destination="nog-LC-vsT" id="xyK-on-FGl"/>
                 <outlet property="detailsLab1" destination="R9Z-xL-PUM" id="KZt-nh-NEQ"/>
                 <outlet property="detailsLab2" destination="Ucb-07-P2T" id="nL9-FE-hPu"/>
@@ -200,6 +201,7 @@
                 <outlet property="dialLab" destination="UKg-Mi-ldk" id="wva-bI-f78"/>
                 <outlet property="goalView" destination="Y7t-hr-wDV" id="qw6-F0-w1A"/>
                 <outlet property="pulldownView" destination="7DL-dZ-JgD" id="tpo-yI-Qup"/>
+                <outlet property="round1top" destination="5RJ-hc-4gx" id="rMW-Uf-1RX"/>
                 <outlet property="roundBut1" destination="rrU-zT-ezi" id="khC-pa-hKg"/>
                 <outlet property="roundBut2" destination="mJG-7g-4ew" id="C7y-fG-Hax"/>
                 <outlet property="roundBut3" destination="rau-3y-JK0" id="XQg-xs-xGr"/>

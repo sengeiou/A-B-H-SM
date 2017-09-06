@@ -85,7 +85,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     [aggregateData addObject:nowData];
     [aggregateData addObject:rightData];
     [self addSubViewWithCycle:0];
-    
 }
 
 - (void)createUI{
@@ -126,7 +125,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         [tabBarView addSubview:but];
     }
     [self.view addSubview:tabBarView];
-    
 }
 
 - (void)addSubViewWithCycle:(int)Cycle{

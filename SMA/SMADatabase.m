@@ -59,6 +59,8 @@ static id _instace;
             
             //定位
             result = [db executeUpdate:@"create table if not exists tb_location (id INTEGER PRIMARY KEY ASC AUTOINCREMENT ,user_id varchar(50),loca_id varchar(30),loca_date datetime, longitude float, latitude float, runstep integer,loca_mode integer,location_web integer);"];
+            
+            result = [db executeUpdate:@"create table if not exists tb_blutdruck (id integer primary key asc autoincrement,user_id varchar(50),bp_id varchar(30) UNIQUE,bp_date datetime,bp_time integer,shrink integer,relaxation integer,bp_web integer);"];
         }];
     }
     return queue;
@@ -976,7 +978,6 @@ static id _instace;
                 //                NSLog(@"转换后的coord");
                 coord = [TQLocationConverter transformFromWGSToGCJ:coord];
             }
-            
             NSDictionary *locaDic = [[NSDictionary alloc]initWithObjectsAndKeys:date,@"DATE",[NSString stringWithFormat:@"%f",coord.longitude],@"LONGITUDE",[NSString stringWithFormat:@"%f",coord.latitude],@"LATITUDE",runStep,@"STEP", nil];
             [locationArr addObject:locaDic];
         }
@@ -1018,6 +1019,32 @@ static id _instace;
     return locaArr;
 }
 
+- (void)insertBPDataArr:(NSMutableArray *)bps{
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        for (int i = 0; i < bps.count; i ++) {
+            NSDictionary *bpDic = [bps objectAtIndex:i];
+            NSString *bpID = [NSString stringWithFormat:@"%.0f",[SMADateDaultionfos msecIntervalSince1970Withdate:[bpDic objectForKey:@"DATE"] timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]]];
+            NSString *date = [bpDic objectForKey:@"DATE"];
+            NSString *YTD = [date substringToIndex:8];
+            NSString *moment = [SMADateDaultionfos minuteFormDate:date];
+            BOOL result = [db executeUpdate:@"insert into tb_blutdruck (user_id,bp_id,bp_date,bp_time,shrink,relaxation,bp_web) values (?,?,?,?,?,?,?)",[bpDic objectForKey:@"USERID"],bpID,YTD,moment,[bpDic objectForKey:@"SHRINK"],[bpDic objectForKey:@"RELAXATION"],[bpDic objectForKey:@"WEB"]];
+            NSLog(@"result %D",result);
+        }
+    }];
+}
+
+- (NSMutableArray *)selectBPDataWihtDate:(NSString *)date{
+    NSMutableArray *bdArr = [NSMutableArray array];
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet *res = [db executeQuery:@"select *from tb_blutdruck where bp_date = ? and user_id = ? group by bp_time",date,[SMAAccountTool userInfo].userID];
+        while (res.next) {
+            NSDictionary *dic = @{@"DATE":[res stringForColumn:@"bp_date"],@"TIME":[res stringForColumn:@"bp_time"],@"SHRINK":[res stringForColumn:@"shrink"],@"RELAXATION":[res stringForColumn:@"relaxation"]};
+            [bdArr addObject:dic];
+        }
+    }];
+    
+    return bdArr;
+}
 
 - (NSString *)getHourAndMin:(NSString *)time{
     if (time.intValue > 1440) {

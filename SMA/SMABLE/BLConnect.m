@@ -744,7 +744,7 @@ static id _instace;
                     }];
                 });
             }
-            [SmaBleSend requestCuffSleepData];
+            [SmaBleSend getBloodPressure];
             break;
         case RUNMODE:
             NSLog(@"riunfjwfiow===%@",array);
@@ -890,7 +890,7 @@ static id _instace;
                 });
                 
                 [_AVplayer play];
-                //                                [self musicPlay]
+                //             [self musicPlay]
                 //                [_AVplayer play];
                 //                });
                 //                [self postNotificationWithTitle:@"寻找手机" content:@"寻找手机，收到回答" audioName:@"Alarm.mp3" info:nil];
@@ -923,9 +923,14 @@ static id _instace;
                         
                     }];
                 }
-                
-            }
+             }
         }
+            break;
+        case BLUTDRUCK:
+            if (![[[array firstObject] objectForKey:@"NODATA"] isEqualToString:@"NODATA"]) {
+                [dal insertBPDataArr:[self clearUpBPData:array]];
+            }
+            [SmaBleSend requestCuffSleepData];
             break;
         default:
             break;
@@ -1158,6 +1163,18 @@ static double hrInterval;
         
     }
     return hr_arr;
+}
+
+- (NSMutableArray *)clearUpBPData:(NSMutableArray *)dataArr{
+    NSMutableArray *bp_arr = [NSMutableArray array];
+    for (int i = 0; i < dataArr.count; i ++) {
+        NSMutableDictionary *bpDic = [(NSDictionary *)dataArr[i] mutableCopy];
+        [bpDic setObject:[SMADefaultinfos getValueforKey:BANDDEVELIVE] forKey:@"INDEX"];
+        [bpDic setObject:@"0" forKey:@"WEB"];
+        [bpDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
+        [bp_arr addObject:bpDic];
+    }
+    return bp_arr;
 }
 
 - (void)music{
