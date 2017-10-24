@@ -9,5 +9,6 @@
 #import <MapKit/MapKit.h>
 
 @interface SMAPolyline : MKPolyline
-
+@property (copy, nullable) NSArray<NSNumber *> *lineDashPattern; // defaults to nil
+@property (strong, nullable) UIColor *strokeColor;
 @end

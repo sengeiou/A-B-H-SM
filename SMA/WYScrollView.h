@@ -19,6 +19,8 @@
 /** 点中网络滚动视图后触发*/
 -(void)didSelectedNetImageAtIndex:(NSInteger)index;
 
+
+
 @end
 
 /** 遵循该代理就可以监控到本地滚动视图的index*/
@@ -44,6 +46,8 @@
 
 /** 触摸手势结束*/
 - (void)WYplotTouchUp;
+
+- (void)didSelectBpData:(NSDictionary *)dic selIndex:(NSInteger)index;
 @end
 
 @interface WYScrollView : UIView

@@ -88,8 +88,8 @@
 "device_RU_pace"="Vauhti";
 "device_RU_per_meUnit"="km/h";
 "device_RU_per_brUnit"="mailia/h";
-"device_RU_pace_meUnit"="min/km";
-"device_RU_pace_brUnit"="min/maili";
+"device_RU_pace_meUnit"="/km";
+"device_RU_pace_brUnit"="/maili";
 "device_RU_lunTime" = "Harjoitteluaika";
 "device_RU_lastHR" = "Viimeisin sykearvo";
 "device_RU_traTit" = "Harjoittelun seuranta";
@@ -101,6 +101,8 @@
 "device_RU_Warmup" = "Lämmitellä";
 "device_RU_max" = "Max syke";
 "device_RU_min" = "Min syke";
+"device_RU_stride" = "Step frequency";
+"device_RU_step" = "Step count";
 "device_HR_typeF"="Normaali";
 "device_HR_typeS"="Matala";
 "device_HR_typeT"="Korkea";
@@ -156,6 +158,17 @@
 "device_share_INNOInsta"="Asenna instagram";
 "device_share_FBNOInsta"="Asenna facebook";
 "device_share_success"="Jako onnistunut";
+"device_bp_remind" = "Blood pressure(BP) refers to when blood flow by heart,the pressure produced by blood flow to the arterial wall. There are two ways to measure. The systolic BP refers to the BP produced by delivering blood when heart pumping. \"Diastolic BP \"refers to the heart beat interval in diastolic BP. Usually systolic pressure written above or in front of the diastolic pressure";
+"device_bp_remind1" = "NHLBI";
+"device_bp_systolic" = "Systolic pressure";
+"device_bp_diastolic" = "Diastolic pressure";
+"device_bp_avg" = "average value";
+"device_bp_max" = "Max";
+"device_bp_min" = "Min";
+"device_bp_normal" = "normal pressure";
+"device_bp_high" = "hypertension";
+"device_bp_low" = "hypotension";
+"device_bp_monitor" = "blood pressure testing";
 "setting_title"="Laite";
 "setting_conDevice"="Lisää uusi laite";
 "setting_antiLost"="Kadottamisen esto";
@@ -190,6 +203,7 @@
 "setting_band_bindfail"="Laiteparin muodostaminen epäonnistui";
 "setting_band_remind"="Paina pitkään laitteen keskimmäistä paininta vahvistaaksesi laitepari";
 "setting_band_remindBand"="Paina kelloa pitkään";
+"setting_band_remindWatch" = "Operating as the illustrated please";
 "setting_band_noDevice"="Laitetta ei löydy. Varmista, että kello on ladattu täyteen ja on lähellä puhelinta ja yritä uudelleen.";
 "setting_band_failRemind"="Laiteparin muodostaminen epäonnistui";
 "setting_unband_title"="Laitehallinta";

@@ -74,6 +74,12 @@
             }
         }
         SMAPolyline *routeLine = [SMAPolyline polylineWithCoordinates:commonPolylineCoordss count:detailPoints.count];
+        if ([[[detailPoints firstObject] objectForKey:@"CONNECT"] isEqualToString:@"CONNECT"]) {
+            routeLine.lineDashPattern = @[@0,@0];
+        }
+        else{
+            routeLine.lineDashPattern = @[@2, @5];
+        }
         [_polyliones addObject:routeLine];
     }
      [self addOverlays:_polyliones];
@@ -136,6 +142,7 @@
         MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
         polylineRenderer.lineWidth = 3.f;
         polylineRenderer.strokeColor = [UIColor colorWithRed:54/255.0 green:153/255.0 blue:230/255.0 alpha:1];
+        polylineRenderer.lineDashPattern = [(SMAPolyline *)overlay lineDashPattern];
         return polylineRenderer;
     }
     return nil;

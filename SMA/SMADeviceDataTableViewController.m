@@ -57,6 +57,10 @@
     [self chectFirmwareVewsionWithWeb];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+   
+}
+
 - (void)viewDidDisappear:(BOOL)animated{
     [SmaNotificationCenter removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [SmaNotificationCenter removeObserver:self name:@"updateData" object:nil];
@@ -335,8 +339,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return 3 + 1;
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+          return 4;
+    }
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -353,10 +359,10 @@
         else if (indexPath.row == 1) {
             cell.roundView.progressViewClass = [SDRotationLoopProgressView class];
         }
-        else if (indexPath.row == 3){
+        else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? indexPath.row == 3:indexPath.row == 2){
             cell.roundView.progressViewClass = [SDPieLoopProgressView class];
         }
-        else if (indexPath.row == 2){
+        else if (indexPath.row == 2 && [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
             cell.roundView.progressViewClass = [SDBPProgressView class];
         }
     }
@@ -436,7 +442,7 @@
         [cell.roundBut2 setImage:[UIImage imageNamed:@"icon_heart_big"] forState:UIControlStateNormal];
         [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_heart_jingxi"] forState:UIControlStateNormal];
     }
-    else if (indexPath.row == 3){
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? indexPath.row == 3:indexPath.row == 2){
         cell.pulldownView.hidden = YES;
         //                cell.roundView.progressView.progress = 0.001;
         [cell.roundView.progressView sleepTimeAnimaitonWtihStar:[[sleepArr objectAtIndex:5] floatValue] end:[[sleepArr objectAtIndex:6] floatValue]];
@@ -471,7 +477,7 @@
         [cell.roundBut2 setImage:[UIImage imageNamed:@"icon_shenshui"] forState:UIControlStateNormal];
         [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_qingxin"] forState:UIControlStateNormal];
     }
-    else if (indexPath.row == 2){
+    else if (indexPath.row == 2 && [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
         cell.pulldownView.hidden = YES;
         cell.roundBut2.hidden = YES;
         cell.Round2W.constant = 10;
@@ -479,7 +485,7 @@
         cell.detailsLab2.hidden = YES;
         [cell.roundBut1 setImage:[UIImage imageNamed:@"icon_ssy"] forState:UIControlStateNormal];
         [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_szy"] forState:UIControlStateNormal];
-        cell.titLab.text = SMALocalizedString(@"血压监测");
+        cell.titLab.text = SMALocalizedString(@"device_bp_monitor");
         cell.titLab.textColor = [SmaColor colorWithHexString:@"#ffb446" alpha:1.0];
         
         cell.dialLab.textColor = [SmaColor colorWithHexString:@"#ffb446" alpha:1.0];
@@ -490,22 +496,22 @@
             CGSize remindSize;
             NSString *remindStr;
             if (button.tag == 103) {
-                remindStr = SMALocalizedString(@"舒张压");
+                remindStr = SMALocalizedString(@"device_bp_diastolic");
             }
             else{
-                remindStr = SMALocalizedString(@"收缩压");
+                remindStr = SMALocalizedString(@"device_bp_systolic");
             }
             remindSize = [self sizeWithText:remindStr];
             SMARemindView *remindView = [[SMARemindView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(button.frame) - 8, CGRectGetMinY(button.frame) - 18, remindSize.width + 8, remindSize.height + 6) title:remindStr];
             remindView.backIma.image = [UIImage imageNamed:@"home_xueya"];
             [view addSubview:remindView];
         }];
-        NSDictionary *dic = [BPArr firstObject];
-        CGFloat max = ([dic[@"SHRINK"] floatValue] - 90.0)/(240.0 - 90.0);
+        NSDictionary *dic = [BPArr lastObject];
+        CGFloat max = ([dic[@"SHRINK"] floatValue] - 00)/(240.0 - 0.0);
         if (max <= 0) {
             max = 0;
         }
-        CGFloat min = ([dic[@"RELAXATION"] floatValue] - 30.0)/(90.0 - 30.0);
+        CGFloat min = ([dic[@"RELAXATION"] floatValue] - 00)/(240.0 - 0.0);
         if (min <= 0) {
             min = 0;
         }
@@ -534,13 +540,13 @@
         [self.navigationController pushViewController:hrDetailVC animated:YES];
         
     }
-    else if (indexPath.row == 3){
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? indexPath.row == 3:indexPath.row == 2){
         SMASleepDetailViewController *slDetailVC = [[SMASleepDetailViewController alloc] init];
         slDetailVC.hidesBottomBarWhenPushed=YES;
         slDetailVC.date = self.date;
         [self.navigationController pushViewController:slDetailVC animated:YES];
     }
-    else if (indexPath.row == 2){
+    else if (indexPath.row == 2 && [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
         SMAHGDetailViewController *slDetailVC = [[SMAHGDetailViewController alloc] init];
         slDetailVC.hidesBottomBarWhenPushed=YES;
         slDetailVC.date = self.date;
@@ -554,7 +560,7 @@
     NSLog(@"bledidDisposeMode  ==%d",mode);
     if (mode == CUFFSLEEPDATA) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            //            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
+            //    spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
             spArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate]];
             HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
             quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
@@ -578,7 +584,7 @@
 - (void)sendBLETimeOutWithMode:(SMA_INFO_MODE)mode{
     if (mode == CUFFSPORTDATA || mode == CUFFSLEEPDATA || mode == CUFFHEARTRATE) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            //            spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
+            //    spArr = [self.dal readSportDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate];
             spArr = [self getSPDatasModeContinueForOneDay:[self.dal readSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate]];
             HRArr = [self.dal readHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:NO];
             quietArr = [self.dal readQuietHearReatDataWithDate:self.date.yyyyMMddNoLineWithDate toDate:self.date.yyyyMMddNoLineWithDate detailData:YES];
@@ -877,12 +883,12 @@
 }
 
 - (NSString *)bpModeSystolic:(int)systolic diastolic:(int)diastolic{
-    NSString *modeStr = SMALocalizedString(@"正常血压");
+    NSString *modeStr = SMALocalizedString(@"device_bp_normal");
     if (systolic > 141 || diastolic > 91) {
-        modeStr = SMALocalizedString(@"高血压");
+        modeStr = SMALocalizedString(@"device_bp_high");
     }
     if (systolic < 89 || diastolic < 59) {
-        modeStr = SMALocalizedString(@"低血压");
+        modeStr = SMALocalizedString(@"device_bp_low");
     }
     
     return modeStr;

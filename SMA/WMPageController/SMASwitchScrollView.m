@@ -27,10 +27,15 @@
 - (void)createUIWithSwitchs:(NSArray *)switchs{
     int remainder = (int)[[switchs firstObject] count]%4;
     int divisor = (int)[[switchs firstObject] count]/4;
-  titleArr = @[SMALocalizedString(@"setting_antiLost"),SMALocalizedString(@"setting_noDistrub"),SMALocalizedString(@"setting_callNot"),SMALocalizedString(@"setting_smsNot"),SMALocalizedString(@"setting_screen"),SMALocalizedString(@"setting_liftBright")];
+    titleArr = @[SMALocalizedString(@"setting_antiLost"),SMALocalizedString(@"setting_noDistrub"),SMALocalizedString(@"setting_callNot"),SMALocalizedString(@"setting_smsNot"),SMALocalizedString(@"setting_screen"),SMALocalizedString(@"setting_liftBright")];
     
     imageArr = switchs;
-     NSArray *stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:![SMADefaultinfos getIntValueforKey:SCREENSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]]];
+    NSArray *stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:![SMADefaultinfos getIntValueforKey:SCREENSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]]];
+    
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+        titleArr = @[SMALocalizedString(@"setting_antiLost"),SMALocalizedString(@"setting_noDistrub"),SMALocalizedString(@"setting_callNot"),SMALocalizedString(@"setting_smsNot"),SMALocalizedString(@"setting_liftBright")];
+        stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]]];
+    }
     for (int i = 0; i < [[switchs firstObject] count]; i ++) {
         UIView *butView = [[UIView alloc] init];
         butView.backgroundColor = [UIColor whiteColor];
@@ -70,7 +75,7 @@
 }
 
 - (void)createView:(NSInteger)tag selected:(BOOL)select{
-        UIView *view = [self viewWithTag:tag/10];
+    UIView *view = [self viewWithTag:tag/10];
     for (UIImageView *subView in view.subviews) {
         NSInteger selIndex = tag/10 - 101;
         if ([[subView class] isSubclassOfClass:[UIImageView class]]) {
@@ -99,16 +104,32 @@
             }
                 break;
             case 1030:
-                [SMADefaultinfos putInt:CALLSET andValue:sender.selected];
-                [SmaBleSend setphonespark:[SMADefaultinfos getIntValueforKey:CALLSET]];
+              //  if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+               //     [SMADefaultinfos putInt:SMSSET andValue:sender.selected];
+              //      [SmaBleSend setSmspark:[SMADefaultinfos getIntValueforKey:SMSSET]];
+              //  }
+              //  else{
+                    [SMADefaultinfos putInt:CALLSET andValue:sender.selected];
+                    [SmaBleSend setphonespark:[SMADefaultinfos getIntValueforKey:CALLSET]];
+              //  }
                 break;
             case 1040:
-                [SMADefaultinfos putInt:SMSSET andValue:sender.selected];
-                [SmaBleSend setSmspark:[SMADefaultinfos getIntValueforKey:SMSSET]];
+              //  if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+             //       [SMADefaultinfos putInt:LIFTBRIGHT andValue:sender.selected];
+            //        [SmaBleSend setLiftBright:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]];
+           //     }else{
+                    [SMADefaultinfos putInt:SMSSET andValue:sender.selected];
+                    [SmaBleSend setSmspark:[SMADefaultinfos getIntValueforKey:SMSSET]];
+             //   }
                 break;
             case 1050:
+                if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+                    [SMADefaultinfos putInt:LIFTBRIGHT andValue:sender.selected];
+                    [SmaBleSend setLiftBright:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]];
+                }else{
                 [SMADefaultinfos putInt:SCREENSET andValue:!sender.selected];
                 [SmaBleSend setVertical:[SMADefaultinfos getIntValueforKey:SCREENSET]];
+                }
                 break;
             case 1060:
                 [SMADefaultinfos putInt:LIFTBRIGHT andValue:sender.selected];
@@ -117,9 +138,9 @@
             default:
                 break;
         }
-            [self createView:sender.tag selected:sender.selected];
+        [self createView:sender.tag selected:sender.selected];
     }
-
+    
 }
 
 - (void)didEndDecelerating:(endDeceBlock)callBack{
@@ -130,11 +151,11 @@
     drceleraBlock(scrollView.contentOffset);
 }
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 @end

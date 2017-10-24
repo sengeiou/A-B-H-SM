@@ -72,7 +72,7 @@
     [backView addSubview:deviceIma];
     
     UILabel *remindLab = [[UILabel alloc] initWithFrame:CGRectMake(18, CGRectGetMaxY(deviceIma.frame), CGRectGetWidth(backView.frame) - 36, 45)];
-     remindLab.text = [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? SMALocalizedString(@"setting_band_remind"):SMALocalizedString(@"setting_band_remindBand");
+    remindLab.text = [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] ? SMALocalizedString(@"setting_band_remind"):[[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"] ? SMALocalizedString(@"setting_band_remindWatch"):SMALocalizedString(@"setting_band_remindBand");
     remindLab.numberOfLines = 3;
     remindLab.font = FontGothamLight(14);
     remindLab.textAlignment = NSTextAlignmentCenter;

@@ -50,13 +50,11 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyyMMdd"];
     SMADatabase *base = [[SMADatabase alloc] init];
-    //    locationArr = [base readLocationDataWithDate:[self converToDtae:[[_runDic objectForKey:@"PRECISESTART"] doubleValue]]] toDate:[NSString stringWithFormat:@"%@%@%@30",[_runDic objectForKey:@"DATE"],[[[_runDic objectForKey:@"ENDTIME"] componentsSeparatedByString:@":"] firstObject],[[[_runDic objectForKey:@"ENDTIME"] componentsSeparatedByString:@":"] lastObject]]];
     locationArr = [base readLocationDataWithDate:[self converToDtae:[[_runDic objectForKey:@"PRECISESTART"] doubleValue]] toDate:[self converToDtae:[[_runDic objectForKey:@"PRECISEEND"] doubleValue]]];
 }
 
 - (void)createUI{
     self.title = SMALocalizedString(@"device_RU_traTit");
-    
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithIcon:@"icon-xinlv" highIcon:@"icon-xinlv" frame:CGRectMake(0, 0, 45, 45) target:self action:@selector(rightButton) transfrom:0];
     
     MKmapView = [[SMAMKMapView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, MainScreen.size.height - 300)];
@@ -64,7 +62,9 @@
     [MKmapView addGestureRecognizer:mTap];
     MKmapView.pointImages = [@[[UIImage imageNamed:@"map_location_blue"],[UIImage imageNamed:@"map_location_red"]] mutableCopy];
     if (locationArr.count > 0) {
-        [MKmapView drawOverlayWithPoints:[@[locationArr] mutableCopy]];
+        NSMutableArray *mutablePoint = [self getTrackViewLoint];
+        //      [MKmapView drawOverlayWithPoints:[@[locationArr] mutableCopy]];
+        [MKmapView drawOverlayWithPoints:[mutablePoint mutableCopy]];
         [MKmapView addAnnotationsWithPoints:[@[[locationArr firstObject],[locationArr lastObject]] mutableCopy]];
     }
     [self.view addSubview:MKmapView];
@@ -104,6 +104,96 @@
 
 - (void)tapPress:(UIGestureRecognizer*)gestureRecognizer {
     [trackview tapAction:nil];
+}
+
+- (NSMutableArray *)getTrackViewLoint{
+    NSMutableArray *lineArr = [NSMutableArray array];
+    NSMutableArray *disArr = nil;
+    NSMutableArray *conArr = nil;
+    BOOL isDisConnect;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式
+    [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    
+    for (int i = 0; i < (locationArr.count - 1); i ++) {
+        NSMutableDictionary *locationDic0 = [locationArr[i] mutableCopy];
+        NSMutableDictionary *locationDic1 = [locationArr[i + 1] mutableCopy];
+        NSTimeInterval interval = [[dateFormatter dateFromString:locationDic1[@"DATE"]] timeIntervalSinceDate:[dateFormatter dateFromString:locationDic0[@"DATE"]]];
+        if (interval > 45) {
+            isDisConnect = YES;
+            if (!disArr) {
+                disArr = [NSMutableArray array];
+            }
+            [locationDic0 setObject:@"DISCONNECT" forKey:@"CONNECT"];
+            [disArr addObject:[locationDic0 copy]];
+            if (conArr) {
+                [locationDic0 setObject:@"CONNECT" forKey:@"CONNECT"];
+                [conArr addObject:[locationDic0 copy]];
+                [lineArr addObject:[conArr copy]];
+                [conArr removeAllObjects];
+                conArr = nil;
+            }
+            if (i == locationArr.count - 2) {
+                [locationDic1 setObject:@"DISCONNECT" forKey:@"CONNECT"];
+                [disArr addObject:[locationDic1 copy]];
+                [lineArr addObject:[disArr copy]];
+                [disArr removeAllObjects];
+                disArr = nil;
+            }
+        }
+        else{
+            isDisConnect = NO;
+            if (!conArr) {
+                conArr = [NSMutableArray array];
+            }
+            [locationDic0 setObject:@"CONNECT" forKey:@"CONNECT"];
+            [conArr addObject:[locationDic0 copy]];
+            if (disArr) {
+                [locationDic0 setObject:@"DISCONNECT" forKey:@"CONNECT"];
+                [disArr addObject:locationDic0];
+                [lineArr addObject:[disArr copy]];
+                
+                [disArr removeAllObjects];
+                disArr = nil;
+            }
+            if (i == locationArr.count - 2) {
+                [locationDic1 setObject:@"CONNECT" forKey:@"CONNECT"];
+                [conArr addObject:[locationDic1 copy]];
+                [lineArr addObject:[conArr copy]];
+                [conArr removeAllObjects];
+                conArr = nil;
+            }
+        }
+    }
+    
+    //    for (int i = 0; i < locationArr.count; i ++) {
+    //        NSDictionary *locationDic = locationArr[i];
+    //        if ([locationDic[@"MODE"] intValue] == 1000) {
+    //            isDisConnect = YES;
+    //            if (disArr) {
+    //                 disArr = [NSMutableArray array];
+    //            }
+    //              [disArr addObject:locationDic];
+    //            if (conArr) {
+    //                [lineArr addObject:conArr];
+    //                [conArr removeAllObjects];
+    //                conArr = nil;
+    //            }
+    //        }
+    //        else{
+    //            isDisConnect = NO;
+    //            if (!conArr) {
+    //                 conArr = [NSMutableArray array];
+    //            }
+    //           [conArr addObject:locationDic];
+    //            if (disArr) {
+    //                [lineArr addObject:disArr];
+    //                [disArr removeAllObjects];
+    //                disArr = nil;
+    //            }
+    //        }
+    //    }
+    return lineArr;
 }
 
 - (void)getFullDetailViewWithHrDic:(NSDictionary *)dictionary{
@@ -173,7 +263,6 @@
     NSAttributedString *unitAtt = [[NSAttributedString alloc] initWithString:@"bpm" attributes:unitDic];
     [perAttStr appendAttributedString:unitAtt];
     return perAttStr;
-    
 }
 /*
  #pragma mark - Navigation
@@ -186,3 +275,4 @@
  */
 
 @end
+

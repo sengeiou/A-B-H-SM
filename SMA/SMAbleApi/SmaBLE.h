@@ -26,6 +26,7 @@ typedef enum {
     CUFFSPORTDATA,  //07运动数据
     CUFFHEARTRATE,  //心率数据(05、07)
     CUFFSLEEPDATA,  //07睡眠数据
+    CYCLINGDATA,    //骑行数据（B2）
     BLUTDRUCK,      //血压
     WATCHFACE,     //获取设备表盘（10-A）
     XMODEM,          //进入XODEM模式（10-A）
@@ -74,14 +75,21 @@ typedef enum {
  MODE：睡眠类型（若返回17则为进入睡眠时刻数据，34则为退出睡眠时刻数据，1：深睡，2：浅睡，3：未进入睡眠）
  SOFTLY：睡眠时轻动响应次数
  STRONG：睡眠时剧动响应次数
- @param BLUTDRUCK       反馈B2系统血压数据
- DATE：时间
+ @param BLUTDRUCK       反馈血压数据
+ DATE: 时间
  SHRINK：收缩压
  RELAXATION：舒张压
+ @param CYCLINGDATA     反馈B2系列骑行模式下数据 MODE 0：开始 2：结束
+ DATE: 时间
+ CAL: 卡路里
+ HEART: 心率
  @param CUFFSWITCHS     反馈10系列手表表盘编号
  @param XMODEM          10系列进入XMODE模式（用于表盘切换）
  @param RUNMODE         反馈10系列运动模式下数据 MODE 32：开始 33：运动中  47：结束 （&&&&**i-Med 定制项目 48：6m开始  49：12m开始 63：结束 **&&&&）
  @param NOTIFICATION    R1系列设备更改通知（@"96":闹钟设置更改通知； @"97":计步目标更改通知; @"100":久坐设置更改通知; @"103":手表相机界面开启通知）
+ @param GOALCALLBACK    R1系列设备运动目标返回
+ @param NOTIFICATION    R1系列设备久坐设置返回
+ @param FINDPHONE       R1系列设备寻找手机指令返回（@"0":关闭寻找手机； @"1"/@"2":蜂鸣强度）
  */
 
 @protocol SmaCoreBlueToolDelegate <NSObject>
@@ -346,6 +354,7 @@ typedef enum {
  */
 - (void)setPairAncs;
 
+
 /**
  设置系统是否为IOS系统
  
@@ -373,9 +382,13 @@ typedef enum {
  */
 - (void)requestLastHRData;
 
+/**
+ 请求骑行数据
+ */
+- (void)requestCyclingData;
 
 /**寻找设备
- Description 寻找设备并根据蜂鸣强度促使设备播放音乐
+ Description 寻找设备并根据鸣蜂强度促使设备播放音乐
  
  @param intensity 蜂鸣强度（intensity = 0 无蜂鸣（关闭）；intensity = 1 中等；intensity = 2 高等强度蜂鸣）
  */
@@ -411,6 +424,7 @@ typedef enum {
  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
  */
 -(void)getCuffCalarmClockList;
+
 
 /*请求运动数据
  @discussion 当应用程序触发:peripheral:didUpdateValueForCharacteristic:error:之后后调用:handleResponseValue:触发bleDataParsingWithMode: dataArr
@@ -492,3 +506,5 @@ typedef enum {
  */
 - (void)setFontBin:(NSData *)data;
 @end
+
+

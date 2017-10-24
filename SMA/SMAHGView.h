@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^didBar)(NSDictionary *barDic);
+typedef void(^didBar)(NSDictionary *barDic, NSInteger selInteger);
 @interface SMAHGView : UIView
 - (void)drawPolyline:(NSDictionary *)Dic;
 - (void)drawBarGraph:(NSDictionary *)Dic;

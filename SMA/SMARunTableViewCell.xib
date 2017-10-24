@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="287" height="119"/>
+                <rect key="frame" x="0.0" y="0.0" width="287" height="119.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ejV-F2-d5d">
@@ -173,10 +173,12 @@
                 <outlet property="beginDeLab" destination="Ste-D8-luQ" id="FN9-ZZ-AAB"/>
                 <outlet property="beginLab" destination="PKM-fi-tMB" id="RcL-Ff-CmD"/>
                 <outlet property="disDeLab" destination="eNw-gu-Spw" id="Xzc-XV-S41"/>
+                <outlet property="disImageView" destination="MmE-Hw-Wai" id="Wwp-8z-ksG"/>
                 <outlet property="disLab" destination="hFg-4g-xRl" id="vAH-7w-uf6"/>
                 <outlet property="endDeLab" destination="f4a-Bi-Xtb" id="KTh-Sd-x4h"/>
                 <outlet property="endLab" destination="RcN-wF-Fj8" id="9Qu-ww-CCB"/>
                 <outlet property="perDeLab" destination="u6J-L9-vis" id="Arc-yW-rcg"/>
+                <outlet property="perImageView" destination="ywx-Sl-5vW" id="fXb-Qj-7Ks"/>
                 <outlet property="perLab" destination="vSv-6I-nkT" id="vjF-EH-Dvn"/>
             </connections>
         </tableViewCell>

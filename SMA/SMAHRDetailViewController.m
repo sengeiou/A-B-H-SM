@@ -400,6 +400,8 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     else if (indexPath.row == [[[aggregateData objectAtIndex:1] objectAtIndex:5] count] - 1){
         cell.botLine.hidden = YES;
     }
+    cell.botLine.backgroundColor = [UIColor colorWithRed:234/255.0 green:31/255.0 blue:117/255.0 alpha:1].CGColor;
+    cell.topLine.backgroundColor = [UIColor colorWithRed:234/255.0 green:31/255.0 blue:117/255.0 alpha:1].CGColor;
     cell.timeLab.text = [self getHourAndMin:[[[[aggregateData objectAtIndex:1] objectAtIndex:5]  objectAtIndex:indexPath.row] objectForKey:@"TIME"]] ;
     cell.statelab.text = @"";
     cell.distanceLab.text = [NSString stringWithFormat:@"%@bpm",[[[[aggregateData objectAtIndex:1] objectAtIndex:5] objectAtIndex:indexPath.row] objectForKey:@"REAT"]];
@@ -865,15 +867,18 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     int allMax = 0;
     for (int i = 0; i < 4; i ++) {
         NSDate *nextDate = firstdate;
+        NSDate *lastdate;
         int maxHR = 0;
         int avgHR = 0;
         int minHR = 0;
         int dataNum = 0;
         if (month) {
             firstdate = [nextDate dayOfMonthToDateIndex:0];
+//            lastdate = nextDate;
         }
         else{
             firstdate = [nextDate firstDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
+            lastdate = [nextDate lastDayOfWeekToDateFormat:@"yyyyMMdd" callBackClass:[NSDate class]];
         }
         //        quietArr = [self.dal readQuietHearReatDataWithDate:[quietDate timeDifferenceWithNumbers:-10].yyyyMMddNoLineWithDate toDate:quietDate.yyyyMMddNoLineWithDate];
         quietDate = [NSDate date];
@@ -882,7 +887,6 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
         NSMutableArray *weekData = [self.dal readHearReatDataWithDate:firstdate.yyyyMMddNoLineWithDate toDate:nextDate.yyyyMMddNoLineWithDate detailData:NO];
         if (weekData.count > 0) {
             for (int i = 0; i < (int)weekData.count; i ++) {
-                
                 maxHR = [[weekData[i] objectForKey:@"maxHR"] intValue] + maxHR;
                 avgHR = [[weekData[i] objectForKey:@"avgHR"] intValue] + avgHR;
                 minHR = [[weekData[i] objectForKey:@"minHR"] intValue] + minHR;
@@ -893,7 +897,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
                     if (allMax < maxHR/dataNum) {
                         allMax = maxHR/dataNum;
                     }
-                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
+                    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
                     [weekDate addObject:dic];
                 }
             }
@@ -902,7 +906,7 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
             if (allMax < maxHR/dataNum) {
                 allMax = maxHR/dataNum;
             }
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:nextDate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",maxHR/dataNum],@"maxHR",[NSString stringWithFormat:@"%d",avgHR/dataNum],@"avgHR",[NSString stringWithFormat:@"%d",minHR/dataNum],@"minHR",[NSString stringWithFormat:@"%@-%@",[SMADateDaultionfos monAndDateStringFormDateStr:firstdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"],[SMADateDaultionfos monAndDateStringFormDateStr:lastdate.yyyyMMddNoLineWithDate format:@"yyyyMMdd"]],@"DATE",[firstdate.yyyyMMddNoLineWithDate substringToIndex:4],@"YEAR", nil];
             [weekDate addObject:dic];
         }
         firstdate = firstdate.yesterday;
@@ -980,10 +984,10 @@ static NSString * const reuseIdentifier = @"SMADetailCollectionCell";
     NSArray *dayArr = [str componentsSeparatedByString:@"-"];
     NSArray *monArr = [[dayArr firstObject] componentsSeparatedByString:@"."];
     NSString *monStr;
-    monStr = [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
-    if ([[monArr firstObject] intValue] == 1) {
-        monStr = [NSString stringWithFormat:@"%@ %@%@",year,[monArr firstObject],SMALocalizedString(@"device_SP_month")];
-    }
+    //    monStr = [NSString stringWithFormat:@"%@%@",[monArr firstObject],SMALocalizedString(@"device_SP_month")];
+    //    if ([[monArr firstObject] intValue] == 1) {
+    monStr = [NSString stringWithFormat:@"%@ %@",year,SMALocalizedString([NSString stringWithFormat:@"month%d",[[monArr firstObject] intValue]])];
+    //    }
     if ([[monArr firstObject] intValue] == [[[[NSDate date] yyyyMMddNoLineWithDate] substringWithRange:NSMakeRange(4, 2)] intValue] && [year isEqualToString:[[[NSDate date] yyyyMMddNoLineWithDate] substringToIndex:4]]) {
         monStr = SMALocalizedString(@"device_SL_thisMonth");
     }

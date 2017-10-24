@@ -72,6 +72,7 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
+                <outlet property="disW" destination="oEz-g3-3Ui" id="kfa-oO-sky"/>
                 <outlet property="distanceLab" destination="igi-hI-e18" id="nex-0B-DLd"/>
                 <outlet property="stateIma" destination="0dX-OC-SZO" id="9sA-gS-b00"/>
                 <outlet property="statelab" destination="CSt-aP-Zvz" id="JAA-W5-9aA"/>

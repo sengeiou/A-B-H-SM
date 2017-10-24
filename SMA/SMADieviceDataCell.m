@@ -35,6 +35,7 @@
     _backgrouView.layer.shadowOffset = CGSizeMake(0,3);//shadowOffset阴影偏移,x向右偏移4，y向下偏移4，默认(0, -3),这个跟shadowRadius配合使用 
     _backgrouView.layer.shadowOpacity = 0.8;//阴影透明度，默认0
     _backgrouView.layer.shadowRadius = 3;//阴影半径，默认3
+    _dialLab.adjustsFontSizeToFitWidth = YES;
 //    [self reoundAddRecognizer];
     /*******防止卡顿 二
     _backgrouView.layer.shadowColor = [UIColor blackColor].CGColor;

@@ -24,7 +24,9 @@
 #define ScrollHeight self.frame.size.height
 
 @interface WYScrollView () <UIScrollViewDelegate,corePlotViewDelegate>
-
+{
+    NSDictionary *bpDic;
+}
 @end
 
 @implementation WYScrollView
@@ -188,6 +190,12 @@
     else if(_HGDayDraw){
         SMAHGView *leftScattView = [self addHGOneDateWithData:_imageArray[0]];
         SMAHGView *centerScattView = [self addHGOneDateWithData:_imageArray[1]];
+        __weak typeof(self)weakSelf = self;
+        [centerScattView didSelectBar:^(NSDictionary *barDic,NSInteger selInteger) {
+            if (weakSelf.localDelagate && [weakSelf.localDelagate respondsToSelector:@selector(didSelectBpData:selIndex:)]) {
+                [weakSelf.localDelagate didSelectBpData:barDic selIndex:selInteger];
+            }
+        }];
         SMAHGView *rightScattView = [self addHGOneDateWithData:_imageArray[2]];
         
         [leftImageView addSubview:leftScattView];
@@ -299,11 +307,11 @@
 - (SMAHGView *)addHGOneDateWithData:(NSDictionary *)data{
     SMAHGView *sleepView = [[SMAHGView alloc] initWithFrame:CGRectMake(0, 0,MainScreen.size.width ,ScrollHeight)];
     if (_HGPolylineDraw) {
-        data = @{@"Xtext":@[@"0",@"12",@"24",@"24"],@"SHRINK":@[@[@"65",@"80"],@[@"65",@"80"],@[@"65",@"80"],@[@"65",@"80"]],@"RELAX":@[@[@"95",@"130"],@[@"105",@"180"],@[@"90",@"240"],@[@"95",@"180"]]};
+//        data = @{@"Xtext":@[@"0",@"12",@"24",@"24"],@"SHRINK":@[@[@"65",@"80"],@[@"65",@"80"],@[@"65",@"80"],@[@"65",@"80"]],@"RELAX":@[@[@"95",@"130"],@[@"105",@"180"],@[@"90",@"240"],@[@"95",@"180"]]};
         [sleepView drawBarGraph:data];
     }
     else{
-        data = @{@"Xtext":@[@"0",@"12",@"24"],@"XPOINT":@[@"30",@"80",@"600",@"723",@"964",@"1324",@"1439"],@"YPOINT":@[@"30",@"80",@"65",@"43",@"60",@"88",@"88"],@"XPOINT1":@[@"30",@"80",@"600",@"723",@"964",@"1324",@"1440"],@"YPOINT1":@[@"90",@"120",@"165",@"143",@"232",@"188",@"168"]};
+//        data = @{@"Xtext":@[@"0",@"12",@"24"],@"XPOINT":@[@"30",@"80",@"600",@"723",@"964",@"1324",@"1439"],@"YPOINT":@[@"30",@"80",@"65",@"43",@"60",@"88",@"88"],@"XPOINT1":@[@"30",@"80",@"600",@"723",@"964",@"1324",@"1440"],@"YPOINT1":@[@"90",@"120",@"165",@"143",@"232",@"188",@"168"]};
         [sleepView drawPolyline:data];
     }
     //    sleepView.xTexts = @[@"22:00",@"2:00",@"6:00",@"10:00"];
@@ -378,6 +386,12 @@
         else if (_HGDayDraw){
             SMAHGView *leftScattView = [self addHGOneDateWithData:_imageArray[0] ];
             SMAHGView *centerScattView = [self addHGOneDateWithData:_imageArray[1]];
+            __weak typeof(self)weakSelf = self;
+            [centerScattView didSelectBar:^(NSDictionary *barDic,NSInteger selInteger) {
+                if (weakSelf.localDelagate && [weakSelf.localDelagate respondsToSelector:@selector(didSelectBpData:selIndex:)]) {
+                    [weakSelf.localDelagate didSelectBpData:barDic selIndex:selInteger];
+                }
+            }];
             SMAHGView *rightScattView = [self addHGOneDateWithData:_imageArray[2]];
             
             [_leftImageView addSubview:leftScattView];

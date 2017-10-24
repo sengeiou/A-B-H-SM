@@ -101,6 +101,8 @@
 "device_RU_Warmup" = "Pemanasan";
 "device_RU_max" = "Max HR";
 "device_RU_min" = "Min HR";
+"device_RU_stride" = "Step frequency";
+"device_RU_step" = "Step count";
 "device_HR_typeF"="normal";
 "device_HR_typeS"="ringan";
 "device_HR_typeT"="berat";
@@ -156,6 +158,17 @@
 "device_share_INNOInsta"="pasang instagram";
 "device_share_FBNOInsta"="pasang facebook";
 "device_share_success"="berbagi berhasil";
+"device_bp_remind" = "Blood pressure(BP) refers to when blood flow by heart,the pressure produced by blood flow to the arterial wall. There are two ways to measure. The systolic BP refers to the BP produced by delivering blood when heart pumping. \"Diastolic BP \"refers to the heart beat interval in diastolic BP. Usually systolic pressure written above or in front of the diastolic pressure";
+"device_bp_remind1" = "NHLBI";
+"device_bp_systolic" = "Systolic pressure";
+"device_bp_diastolic" = "Diastolic pressure";
+"device_bp_avg" = "average value";
+"device_bp_max" = "Max";
+"device_bp_min" = "Min";
+"device_bp_normal" = "normal pressure";
+"device_bp_high" = "hypertension";
+"device_bp_low" = "hypotension";
+"device_bp_monitor" = "blood pressure testing";
 "setting_title"="perangkat";
 "setting_conDevice"="tambahkan perangkat baru";
 "setting_antiLost"="anti hilang";
@@ -190,6 +203,7 @@
 "setting_band_bindfail"="maaf, menghubungkan gagal";
 "setting_band_remind"="tekan panjang tombol di tengah untuk konfimasi penghubungan perangkat";
 "setting_band_remindBand"="tekan panjang watch";
+"setting_band_remindWatch" = "Operating as the illustrated please";
 "setting_band_noDevice"="perangkat tidak ditemukan, pastikan watch terisi daya penuh dan dekat dengan handphone";
 "setting_band_failRemind"="maaf penghubungan gagal";
 "setting_unband_title"="pengaturan perangkat";

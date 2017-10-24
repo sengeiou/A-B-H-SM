@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -33,10 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8541" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wI3-zQ-jZJ">
-                        <rect key="frame" x="0.0" y="44" width="100" height="40"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="40" id="mcM-jz-psj"/>
-                        </constraints>
+                        <rect key="frame" x="0.0" y="44" width="100" height="48"/>
                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="38"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -48,6 +45,7 @@
                 <constraint firstItem="gRS-8V-aE4" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-25" id="H13-H5-PpK"/>
                 <constraint firstItem="wI3-zQ-jZJ" firstAttribute="top" secondItem="gRS-8V-aE4" secondAttribute="bottom" id="cuj-Qt-qhJ"/>
                 <constraint firstAttribute="trailing" secondItem="gRS-8V-aE4" secondAttribute="trailing" id="hzc-vM-ExO"/>
+                <constraint firstAttribute="bottom" secondItem="wI3-zQ-jZJ" secondAttribute="bottom" constant="8" id="kaX-ZI-aCQ"/>
                 <constraint firstItem="wI3-zQ-jZJ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="khJ-Za-7vC"/>
                 <constraint firstAttribute="trailing" secondItem="wI3-zQ-jZJ" secondAttribute="trailing" id="uND-1c-qJa"/>
                 <constraint firstItem="gRS-8V-aE4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="vTR-PO-U2Q"/>

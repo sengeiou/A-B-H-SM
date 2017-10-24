@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SMA/SMAHRDetailViewController.m"
-            timestampString = "526216373.519083"
+            timestampString = "526472454.458651"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "856"
-            endingLineNumber = "856"
+            startingLineNumber = "858"
+            endingLineNumber = "858"
             landmarkName = "-gethrFullDatasForOneDay:"
             landmarkType = "7">
          </BreakpointContent>

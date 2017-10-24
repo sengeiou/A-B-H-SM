@@ -521,6 +521,9 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     NSMutableArray *slArr = [dal readNeedUploadSLData];
     NSMutableArray *rhArr = [dal readNeedUploadHRData];
     NSMutableArray *alArr = [dal readNeedUploadALData];
+    NSMutableArray *locaArr = [dal readNeedUploadLocationData];
+    NSMutableArray *bpArr = [dal readNeedUploadBloodPressureData];
+    NSMutableArray *cyArr = [dal readNeedUploadCylingData];
     ACObject *hrSetObject = [SMAWebDataHandleInfo heartRateSetObject];
     ACObject *sedentObject = [SMAWebDataHandleInfo sedentarinessSetObject];
     
@@ -547,6 +550,12 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     }
     if (alArr.count > 0) {
         [dataObject put:@"alarm_list" value:alArr];
+    }
+    if (locaArr.count > 0) {
+        [dataObject put:@"tracker_list" value:locaArr];
+    }
+    if (bpArr.count > 0) {
+        [dataObject put:@"blood_pressure_list" value:bpArr];
     }
     if (hrSetObject) {
         [dataObject put:@"heart_rate_settings" value:hrSetObject];
@@ -575,6 +584,15 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
             
         }];
         
+        [SMAWebDataHandleInfo updateLAData:locaArr finish:^(id finish) {
+            
+        }];
+        [SMAWebDataHandleInfo updateBPData:bpArr insert:NO finish:^(id finish) {
+            
+        }];
+        [SMAWebDataHandleInfo updateCylingData:cyArr finish:^(id finish) {
+            
+        }];
     }];
 }
 
@@ -599,6 +617,8 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         NSMutableArray *hrArr = [(NSMutableArray *)[backObject get:@"rate_list"] mutableCopy];
         NSMutableArray *alArr = [(NSMutableArray *)[backObject get:@"alarm_list"] mutableCopy];
         NSMutableArray *laArr = [(NSMutableArray *)[backObject get:@"tracker_list"] mutableCopy];
+        NSMutableArray *bpArr = [(NSMutableArray *)[backObject get:@"blood_pressure_list"] mutableCopy];
+        NSMutableArray *cyArr = [(NSMutableArray *)[backObject get:@"cycling_list"] mutableCopy];
         ACObject *sedentObject = [backObject getACObject:@"sedentariness_settings"];
         ACObject *hrObject = [backObject getACObject:@"heart_rate_settings"];
         if (backAccount == 0) {
@@ -658,6 +678,24 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
         if (alArr.count > 0) {
             [SMAWebDataHandleInfo updateALData:alArr finish:^(id finish) {
                 NSLog(@"alArr===%@",finish);
+                saveAccount ++;
+                if (saveAccount == backAccount) {
+                    callback(@"finish");
+                }
+            }];
+        }
+        if (bpArr.count > 0) {
+            [SMAWebDataHandleInfo updateBPData:bpArr insert:YES finish:^(id finish) {
+                NSLog(@"bpArr===%@",finish);
+                saveAccount ++;
+                if (saveAccount == backAccount) {
+                    callback(@"finish");
+                }
+
+            }];
+        }
+        if (cyArr.count > 0) {
+            [SMAWebDataHandleInfo updateCylingData:cyArr finish:^(id finish) {
                 saveAccount ++;
                 if (saveAccount == backAccount) {
                     callback(@"finish");

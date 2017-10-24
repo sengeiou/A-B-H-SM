@@ -35,10 +35,10 @@
     shrinShapeLayer.path = shrinPath.CGPath;
     [self.layer addSublayer:shrinShapeLayer];
     
-     CGSize shrinSize = [SMALocalizedString(@"收缩压") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
+     CGSize shrinSize = [SMALocalizedString(@"device_bp_systolic") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
     CATextLayer *shrinTextlayer = [CATextLayer layer];
     shrinTextlayer.frame = CGRectMake(CGRectGetMaxX(rect) + 4 , rect.origin.y + rect.size.height/2 - shrinSize.height/2 - 1.5, shrinSize.width, shrinSize.height + 1);
-    shrinTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"收缩压") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    shrinTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"device_bp_systolic") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
     shrinTextlayer.contentsScale = [UIScreen mainScreen].scale;
     [self.layer addSublayer:shrinTextlayer];
     
@@ -50,10 +50,10 @@
     relaxShapeLayer.path = relaxPath.CGPath;
     [self.layer addSublayer:relaxShapeLayer];
     
-    CGSize relaxSize = [SMALocalizedString(@"舒张压") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
+    CGSize relaxSize = [SMALocalizedString(@"device_bp_diastolic") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
     CATextLayer *relaxTextlayer = [CATextLayer layer];
     relaxTextlayer.frame = CGRectMake(CGRectGetMaxX(rect1) + 4 , rect.origin.y + rect.size.height/2 - relaxSize.height/2 - 1.5, relaxSize.width, relaxSize.height + 1);
-    relaxTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"舒张压") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    relaxTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"device_bp_diastolic") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
     relaxTextlayer.contentsScale = [UIScreen mainScreen].scale;
     [self.layer addSublayer:relaxTextlayer];
 
@@ -148,7 +148,7 @@
         poinLayer.path = ovalPath.CGPath;
         [self.layer addSublayer:poinLayer];
         
-        CGPoint linePoint1 = CGPointMake([XpointArr1[i] floatValue] * (drawW * 2/1440.0) + XDrBeginPoin,YbeginPoin + (drawH - 8)/2 - ([YpointArr1[i] floatValue] - 90) * ((drawH - 8)/2/(240-90)));
+        CGPoint linePoint1 = CGPointMake([XpointArr[i] floatValue] * (drawW * 2/1440.0) + XDrBeginPoin,YbeginPoin + (drawH - 8)/2 - ([YpointArr1[i] floatValue] - 90) * ((drawH - 8)/2/(240-90)));
         if (i == 0) {
             [polyPath1 moveToPoint:linePoint1];
         }
@@ -178,10 +178,10 @@
     shrinShapeLayer.path = shrinPath.CGPath;
     [self.layer addSublayer:shrinShapeLayer];
     
-    CGSize shrinSize = [SMALocalizedString(@"收缩压") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
+    CGSize shrinSize = [SMALocalizedString(@"device_bp_systolic") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
     CATextLayer *shrinTextlayer = [CATextLayer layer];
     shrinTextlayer.frame = CGRectMake(CGRectGetMaxX(rect) + 4 , rect.origin.y + rect.size.height/2 - shrinSize.height/2 - 1.5, shrinSize.width, shrinSize.height + 1);
-    shrinTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"收缩压") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    shrinTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"device_bp_systolic") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
     shrinTextlayer.contentsScale = [UIScreen mainScreen].scale;
     [self.layer addSublayer:shrinTextlayer];
     
@@ -193,10 +193,10 @@
     relaxShapeLayer.path = relaxPath.CGPath;
     [self.layer addSublayer:relaxShapeLayer];
     
-    CGSize relaxSize = [SMALocalizedString(@"舒张压") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
+    CGSize relaxSize = [SMALocalizedString(@"device_bp_systolic") boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(11),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
     CATextLayer *relaxTextlayer = [CATextLayer layer];
     relaxTextlayer.frame = CGRectMake(CGRectGetMaxX(rect1) + 4 , rect.origin.y + rect.size.height/2 - relaxSize.height/2 - 1.5, relaxSize.width, relaxSize.height + 1);
-    relaxTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"舒张压") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    relaxTextlayer.string = [[NSAttributedString alloc] initWithString:SMALocalizedString(@"device_bp_diastolic") attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];
     relaxTextlayer.contentsScale = [UIScreen mainScreen].scale;
     [self.layer addSublayer:relaxTextlayer];
 
@@ -225,24 +225,42 @@
     
     for (int i = 0; i < XtextArr.count; i ++ ) {
         CGSize textSize = [XtextArr[i] boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : FontGothamLight(13),NSForegroundColorAttributeName:[UIColor whiteColor]} context:nil].size;
-        CATextLayer *XtextLayer = [CATextLayer layer];
-        XtextLayer.frame = CGRectMake(XbeginPoin + drawW * i + drawW/2 - textSize.width/2, CGRectGetMaxY(Ylayer.frame) + 4, textSize.width, textSize.height);
-        XtextLayer.string = [[NSAttributedString alloc] initWithString:XtextArr[i] attributes:@{NSFontAttributeName : FontGothamLight(13),NSForegroundColorAttributeName:[UIColor whiteColor]}];//whiteColor
-        XtextLayer.contentsScale = [UIScreen mainScreen].scale;
-        [self.layer addSublayer:XtextLayer];
+//        CATextLayer *XtextLayer = [CATextLayer layer];
+//        XtextLayer.frame = CGRectMake(XbeginPoin + drawW * i + drawW/2 - textSize.width/2, CGRectGetMaxY(Ylayer.frame) + 4, textSize.width, textSize.height);
+//        XtextLayer.string = [[NSAttributedString alloc] initWithString:XtextArr[i] attributes:@{NSFontAttributeName : FontGothamLight(13),NSForegroundColorAttributeName:[UIColor whiteColor]}];//whiteColor
+//        XtextLayer.contentsScale = [UIScreen mainScreen].scale;
+//        XtextLayer.backgroundColor = [UIColor blueColor].CGColor;
+//        [self.layer addSublayer:XtextLayer];
+        UILabel *XtextLayer = [UILabel new];
+        XtextLayer.frame = CGRectMake(XbeginPoin + drawW * i + drawW/2 - textSize.width/2, CGRectGetMaxY(Ylayer.frame) + 6, textSize.width, textSize.height);
+        XtextLayer.attributedText = [[NSAttributedString alloc] initWithString:XtextArr[i] attributes:@{NSFontAttributeName : FontGothamLight(10),NSForegroundColorAttributeName:[UIColor whiteColor]}];//whiteColor
+//        XtextLayer.layer.shadowColor = [UIColor blackColor].CGColor;
+//        XtextLayer.layer.shadowOffset = CGSizeMake(3, 3);
+//        XtextLayer.layer.shadowRadius = 3.0;
+//        XtextLayer.layer.shadowOpacity = 1.0;
+//        XtextLayer.contentsScale = [UIScreen mainScreen].scale;
+//        XtextLayer.backgroundColor = [UIColor blueColor];
+        [self addSubview:XtextLayer];
         
         UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
         but.frame =  CGRectMake(XbeginPoin + drawW * i, 28, drawW, drawH);
         [but setBackgroundImage:[UIImage imageNamed:@"矩形 2"] forState:UIControlStateSelected];
         [but setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] size:but.frame.size] forState:UIControlStateNormal];
         [but addTarget:self action:@selector(selectBar:) forControlEvents:UIControlEventTouchUpInside];
-        but.tag = 1000;
+        but.tag = 1000 + i;
+        if (i == XtextArr.count - 1) {
+            but.selected = YES;
+        }
         [self addSubview:but];
         
-        NSArray *relaxPointArr = Dic[@"RELAX"][i];
-        NSArray *shrinkPointArr = Dic[@"SHRINK"][i];
-         CGPoint shrinkPoint0 = CGPointMake(XbeginPoin + drawW * i + drawW/2,(YbeginPoin + drawH - 8) - ([shrinkPointArr[0] floatValue] - 30) * ((drawH - 8)/2/(90-30)));
-        CGPoint shrinkPoint1 = CGPointMake(XbeginPoin + drawW * i + drawW/2,(YbeginPoin + drawH - 8) - ([shrinkPointArr[1] floatValue] - 30) * ((drawH - 8)/2/(90-30)));
+        NSArray *shrinkPointArr = Dic[@"RELAX"][i];
+        NSArray *relaxPointArr = Dic[@"SHRINK"][i];
+        CGPoint shrinkPoint0 = CGPointMake(XbeginPoin + drawW * i + drawW/2,(YbeginPoin + drawH - 8) - (([shrinkPointArr[0] floatValue] <= 30 ? 30:[shrinkPointArr[0] floatValue]) - 30) * ((drawH - 8)/2/(90-30)));
+        shrinkPoint0.x = shrinkPoint0.x <= 0 ? 0:shrinkPoint0.x;
+        shrinkPoint0.y = shrinkPoint0.y <= 0 ? 0:shrinkPoint0.y;
+        CGPoint shrinkPoint1 = CGPointMake(XbeginPoin + drawW * i + drawW/2,(YbeginPoin + drawH - 8) - (([shrinkPointArr[1] floatValue] <= 30 ? 30:[shrinkPointArr[1] floatValue]) - 30) * ((drawH - 8)/2/(90-30)));
+        shrinkPoint1.x = shrinkPoint1.x <= 0 ? 0:shrinkPoint1.x;
+        shrinkPoint1.y = shrinkPoint1.y <= 0 ? 0:shrinkPoint1.y;
         CAShapeLayer *shrinkLayer = [CAShapeLayer layer];
         UIBezierPath *shrinkPath = [UIBezierPath bezierPath];
         [shrinkPath moveToPoint:shrinkPoint0];
@@ -250,7 +268,6 @@
         shrinkLayer.path = shrinkPath.CGPath;
         shrinkLayer.lineWidth = 3.0f;
         shrinkLayer.strokeColor = [UIColor whiteColor].CGColor;
-        [self.layer addSublayer:shrinkLayer];
         
         CAShapeLayer *poinLayer1 = [CAShapeLayer layer];
         UIBezierPath *ovalPath1 = [UIBezierPath bezierPathWithArcCenter:shrinkPoint0 radius:3 startAngle:0 endAngle:M_PI*2 clockwise:YES];
@@ -258,7 +275,6 @@
         poinLayer1.strokeColor = [UIColor whiteColor].CGColor;
         poinLayer1.lineWidth = 1.5;
         poinLayer1.path = ovalPath1.CGPath;
-        [self.layer addSublayer:poinLayer1];
         
         CAShapeLayer *poinLayer2 = [CAShapeLayer layer];
         UIBezierPath *ovalPath2 = [UIBezierPath bezierPathWithArcCenter:shrinkPoint1 radius:3 startAngle:0 endAngle:M_PI*2 clockwise:YES];
@@ -266,10 +282,15 @@
         poinLayer2.strokeColor = [UIColor whiteColor].CGColor;
         poinLayer2.lineWidth = 1.5;
         poinLayer2.path = ovalPath2.CGPath;
-        [self.layer addSublayer:poinLayer2];
         
-        CGPoint relaxPoint0 = CGPointMake(XbeginPoin + drawW * i + drawW/2,YbeginPoin + (drawH - 8)/2 - ([relaxPointArr[0] floatValue] - 90) * ((drawH - 8)/2/(240-90)));
-        CGPoint relaxPoint1 = CGPointMake(XbeginPoin + drawW * i + drawW/2,YbeginPoin + (drawH - 8)/2 - ([relaxPointArr[1] floatValue] - 90) * ((drawH - 8)/2/(240-90)));
+        if ([shrinkPointArr[0] floatValue] >= 30) {
+            [self.layer addSublayer:shrinkLayer];
+            [self.layer addSublayer:poinLayer1];
+            [self.layer addSublayer:poinLayer2];
+        }
+        
+        CGPoint relaxPoint0 = CGPointMake(XbeginPoin + drawW * i + drawW/2,YbeginPoin + (drawH - 8)/2 - (([relaxPointArr[0] floatValue] <= 90 ? 90:[relaxPointArr[0] floatValue]) - 90) * ((drawH - 8)/2/(240-90)));
+        CGPoint relaxPoint1 = CGPointMake(XbeginPoin + drawW * i + drawW/2,YbeginPoin + (drawH - 8)/2 - (([relaxPointArr[1] floatValue] <= 90? 90: [relaxPointArr[1] floatValue]) - 90) * ((drawH - 8)/2/(240-90)));
         CAShapeLayer *relaxLayer = [CAShapeLayer layer];
         UIBezierPath *relaxPath = [UIBezierPath bezierPath];
         [relaxPath moveToPoint:relaxPoint0];
@@ -277,7 +298,6 @@
         relaxLayer.path = relaxPath.CGPath;
         relaxLayer.lineWidth = 3.0f;
         relaxLayer.strokeColor = [UIColor whiteColor].CGColor;
-        [self.layer addSublayer:relaxLayer];
         
         CAShapeLayer *relaxPoinLayer1 = [CAShapeLayer layer];
         UIBezierPath *relaxOvalPath1 = [UIBezierPath bezierPathWithArcCenter:relaxPoint0 radius:3 startAngle:0 endAngle:M_PI*2 clockwise:YES];
@@ -285,7 +305,7 @@
         relaxPoinLayer1.strokeColor = [UIColor whiteColor].CGColor;
         relaxPoinLayer1.lineWidth = 1.5;
         relaxPoinLayer1.path = relaxOvalPath1.CGPath;
-        [self.layer addSublayer:relaxPoinLayer1];
+        
         
         CAShapeLayer *relaxPoinLayer2 = [CAShapeLayer layer];
         UIBezierPath *relaxOvalPath2 = [UIBezierPath bezierPathWithArcCenter:relaxPoint1 radius:3 startAngle:0 endAngle:M_PI*2 clockwise:YES];
@@ -293,7 +313,12 @@
         relaxPoinLayer2.strokeColor = [UIColor whiteColor].CGColor;
         relaxPoinLayer2.lineWidth = 1.5;
         relaxPoinLayer2.path = relaxOvalPath2.CGPath;
-        [self.layer addSublayer:relaxPoinLayer2];
+        
+        if ([relaxPointArr[0] floatValue] >= 90) {
+            [self.layer addSublayer:relaxLayer];
+            [self.layer addSublayer:relaxPoinLayer1];
+            [self.layer addSublayer:relaxPoinLayer2];
+        }
     }
    
     CAShapeLayer *lineLay = [CAShapeLayer layer];
@@ -312,11 +337,13 @@
 
 - (void)selectBar:(UIButton *)sender{
     for (UIButton *view in self.subviews) {
-        view.selected = NO;
+        if ([view isKindOfClass:[UIButton class]]) {
+             view.selected = NO;
+        }
     }
     sender.selected = YES;
     if (selBlock) {
-        selBlock(barDic);
+        selBlock(barDic,sender.tag - 1000);
     }
 }
 /*

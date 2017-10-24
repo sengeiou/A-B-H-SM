@@ -100,6 +100,8 @@
 "device_RU_Warmup" = "热身阶段";
 "device_RU_max" = "最大心率";
 "device_RU_min" = "最小心率";
+"device_RU_stride" = "步频";
+"device_RU_step" = "步数";
 "device_HR_typeF" = "正常";
 "device_HR_typeS" = "偏低";
 "device_HR_typeT" = "偏高";
@@ -156,6 +158,18 @@
 "device_share_INNOInsta" = "请安装instagram";
 "device_share_FBNOInsta" = "请安装facebook";
 "device_share_success" = "分享成功";
+"device_bp_remind" = "血压是指心脏输送血液时血流对动脉壁产生的压力。有两种测量方式。“收缩压”是指心脏跳动时输送血液所产生的血压。“舒张压”是指心脏跳动间隔心脏舒张处于静止时所产生的血压。血压值通常会将收缩压数值写在舒张压数值的上面或前面（例如：120/80）";
+"device_bp_remind1" = "美国国家心肺血液研究所";
+"device_bp_systolic" = "收缩压";
+"device_bp_diastolic" = "舒张压";
+"device_bp_avg" = "平均值";
+"device_bp_max" = "最大值";
+"device_bp_min" = "最小值";
+"device_bp_normal" = "正常血压";
+"device_bp_high" = "高血压";
+"device_bp_low" = "低血压";
+"device_bp_monitor" = "血压监测";
+
 "setting_title" = "设备";
 "setting_conDevice" = "添加新设备";
 "setting_antiLost" = "防丢提醒";
@@ -190,6 +204,7 @@
 "setting_band_bindfail" = "绑定失败";
 "setting_band_remind" = "请长按设备中间按键，确认绑定";
 "setting_band_remindBand" = "请长按手环";
+"setting_band_remindWatch" = "请根据图示操作";
 "setting_band_noDevice" = "未发现设备，请保持设备有电并且贴近手机，再重新尝试";
 "setting_band_failRemind" = "抱歉，设备绑定失败";
 "setting_unband_title" = "设备管理";

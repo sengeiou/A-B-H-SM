@@ -10,5 +10,8 @@
 
 @interface SMARunTableViewCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel *beginLab, *beginDeLab, *endLab, *endDeLab,*disLab, *disDeLab, *perLab, *perDeLab;
+@property (nonatomic, weak) IBOutlet UIImageView *perImageView, *disImageView;
 - (void)createUIWithData:(NSMutableDictionary *)dataDic;
+- (void)createUIWithCylingData:(NSMutableDictionary *)dataDic;
 @end
+

@@ -315,6 +315,13 @@
 		EED44BAD1D73D40500BF7D07 /* SMAAgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAC1D73D40500BF7D07 /* SMAAgeViewController.m */; };
 		EED44BB01D73D8B900BF7D07 /* SMAPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */; };
 		EED48DBA1E208B8D00AEF801 /* SMAHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED48DB91E208B8D00AEF801 /* SMAHelpViewController.m */; };
+		EED5BC751F8F45CE00D398C6 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EED5BC741F8F45CA00D398C6 /* libSmaBLE.a */; };
+		EED5BC781F8F4EBB00D398C6 /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EED5BC771F8F4EAB00D398C6 /* iOSDFULibrary.framework */; };
+		EED5BC791F8F4EBD00D398C6 /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EED5BC761F8F4E9C00D398C6 /* Zip.framework */; };
+		EED5BC7A1F8F4ED000D398C6 /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EED5BC771F8F4EAB00D398C6 /* iOSDFULibrary.framework */; };
+		EED5BC7B1F8F4ED000D398C6 /* iOSDFULibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EED5BC771F8F4EAB00D398C6 /* iOSDFULibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EED5BC7C1F8F4ED000D398C6 /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EED5BC761F8F4E9C00D398C6 /* Zip.framework */; };
+		EED5BC7D1F8F4ED000D398C6 /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EED5BC761F8F4E9C00D398C6 /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EEDAAD801F3969A700FD135B /* aiffmp3.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EEDAAD7F1F3969A700FD135B /* aiffmp3.aiff */; };
 		EEE4AA2E1DF81586002644CD /* WMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE4AA241DF81586002644CD /* WMMenuItem.m */; };
 		EEE4AA2F1DF81586002644CD /* WMMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE4AA261DF81586002644CD /* WMMenuView.m */; };
@@ -340,14 +347,7 @@
 		EEEDD2971D98C93B009D6CA3 /* SMASedentaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2961D98C93B009D6CA3 /* SMASedentaryController.m */; };
 		EEEDD29B1D98FFEF009D6CA3 /* SMASedentaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */; };
 		EEEDD29C1D98FFEF009D6CA3 /* SMASedentaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */; };
-		EEF31A4A1F5FE6DF004A56A8 /* libSmaBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEF31A491F5FE6DF004A56A8 /* libSmaBLE.a */; };
 		EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB54D051E14F8400059F8D0 /* FBSDKShareKit.framework */; };
-		EEFBA5031EC412CA001A077D /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */; };
-		EEFBA5051EC412CE001A077D /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5041EC412CE001A077D /* Zip.framework */; };
-		EEFBA5061EC412D5001A077D /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5041EC412CE001A077D /* Zip.framework */; };
-		EEFBA5071EC412D5001A077D /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5041EC412CE001A077D /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EEFBA5081EC412D8001A077D /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */; };
-		EEFBA5091EC412D8001A077D /* iOSDFULibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -357,8 +357,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EEFBA5091EC412D8001A077D /* iOSDFULibrary.framework in Embed Frameworks */,
-				EEFBA5071EC412D5001A077D /* Zip.framework in Embed Frameworks */,
+				EED5BC7D1F8F4ED000D398C6 /* Zip.framework in Embed Frameworks */,
+				EED5BC7B1F8F4ED000D398C6 /* iOSDFULibrary.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1132,6 +1132,9 @@
 		EED44BAF1D73D8B900BF7D07 /* SMAPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMAPickerView.m; path = ../SMAPickerView.m; sourceTree = "<group>"; };
 		EED48DB81E208B8D00AEF801 /* SMAHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAHelpViewController.h; sourceTree = "<group>"; };
 		EED48DB91E208B8D00AEF801 /* SMAHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAHelpViewController.m; sourceTree = "<group>"; };
+		EED5BC741F8F45CA00D398C6 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
+		EED5BC761F8F4E9C00D398C6 /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Zip.framework; sourceTree = "<group>"; };
+		EED5BC771F8F4EAB00D398C6 /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iOSDFULibrary.framework; sourceTree = "<group>"; };
 		EEDAAD7F1F3969A700FD135B /* aiffmp3.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = aiffmp3.aiff; sourceTree = "<group>"; };
 		EEE4AA231DF81586002644CD /* WMMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuItem.h; sourceTree = "<group>"; };
 		EEE4AA241DF81586002644CD /* WMMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuItem.m; sourceTree = "<group>"; };
@@ -1179,9 +1182,6 @@
 		EEEDD2981D98FFEF009D6CA3 /* SMASedentaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMASedentaryCell.h; sourceTree = "<group>"; };
 		EEEDD2991D98FFEF009D6CA3 /* SMASedentaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMASedentaryCell.m; sourceTree = "<group>"; };
 		EEEDD29A1D98FFEF009D6CA3 /* SMASedentaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMASedentaryCell.xib; sourceTree = "<group>"; };
-		EEF31A491F5FE6DF004A56A8 /* libSmaBLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmaBLE.a; sourceTree = "<group>"; };
-		EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iOSDFULibrary.framework; sourceTree = "<group>"; };
-		EEFBA5041EC412CE001A077D /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Zip.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1193,9 +1193,9 @@
 				EE42658A1F27514200590C8D /* MediaPlayer.framework in Frameworks */,
 				EEF53DA31E1E6EDD00EBCFC2 /* FBSDKShareKit.framework in Frameworks */,
 				EEB54D211E151BFD0059F8D0 /* CoreText.framework in Frameworks */,
+				EED5BC791F8F4EBD00D398C6 /* Zip.framework in Frameworks */,
 				EEB54D1F1E151BCF0059F8D0 /* Foundation.framework in Frameworks */,
-				EEF31A4A1F5FE6DF004A56A8 /* libSmaBLE.a in Frameworks */,
-				EEFBA5051EC412CE001A077D /* Zip.framework in Frameworks */,
+				EED5BC751F8F45CE00D398C6 /* libSmaBLE.a in Frameworks */,
 				EEB54D1D1E151B950059F8D0 /* ImageIO.framework in Frameworks */,
 				EEB54D1B1E151B800059F8D0 /* QuartzCore.framework in Frameworks */,
 				EEB54D011E14E96D0059F8D0 /* Social.framework in Frameworks */,
@@ -1205,20 +1205,20 @@
 				EE57A7541E0B5FE10007BCC8 /* libiot.a in Frameworks */,
 				EE9AB5C41D6EF6170028F8DA /* libsqlite3.0.tbd in Frameworks */,
 				EE57A74C1E0B5FE10007BCC8 /* libBLEasyConfig.a in Frameworks */,
-				EEFBA5081EC412D8001A077D /* iOSDFULibrary.framework in Frameworks */,
 				EE4B1DD01D64898700825E2B /* libz.tbd in Frameworks */,
 				EE0E14181D6708590054BE87 /* libstdc++.tbd in Frameworks */,
 				EE57A73A1E0B5FE10007BCC8 /* libcrypto.a in Frameworks */,
+				EED5BC781F8F4EBB00D398C6 /* iOSDFULibrary.framework in Frameworks */,
 				EE0E14161D6708520054BE87 /* CoreTelephony.framework in Frameworks */,
+				EED5BC7A1F8F4ED000D398C6 /* iOSDFULibrary.framework in Frameworks */,
 				EE10CE7A1DB5F7F000585B74 /* libCorePlot-CocoaTouch.a in Frameworks */,
-				EEFBA5061EC412D5001A077D /* Zip.framework in Frameworks */,
 				EE57A7531E0B5FE10007BCC8 /* libsmartlinklib_7x.a in Frameworks */,
 				EE0E14141D6708420054BE87 /* libsqlite3.tbd in Frameworks */,
 				EE0E14121D6708350054BE87 /* CoreGraphics.framework in Frameworks */,
 				EE0E14101D67082C0054BE87 /* SystemConfiguration.framework in Frameworks */,
 				EE57A7591E0B5FE10007BCC8 /* libAbleCloudLib.a in Frameworks */,
+				EED5BC7C1F8F4ED000D398C6 /* Zip.framework in Frameworks */,
 				EE0E140E1D6708240054BE87 /* Security.framework in Frameworks */,
-				EEFBA5031EC412CA001A077D /* iOSDFULibrary.framework in Frameworks */,
 				EE57A7381E0B5FE00007BCC8 /* libFTC_DEBUG_ARM_64.a in Frameworks */,
 				EEB54D071E14F8400059F8D0 /* FBSDKCoreKit.framework in Frameworks */,
 				EE0E140C1D6708190054BE87 /* libiconv.tbd in Frameworks */,
@@ -1419,7 +1419,7 @@
 		EE30F2E31D8E284300869CF9 /* SMAbleApi */ = {
 			isa = PBXGroup;
 			children = (
-				EEF31A491F5FE6DF004A56A8 /* libSmaBLE.a */,
+				EED5BC741F8F45CA00D398C6 /* libSmaBLE.a */,
 				EE16878D1E48546D008C4261 /* SmaAlarmInfo.h */,
 				EE16878E1E48546D008C4261 /* SmaBLE.h */,
 				EE16878F1E48546D008C4261 /* SmaBusinessTool.h */,
@@ -2434,10 +2434,10 @@
 		EE6783D21E1DFC0F00B0B6E7 /* DfuUpdate */ = {
 			isa = PBXGroup;
 			children = (
+				EED5BC771F8F4EAB00D398C6 /* iOSDFULibrary.framework */,
+				EED5BC761F8F4E9C00D398C6 /* Zip.framework */,
 				EE6783D31E1DFC0F00B0B6E7 /* DfuUpdate.h */,
 				EE6783D41E1DFC0F00B0B6E7 /* DfuUpdate.m */,
-				EEFBA5041EC412CE001A077D /* Zip.framework */,
-				EEFBA5021EC412CA001A077D /* iOSDFULibrary.framework */,
 				EE6783D61E1DFC0F00B0B6E7 /* sma10b_firmware_v1.1.8.zip */,
 				EE34EE5F1E1F8C3600A8AABC /* sma07_app(pah8002)_v1.1.1.zip */,
 			);
@@ -3764,9 +3764,9 @@
 					"-fobjc-arc",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smatime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2a26d26-3859-4458-9916-8f392e545982";
+				PROVISIONING_PROFILE = "7bf436b9-314c-44ea-8a60-373d5ceb68da";
 				PROVISIONING_PROFILE_SPECIFIER = All_development_text;
 			};
 			name = Debug;
@@ -3781,7 +3781,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VHVLE5FL92;
+				DEVELOPMENT_TEAM = V96N6WUHA2;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -3824,10 +3824,10 @@
 					"-fobjc-arc",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smatime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bed6c28c-c9e5-4dd8-adee-a6767f59d19a";
-				PROVISIONING_PROFILE_SPECIFIER = liang_dis_smarttime_text;
+				PROVISIONING_PROFILE = "f42746b0-3a2f-479b-93dd-556fd31be4ec";
+				PROVISIONING_PROFILE_SPECIFIER = jinyun_dis_smarttime_sub;
 			};
 			name = Release;
 		};

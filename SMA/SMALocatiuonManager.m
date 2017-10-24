@@ -64,16 +64,13 @@ static id _instace;
 
 - (void)startLocation{
     _startSave = YES;
-
     [_manager startUpdatingLocation];
 }
 
 - (void)stopLocation{
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [_manager stopUpdatingLocation];
-    NSLog(@"FWGGHH====");
     _startSave = NO;
-    
 }
 
 - (void)locationAction:(NSTimer *)timer{
@@ -81,7 +78,6 @@ static id _instace;
     //        [_locationTimer invalidate];
     //        _locationTimer = nil;
     //    }
-    NSLog(@"locationAction:");
     _startSave = YES;
     //         [_manager startUpdatingLocation];
 }
@@ -124,6 +120,7 @@ static id _instace;
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations{
     NSLog(@"locationManager  %d %lu",_gatherLocation,(unsigned long)_runStepDic.count);
+    [self stopLocation];
     if (!_gatherLocation || !_runStepDic  || !_allowLocation) {
         return;
     }
@@ -137,6 +134,7 @@ static id _instace;
     }];
     NSLog(@"---%@",[NSString stringWithFormat:@"%f",currLocation.coordinate.latitude]);
     NSLog(@"+++%@",[NSString stringWithFormat:@"%f",currLocation.coordinate.longitude]);
+    
 }
 
 @end

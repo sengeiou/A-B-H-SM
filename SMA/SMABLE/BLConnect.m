@@ -115,15 +115,14 @@ static id _instace;
     
     NSError *ERROR;
     BOOL RES2 = [[AVAudioSession sharedInstance] setActive:YES error:&ERROR];
-    //    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self getSystemVolumSlider];
     
-        AVPlayerItem * songItem = [[AVPlayerItem alloc]initWithURL:url];
+    AVPlayerItem * songItem = [[AVPlayerItem alloc]initWithURL:url];
     
     _AVplayer = [[AVPlayer alloc] initWithPlayerItem:songItem];
     //        [_AVplayer prepareToPlay];
     [_AVplayer setVolume:1 ];
-    
     
     //    _Queplayer = [[AVQueuePlayer alloc] initWithItems:@[[AVPlayerItem playerItemWithURL:url]]];
     //    _Queplayer.actionAtItemEnd = AVPlayerActionAtItemEndAdvance;
@@ -140,7 +139,6 @@ static id _instace;
     //    self.timeObserver = [_Queplayer addPeriodicTimeObserverForInterval:CMTimeMake(10, 1000) queue:dispatch_get_main_queue() usingBlock:observerBlock];
     //    _AVplayer.numberOfLoops = -1; //设置音乐播放次数  -1为一直循环
     //    [_AVplayer play];
-    
 }
 
 
@@ -562,17 +560,17 @@ static id _instace;
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     NSLog(@"连接问题 %@",error);
-    SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
-    loca.allowLocation = NO;
-    loca.gatherLocation = NO;
-    [loca stopLocation];
-    SMADatabase *db = [[SMADatabase alloc] init];
-    if (loca.firstRunDic) {
-        [db deleteLocationFromTime:[loca.firstRunDic objectForKey:@"DATE"] finish:^(id finish) {
-            
-        }];
-        loca.firstRunDic = nil;
-    }
+//    SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
+//    loca.allowLocation = NO;
+//    loca.gatherLocation = NO;
+//    [loca stopLocation];
+//    SMADatabase *db = [[SMADatabase alloc] init];
+//    if (loca.firstRunDic) {
+//        [db deleteLocationFromTime:[loca.firstRunDic objectForKey:@"DATE"] finish:^(id finish) {
+//            
+//        }];
+//        loca.firstRunDic = nil;
+//    }
     
     if ([SMAAccountTool userInfo].watchUUID && ![[SMAAccountTool userInfo].watchUUID isEqualToString:@""]  && !SmaDfuManager.dfuMode && !_repairDfu && !_dfuUpdate) {
         [self connectBl:peripheral];
@@ -744,14 +742,25 @@ static id _instace;
                     }];
                 });
             }
-            [SmaBleSend getBloodPressure];
+            if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+                [SmaBleSend getBloodPressure];
+            }
+            else{
+                [SmaBleSend requestCuffSleepData];
+            }
+
             break;
         case RUNMODE:
             NSLog(@"riunfjwfiow===%@",array);
             if (array.count == 1 && [[[array firstObject] objectForKey:@"MODE"] intValue] == 34) {//代表运动中数据（用于激活定位后台，区别于下拉刷新中的运动数据）
                 SMALocatiuonManager *loca =  [SMALocatiuonManager sharedCoreBlueTool];
                 loca.runStepDic = [array firstObject];
+                if (!loca.firstRunDic) {
+                    loca.firstRunDic = [array firstObject];
+                }
+                loca.allowLocation = YES;
                 loca.gatherLocation = YES;
+                [[SMALocatiuonManager sharedCoreBlueTool] startLocation];
                 return;
             }
             if ([[[array firstObject] objectForKey:@"MODE"] intValue] == 32) {
@@ -767,6 +776,9 @@ static id _instace;
                 loca.runStepDic = [array firstObject];
                 loca.gatherLocation = YES;
                 [[SMALocatiuonManager sharedCoreBlueTool] stopLocation];
+                loca.allowLocation = NO;
+                loca.gatherLocation = NO;
+                loca.firstRunDic = nil;
             }
             break;
         case NOTIFICATION:
@@ -780,13 +792,11 @@ static id _instace;
                 [SmaBleSend getLongTime];
             }
             if ([[array firstObject] intValue] == 103) {
-                //                self.cameraIndex = @"1";
                 NSLog(@"+++++++++++++++++++打开相机&*&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
                 [self openCamera];
             }
             break;
         case ALARMCLOCK:
-            NSLog(@"(((***  == %@",array);
             if (![[array firstObject] isKindOfClass:[NSDictionary class]]) {
                 array = [[[array reverseObjectEnumerator] allObjects] mutableCopy];
                 [dal deleteAllClockWithAccount:[SMAAccountTool userInfo].userID Callback:^(BOOL result) {
@@ -798,7 +808,6 @@ static id _instace;
                     if (!info.tagname) {
                         info.tagname = @"";
                     }
-                    NSLog(@"fwgiojo  n =%@",info.tagname);
                     [dal insertClockInfo:info account:[SMAAccountTool userInfo].userID callback:^(BOOL result) {
                         
                     }];
@@ -929,6 +938,12 @@ static id _instace;
         case BLUTDRUCK:
             if (![[[array firstObject] objectForKey:@"NODATA"] isEqualToString:@"NODATA"]) {
                 [dal insertBPDataArr:[self clearUpBPData:array]];
+            }
+            [SmaBleSend requestCyclingData];
+            break;
+        case CYCLINGDATA:
+            if (![[[array firstObject] objectForKey:@"NODATA"] isEqualToString:@"NODATA"]) {
+                [dal insertCylingDatas:[self clearUpcyData:array]];
             }
             [SmaBleSend requestCuffSleepData];
             break;
@@ -1127,7 +1142,6 @@ static double spInterval;
         if (i == dataArr.count - 1) {
             spInterval = 0;
         }
-        
     }
     return sp_arr;
 }
@@ -1160,12 +1174,23 @@ static double hrInterval;
         if (i == dataArr.count - 1) {
             hrInterval = 0;
         }
-        
     }
     return hr_arr;
 }
 
 - (NSMutableArray *)clearUpBPData:(NSMutableArray *)dataArr{
+    NSMutableArray *bp_arr = [NSMutableArray array];
+    for (int i = 0; i < dataArr.count; i ++) {
+        NSMutableDictionary *bpDic = [(NSDictionary *)dataArr[i] mutableCopy];
+        [bpDic setObject:[SMADefaultinfos getValueforKey:BANDDEVELIVE] forKey:@"INDEX"];
+        [bpDic setObject:@"0" forKey:@"WEB"];
+        [bpDic setObject:[SMAAccountTool userInfo].userID forKey:@"USERID"];
+        [bp_arr addObject:bpDic];
+    }
+    return bp_arr;
+}
+
+- (NSMutableArray *)clearUpcyData:(NSMutableArray *)dataArr{
     NSMutableArray *bp_arr = [NSMutableArray array];
     for (int i = 0; i < dataArr.count; i ++) {
         NSMutableDictionary *bpDic = [(NSDictionary *)dataArr[i] mutableCopy];

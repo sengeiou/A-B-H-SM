@@ -11,6 +11,10 @@
 @interface SMARunTableViewController ()
 {
     NSMutableArray *runDetailArr;
+    NSMutableArray *cyclingDetailArr;
+    UIButton *cyclingBut;
+    UIButton *runBut;
+    UILabel *line;
 }
 @property (nonatomic, strong) SMADatabase *dal;
 @end
@@ -38,6 +42,7 @@
 - (void)initializeMethod{
     NSMutableArray *runArr = [self.dal readRunSportDetailDataWithDate:self.date.yyyyMMddNoLineWithDate];
     runDetailArr = [self getRunFullWithData:runArr];
+    cyclingDetailArr = [self.dal readCylingDataWithDate:self.date.yyyyMMddNoLineWithDate];
 }
 
 - (void)createUI{
@@ -47,7 +52,52 @@
     self.tableView.backgroundColor = [SmaColor colorWithHexString:@"#F7F7F7" alpha:1];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MainScreen.size.width, 40)];
+    //    headView.backgroundColor = [UIColor greenColor];
+    runBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    runBut.frame = CGRectMake(38, 4, 35, 35);
+    runBut.selected = YES;
+    [runBut setImage:[UIImage imageNamed:@"icon-run_n"] forState:UIControlStateNormal];
+    [runBut setImage:[UIImage imageNamed:@"icon-run_s"] forState:UIControlStateSelected];
+    [runBut addTarget:self action:@selector(selectRunMode:) forControlEvents:UIControlEventTouchUpInside];
+    [headView addSubview:runBut];
+    
+    cyclingBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    cyclingBut.frame = CGRectMake(CGRectGetMaxX(runBut.frame) + 60, 4, 35, 35);
+    [cyclingBut setImage:[UIImage imageNamed:@"icon_ride_n"] forState:UIControlStateNormal];
+    [cyclingBut setImage:[UIImage imageNamed:@"icon_ride_s"] forState:UIControlStateSelected];
+    [cyclingBut addTarget:self action:@selector(selectRunMode:) forControlEvents:UIControlEventTouchUpInside];
+    [headView addSubview:cyclingBut];
+    
+    line = [[UILabel alloc] initWithFrame:CGRectMake(0, headView.frame.size.height - 0.5 , 44, 1.5)];
+    line.backgroundColor = [SmaColor colorWithHexString:@"#5790F9" alpha:1];
+    line.center = CGPointMake(runBut.center.x, line.center.y);
+    [headView addSubview:line];
+    
+    UILabel *line1 = [[UILabel alloc] initWithFrame:CGRectMake(0, headView.frame.size.height , MainScreen.size.width, 1)];
+    line1.backgroundColor = [UIColor lightGrayColor];
+    line1.alpha = 0.2;
+    [headView addSubview:line1];
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+        self.tableView.tableHeaderView = headView;
+    }
 }
+
+- (void)selectRunMode:(UIButton *)sender{
+    if (runBut == sender && runBut.selected == NO) {
+        cyclingBut.selected = NO;
+    }
+    if (cyclingBut == sender && cyclingBut.selected == NO) {
+        runBut.selected = NO;
+    }
+    sender.selected = YES;
+    [UIView animateWithDuration:0.3 animations:^{
+        line.center = CGPointMake(sender.center.x, line.center.y);
+    }];
+    [self.tableView reloadData];
+}
+
 
 #pragma mark - Table view data source
 
@@ -69,6 +119,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (cyclingBut.selected) {
+        return cyclingDetailArr.count;
+    }
     return runDetailArr.count;
 }
 
@@ -81,13 +134,25 @@
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"SMARunTableViewCell" owner:self options:nil] lastObject];
     }
-    [cell createUIWithData:runDetailArr[indexPath.row]];
+    cell.accessoryView = nil;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    if (cyclingBut.selected) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 18, 10)];
+        view.backgroundColor = [UIColor clearColor];
+        cell.accessoryView = view;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell createUIWithCylingData:cyclingDetailArr[indexPath.row]];
+    }
+    else{
+        [cell createUIWithData: runDetailArr[indexPath.row]];
+    }
     // Configure the cell...
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (cyclingBut.selected) return;
     SMATrackViewController *trackVC = [[SMATrackViewController alloc] init];
     trackVC.runDic = (NSMutableDictionary *)runDetailArr[indexPath.row];
     [self.navigationController pushViewController:trackVC animated:YES];
@@ -105,7 +170,7 @@
         [modeDic setObject:[self putTimeWithMinute:[[modeDic objectForKey:@"PRECISEEND"] doubleValue]] forKey:@"ENDTIME"];
         [modeDic setObject:[self putHrWithReat:[[mutable firstObject] objectForKey:@"REAT"]] forKey:@"REAT"];
         [detailArr addObject:modeDic];
-        NSLog(@"fwgegtrhth=j===%@",mutable);
+        //      NSLog(@"fwgegtrhth=j===%@",mutable);
     }
     return detailArr;
 }
@@ -194,3 +259,4 @@
     
 }
 @end
+

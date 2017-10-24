@@ -79,6 +79,13 @@
 - (NSMutableArray *)readNeedUploadLocationData;
 
 - (void)insertBPDataArr:(NSMutableArray *)bps;
+- (void)updateBPDataArr:(NSMutableArray *)bps;
 - (NSMutableArray *)selectBPDataWihtDate:(NSString *)date;
+- (NSDictionary *)reatGatherBPDataWithDate:(NSString *)date toDate:(NSString *)toDate;
+- (NSMutableArray *)readNeedUploadBloodPressureData;
+
+- (void)insertCylingDatas:(NSMutableArray *)cylings;
+- (NSMutableArray *)readCylingDataWithDate:(NSString *)date;
+- (NSMutableArray *)readNeedUploadCylingData;
 @end
 
