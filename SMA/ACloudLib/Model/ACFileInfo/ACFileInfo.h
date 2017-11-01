@@ -10,19 +10,15 @@
 #import "ACACL.h"
 
 @interface ACFileInfo : NSObject
-//上传文件名字
+/** 上传文件名字 */
 @property (nonatomic, copy) NSString *name;
-
-//上传小型文件，直接上传数据 不支持断点续传
+/** 上传小型文件，直接上传数据 不支持断点续传 */
 @property (nonatomic, strong) NSData *data;
-
-//上传文件路径，支持断点续传
+/** 上传文件路径，支持断点续传 */
 @property (copy,nonatomic) NSString *filePath;
-
-//文件访问权限 如果不设置 则默认
+/** 文件访问权限 如果不设置 则默认 */
 @property (nonatomic, strong) ACACL *acl;
-
-//文件存储的空间   用户自定义   如名字为Image或者text的文件夹下
+/** 文件存储的空间   用户自定义   如名字为Image或者text的文件夹下 */
 @property (nonatomic, copy) NSString *bucket;
 
 /**
@@ -34,12 +30,30 @@
 */
 @property (nonatomic, assign) BOOL isPublic;
 
-//crc校验使用
+/** crc校验使用 */
 @property (nonatomic, unsafe_unretained) NSInteger checksum;
 
-
+/**
+ * 初始化
+ * @param name   上传文件名字
+ * @param bucket 文件存储的空间
+ */
 - (instancetype)initWithName:(NSString *)name bucket:(NSString *)bucket;
+
+/**
+ * 初始化
+ * @param name 上传文件名字
+ * @param bucket 文件存储的空间
+ * @param checksum crc校验
+ */
 - (instancetype)initWithName:(NSString *)name bucket:(NSString *)bucket Checksum:(NSInteger )checksum;
+
+/**
+ * 初始化
+ * @param name 上传文件名字
+ * @param bucket 文件存储的空间
+ * @param checksum crc校验
+ */
 + (instancetype)fileInfoWithName:(NSString *)name bucket:(NSString *)bucket CheckSum:(NSInteger )checksum;
 
 - (BOOL)isCrc;

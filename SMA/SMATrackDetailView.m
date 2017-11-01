@@ -28,7 +28,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [SmaColor colorWithHexString:@"#AEB5C3" alpha:1];
-        [[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] ? [self createB2UI]:[self createUI];
+       ([[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? [self createB2UI]:[self createUI];
     }
     return self;
 }
@@ -464,7 +464,7 @@
 - (void)updateUIwithData:(NSMutableDictionary *)dic{
     timeLab.text = dic[@"RUNTIME"];
     disLab.attributedText = dic[@"DISTANCE"];
-    perLab.attributedText = [[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] ? dic[@"CAL"]:dic[@"PER"];
+    perLab.attributedText = ([[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? dic[@"CAL"]:dic[@"PER"];
     paceLab.attributedText = dic[@"PACE"];
     hrLab.attributedText = dic[@"REAT"];
     avgLab.attributedText = dic[@"AVGHR"];
@@ -474,7 +474,7 @@
     float times = [dic[@"PRECISEEND"] doubleValue] - [dic[@"PRECISESTART"] doubleValue];
     float stride = steps/(times/1000/60);
     NSString *strideStr = [SMACalculate notRounding:stride afterPoint:0];
-    calLab.attributedText = [[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] ? [self putHrWithReat:strideStr unit:@"spm"] : dic[@"CAL"];
+    calLab.attributedText = ([[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? [self putHrWithReat:strideStr unit:@"spm"] : dic[@"CAL"];
 }
 
 

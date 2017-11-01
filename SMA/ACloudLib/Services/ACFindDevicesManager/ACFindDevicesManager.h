@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "ACLocalDevice.h"
 
-@class ACConnectManager;
+@class ACDeviceMsg;
 
 @protocol ACFindDevicesDelegate <NSObject>
 
 @optional
 
-- (void)ac_findDevices:(NSArray<ACLocalDevice *> *)devices;
+- (void)ac_findDeviceMgrDidFindTimeoutDevices:(NSArray<ACLocalDevice *> *)devices;
+- (void)ac_findDeviceMgrDidFindDevices:(NSArray<ACLocalDevice *> *)devices;
 
 @end
 
@@ -25,7 +26,10 @@
 @property (nonatomic, strong, readonly) NSArray *devices;
 
 - (void)findDevicesWithSubDomainId:(NSInteger)subDomainId
+                      findInterval:(NSTimeInterval)findInterval
                            timeout:(NSTimeInterval)timeout;
-
+- (void)stop;
++ (void)setLocalPushDataHandler:(void(^)(ACLocalDevice *device, ACDeviceMsg *msg))handler;
++ (void)setLocalOnlineStatusHandler:(void(^)(ACLocalDevice *device, BOOL online))handler;
 
 @end

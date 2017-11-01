@@ -79,7 +79,7 @@
     line1.backgroundColor = [UIColor lightGrayColor];
     line1.alpha = 0.2;
     [headView addSubview:line1];
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] /*|| [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]*/){
         self.tableView.tableHeaderView = headView;
     }
 }

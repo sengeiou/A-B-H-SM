@@ -20,12 +20,12 @@
     _beginLab.text = SMALocalizedString(@"setting_sedentary_star");
     _endLab.text = SMALocalizedString(@"setting_sedentary_end");
     _disLab.text = SMALocalizedString(@"device_SP_sumDista");
-    _perLab.text = [[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] ? SMALocalizedString(@"device_SP_heat"):SMALocalizedString(@"device_RU_per");
+    _perLab.text = ([[SMADefaultinfos getValueforKey:BANDDEVELIVE]  isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? SMALocalizedString(@"device_SP_heat"):SMALocalizedString(@"device_RU_per");
     _beginDeLab.text = dataDic[@"STARTTIME"];
     _endDeLab.text = dataDic[@"ENDTIME"];
     _disDeLab.attributedText = dataDic[@"DISTANCE"];
-    _perDeLab.attributedText = [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? dataDic[@"CAL"]:dataDic[@"PER"];
-    _perImageView.image =  [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ?  [UIImage imageNamed:@"icon_call"]:[UIImage imageNamed:@"icon_pace"];
+    _perDeLab.attributedText = ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? dataDic[@"CAL"]:dataDic[@"PER"];
+    _perImageView.image =  ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ?  [UIImage imageNamed:@"icon_call"]:[UIImage imageNamed:@"icon_pace"];
     _disImageView.image = [UIImage imageNamed:@"icon_distance"];
 }
 

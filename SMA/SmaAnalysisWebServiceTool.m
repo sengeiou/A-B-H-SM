@@ -21,7 +21,7 @@
 #define sportDict @"sportDict"
 #define sleepDict @"sleepDict"
 #define clockDict @"clockDict"
-
+#import "ACFileInfo.h"
 
 
 @implementation SmaAnalysisWebServiceTool

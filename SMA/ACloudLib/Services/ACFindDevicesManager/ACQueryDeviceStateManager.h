@@ -20,7 +20,9 @@
  */
 - (void)queryLocalDeviceStateWithSubDomainId:(NSInteger)subDomainId
                                      timeout:(NSTimeInterval)timeout
-                                    callback:(void (^)(BOOL isQueryFinished, NSError *error))callback;
+                                    callback:(void (^)(BOOL isQueryFinished,
+                                                       NSArray<ACLocalDevice *> *devices,
+                                                       NSError *error))callback;
 
 /**
  * 查询局域网指定物理id设备的配网状态
@@ -32,7 +34,9 @@
 - (void)queryLocalDeviceStateWithSubDomainId:(NSInteger)subDomainId
                             physicalDeviceId:(NSString *)physicalDeviceId
                                      timeout:(NSTimeInterval)timeout
-                                    callback:(void (^)(BOOL isQueryFinished, NSError *error))callback;
+                                    callback:(void (^)(BOOL isQueryFinished,
+                                                       NSArray<ACLocalDevice *> *devices,
+                                                       NSError *error))callback;
 
 /**
  * 结束所有查询

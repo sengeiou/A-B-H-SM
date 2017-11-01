@@ -56,7 +56,7 @@
 #endif
 #include <assert.h>
 
-#include "aes.h"
+#include "aes_ac.h"
 #include "aes_locl.h"
 #include <string.h>
 

@@ -9,10 +9,15 @@
 #import <Foundation/Foundation.h>
 
 @interface ACWifiInfo : NSObject
-//wifi名
+/** wifi名 */
 @property (nonatomic, copy) NSString *ssid;
-//wifi强度
+/** wifi强度 */
 @property (nonatomic, assign) NSInteger power;
 
+/**
+ *  初始化wifiInfo
+ *  @param ssid wifi名称
+ *  @param power wifi强度
+ */
 - (instancetype)initWithSsid:(NSString *)ssid power:(NSInteger)power;
 @end

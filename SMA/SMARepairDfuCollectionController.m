@@ -77,8 +77,11 @@ static NSString * const sectionHeaderIdentifier = @"SectionHeader";
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
         SmaBleMgr.scanNameArr = @[@"SMA-B2",@"B2"];
     }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]){
+        SmaBleMgr.scanNameArr = @[@"SMA-B3",@"B3"];
+    }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
-        SmaBleMgr.scanNameArr = @[@"M1",@"Technos_SR",@"MOSRAA"];
+        SmaBleMgr.scanNameArr = @[@"M1",@"Technos_SR",@"MOSRAA",@"SM09"];
     }
     SmaBleMgr.repairDfu = NO;
 }

@@ -32,7 +32,7 @@
     imageArr = switchs;
     NSArray *stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:![SMADefaultinfos getIntValueforKey:SCREENSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]]];
     
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) {
         titleArr = @[SMALocalizedString(@"setting_antiLost"),SMALocalizedString(@"setting_noDistrub"),SMALocalizedString(@"setting_callNot"),SMALocalizedString(@"setting_smsNot"),SMALocalizedString(@"setting_liftBright")];
         stateArr = @[[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:ANTILOSTSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:NODISTRUBSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:CALLSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:SMSSET]],[NSNumber numberWithInt:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]]];
     }
@@ -123,7 +123,7 @@
              //   }
                 break;
             case 1050:
-                if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+                if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) {
                     [SMADefaultinfos putInt:LIFTBRIGHT andValue:sender.selected];
                     [SmaBleSend setLiftBright:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]];
                 }else{

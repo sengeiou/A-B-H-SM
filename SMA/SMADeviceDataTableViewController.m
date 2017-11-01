@@ -339,7 +339,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]){
           return 4;
     }
     return 3;
@@ -359,10 +359,10 @@
         else if (indexPath.row == 1) {
             cell.roundView.progressViewClass = [SDRotationLoopProgressView class];
         }
-        else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? indexPath.row == 3:indexPath.row == 2){
+        else if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? indexPath.row == 3:indexPath.row == 2){
             cell.roundView.progressViewClass = [SDPieLoopProgressView class];
         }
-        else if (indexPath.row == 2 && [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+        else if (indexPath.row == 2 && ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"])){
             cell.roundView.progressViewClass = [SDBPProgressView class];
         }
     }
@@ -442,7 +442,7 @@
         [cell.roundBut2 setImage:[UIImage imageNamed:@"icon_heart_big"] forState:UIControlStateNormal];
         [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_heart_jingxi"] forState:UIControlStateNormal];
     }
-    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? indexPath.row == 3:indexPath.row == 2){
+    else if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? indexPath.row == 3:indexPath.row == 2){
         cell.pulldownView.hidden = YES;
         //                cell.roundView.progressView.progress = 0.001;
         [cell.roundView.progressView sleepTimeAnimaitonWtihStar:[[sleepArr objectAtIndex:5] floatValue] end:[[sleepArr objectAtIndex:6] floatValue]];
@@ -477,7 +477,7 @@
         [cell.roundBut2 setImage:[UIImage imageNamed:@"icon_shenshui"] forState:UIControlStateNormal];
         [cell.roundBut3 setImage:[UIImage imageNamed:@"icon_qingxin"] forState:UIControlStateNormal];
     }
-    else if (indexPath.row == 2 && [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+     else if (indexPath.row == 2 && ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"])){
         cell.pulldownView.hidden = YES;
         cell.roundBut2.hidden = YES;
         cell.Round2W.constant = 10;
@@ -540,13 +540,13 @@
         [self.navigationController pushViewController:hrDetailVC animated:YES];
         
     }
-    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] ? indexPath.row == 3:indexPath.row == 2){
+    else if (([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) ? indexPath.row == 3:indexPath.row == 2){
         SMASleepDetailViewController *slDetailVC = [[SMASleepDetailViewController alloc] init];
         slDetailVC.hidesBottomBarWhenPushed=YES;
         slDetailVC.date = self.date;
         [self.navigationController pushViewController:slDetailVC animated:YES];
     }
-    else if (indexPath.row == 2 && [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
+    else if (indexPath.row == 2 && ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"])){
         SMAHGDetailViewController *slDetailVC = [[SMAHGDetailViewController alloc] init];
         slDetailVC.hidesBottomBarWhenPushed=YES;
         slDetailVC.date = self.date;

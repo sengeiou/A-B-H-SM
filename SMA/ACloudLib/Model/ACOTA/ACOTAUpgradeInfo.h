@@ -8,36 +8,31 @@
 
 #import <Foundation/Foundation.h>
 
+/** 固件升级状态 */
 typedef NS_ENUM(NSUInteger, ACOTAUpgradeInfoStatus) {
     ACOTAUpgradeInfoStatusUnDownload = 0,   //未下载
     ACOTAUpgradeInfoStatusDownloadSucceed,  //下载未升级
     ACOTAUpgradeInfoStatusUpdateSucceed     //升级完成
 };
 
-//  OTA基本信息
 @class ACOTAFileMeta;
 @interface ACOTAUpgradeInfo : NSObject
 
-// 原版本
+/** 原版本 */
 @property(nonatomic,copy) NSString *oldVersion;
-// 新版本
-@property(nonatomic,copy) NSString *upgradeVersion;
-//file信息
+/** file信息 */
 @property(nonatomic,strong) NSArray *file;
-//设备目标版本
+/** 设备目标版本 */
 @property (nonatomic, copy) NSString *targetVersion;
-//ACOTAMode
+/** ACOTAMode */
 @property (nonatomic, assign) NSInteger otaMode;
-//升级描述
+/** 升级描述 */
 @property(nonatomic,copy) NSString *upgradeLog;
-//当前升级状态
+/** 当前升级状态 */
 @property (nonatomic, assign) ACOTAUpgradeInfoStatus status;
-//是否需要升级
+/** 是否需要升级 */
 @property (nonatomic, assign) BOOL update;
-
+/** OTA基本信息 */
 @property (nonatomic, strong) ACOTAFileMeta *meta;
-
--(BOOL)isUpdate;
-
 
 @end

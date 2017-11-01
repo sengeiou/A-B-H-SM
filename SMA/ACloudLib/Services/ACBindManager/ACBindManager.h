@@ -12,8 +12,6 @@
 #import "ACDeviceMsg.h"
 #import "ACloudLibConst.h"
 
-#define BIND_SERVICE @"zc-bind"
-
 //设备通讯的优先性设置
 typedef enum: NSUInteger {
     ACDeviceCommunicationOptionOnlyLocal = 1,  //仅通过局域网
@@ -31,17 +29,48 @@ typedef enum: NSUInteger {
 #pragma mark 设备权限管理
 /**
  *  获取设备列表,不包含设备状态信息
- *  
+ *  @discussion         单次最多返回100个设备信息
  *  @param callback     数组：devices保存的对象是ACUserDevice的对象
  */
-+ (void)listDevicesWithCallback:(void(^)(NSArray *devices,NSError *error))callback;
++ (void)listDevicesWithCallback:(void(^)(NSArray<ACUserDevice *> *devices,NSError *error))callback;
+
+/**
+ *  分页获取设备列表,不包含设备状态信息
+ *  @discussion         此接口不会缓存设备的信息因此调用此接口后局域网无法通信
+ *  @param limit        返回设备的数量
+ *  @param offset       查询起始点偏移量
+ *  @param callback     数组：devices保存的对象是ACUserDevice的对象
+ */
++ (void)listDevicesFrom:(NSInteger)offset
+                  limit:(NSInteger)limit
+               callback:(void(^)(NSArray<ACUserDevice *> *devices,NSError *error))callback;
 
 /**
  *  获取设备列表,包含设备在线状态信息
- *
+ *  @discussion         单次最多返回100个设备信息
  *  @param callback     数组：devices保存的对象是ACUserDevice的对象
  */
-+ (void)listDevicesWithStatusCallback:(void(^)(NSArray *devices,NSError *error))callback;
++ (void)listDevicesWithStatusCallback:(void(^)(NSArray<ACUserDevice *> *devices,NSError *error))callback;
+
+/**
+ *  分页获取设备列表,包含设备在线状态信息
+ *  @discussion         此接口不会缓存设备的信息因此调用此接口后局域网无法通信
+ *  @param limit        返回设备的数量
+ *  @param offset       查询起始点偏移量
+ *  @param callback     数组：devices保存的对象是ACUserDevice的对象
+ */
++ (void)listDevicesWithStatusFrom:(NSInteger)offset
+                            limit:(NSInteger)limit
+                         callback:(void(^)(NSArray<ACUserDevice *> *devices,NSError *error))callback;
+
+/**
+ *  获取用户绑定设备的总数
+ *  @discussion  可以通过ACProductManager当中的接口获取产品相关信息
+ *  @param subDomain    子域
+ *  @param callback     结果回调
+ */
++ (void)getDeviceCountInSubDomain:(NSString *)subDomain
+                         callback:(void(^)(NSInteger count,NSError *error))callback;
 
 /**
  *  获取用户列表
@@ -161,19 +190,31 @@ typedef enum: NSUInteger {
                           name:(NSString *)name
                       callback:(void(^)(NSError *error))callback;
 
+/**
+ * 获取分享码  （管理员接口）
+ * @discussion      若已存在未过期二维码则返回原有二维码并更新timeout时间，若原有二维码已过期则返回新的二维码
+ * @param subDomain 子域名称
+ * @param deviceId  设备唯一标识
+ * @param timeout   超时时间（秒）
+ * @param callback  shareCode 分享码
+ */
++ (void)fetchShareCodeWithSubDomain:(NSString *)subDomain
+                           deviceId:(NSInteger)deviceId
+                            timeout:(NSTimeInterval)timeout
+                           callback:(void (^)(NSString *shareCode, NSError *error))callback;
 
 /**
- *  获取分享码  （管理员接口）
- *
- *  @param subDomain 子域名称
- *  @param deviceId  设备唯一标识
- *  @param timeout   超时时间（秒）
- *  @callback        shareCode 分享码
+ * 获取分享码  （管理员接口）
+ * @discussion      此接口会强制删除其他已生成的二维码，并返回新的二维码
+ * @param subDomain 子域名称
+ * @param deviceId  设备唯一标识
+ * @param timeout   超时时间（秒）
+ * @param callback  shareCode 分享码
  */
-+ (void)getShareCodeWithSubDomain:(NSString *)subDomain
-                         deviceId:(NSInteger)deviceId
-                          timeout:(NSTimeInterval)timeout
-                         callback:(void(^)(NSString *shareCode,NSError *error))callback;
++ (void)regenerateShareCodeWithSubDomain:(NSString *)subDomain
+                                deviceId:(NSInteger)deviceId
+                                 timeout:(NSTimeInterval)timeout
+                                callback:(void (^)(NSString *shareCode, NSError *error))callback;
 
 #pragma mark 设备查询控制接口
 
@@ -192,7 +233,7 @@ typedef enum: NSUInteger {
  *
  *  @param subDomain        子域名称
  *  @param deviceId         设备逻辑ID
- *  @param subDomain        子域名称
+ *  @param physicalDeviceId 物理id
  *  @param callback         online  是否在线
  */
 + (void)isDeviceOnlineWithSubDomain:(NSString *)subDomain
@@ -204,11 +245,11 @@ typedef enum: NSUInteger {
 /**
  *  向设备发送消息
  *
- *  @param option    与设备交互的方式  1:仅通过局域网 2:仅通过云 3:通过云优先 4:通过局域网优先
- *  @param subDomain 子域名
- *  @param deviceId  设备物理ID
- *  @param msg       发送的消息
- *  @param callback  返回结果的监听
+ *  @param option            与设备交互的方式  1:仅通过局域网 2:仅通过云 3:通过云优先 4:通过局域网优先
+ *  @param subDomain         子域名
+ *  @param physicalDeviceId  设备物理ID
+ *  @param msg               发送的消息
+ *  @param callback          返回结果的监听
  */
 + (void)sendToDeviceWithOption:(ACDeviceCommunicationOption)option
                      SubDomain:(NSString *)subDomain
@@ -238,13 +279,36 @@ typedef enum: NSUInteger {
                             callback:(void(^)(NSError *error))callback;
 
 
-#pragma mark - Deprecated
-+(void)sendToDeviceWithOption:(int)option
-                    SubDomain:(NSString *)subDomain
-                     deviceId:(NSInteger)deviceId
-                          msg:(ACDeviceMsg *)msg
-                     callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback ACDeprecated("请使用sendToDeviceWithOption:SubDomain:physicalDeviceId:msg:callback:方法") ;
 
+#pragma mark - Deprecated
+
+/**
+ * 向设备发送消息
+ *
+ * @param option    与设备交互的方式  1:仅通过局域网 2:仅通过云 3:通过云优先 4:通过局域网优先
+ * @param subDomain 子域名
+ * @param deviceId  设备Id
+ * @param msg       发送的消息
+ * @param callback  返回结果的监听
+ */
++ (void)sendToDeviceWithOption:(int)option
+                     SubDomain:(NSString *)subDomain
+                      deviceId:(NSInteger)deviceId
+                           msg:(ACDeviceMsg *)msg
+                      callback:(void (^)(ACDeviceMsg *responseMsg, NSError *error))callback ACDeprecated("请使用sendToDeviceWithOption:SubDomain:physicalDeviceId:msg:callback:方法") ;
+
+/**
+ * 获取分享码  （管理员接口）
+ 
+ * @param subDomain 子域名称
+ * @param deviceId  设备唯一标识
+ * @param timeout   超时时间（秒）
+ * @param callback  shareCode 分享码
+ */
++ (void)getShareCodeWithSubDomain:(NSString *)subDomain
+                         deviceId:(NSInteger)deviceId
+                          timeout:(NSTimeInterval)timeout
+                         callback:(void(^)(NSString *shareCode,NSError *error))callback ACDeprecated("请使用fetchShareCodeWithSubDomain:SubDomain:physicalDeviceId:msg:callback:方法");
 
 
 @end

@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#define FEEDBACK_SERVICE @"zc-feedback"
 @class ACFeedBack;
 @interface ACFeedBackManager : NSObject
 
-///  提交用户意见反馈
+/**
+* 提交用户意见反馈
+* @param feedback 反馈实例
+* @param callback 反馈信息提交结果回调
+*/
 + (void)submitFeedBack:(ACFeedBack *)feedback
               callback:(void(^)(BOOL isSuccess, NSError *error))callback;
 

@@ -63,6 +63,9 @@
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
         imageStr = @"img_queren_shouhuan_B2";
     }
+    else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]){
+        imageStr = @"img_queren_shouhuan_B3";
+    }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-R1"]){
         imageStr = @"img_queren_r1";
     }

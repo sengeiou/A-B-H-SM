@@ -19,8 +19,6 @@ typedef NS_ENUM(NSUInteger, ACTaskGroupType) {
     ACTaskGroupTypeUser,
 };
 
-#define TIMER_TASK_SERVICE @"zc-timer-task"
-
 @class ACGroupTask;
 @class ACGroup;
 @interface ACTimerManager : NSObject
@@ -40,7 +38,7 @@ typedef NS_ENUM(NSUInteger, ACTaskGroupType) {
  *                    按天重复：day
  *                    按月重复：month
  *                    按年复复：year
- *                    星期循环任务：week[0，1，2，3，4，5，6]如周一，周五重复，则表示为week[1，5]
+ *                    星期循环任务：week[0,1,2,3,4,5,6]如周一，周五重复，则表示为week[1,5]
  * @param msg         具体的消息内容
  * @param onType      0:云端定时 1:设备定时
  * @param callback    返回结果的监听回调
@@ -65,7 +63,7 @@ typedef NS_ENUM(NSUInteger, ACTaskGroupType) {
  *                    按天重复：day
  *                    按月重复：month
  *                    按年复复：year
- *                    星期循环任务：week[0，1，2，3，4，5，6]如周一，周五重复，则表示为week[1，5]
+ *                    星期循环任务：week[0,1,2,3,4,5,6]如周一，周五重复，则表示为week[1,5]
  * @param msg         具体的消息内容
  * @param callback    返回结果的监听回调
  */

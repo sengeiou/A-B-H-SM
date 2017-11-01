@@ -10,10 +10,16 @@
 
 @class ACUserTask;
 @interface ACUserTaskGroup : NSObject
+/** 任务组id */
 @property (nonatomic, copy) NSString *groupId;
+/** 任务组名称 */
 @property (nonatomic, copy) NSString *name;
-//任务数组
+/** 任务数组 */
 @property (nonatomic, strong) NSArray<ACUserTask *> *tasks;
 
+/**
+ * 使用字典初始化
+ * @param dict 属性字典
+ */
 + (instancetype)groupWithDict:(NSDictionary *)dict;
 @end

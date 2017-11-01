@@ -7,44 +7,37 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworking.h"
-#import "ACFileInfo.h"
-#import "ACObject.h"
-#import "ACMsg.h"
-#import "ACloudLib.h"
-#import "ACServiceClient.h"
 
 static  NSMutableDictionary * downloadCancelDictionary;
-#define FILE_MANAGER_SERVICE @"zc-blobstore"
-
-typedef enum : NSUInteger {
-    FileInfoErrorNullInputData      =  1002,
-    FileInfoErrorNotAvailableNetwork = 1003,
-    FileInfoErrorWriteError          = 1004
-}FileInfoError;
-
 typedef double (^progress )();
 
-@interface ACFileManager : NSObject<NSURLSessionDownloadDelegate>
+@class ACMsg;
+@class ACFileInfo;
 
+@interface ACFileManager : NSObject<NSURLSessionDownloadDelegate>
+/** 进度回调 */
 @property (nonatomic, strong) progress progressCallback;
+/** 下载进度 */
 @property (unsafe_unretained,nonatomic) float progress;
+/** 文件类型 */
 @property (nonatomic, copy) NSString *fileType;
 @property (nonatomic, strong) NSError *error;
-
 
 @property (nonatomic, strong) NSMutableDictionary *uploadCancelDictionary;
 @property (nonatomic, strong) NSMutableDictionary *downloadCancelDictionary;
 
 
 #pragma mark - 上传文件
-/*
- * 上传文件
- * @param fileInfo          文件信息
- * @param payloadCallback   上传进度
- * @param voidCallback      上传结果
- */
 
+
+
+/**
+ * 上传文件
+
+ * @param fileInfo         文件信息
+ * @param progressCallback 上传进度
+ * @param voidCallback     上传结果
+ */
 - (void)uploadFileWithfileInfo:(ACFileInfo *)fileInfo
               progressCallback:(void(^)(float progress))progressCallback
                   voidCallback:(void(^)(ACMsg *responseObject,NSError * error))voidCallback;
@@ -63,20 +56,29 @@ typedef double (^progress )();
 
 /**
  * //session下载
- * @param urlString   获得的downURLString
- * @param callback    返回error信息的回调
- * @param CompleteCallback   返回完成的信息的回调
+
+ * @param urlString        获得的downURLString
+ * @param callback         返回error信息的回调
+ * @param completeCallback 返回完成的信息的回调
  */
 - (void)downFileWithsession:(NSString * )urlString
                    checkSum:(NSInteger)checkSum
                    callBack:(void(^)(float progress ,NSError * error))callback
            CompleteCallback:(void (^)(NSString *filePath))completeCallback;
 
-//取消下载
+/*
+ * 取消下载
+ */
 - (void)cancel;
-//暂停下载
+
+/*
+ * 暂停下载
+ */
 - (void)suspend;
-//恢复下载
+
+/*
+ * 恢复下载
+ */
 - (void)resume;
 
 /*

@@ -50,7 +50,19 @@ static id _instace;
     //    if (!_backGroundMgr) {
     //        _backGroundMgr = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
     //    }
-    [self createPlay];
+//    [self createPlay];
+    //1.音频文件的url路径
+    NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
+    
+    //2.实例化播放器
+    _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:Nil];
+    _player.volume = 1.0;
+    //3.缓冲
+    [_player prepareToPlay];
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+        [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self getSystemVolumSlider];
 }
 
 - (void)openCamera{
@@ -107,11 +119,11 @@ static id _instace;
     //3.缓冲
     [_player prepareToPlay];
     _player.delegate = self;
-    [_player play];
+//    [_player play];
     
-    BOOL RES0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-    //    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-    BOOL RES1 = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+//    BOOL RES0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+//    //    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+//    BOOL RES1 = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
     
     NSError *ERROR;
     BOOL RES2 = [[AVAudioSession sharedInstance] setActive:YES error:&ERROR];
@@ -742,7 +754,7 @@ static id _instace;
                     }];
                 });
             }
-            if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+            if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] /*|| [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]*/) {
                 [SmaBleSend getBloodPressure];
             }
             else{
@@ -859,59 +871,70 @@ static id _instace;
         }
             break;
         case FINDPHONE:
+//            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+//            [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+//            if ([[array firstObject] intValue] >= 1) {
+//                //                 [SmaBleSend getBLmac];
+//                [self getSystemVolumSlider].value = 1.0f;
+//                //                _player.currentTime = 5;
+//                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//                //                [app requestBackgroundTask];
+//                //                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(plsayMusic) userInfo:nil repeats:NO];
+//                //                [self changeFond];
+//                //                [_AVplayer play];
+//                NSLog(@"播放00 %f",[NSDate timeIntervalSinceReferenceDate]);
+//                //                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(plsayMusic) userInfo:nil repeats:NO];
+//                //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                //                     NSLog(@"播放33 %f",[NSDate timeIntervalSinceReferenceDate]);
+//                //                   [self createPlay];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    //                     [_player play];
+//                });
+//                //                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+//                //                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+//
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    //                     [_player play];
+//                    NSError *error = nil;
+//                    //                   BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error]
+//                    BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
+//                    if (error) {
+//                        NSLog(@"fowgjioergj g %d== %@  ",res0,error);
+//                    }
+//                    NSError *error1 = nil;
+//                    BOOL res = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+//                    [[AVAudioSession sharedInstance] setActive:YES error:&error1];
+//                    if (error) {
+//                        NSLog(@"%d  fowgjioergj g== %@",res,error);
+//                    }
+//                    //   [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+//                    NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
+//                    [_AVplayer replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:url]];
+//                });
+//
+//                [_AVplayer play];
+//                //             [self musicPlay]
+//                //                [_AVplayer play];
+//                //                });
+//                //                [self postNotificationWithTitle:@"寻找手机" content:@"寻找手机，收到回答" audioName:@"Alarm.mp3" info:nil];
+//                NSLog(@"播放11 %f",[NSDate timeIntervalSinceReferenceDate]);
+//                //                SystemSoundID soundID = 1007;
+//                //                AudioServicesPlaySystemSound(soundID);
+//            }
+//            else{
+//                //                [_player stop];
+//                [_AVplayer pause];
+//                //                [_AVplayer pause];
+//                NSLog(@"播放 --");
+//            }
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+            [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
             if ([[array firstObject] intValue] >= 1) {
-                //                 [SmaBleSend getBLmac];
                 [self getSystemVolumSlider].value = 1.0f;
-                //                _player.currentTime = 5;
-                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                //                [app requestBackgroundTask];
-                //                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(plsayMusic) userInfo:nil repeats:NO];
-                //                [self changeFond];
-                //                [_AVplayer play];
-                NSLog(@"播放00 %f",[NSDate timeIntervalSinceReferenceDate]);
-                //                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(plsayMusic) userInfo:nil repeats:NO];
-                //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                //                     NSLog(@"播放33 %f",[NSDate timeIntervalSinceReferenceDate]);
-                //                   [self createPlay];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //                     [_player play];
-                });
-                //                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-                //                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //                     [_player play];
-                    NSError *error = nil;
-                    //                   BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error]
-                    BOOL res0 = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
-                    if (error) {
-                        NSLog(@"fowgjioergj g %d== %@  ",res0,error);
-                    }
-                    NSError *error1 = nil;
-                    BOOL res = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
-                    [[AVAudioSession sharedInstance] setActive:YES error:&error1];
-                    if (error) {
-                        NSLog(@"%d  fowgjioergj g== %@",res,error);
-                    }
-                    //   [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-                    NSURL *url=[[NSBundle mainBundle]URLForResource:@"Alarm.mp3" withExtension:Nil];
-                    [_AVplayer replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:url]];
-                });
-                
-                [_AVplayer play];
-                //             [self musicPlay]
-                //                [_AVplayer play];
-                //                });
-                //                [self postNotificationWithTitle:@"寻找手机" content:@"寻找手机，收到回答" audioName:@"Alarm.mp3" info:nil];
-                NSLog(@"播放11 %f",[NSDate timeIntervalSinceReferenceDate]);
-                //                SystemSoundID soundID = 1007;
-                //                AudioServicesPlaySystemSound(soundID);
+                [_player play];
             }
             else{
-                //                [_player stop];
-                [_AVplayer pause];
-                //                [_AVplayer pause];
-                NSLog(@"播放 --");
+                [_player stop];
             }
             break;
         case BOTTONSTYPE:
@@ -1075,7 +1098,7 @@ static id _instace;
         [SmaBleSend setLanguage:1];
     }
     
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SM07"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-Q2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) {
         [SmaBleSend setVertical:[SMADefaultinfos getIntValueforKey:SCREENSET]];
         //获取系统是24小时制或者12小时制
         NSString *formatStringForHours = [NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]];
@@ -1083,7 +1106,7 @@ static id _instace;
         BOOL hasAMPM = containsA.location != NSNotFound;
         [SmaBleSend setHourly:hasAMPM];
     }
-    if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]) {
+     if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"] || [[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]) {
         [SmaBleSend setLiftBright:[SMADefaultinfos getIntValueforKey:LIFTBRIGHT]];
     }
     [SmaBleSend setBritishSystem:[SMADefaultinfos getIntValueforKey:BRITISHSYSTEM]];

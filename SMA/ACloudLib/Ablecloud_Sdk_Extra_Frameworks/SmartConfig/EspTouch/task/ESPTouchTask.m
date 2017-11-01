@@ -58,6 +58,8 @@
 
 @property (nonatomic,strong) NSData *_localInetAddrData;
 
+@property (nonatomic,assign) NSInteger rubbishMsgCount;
+
 @end
 
 @implementation ESPTouchTask
@@ -312,12 +314,18 @@
                         [self __putEsptouchResultIsSuc:YES AndBssid:bssid AndInetAddr:inetAddrData];
                     }
                 }
+                _rubbishMsgCount = 0;
             }
             else
             {
                 if (DEBUG_ON)
                 {
                     NSLog(@"ESPTouchTask __listenAsyn() receive rubbish message, just ignore");
+                }
+                _rubbishMsgCount ++;
+                if (_rubbishMsgCount > 10) {
+                    _rubbishMsgCount = 0;
+                    break;
                 }
             }
         }
@@ -418,6 +426,8 @@
 
 - (ESPTouchResult *) executeForResult
 {
+    
+    NSLog(@"sdk esptouch executed");
     return [[self executeForResults:1] objectAtIndex:0];
 }
 

@@ -11,8 +11,11 @@
 @class ACObject;
 @interface ACPushReceive : NSObject
 
+/** 数据集名称 */
 @property (nonatomic, copy) NSString *className;
+/** 数据集操作类型 */
 @property (nonatomic,unsafe_unretained) long opType;
+/** 数据内容 */
 @property (nonatomic,strong) ACObject *payload;
 
 

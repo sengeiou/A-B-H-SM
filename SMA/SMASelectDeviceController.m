@@ -39,10 +39,24 @@
     }
 }
 
+- (UIBarButtonItem *)backItemWithTarget:(id)target Hidden:(BOOL)hidden action:(SEL)action
+{
+    UIButton * backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame =CGRectMake(0, 0, 25, 22);
+    backButton.hidden = hidden;
+    if ([[[UIDevice currentDevice]systemVersion] doubleValue]>=7.0) {
+        [backButton setImage:[[UIImage imageNamed:@"icon_return"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    }else{
+        [backButton setImage:[UIImage imageNamed:@"icon_return"]  forState:UIControlStateNormal];
+    }
+    [backButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    return [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
 - (void)initializeMethod{
-     deviceArr = @[@[@"SMART-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"]/*,@[@"SMA-A2",SMALocalizedString(@"setting_band_07detail"),@"img_launcher"]*/,@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"],@[@"SMART BAND-02",SMALocalizedString(@"setting_band_07detail"),@"img_B2"],@[@"SMART M1",SMALocalizedString(@"setting_band_07detail"),@"img_r1"]];
+     deviceArr = @[@[@"SMART-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"]/*,@[@"SMA-A2",SMALocalizedString(@"setting_band_07detail"),@"img_launcher"]*/,@[@"SMART WATCH-01",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMART BAND-01",SMALocalizedString(@"setting_band_07detail"),@"img_07"],@[@"SMART BAND-02",SMALocalizedString(@"setting_band_07detail"),@"img_B2"],@[@"SMA-B3",SMALocalizedString(@"setting_band_07detail"),@"img_B3"],@[@"SMART M1",SMALocalizedString(@"setting_band_07detail"),@"img_r1"]];
+//   deviceArr = @[@[@"SMA-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"],@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
     
-//      deviceArr = @[@[@"SMA-A1",SMALocalizedString(@"setting_band_07detail"),@"img_jiexie"],@[@"SMA-Q2",SMALocalizedString(@"setting_band_07detail"),@"img_xiaoQerdai"],@[@"SMA-COACH",SMALocalizedString(@"setting_band_07detail"),@"img_07"]];
 }
 - (void)createUI{
     self.title = SMALocalizedString(@"setting_band_title");
@@ -51,6 +65,7 @@
     _selectTView.tableFooterView = [[UIView alloc] init];
     [_buyBut setTitle:SMALocalizedString(@"setting_band_buywatch") forState:UIControlStateNormal];
     [_unPairBut setTitle:SMALocalizedString(@"setting_band_unPair") forState:UIControlStateNormal];
+    self.navigationItem.leftBarButtonItem = [self backItemWithTarget:self Hidden:NO action:@selector(unPairSelector:)];
 }
 
 - (IBAction)buySelector:(id)sender{
@@ -127,6 +142,9 @@
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-B2"];
     }
     if (indexPath.row == 4) {
+        [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-B3"];
+    }
+    if (indexPath.row == 5) {
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SMA-R1"];
     }
     self.navigationController.leftItemHidden = NO;

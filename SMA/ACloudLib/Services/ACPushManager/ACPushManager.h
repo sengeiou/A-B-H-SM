@@ -20,23 +20,57 @@ typedef NS_ENUM(NSInteger, ACPushConnectionStatus) {
 };
 
 @interface ACPushManager : NSObject
+
 - (instancetype)init NS_UNAVAILABLE;
 
-//获取对象单例
+/**
+ * 获取对象单例
+ * @return 对象单例
+ */
 + (instancetype)sharedManager;
-//建立与服务器的连接
+
+/**
+ * 建立与服务器的连接
+ * @param callback 连接回调
+ */
 - (void)connectWithCallback:(void(^)(NSError * error))callback;
-//订阅实时数据
+
+/**
+ * 订阅实时数据
+
+ * @param table    数据表
+ * @param callback 订阅回调
+ */
 - (void)watchWithTable:(ACPushTable *)table Callback:(void(^)(NSError * error))callback;
-//接收已经订阅的实时数据
+
+/**
+ * 接收已经订阅的实时数据
+ * @param callback 实时数据
+ */
 - (void)onReceiveWithCallback:(void(^)(ACPushReceive * pushReceive ,NSError * error))callback;
-//取消已经订阅的实时数据
+
+/**
+ * 取消已经订阅的实时数据
+
+ * @param table    数据表
+ * @param callback 取消订阅回调
+ */
 - (void)unWatchWithPushTable:(ACPushTable *)table Callback:(void(^)(NSError * error))callback;
-//取消订阅当前所有已订阅的表
+
+/**
+ * 取消订阅当前所有已订阅的表
+ */
 - (void)unWatchAll;
-//断开与服务器的连接
+
+/**
+ * 断开与服务器的连接
+ */
 - (void)disconnect;
-//监听连接状态变更
+
+/**
+ * 监听连接状态变更
+ * @param callback 状态改变回调
+ */
 - (void)monitorStatusChangeBlock:(void(^)(ACPushConnectionStatus status))callback;
 
 @end

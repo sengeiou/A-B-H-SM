@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define RANKING_SERVICE @"zc-ranking"
-
 typedef NS_ENUM(NSUInteger, ACRankingPeriod) {
     ACRankingPeriodDay = 1,     //天
     ACRankingPeriodWeek,        //星期

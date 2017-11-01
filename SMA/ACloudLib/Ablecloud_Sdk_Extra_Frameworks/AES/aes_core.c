@@ -36,7 +36,7 @@
 #include <assert.h>
 
 #include <stdlib.h>
-#include "aes.h"
+#include "aes_ac.h"
 #include "aes_locl.h"
 
 /*

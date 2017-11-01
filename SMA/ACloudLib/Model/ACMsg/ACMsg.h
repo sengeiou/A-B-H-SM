@@ -17,10 +17,12 @@
 @property (nonatomic, strong) NSData *payload;
 @property (nonatomic, strong, readonly) NSData *streamPayload;
 
-///生成带签名信息的ACMsg实例,默认`subDomain`为`nil`
+/**
+ * 生成带签名信息的ACMsg实例
+ */
 + (instancetype)msgWithName:(NSString *)name;
-///生成带签名信息的ACMsg实例, subDomain需要自己传入
-+ (instancetype)msgWithName:(NSString *)name subDomain:(NSString *)subDomain;
++ (instancetype)msgWithName:(NSString *)name
+                  subDomain:(NSString *)subDomain;
 
 /**
  * 设置二进制负载
