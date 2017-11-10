@@ -65,7 +65,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyyMMddHHmmss"];
     NSInteger second = [date substringWithRange:NSMakeRange(8, 2)].integerValue * 60 + [date substringWithRange:NSMakeRange(10, 2)].integerValue;
-    NSString *moment = [NSString stringWithFormat:@"%ld",second];
+    NSString *moment = [NSString stringWithFormat:@"%ld",(long)second];
     return moment;
 }
 

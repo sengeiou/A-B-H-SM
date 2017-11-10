@@ -3941,7 +3941,7 @@
 					"-fobjc-arc",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smatime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7bf436b9-314c-44ea-8a60-373d5ceb68da";
 				PROVISIONING_PROFILE_SPECIFIER = All_development_text;
@@ -3958,7 +3958,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VHVLE5FL92;
+				DEVELOPMENT_TEAM = V96N6WUHA2;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -4002,10 +4002,10 @@
 					"-fobjc-arc",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smarttime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.smatime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bed6c28c-c9e5-4dd8-adee-a6767f59d19a";
-				PROVISIONING_PROFILE_SPECIFIER = liang_dis_smarttime_text;
+				PROVISIONING_PROFILE = "f42746b0-3a2f-479b-93dd-556fd31be4ec";
+				PROVISIONING_PROFILE_SPECIFIER = jinyun_dis_smarttime_sub;
 			};
 			name = Release;
 		};

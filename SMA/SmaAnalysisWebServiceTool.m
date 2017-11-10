@@ -405,7 +405,20 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     [msg putString:@"uAccount" value:account?account:@""];
     [msg putString:@"nickName" value:nickName?nickName:@""];
     [msg putString:@"device_type" value:@"ios"];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+//        NSString *result = [NSString stringWithFormat:@"%ld",[responseMsg getLong:@"rt"]];
+//        if (!error) {
+//            if (success) {
+//                success(result);
+//            }
+//        }
+//        else{
+//            if (failure) {
+//                failure(error);
+//            }
+//        }
+//    }];
+    [ACloudLib sendToService:service version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
         NSString *result = [NSString stringWithFormat:@"%ld",[responseMsg getLong:@"rt"]];
         if (!error) {
             if (success) {
@@ -430,7 +443,19 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     [mag putString:@"fnickName" value:fName];
     [mag putInteger:@"agree" value:isAgree];
     [mag putString:@"device_type" value:@"ios"];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:mag callback:^(ACMsg *responseMsg, NSError *error) {
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:mag callback:^(ACMsg *responseMsg, NSError *error) {
+//        if (!error) {
+//            if (success) {
+//                success(responseMsg);
+//            }
+//        }
+//        else{
+//            if (error) {
+//                failure(error);
+//            }
+//        }
+//    }];
+    [ACloudLib sendToService:service version:versionInteger msg:mag callback:^(ACMsg *responseMsg, NSError *error) {
         if (!error) {
             if (success) {
                 success(responseMsg);
@@ -449,7 +474,10 @@ static NSString *user_acc = @"account";NSString *user_id = @"_id";NSString *user
     ACMsg *msg = [[ACMsg alloc] init];
     msg.name = @"scanFriendInfo";
     [msg putString:@"uAccount" value:account?account:@""];
-    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+//    [ACloudLib sendToService:service serviceName:servicename version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
+//
+//    }];
+    [ACloudLib sendToService:service version:versionInteger msg:msg callback:^(ACMsg *responseMsg, NSError *error) {
         if (!error) {
             if (success) {
                 userInfoDic = [self friendDataWithACmsg:responseMsg];

@@ -177,6 +177,7 @@
         [locationArr addObject:locationDic];
         
     }
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         [dal insertLocatainDataArr:locationArr finish:^(id finish) {
             callBack(finish);

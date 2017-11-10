@@ -122,6 +122,8 @@
         [SMADefaultinfos putInt:ANTILOSTSET andValue:0];
         [SMADefaultinfos putInt:VIBRATIONSET andValue:2];
         [SMADefaultinfos putInt:BACKLIGHTSET andValue:2];
+        [SMADefaultinfos putInt:LIFTBRIGHT andValue:1];
+        [SMADefaultinfos putKey:DFUUPDATE andValue:@"1"];
         [SMADefaultinfos putKey:BANDDEVELIVE andValue:@"SM07"];
     }
     [SMADefaultinfos putKey:UPDATEDATE andValue:[NSDate date].yyyyMMddNoLineWithDate];

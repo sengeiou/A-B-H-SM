@@ -1510,7 +1510,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="dGg-cG-GQo">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="dzf-WB-FlU">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CLP-gI-2cN">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CLP-gI-2cN">
+                                <rect key="frame" x="16" y="13" width="12" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="icon_return"/>
                                 <connections>

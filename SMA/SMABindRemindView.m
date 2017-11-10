@@ -61,7 +61,7 @@
         imageStr = @"img_queren_A2";
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B2"]){
-        imageStr = @"img_queren_shouhuan_B2";
+        imageStr = @"img_queren_B2";
     }
     else if ([[SMADefaultinfos getValueforKey:BANDDEVELIVE] isEqualToString:@"SMA-B3"]){
         imageStr = @"img_queren_shouhuan_B3";
@@ -81,6 +81,7 @@
     remindLab.textAlignment = NSTextAlignmentCenter;
     [backView addSubview:remindLab];
 }
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
